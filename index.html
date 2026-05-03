@@ -412,6 +412,49 @@
       margin-top: 0.5rem;
     }
 
+    .research-project {
+      font-size: 0.82rem;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      font-style: italic;
+      line-height: 1.5;
+      opacity: 0.8;
+    }
+
+    /* PUBLICATIONS */
+    .publication-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .publication-item {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .publication-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .publication-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .publication-citation {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 0.5rem;
+    }
+
     /* INTERESTS */
     .interests-grid {
       display: grid;
@@ -542,6 +585,7 @@
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
       <li><a href="#interests">Interests</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -623,10 +667,11 @@
         <div>
           <div class="research-role">Project Lead</div>
           <div class="research-pi">Dr. Keith Killu · USC Keck</div>
+          <div class="research-project">Prediction of Early CT Escalation Following Initial Chest Radiography in Suspected Pneumonia</div>
           <ul class="research-bullets">
-            <li>Designed independent project evaluating whether clinical variables can guide escalation from chest X-ray to CT in pneumonia.</li>
-            <li>Developed study hypothesis, variable selection, patient cohort criteria, and IRB submission.</li>
-            <li>Will lead data collection, analysis, and manuscript development.</li>
+            <li>Conceived and designed an independent retrospective study examining clinical and laboratory predictors of imaging escalation from chest X-ray to CT in hospitalized pneumonia patients, with the goal of developing evidence-based criteria to guide resource-appropriate workup.</li>
+            <li>Formulated study hypothesis, defined patient cohort inclusion/exclusion criteria, selected candidate clinical variables, and prepared IRB submission materials.</li>
+            <li>Leading all phases of the project including data collection, statistical analysis, and manuscript preparation for peer-reviewed publication.</li>
           </ul>
           <span class="badge">Project Lead</span>
         </div>
@@ -636,11 +681,11 @@
       <div class="research-item">
         <div class="research-dept">Pulmonary &<br>Critical Care</div>
         <div>
-          <div class="research-role">Research Assistant</div>
-          <div class="research-pi">Dr. Keith Killu · USC Keck</div>
+<div class="research-pi">Dr. Keith Killu · USC Keck</div>
           <ul class="research-bullets">
-            <li>Conduct systematic literature review and data analysis for meta-analysis evaluating ultrasound vs CT for pneumonia diagnosis.</li>
-            <li>Synthesized study data and contributed to manuscript drafting.</li>
+            <li>Conducted comprehensive systematic literature review and study screening for a meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia, identifying and evaluating studies across multiple databases.</li>
+            <li>Extracted and synthesized quantitative data across included studies, assessing methodological quality and pooling effect estimates for analysis.</li>
+            <li>Contributing to manuscript drafting and preparation for peer-reviewed submission.</li>
           </ul>
         </div>
         <div class="research-date">Sept 2025 – Present</div>
@@ -649,12 +694,10 @@
       <div class="research-item">
         <div class="research-dept">Transplant<br>Hepatology</div>
         <div>
-          <div class="research-role">Research Assistant</div>
-          <div class="research-pi">Dr. Brian Lee · USC Keck</div>
+<div class="research-pi">Dr. Brian Lee · USC Keck</div>
           <ul class="research-bullets">
-            <li>Conduct chart reviews of liver transplant patients from listing to post-operative outcomes.</li>
-            <li>Assess potential of Cystatin C–based MELD scores to improve post-transplant outcomes and prognostic accuracy.</li>
-            <li>Assist research team with statistical planning and manuscript preparation.</li>
+            <li>Performed detailed chart review and longitudinal data extraction for 150+ liver transplant patients spanning pre-listing through post-transplant outcomes, requiring individualized manual review of complex transplant records.</li>
+            <li>Contributed to a study evaluating Cystatin C-based MELD scoring as a refinement to standard prognostic indices for improving post-transplant outcome prediction.</li>
           </ul>
         </div>
         <div class="research-date">Jan 2025 – Present</div>
@@ -663,11 +706,11 @@
       <div class="research-item">
         <div class="research-dept">Transplant<br>Hepatology</div>
         <div>
-          <div class="research-role">Research Assistant</div>
-          <div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
+<div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
+          <div class="research-project">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation</div>
           <ul class="research-bullets">
-            <li>Performed chart review and data extraction for multi-center study of clinical predictors of cirrhosis and ascites phenotypes.</li>
-            <li>Participated in manuscript review of findings related to phenotype-based risk stratification.</li>
+            <li>Performed chart review and data extraction for a multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes, contributing to a dataset spanning multiple institutions.</li>
+            <li>Contributed to manuscript development and review examining phenotype-based risk stratification in cirrhosis; manuscript currently under revision for peer-reviewed publication.</li>
           </ul>
           <span class="badge">In Revision</span>
         </div>
@@ -677,27 +720,78 @@
       <div class="research-item">
         <div class="research-dept">General Surgery<br>GLS / MIS</div>
         <div>
-          <div class="research-role">Research Assistant</div>
-          <div class="research-pi">Dr. John Lipham · USC Keck</div>
+<div class="research-pi">Dr. John Lipham · USC Keck</div>
           <ul class="research-bullets">
-            <li>Assist with data collection for patients undergoing hiatal hernia repair.</li>
-            <li>Evaluate impact of platelet-rich plasma (PRP) injection on postoperative outcomes.</li>
+            <li>Conducting retrospective chart review and data collection for a study evaluating the impact of intraoperative platelet-rich plasma (PRP) injection on postoperative outcomes following hiatal hernia repair.</li>
           </ul>
         </div>
         <div class="research-date">Jan 2026 – Present</div>
       </div>
 
       <div class="research-item">
+        <div class="research-dept">General Surgery<br>GLS / MIS</div>
+        <div>
+<div class="research-pi">Dr. John Lipham · USC Keck</div>
+          <div class="research-project">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study</div>
+          <ul class="research-bullets">
+            <li>Performed retrospective chart review and data collection evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on real-time surgical decision-making and adjustment.</li>
+            <li>Prepared results section and contributed to full manuscript development examining whether EndoFLIP-guided intraoperative measurements reduce postoperative reflux and dysphagia outcomes.</li>
+          </ul>
+          <span class="badge">In Preparation</span>
+        </div>
+        <div class="research-date">Apr 2026 – Present</div>
+      </div>
+
+      <div class="research-item">
+        <div class="research-dept">Emergency<br>Medicine</div>
+        <div>
+<div class="research-pi">Dr. Alexander Sapin · USC Keck</div>
+          <ul class="research-bullets">
+            <li>Contributing to a quality improvement initiative aimed at developing an automated flagging system to identify ED patients at risk for prolonged length of stay (LOS &gt;21 days) to facilitate early disposition planning.</li>
+            <li>Performing data collection and analysis of admission diagnostic codes for patients meeting LOS threshold, forming the evidential basis for future flag criteria development.</li>
+          </ul>
+        </div>
+        <div class="research-date">Apr 2026 – Present</div>
+      </div>
+
+      <div class="research-item">
         <div class="research-dept">Oncology<br>Research</div>
         <div>
-          <div class="research-role">Research Assistant</div>
-          <div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
+<div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
           <ul class="research-bullets">
-            <li>Conducted 200+ papers weekly literature review in oncology research.</li>
-            <li>Performed laboratory techniques including protein/DNA purification and cell culture.</li>
+            <li>Conducted weekly literature reviews of 200+ papers and performed wet lab techniques including protein/DNA purification and cell culture.</li>
           </ul>
         </div>
         <div class="research-date">Jun 2020 – Jun 2022</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="section-label">Publications</div>
+    <h2>Papers & Manuscripts</h2>
+    <div class="publication-list">
+
+      <div class="publication-item">
+        <div>
+          <div class="publication-title">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation</div>
+          <div class="publication-citation">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, Lee BP, <strong>Lee S</strong>, Allegretti AS, Mazumder NR, Patidar KR, Verna EC. <em>Journal of Hepatology.</em> 2026.</div>
+          <span class="badge">In Revision</span>
+        </div>
+        <div class="research-date">2026</div>
+      </div>
+
+      <div class="publication-item">
+        <div>
+          <div class="publication-title">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study</div>
+          <div class="publication-citation">Elshafei M, Pouwels S, Putnam L, Munoz X, Eini JI, <strong>Lee S</strong>, Lipham JC, Houghton C. 2026.</div>
+          <span class="badge">In Preparation</span>
+        </div>
+        <div class="research-date">2026</div>
       </div>
 
     </div>
