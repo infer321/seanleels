@@ -5,858 +5,467 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sean Lee — Medical Student</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --bg: #0a0a0f;
-      --bg2: #111118;
-      --surface: #16161f;
+      --surface: #13131a;
       --border: rgba(255,255,255,0.07);
       --accent: #c8a96e;
       --accent2: #e8c98e;
-      --text: #e8e8f0;
-      --muted: #7a7a8a;
+      --text: #e0e0ec;
+      --muted: #72728a;
+      --muted2: #9090a8;
       --white: #ffffff;
     }
-
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(10,10,15,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.3s;
-    }
-
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.4rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,15,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; text-decoration: none; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.73rem; letter-spacing: 0.13em; text-transform: uppercase; transition: color 0.3s; }
     .nav-links a:hover { color: var(--accent); }
 
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 4rem 4rem;
-      position: relative;
-      overflow: hidden;
-    }
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 5rem; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; top: -15%; right: -8%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(200,169,110,0.055) 0%, transparent 70%); pointer-events: none; }
+    .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 300px; gap: 6rem; align-items: center; }
+    .hero-tag { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; animation: fadeUp 0.6s ease both; }
+    .hero-tag::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--accent); }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.05; color: var(--white); margin-bottom: 1.5rem; animation: fadeUp 0.6s 0.1s ease both; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-desc { font-size: 0.95rem; color: var(--muted2); max-width: 500px; margin-bottom: 1.5rem; line-height: 1.85; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-langs { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2rem; animation: fadeUp 0.6s 0.25s ease both; }
+    .lang-tag { padding: 0.25rem 0.7rem; border: 1px solid var(--border); border-radius: 2px; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted2); }
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+    .btn { padding: 0.7rem 1.6rem; border-radius: 2px; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 400; transition: all 0.3s; cursor: pointer; border: none; display: inline-block; }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { background: var(--accent2); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-photo { width: 100%; aspect-ratio: 3/4; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; position: relative; overflow: hidden; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-photo::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,169,110,0.03) 0%, transparent 60%); }
+    .photo-icon { width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(200,169,110,0.06) 0%, transparent 70%);
-      pointer-events: none;
-    }
+    .section-wrap { border-top: 1px solid var(--border); }
+    section { padding: 5.5rem 4rem; max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-label::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--accent); }
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.9rem, 3vw, 2.8rem); font-weight: 300; color: var(--white); margin-bottom: 2.5rem; line-height: 1.2; }
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-    }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted2); margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.9; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 1.4rem; transition: border-color 0.3s; }
+    .stat-card:hover { border-color: rgba(200,169,110,0.25); }
+    .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--accent); font-weight: 300; line-height: 1; margin-bottom: 0.35rem; }
+    .stat-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .edu-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .edu-item { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 1.5rem 1.75rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; transition: border-color 0.3s; }
+    .edu-item:hover { border-color: rgba(200,169,110,0.25); }
+    .edu-school { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.2rem; }
+    .edu-degree { font-size: 0.82rem; color: var(--muted2); }
+    .edu-date { font-size: 0.7rem; color: var(--accent); letter-spacing: 0.06em; white-space: nowrap; padding-top: 0.2rem; }
 
-    .hero-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 6rem;
-      align-items: center;
-    }
+    .pub-list { display: flex; flex-direction: column; }
+    .pub-item { border-top: 1px solid var(--border); padding: 1.75rem 0; display: grid; grid-template-columns: auto 1fr; gap: 1.75rem; align-items: start; }
+    .pub-item:last-child { border-bottom: 1px solid var(--border); }
+    .pub-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: rgba(200,169,110,0.2); font-weight: 300; line-height: 1; width: 2rem; text-align: right; }
+    .pub-title { font-size: 0.92rem; color: var(--white); margin-bottom: 0.35rem; line-height: 1.55; }
+    .pub-authors { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem; line-height: 1.6; }
+    .pub-journal { font-size: 0.78rem; color: var(--muted2); font-style: italic; }
+    .badge { display: inline-block; padding: 0.18rem 0.55rem; background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.2); color: var(--accent); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; margin-left: 0.5rem; vertical-align: middle; }
+    .badge-blue { background: rgba(100,140,255,0.08); border-color: rgba(100,140,255,0.2); color: #8aabff; }
 
-    .hero-tag {
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .hero-tag::before {
-      content: '';
-      display: inline-block;
-      width: 30px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 6vw, 5.5rem);
-      font-weight: 300;
-      line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.01em;
-    }
-
-    h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
-    .hero-desc {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 480px;
-      margin-bottom: 2.5rem;
-      line-height: 1.8;
-    }
-
-    .hero-links {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.75rem 1.75rem;
-      border-radius: 2px;
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      transition: all 0.3s;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-    }
-
-    .btn-primary:hover {
-      background: var(--accent2);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* PHOTO PLACEHOLDER */
-    .hero-photo {
-      width: 100%;
-      aspect-ratio: 3/4;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      color: var(--muted);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-photo::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(200,169,110,0.03) 0%, transparent 60%);
-    }
-
-    .photo-icon {
-      width: 48px;
-      height: 48px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 6rem 4rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .section-label::before {
-      content: '';
-      display: inline-block;
-      width: 20px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 300;
-      color: var(--white);
-      margin-bottom: 3rem;
-      line-height: 1.2;
-    }
-
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 4rem;
-      max-width: calc(1100px - 0px);
-    }
-
-    /* ABOUT */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-text p {
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-      font-size: 0.95rem;
-      line-height: 1.9;
-    }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 1.5rem;
-      transition: border-color 0.3s;
-    }
-
-    .stat-card:hover { border-color: rgba(200,169,110,0.3); }
-
-    .stat-number {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem;
-      color: var(--accent);
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 0.4rem;
-    }
-
-    .stat-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-    }
-
-    /* RESEARCH */
-    .research-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .research-item {
-      border-top: 1px solid var(--border);
-      padding: 2rem 0;
-      display: grid;
-      grid-template-columns: 200px 1fr auto;
-      gap: 2rem;
-      align-items: start;
-      transition: background 0.3s;
-      cursor: default;
-    }
-
+    .research-list { display: flex; flex-direction: column; }
+    .research-item { border-top: 1px solid var(--border); padding: 2rem 0; display: grid; grid-template-columns: 170px 1fr auto; gap: 2rem; align-items: start; }
     .research-item:last-child { border-bottom: 1px solid var(--border); }
+    .research-dept { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); line-height: 1.7; padding-top: 0.15rem; }
+    .research-role { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); margin-bottom: 0.25rem; font-weight: 500; }
+    .research-pi { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .research-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+    .research-bullets li { font-size: 0.83rem; color: var(--muted2); padding-left: 1.1rem; position: relative; line-height: 1.65; }
+    .research-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 0.65rem; top: 0.18rem; }
+    .research-date { font-size: 0.7rem; color: var(--muted); white-space: nowrap; letter-spacing: 0.05em; padding-top: 0.15rem; }
 
-    .research-item:hover { background: rgba(255,255,255,0.01); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; transition: all 0.3s; }
+    .project-card:hover { border-color: rgba(200,169,110,0.25); transform: translateY(-2px); }
+    .project-icon { font-size: 1.4rem; }
+    .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); line-height: 1.3; }
+    .project-desc { font-size: 0.8rem; color: var(--muted2); line-height: 1.7; flex: 1; }
+    .project-link { font-size: 0.7rem; color: var(--accent); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: letter-spacing 0.3s; }
+    .project-link:hover { letter-spacing: 0.12em; }
 
-    .research-dept {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      padding-top: 0.2rem;
-      line-height: 1.6;
-    }
+    .leadership-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .leadership-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 1.75rem; transition: border-color 0.3s; }
+    .leadership-card:hover { border-color: rgba(200,169,110,0.25); }
+    .leadership-role { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--white); margin-bottom: 0.2rem; }
+    .leadership-org { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.75rem; }
+    .leadership-desc { font-size: 0.8rem; color: var(--muted2); line-height: 1.7; }
+    .leadership-date { font-size: 0.68rem; color: var(--muted); margin-top: 0.75rem; }
 
-    .research-role {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-      font-weight: 500;
-    }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .skills-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 1.25rem; font-weight: 400; }
+    .lang-list { display: flex; flex-direction: column; gap: 0; }
+    .lang-item { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+    .lang-name { font-size: 0.88rem; color: var(--text); }
+    .lang-level { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .interests-list { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .interest-tag { padding: 0.4rem 0.9rem; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; font-size: 0.78rem; color: var(--muted2); transition: all 0.3s; }
+    .interest-tag:hover { border-color: rgba(200,169,110,0.3); color: var(--accent); }
 
-    .research-pi {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-    }
-
-    .research-bullets {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .research-bullets li {
-      font-size: 0.85rem;
-      color: var(--muted);
-      padding-left: 1rem;
-      position: relative;
-      line-height: 1.6;
-    }
-
-    .research-bullets li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-size: 0.7rem;
-      top: 0.15rem;
-    }
-
-    .research-date {
-      font-size: 0.72rem;
-      color: var(--muted);
-      white-space: nowrap;
-      letter-spacing: 0.05em;
-      padding-top: 0.2rem;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.2rem 0.6rem;
-      background: rgba(200,169,110,0.1);
-      border: 1px solid rgba(200,169,110,0.2);
-      color: var(--accent);
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      border-radius: 2px;
-      margin-top: 0.5rem;
-    }
-
-    .research-project {
-      font-size: 0.82rem;
-      color: var(--text);
-      margin-bottom: 0.75rem;
-      font-style: italic;
-      line-height: 1.5;
-      opacity: 0.8;
-    }
-
-    /* PUBLICATIONS */
-    .publication-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .publication-item {
-      border-top: 1px solid var(--border);
-      padding: 2rem 0;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 2rem;
-      align-items: start;
-    }
-
-    .publication-item:last-child { border-bottom: 1px solid var(--border); }
-
-    .publication-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-
-    .publication-citation {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 0.5rem;
-    }
-
-    /* INTERESTS */
-    .interests-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .interest-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 2rem;
-      transition: all 0.3s;
-    }
-
-    .interest-card:hover {
-      border-color: rgba(200,169,110,0.3);
-      transform: translateY(-2px);
-    }
-
-    .interest-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .interest-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      color: var(--white);
-      margin-bottom: 0.5rem;
-    }
-
-    .interest-desc {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    /* CONTACT */
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .contact-text p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      line-height: 1.9;
-      margin-bottom: 2rem;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.3s;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .contact-text p { color: var(--muted2); font-size: 0.92rem; line-height: 1.9; margin-bottom: 2rem; }
+    .contact-links { display: flex; flex-direction: column; }
+    .contact-link { display: flex; align-items: center; gap: 1rem; color: var(--muted2); text-decoration: none; font-size: 0.83rem; transition: color 0.3s; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
     .contact-link:hover { color: var(--accent); }
+    .contact-link-label { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); width: 80px; flex-shrink: 0; }
 
-    .contact-link-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-      width: 80px;
-      flex-shrink: 0;
-    }
+    footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.72rem; letter-spacing: 0.06em; }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero-tag { animation: fadeUp 0.6s ease both; }
-    h1 { animation: fadeUp 0.6s 0.1s ease both; }
-    .hero-desc { animation: fadeUp 0.6s 0.2s ease both; }
-    .hero-links { animation: fadeUp 0.6s 0.3s ease both; }
-    .hero-photo { animation: fadeUp 0.6s 0.2s ease both; }
-
-    /* RESPONSIVE */
     @media (max-width: 900px) {
-      nav { padding: 1.25rem 2rem; }
-      .nav-links { gap: 1.5rem; }
-      .hero { padding: 7rem 2rem 4rem; }
-      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-photo { max-width: 280px; }
-      section { padding: 4rem 2rem; }
-      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      .interests-grid { grid-template-columns: 1fr 1fr; }
-      .research-item { grid-template-columns: 1fr; gap: 0.5rem; }
-      footer { padding: 1.5rem 2rem; flex-direction: column; gap: 0.5rem; text-align: center; }
-      .divider { margin: 0 2rem; }
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links a { font-size: 0.65rem; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-photo { max-width: 240px; }
+      section { padding: 3.5rem 1.5rem; }
+      .about-grid, .contact-inner, .skills-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid, .leadership-grid { grid-template-columns: 1fr; }
+      .research-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .research-date { display: none; }
+      .edu-item { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Sean Lee</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#research">Research</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#interests">Interests</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<nav>
+  <a href="#" class="nav-logo">Sean Lee</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-inner">
-      <div>
-        <div class="hero-tag">USC Keck School of Medicine · Class of 2027</div>
-        <h1>Sean<br><em>Lee</em></h1>
-        <p class="hero-desc">
-          Medical student, clinical researcher, and builder. Focused on pulmonary & critical care, transplant hepatology, and using data to improve how we diagnose and treat.
-        </p>
-        <div class="hero-links">
-          <a href="#research" class="btn btn-primary">View Research</a>
-          <a href="#contact" class="btn btn-outline">Get in Touch</a>
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">USC Keck School of Medicine · Class of 2027</div>
+      <h1>Sean<br><em>Lee</em></h1>
+      <p class="hero-desc">Medical student, clinical researcher, and builder. Focused on pulmonary & critical care, transplant hepatology, and building tools that make medicine smarter.</p>
+      <div class="hero-langs">
+        <span class="lang-tag">English</span>
+        <span class="lang-tag">Cantonese</span>
+        <span class="lang-tag">Mandarin</span>
+        <span class="lang-tag">Spanish</span>
+      </div>
+      <div class="hero-links">
+        <a href="#research" class="btn btn-primary">View Research</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <div class="photo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <span>Photo coming soon</span>
+    </div>
+  </div>
+</div>
+
+<div class="section-wrap">
+<section id="about">
+  <div class="section-label">About</div>
+  <h2>Who I Am</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a third-year medical student at USC Keck School of Medicine with deep interests in pulmonary & critical care and transplant hepatology. I'm drawn to the diagnostic complexity of medicine — where clinical judgment, data, and probability intersect.</p>
+      <p>I've contributed to research across five departments, from leading my own retrospective study on pneumonia imaging escalation to multi-center work on cirrhosis phenotyping and liver transplant outcomes.</p>
+      <p>Outside clinical training I build tools — an antibiotic stewardship reference, a clinical scoring calculator, and an AI documentation assistant. If I see a workflow that can be improved, I build something.</p>
+      <p>Before medical school I spent two years in oncology wet-lab research at USC Mann School of Pharmacy, and a year as a patient liaison at Garfield Medical Center providing medical interpretation in Cantonese, Mandarin, and English.</p>
+      <div class="edu-list">
+        <div class="edu-item">
+          <div><div class="edu-school">Keck School of Medicine, USC</div><div class="edu-degree">Doctor of Medicine</div></div>
+          <div class="edu-date">Expected May 2027</div>
+        </div>
+        <div class="edu-item">
+          <div><div class="edu-school">University of Southern California</div><div class="edu-degree">B.S. Human Biology · Healthcare Studies Minor</div></div>
+          <div class="edu-date">2019 – 2022</div>
         </div>
       </div>
-      <div class="hero-photo">
-        <div class="photo-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <span>Photo coming soon</span>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card"><div class="stat-number">7</div><div class="stat-label">Research Projects</div></div>
+      <div class="stat-card"><div class="stat-number">2</div><div class="stat-label">Publications</div></div>
+      <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Languages</div></div>
+      <div class="stat-card"><div class="stat-number">2027</div><div class="stat-label">Expected MD</div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="section-wrap">
+<section id="publications">
+  <div class="section-label">Publications</div>
+  <h2>Research Output</h2>
+  <div class="pub-list">
+    <div class="pub-item">
+      <div class="pub-num">1</div>
+      <div>
+        <div class="pub-title">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation <span class="badge">In Revision</span></div>
+        <div class="pub-authors">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, Lee BP, <strong>Lee S</strong>, Allegretti AS, Mazumder NR, Patidar KR, Verna EC.</div>
+        <div class="pub-journal">Journal of Hepatology · 2026</div>
+      </div>
+    </div>
+    <div class="pub-item">
+      <div class="pub-num">2</div>
+      <div>
+        <div class="pub-title">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study <span class="badge badge-blue">In Preparation</span></div>
+        <div class="pub-authors">Elshafei M, Pouwels S, Putnam L, Munoz X, Eini JI, <strong>Lee S</strong>, Lipham JC, Houghton C.</div>
+        <div class="pub-journal">2026</div>
       </div>
     </div>
   </div>
+</section>
+</div>
 
-  <div class="divider"></div>
+<div class="section-wrap">
+<section id="research">
+  <div class="section-label">Research</div>
+  <h2>Clinical Research Experience</h2>
+  <div class="research-list">
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-label">About</div>
-    <h2>Who I Am</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>
-          I'm a third-year medical student at USC Keck School of Medicine with a deep interest in pulmonary & critical care and transplant hepatology. I'm drawn to the diagnostic complexity of medicine — the moments where clinical judgment, data, and probability intersect.
-        </p>
-        <p>
-          Outside of medicine, I like building and optimizing things. Whether it's a research protocol, a dataset, or a website — I'm most alive when I'm working on something with real stakes.
-        </p>
-        <p>
-          Before medical school, I spent two years doing oncology research at USC Alfred E. Mann School of Pharmacy, where I developed a foundation in laboratory science and literature synthesis.
-        </p>
+    <div class="research-item">
+      <div class="research-dept">Pulmonary &<br>Critical Care</div>
+      <div>
+        <div class="research-role">Project Lead</div>
+        <div class="research-pi">Dr. Keith Killu · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Conceived and designed an independent retrospective study examining clinical and laboratory predictors of imaging escalation from chest X-ray to CT in hospitalized pneumonia patients.</li>
+          <li>Formulated study hypothesis, defined patient cohort criteria, selected candidate variables, and prepared IRB submission materials.</li>
+          <li>Leading all phases: data collection, statistical analysis, and manuscript preparation for peer-reviewed publication.</li>
+        </ul>
       </div>
-      <div class="about-stats">
-        <div class="stat-card">
-          <div class="stat-number">5+</div>
-          <div class="stat-label">Active Research Projects</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">3</div>
-          <div class="stat-label">Departments</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">2027</div>
-          <div class="stat-label">Expected MD</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">USC</div>
-          <div class="stat-label">Keck School of Medicine</div>
-        </div>
+      <div class="research-date">Apr 2026 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">Pulmonary &<br>Critical Care</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. Keith Killu · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Conducted systematic literature review for meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia.</li>
+          <li>Extracted and synthesized quantitative data across included studies; contributing to manuscript drafting.</li>
+        </ul>
+      </div>
+      <div class="research-date">Sept 2025 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">Transplant<br>Hepatology</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. Brian Lee · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Performed chart review and longitudinal data extraction for 150+ liver transplant patients from pre-listing through post-transplant outcomes.</li>
+          <li>Contributed to study evaluating Cystatin C–based MELD scoring as a refinement to standard prognostic indices.</li>
+        </ul>
+      </div>
+      <div class="research-date">Jan 2025 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">Transplant<br>Hepatology</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Performed chart review and data extraction for multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes.</li>
+          <li>Contributed to manuscript on phenotype-based risk stratification — currently under revision.</li>
+        </ul>
+        <span class="badge">In Revision</span>
+      </div>
+      <div class="research-date">Sept 2025 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">General Surgery<br>GLS / MIS</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. John Lipham · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Retrospective chart review evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on surgical decision-making.</li>
+          <li>Prepared results section and contributed to manuscript examining whether EndoFLIP-guided measurements reduce postoperative reflux and dysphagia.</li>
+        </ul>
+        <span class="badge badge-blue">In Preparation</span>
+      </div>
+      <div class="research-date">Apr 2026 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">General Surgery<br>GLS / MIS</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. John Lipham · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Conducting retrospective chart review evaluating impact of intraoperative platelet-rich plasma (PRP) injection on outcomes following hiatal hernia repair.</li>
+        </ul>
+      </div>
+      <div class="research-date">Jan 2026 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">Emergency<br>Medicine</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. Alexander Sapin · USC Keck</div>
+        <ul class="research-bullets">
+          <li>Contributing to quality improvement initiative developing an automated flagging system for ED patients at risk for prolonged length of stay (LOS >21 days).</li>
+          <li>Performing data collection and analysis of admission diagnostic codes to form evidential basis for future flag criteria.</li>
+        </ul>
+      </div>
+      <div class="research-date">Apr 2026 – Present</div>
+    </div>
+
+    <div class="research-item">
+      <div class="research-dept">Oncology<br>Research</div>
+      <div>
+        <div class="research-role">Research Assistant</div>
+        <div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
+        <ul class="research-bullets">
+          <li>Conducted weekly literature reviews of 200+ papers and performed wet lab techniques including protein/DNA purification and cell culture.</li>
+        </ul>
+      </div>
+      <div class="research-date">Jun 2020 – Jun 2022</div>
+    </div>
+
+  </div>
+</section>
+</div>
+
+<div class="section-wrap">
+<section id="projects">
+  <div class="section-label">Projects</div>
+  <h2>Tools I've Built</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-icon">💊</div>
+      <div class="project-title">Antibiotic Stewardship Tool</div>
+      <div class="project-desc">Interactive web-based reference supporting evidence-based antibiotic prescribing in Internal Medicine. Delivers setting-appropriate regimens in 3 clicks across 30+ infection types and 9 organ systems with dynamic adjustments for penicillin allergy and MRSA risk.</div>
+      <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🧮</div>
+      <div class="project-title">Internal Medicine Scoring Calculator</div>
+      <div class="project-desc">Web-based calculator integrating 15 validated clinical scoring tools including HEART, CURB-65, MELD-Na, NIH Stroke Scale, Wells PE/DVT, SOFA, APACHE II, GRACE, and CHA₂DS₂-VASc. Mobile-optimised and deployable offline.</div>
+      <a href="https://github.com/infer321/InternalMedCalc" target="_blank" class="project-link">View on GitHub →</a>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🤖</div>
+      <div class="project-title">AI Clinical Documentation Tool</div>
+      <div class="project-desc">HIPAA-compliant note-taking application generating standardized physician documentation using keyword recognition and dictation. Designed to improve efficiency in clinical note-writing without storing patient data.</div>
+      <a class="project-link" style="color:var(--muted); cursor:default;">Independent Project · 2026</a>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="section-wrap">
+<section id="leadership">
+  <div class="section-label">Leadership & Volunteering</div>
+  <h2>Beyond the Clinic</h2>
+  <div class="leadership-grid">
+    <div class="leadership-card">
+      <div class="leadership-role">Student Affairs Representative</div>
+      <div class="leadership-org">USC Keck Office of Student Affairs</div>
+      <div class="leadership-desc">Served as primary liaison between student body and institutional administration, advocating for housing equity, facility enhancements, and mental health resource accessibility.</div>
+      <div class="leadership-date">Aug 2023 – Aug 2025</div>
+    </div>
+    <div class="leadership-card">
+      <div class="leadership-role">Vice President</div>
+      <div class="leadership-org">Gastroenterology Student Interest Group · USC Keck</div>
+      <div class="leadership-desc">Coordinated faculty and clinical speakers for lunch talk series. Led outreach connecting students with research-active faculty across subspecialties.</div>
+      <div class="leadership-date">Aug 2023 – Dec 2024</div>
+    </div>
+    <div class="leadership-card">
+      <div class="leadership-role">Patient Liaison & Project Manager</div>
+      <div class="leadership-org">AHMC Garfield Medical Center</div>
+      <div class="leadership-desc">Provided real-time medical interpretation in Cantonese, Mandarin, and English. Analyzed HCAHPS, Leapfrog, and ED-Throughput metrics across a 9-hospital system.</div>
+      <div class="leadership-date">May 2022 – May 2023</div>
+    </div>
+    <div class="leadership-card">
+      <div class="leadership-role">President & Events Director</div>
+      <div class="leadership-org">USC Photography Club</div>
+      <div class="leadership-desc">Led executive team of 15 organizing events for 2,000+ members including multi-day retreats and workshops.</div>
+      <div class="leadership-date">Aug 2020 – Aug 2023</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="section-wrap">
+<section id="skills">
+  <div class="section-label">Languages & Interests</div>
+  <h2>Background & Pursuits</h2>
+  <div class="skills-grid">
+    <div class="skills-block">
+      <h3>Languages</h3>
+      <div class="lang-list">
+        <div class="lang-item"><span class="lang-name">English</span><span class="lang-level">Native</span></div>
+        <div class="lang-item"><span class="lang-name">Cantonese</span><span class="lang-level">Conversational</span></div>
+        <div class="lang-item"><span class="lang-name">Mandarin</span><span class="lang-level">Clinical Proficiency</span></div>
+        <div class="lang-item"><span class="lang-name">Spanish</span><span class="lang-level">Clinical Proficiency</span></div>
       </div>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- RESEARCH -->
-  <section id="research">
-    <div class="section-label">Research</div>
-    <h2>Projects & Experience</h2>
-
-    <div class="research-list">
-
-      <div class="research-item">
-        <div class="research-dept">Pulmonary &<br>Critical Care</div>
-        <div>
-          <div class="research-role">Project Lead</div>
-          <div class="research-pi">Dr. Keith Killu · USC Keck</div>
-          <div class="research-project">Prediction of Early CT Escalation Following Initial Chest Radiography in Suspected Pneumonia</div>
-          <ul class="research-bullets">
-            <li>Conceived and designed an independent retrospective study examining clinical and laboratory predictors of imaging escalation from chest X-ray to CT in hospitalized pneumonia patients, with the goal of developing evidence-based criteria to guide resource-appropriate workup.</li>
-            <li>Formulated study hypothesis, defined patient cohort inclusion/exclusion criteria, selected candidate clinical variables, and prepared IRB submission materials.</li>
-            <li>Leading all phases of the project including data collection, statistical analysis, and manuscript preparation for peer-reviewed publication.</li>
-          </ul>
-          <span class="badge">Project Lead</span>
-        </div>
-        <div class="research-date">Apr 2026 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">Pulmonary &<br>Critical Care</div>
-        <div>
-<div class="research-pi">Dr. Keith Killu · USC Keck</div>
-          <ul class="research-bullets">
-            <li>Conducted comprehensive systematic literature review and study screening for a meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia, identifying and evaluating studies across multiple databases.</li>
-            <li>Extracted and synthesized quantitative data across included studies, assessing methodological quality and pooling effect estimates for analysis.</li>
-            <li>Contributing to manuscript drafting and preparation for peer-reviewed submission.</li>
-          </ul>
-        </div>
-        <div class="research-date">Sept 2025 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">Transplant<br>Hepatology</div>
-        <div>
-<div class="research-pi">Dr. Brian Lee · USC Keck</div>
-          <ul class="research-bullets">
-            <li>Performed detailed chart review and longitudinal data extraction for 150+ liver transplant patients spanning pre-listing through post-transplant outcomes, requiring individualized manual review of complex transplant records.</li>
-            <li>Contributed to a study evaluating Cystatin C-based MELD scoring as a refinement to standard prognostic indices for improving post-transplant outcome prediction.</li>
-          </ul>
-        </div>
-        <div class="research-date">Jan 2025 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">Transplant<br>Hepatology</div>
-        <div>
-<div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
-          <div class="research-project">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation</div>
-          <ul class="research-bullets">
-            <li>Performed chart review and data extraction for a multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes, contributing to a dataset spanning multiple institutions.</li>
-            <li>Contributed to manuscript development and review examining phenotype-based risk stratification in cirrhosis; manuscript currently under revision for peer-reviewed publication.</li>
-          </ul>
-          <span class="badge">In Revision</span>
-        </div>
-        <div class="research-date">Sept 2025 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">General Surgery<br>GLS / MIS</div>
-        <div>
-<div class="research-pi">Dr. John Lipham · USC Keck</div>
-          <ul class="research-bullets">
-            <li>Conducting retrospective chart review and data collection for a study evaluating the impact of intraoperative platelet-rich plasma (PRP) injection on postoperative outcomes following hiatal hernia repair.</li>
-          </ul>
-        </div>
-        <div class="research-date">Jan 2026 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">General Surgery<br>GLS / MIS</div>
-        <div>
-<div class="research-pi">Dr. John Lipham · USC Keck</div>
-          <div class="research-project">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study</div>
-          <ul class="research-bullets">
-            <li>Performed retrospective chart review and data collection evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on real-time surgical decision-making and adjustment.</li>
-            <li>Prepared results section and contributed to full manuscript development examining whether EndoFLIP-guided intraoperative measurements reduce postoperative reflux and dysphagia outcomes.</li>
-          </ul>
-          <span class="badge">In Preparation</span>
-        </div>
-        <div class="research-date">Apr 2026 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">Emergency<br>Medicine</div>
-        <div>
-<div class="research-pi">Dr. Alexander Sapin · USC Keck</div>
-          <ul class="research-bullets">
-            <li>Contributing to a quality improvement initiative aimed at developing an automated flagging system to identify ED patients at risk for prolonged length of stay (LOS &gt;21 days) to facilitate early disposition planning.</li>
-            <li>Performing data collection and analysis of admission diagnostic codes for patients meeting LOS threshold, forming the evidential basis for future flag criteria development.</li>
-          </ul>
-        </div>
-        <div class="research-date">Apr 2026 – Present</div>
-      </div>
-
-      <div class="research-item">
-        <div class="research-dept">Oncology<br>Research</div>
-        <div>
-<div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
-          <ul class="research-bullets">
-            <li>Conducted weekly literature reviews of 200+ papers and performed wet lab techniques including protein/DNA purification and cell culture.</li>
-          </ul>
-        </div>
-        <div class="research-date">Jun 2020 – Jun 2022</div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- PUBLICATIONS -->
-  <section id="publications">
-    <div class="section-label">Publications</div>
-    <h2>Papers & Manuscripts</h2>
-    <div class="publication-list">
-
-      <div class="publication-item">
-        <div>
-          <div class="publication-title">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation</div>
-          <div class="publication-citation">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, Lee BP, <strong>Lee S</strong>, Allegretti AS, Mazumder NR, Patidar KR, Verna EC. <em>Journal of Hepatology.</em> 2026.</div>
-          <span class="badge">In Revision</span>
-        </div>
-        <div class="research-date">2026</div>
-      </div>
-
-      <div class="publication-item">
-        <div>
-          <div class="publication-title">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study</div>
-          <div class="publication-citation">Elshafei M, Pouwels S, Putnam L, Munoz X, Eini JI, <strong>Lee S</strong>, Lipham JC, Houghton C. 2026.</div>
-          <span class="badge">In Preparation</span>
-        </div>
-        <div class="research-date">2026</div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- INTERESTS -->
-  <section id="interests">
-    <div class="section-label">Interests</div>
-    <h2>Clinical & Academic Focus</h2>
-    <div class="interests-grid">
-      <div class="interest-card">
-        <div class="interest-icon">🫁</div>
-        <div class="interest-title">Pulmonary & Critical Care</div>
-        <div class="interest-desc">Diagnostic reasoning under uncertainty, imaging protocols, and management of critical illness.</div>
-      </div>
-      <div class="interest-card">
-        <div class="interest-icon">🫀</div>
-        <div class="interest-title">Transplant Hepatology</div>
-        <div class="interest-desc">Outcomes research in liver transplantation, MELD scoring systems, and cirrhosis phenotyping.</div>
-      </div>
-      <div class="interest-card">
-        <div class="interest-icon">📊</div>
-        <div class="interest-title">Clinical Research</div>
-        <div class="interest-desc">Study design, IRB processes, biostatistics, and translating data into clinical decision-making.</div>
+    <div class="skills-block">
+      <h3>Interests</h3>
+      <div class="interests-list">
+        <span class="interest-tag">Piano</span>
+        <span class="interest-tag">Weightlifting</span>
+        <span class="interest-tag">Cycling</span>
+        <span class="interest-tag">Running</span>
+        <span class="interest-tag">Photography</span>
+        <span class="interest-tag">Building Tools</span>
+        <span class="interest-tag">Web Development</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+</div>
 
-  <div class="divider"></div>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-label">Contact</div>
-    <h2>Get in Touch</h2>
-    <div class="contact-inner">
-      <div class="contact-text">
-        <p>
-          Whether you're a fellow researcher, clinician, or student — feel free to reach out. I'm always open to discussing research, collaborations, or just connecting.
-        </p>
-        <a href="mailto:hello@seanleels.com" class="btn btn-primary">Send an Email</a>
-      </div>
-      <div class="contact-links">
-        <a href="mailto:hello@seanleels.com" class="contact-link">
-          <span class="contact-link-label">Email</span>
-          hello@seanleels.com
-        </a>
-        <a href="https://instagram.com/sone_zc" target="_blank" class="contact-link">
-          <span class="contact-link-label">Instagram</span>
-          @sone_zc
-        </a>
-        <a href="https://seanleels.com" class="contact-link">
-          <span class="contact-link-label">Website</span>
-          seanleels.com
-        </a>
-      </div>
+<div class="section-wrap">
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <h2>Get in Touch</h2>
+  <div class="contact-inner">
+    <div class="contact-text">
+      <p>Whether you're a fellow researcher, clinician, or student — feel free to reach out. Open to discussing research, collaborations, or just connecting.</p>
+      <a href="mailto:slee0339@usc.edu" class="btn btn-primary">Send an Email</a>
     </div>
-  </section>
+    <div class="contact-links">
+      <a href="mailto:slee0339@usc.edu" class="contact-link"><span class="contact-link-label">Email</span>slee0339@usc.edu</a>
+      <a href="https://instagram.com/sone_zc" target="_blank" class="contact-link"><span class="contact-link-label">Instagram</span>@sone_zc</a>
+      <a href="https://seanleels.com" class="contact-link"><span class="contact-link-label">Website</span>seanleels.com</a>
+    </div>
+  </div>
+</section>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <span>© 2026 Sean Lee</span>
-    <span>USC Keck School of Medicine · Class of 2027</span>
-  </footer>
+<footer>
+  <span>© 2026 Sean Lee</span>
+  <span>USC Keck School of Medicine · Class of 2027</span>
+</footer>
 
 </body>
 </html>
