@@ -92,6 +92,19 @@
     .pub-title { font-size: 0.92rem; color: var(--white); margin-bottom: 0.35rem; line-height: 1.55; }
     .pub-authors { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem; line-height: 1.6; }
     .pub-journal { font-size: 0.78rem; color: var(--muted2); font-style: italic; }
+
+    /* ── Abstract hover reveal ── */
+    .pub-item { cursor: default; }
+    .pub-abstract-toggle { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.65rem; font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); cursor: pointer; border: none; background: none; padding: 0; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; user-select: none; }
+    .pub-abstract-toggle:hover { opacity: 0.75; }
+    .pub-abstract-toggle .toggle-arrow { display: inline-block; transition: transform 0.3s ease; font-style: normal; }
+    .pub-abstract-toggle.open .toggle-arrow { transform: rotate(180deg); }
+    .pub-abstract { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin-top 0.3s ease; opacity: 0; margin-top: 0; }
+    .pub-abstract.open { max-height: 800px; opacity: 1; margin-top: 1rem; }
+    .pub-abstract-inner { background: rgba(200,169,110,0.04); border: 1px solid rgba(200,169,110,0.12); border-radius: 2px; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+    .pub-abstract-section { display: flex; flex-direction: column; gap: 0.3rem; }
+    .pub-abstract-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .pub-abstract-text { font-size: 0.8rem; color: var(--muted2); line-height: 1.75; }
     .badge { display: inline-block; padding: 0.18rem 0.55rem; background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.2); color: var(--accent); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; margin-left: 0.5rem; vertical-align: middle; }
     .badge-blue { background: rgba(100,140,255,0.08); border-color: rgba(100,140,255,0.2); color: #8aabff; }
 
@@ -244,6 +257,29 @@
         <div class="pub-title">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation <span class="badge">In Revision</span></div>
         <div class="pub-authors">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, Lee BP, <strong>Lee S</strong>, Allegretti AS, Mazumder NR, Patidar KR, Verna EC.</div>
         <div class="pub-journal">Journal of Hepatology · 2026</div>
+        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">
+          Abstract <span class="toggle-arrow">↓</span>
+        </button>
+        <div class="pub-abstract">
+          <div class="pub-abstract-inner">
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Background</span>
+              <span class="pub-abstract-text">Ascites development in cirrhosis reduces five-year survival from 80% to 30%, yet substantial heterogeneity exists among patients with comparable ascites severity.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Methods</span>
+              <span class="pub-abstract-text">Multicenter retrospective cohort of adult liver transplant candidates with ascites at four US centers (2015–2024). Latent class analysis used seven clinical variables. Derivation cohort (n=625) from UCSF and Columbia; external validation at USC (n=59) and Mayo Clinic (n=93). Primary outcomes: AKI and waitlist mortality over 365 days.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Results</span>
+              <span class="pub-abstract-text">Three phenotypes emerged: "CKD-Metabolic" (30.4%), "Vasodilatory-Synthetic Dysfunction" (38.9%), and "PVT-Intermediate" (30.7%). Vasodilatory-Synthetic Dysfunction showed markedly increased AKI risk vs. CKD-Metabolic in both derivation (HR 2.95, 95% CI 2.07–4.22) and validation cohorts (HR 3.39, 95% CI 1.93–5.94). Phenotypes demonstrated robust classification across validation sites (mean posterior probability 0.823–0.855).</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Conclusions</span>
+              <span class="pub-abstract-text">Three reproducible clinical phenotypes of ascites were identified with distinct risk profiles. The Vasodilatory-Synthetic Dysfunction phenotype was associated with a 3-fold increased AKI risk persisting after MELD 3.0 adjustment — with no differences in waitlist mortality, likely reflecting effective MELD-based transplant allocation.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="pub-item reveal reveal-delay-1">
@@ -252,6 +288,29 @@
         <div class="pub-title">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study <span class="badge badge-blue">In Preparation</span></div>
         <div class="pub-authors">Elshafei M, Pouwels S, Putnam L, Munoz X, Eini JI, <strong>Lee S</strong>, Lipham JC, Houghton C.</div>
         <div class="pub-journal">2026</div>
+        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">
+          Abstract <span class="toggle-arrow">↓</span>
+        </button>
+        <div class="pub-abstract">
+          <div class="pub-abstract-inner">
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Introduction</span>
+              <span class="pub-abstract-text">EndoFLIP™ is a catheter-based device measuring esophageal characteristics used in diagnosing disorders like achalasia. This proof-of-concept study assesses whether a standardized EndoFLIP™ protocol alters hiatal closure procedures during hiatal hernia repair with fundoplication.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Methods</span>
+              <span class="pub-abstract-text">Initial cruroplasty was performed by endoscopic visualization during robotic hiatal hernia repair. EndoFLIP measured distensibility index (DI), minimum diameter, and balloon pressure at three timepoints. Cruroplasty was modified as needed to achieve a goal DI range of 2.5–3.7 mm²/mmHg.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Results</span>
+              <span class="pub-abstract-text">40 patients underwent the procedure using the standardized protocol. DI decreased from 6.37 ± 3.35 to 2.22 ± 0.46 mm²/mmHg at final measurement. After initial crural closure, 11 of 40 patients (27.5%) had their cruroplasty modified based on EndoFLIP measurements — including sutures added, removed, or repositioned.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Conclusion</span>
+              <span class="pub-abstract-text">A standardized intraoperative EndoFLIP protocol may alter crural closure technique even in experienced hands, providing a more tailored approach versus visualization alone. Integration of such protocols may improve postoperative outcomes of robotic fundoplication over time.</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -518,6 +577,13 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function toggleAbstract(btn) {
+    const abstract = btn.nextElementSibling;
+    const isOpen = abstract.classList.contains('open');
+    abstract.classList.toggle('open', !isOpen);
+    btn.classList.toggle('open', !isOpen);
+  }
 </script>
 
 </body>
