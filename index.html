@@ -24,6 +24,21 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
 
+    /* ── Scroll reveal ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.4rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,15,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
     .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; text-decoration: none; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -178,8 +193,8 @@
       <div class="hero-links">
         <a href="#research" class="btn btn-primary">View Research</a>
         <a href="#contact" class="btn btn-outline">Get in Touch</a>
-        <a href="files/Sean-Lee-CV.pdf" download class="btn btn-outline">Download CV ↓</a>
-    </div>
+        <a href="files/Sean-Lee-CV.pdf" download="Sean-Lee-CV.pdf" class="btn btn-outline">Download CV ↓</a>
+      </div>
     </div>
     <div class="hero-photo" style="padding:0; overflow:hidden;">
       <img src="images/photo.png" alt="Sean Lee" style="width:100%; height:100%; object-fit:cover; object-position: center top;">
@@ -189,30 +204,30 @@
 
 <div class="section-wrap">
 <section id="about">
-  <div class="section-label">About</div>
-  <h2>Who I Am</h2>
+  <div class="section-label reveal">About</div>
+  <h2 class="reveal">Who I Am</h2>
   <div class="about-grid">
-    <div class="about-text">
+    <div class="about-text reveal">
       <p>I'm a fourth-year medical student at USC Keck School of Medicine with deep interests in Gastroenterology and Pulmonary & Critical Care. I'm drawn to the diagnostic complexity of medicine — where clinical judgment, data, and probability intersect.</p>
       <p>I've contributed to research across five departments, from leading my own retrospective study on pneumonia imaging escalation to multi-center work on cirrhosis phenotyping and liver transplant outcomes.</p>
       <p>Outside clinical training I build tools — an antibiotic stewardship reference, a clinical scoring calculator, and an AI documentation assistant. If I see a workflow that can be improved, I build something.</p>
       <p>Before medical school I spent two years in oncology wet-lab research at USC Mann School of Pharmacy, and a year as a patient liaison at Garfield Medical Center providing medical interpretation in Cantonese, Mandarin, and English.</p>
       <div class="edu-list">
-        <div class="edu-item">
+        <div class="edu-item reveal reveal-delay-1">
           <div><div class="edu-school">Keck School of Medicine, USC</div><div class="edu-degree">Doctor of Medicine</div></div>
           <div class="edu-date">Expected May 2027</div>
         </div>
-        <div class="edu-item">
+        <div class="edu-item reveal reveal-delay-2">
           <div><div class="edu-school">University of Southern California</div><div class="edu-degree">B.S. Human Biology · Healthcare Studies Minor</div></div>
           <div class="edu-date">2019 – 2022</div>
         </div>
       </div>
     </div>
     <div class="about-stats">
-      <div class="stat-card"><div class="stat-number">7</div><div class="stat-label">Research Projects</div></div>
-      <div class="stat-card"><div class="stat-number">2</div><div class="stat-label">Publications</div></div>
-      <div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Languages</div></div>
-      <div class="stat-card"><div class="stat-number">2027</div><div class="stat-label">Expected MD</div></div>
+      <div class="stat-card reveal reveal-delay-1"><div class="stat-number">7</div><div class="stat-label">Research Projects</div></div>
+      <div class="stat-card reveal reveal-delay-2"><div class="stat-number">2</div><div class="stat-label">Publications</div></div>
+      <div class="stat-card reveal reveal-delay-3"><div class="stat-number">4</div><div class="stat-label">Languages</div></div>
+      <div class="stat-card reveal reveal-delay-4"><div class="stat-number">2027</div><div class="stat-label">Expected MD</div></div>
     </div>
   </div>
 </section>
@@ -220,10 +235,10 @@
 
 <div class="section-wrap">
 <section id="publications">
-  <div class="section-label">Publications</div>
-  <h2>Research Output</h2>
+  <div class="section-label reveal">Publications</div>
+  <h2 class="reveal">Research Output</h2>
   <div class="pub-list">
-    <div class="pub-item">
+    <div class="pub-item reveal">
       <div class="pub-num">1</div>
       <div>
         <div class="pub-title">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation <span class="badge">In Revision</span></div>
@@ -231,7 +246,7 @@
         <div class="pub-journal">Journal of Hepatology · 2026</div>
       </div>
     </div>
-    <div class="pub-item">
+    <div class="pub-item reveal reveal-delay-1">
       <div class="pub-num">2</div>
       <div>
         <div class="pub-title">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study <span class="badge badge-blue">In Preparation</span></div>
@@ -245,11 +260,11 @@
 
 <div class="section-wrap">
 <section id="research">
-  <div class="section-label">Research</div>
-  <h2>Clinical Research Experience</h2>
+  <div class="section-label reveal">Research</div>
+  <h2 class="reveal">Clinical Research Experience</h2>
   <div class="research-list">
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">Pulmonary &<br>Critical Care</div>
       <div>
         <div class="research-role">Project Lead</div>
@@ -264,7 +279,7 @@
       <div class="research-date">Apr 2026 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">Pulmonary &<br>Critical Care</div>
       <div>
         <div class="research-pi">Dr. Keith Killu · USC Keck</div>
@@ -277,7 +292,7 @@
       <div class="research-date">Sept 2025 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">Transplant<br>Hepatology</div>
       <div>
         <div class="research-pi">Dr. Brian Lee · USC Keck</div>
@@ -290,7 +305,7 @@
       <div class="research-date">Jan 2025 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">Transplant<br>Hepatology</div>
       <div>
         <div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
@@ -304,7 +319,7 @@
       <div class="research-date">Sept 2025 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">General Surgery<br>GLS / MIS</div>
       <div>
         <div class="research-pi">Dr. John Lipham · USC Keck</div>
@@ -318,7 +333,7 @@
       <div class="research-date">Apr 2026 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">General Surgery<br>GLS / MIS</div>
       <div>
         <div class="research-pi">Dr. John Lipham · USC Keck</div>
@@ -330,7 +345,7 @@
       <div class="research-date">Jan 2026 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">Emergency<br>Medicine</div>
       <div>
         <div class="research-pi">Dr. Alexander Sapin · USC Keck</div>
@@ -343,7 +358,7 @@
       <div class="research-date">Apr 2026 – Present</div>
     </div>
 
-    <div class="research-item">
+    <div class="research-item reveal">
       <div class="research-dept">Oncology<br>Research</div>
       <div>
         <div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
@@ -361,20 +376,20 @@
 
 <div class="section-wrap">
 <section id="projects">
-  <div class="section-label">Projects</div>
-  <h2>Tools I've Built</h2>
+  <div class="section-label reveal">Projects</div>
+  <h2 class="reveal">Tools I've Built</h2>
   <div class="projects-grid">
-    <div class="project-card">
+    <div class="project-card reveal reveal-delay-1">
       <div class="project-title">Antibiotic Stewardship Tool</div>
       <div class="project-desc">Interactive web-based reference supporting evidence-based antibiotic prescribing in Internal Medicine. Delivers setting-appropriate regimens in 3 clicks across 30+ infection types and 9 organ systems with dynamic adjustments for penicillin allergy and MRSA risk.</div>
       <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" class="project-link">View on GitHub →</a>
     </div>
-    <div class="project-card">
+    <div class="project-card reveal reveal-delay-2">
       <div class="project-title">Internal Medicine Scoring Calculator</div>
       <div class="project-desc">Web-based calculator integrating 15 validated clinical scoring tools including HEART, CURB-65, MELD-Na, NIH Stroke Scale, Wells PE/DVT, SOFA, APACHE II, GRACE, and CHA₂DS₂-VASc. Mobile-optimised and deployable offline.</div>
       <a href="https://github.com/infer321/InternalMedCalc" target="_blank" class="project-link">View on GitHub →</a>
     </div>
-    <div class="project-card">
+    <div class="project-card reveal reveal-delay-3">
       <div class="project-title">AI Clinical Documentation Tool</div>
       <div class="project-desc">HIPAA-compliant note-taking application generating standardized physician documentation using keyword recognition and dictation. Designed to improve efficiency in clinical note-writing without storing patient data.</div>
       <a class="project-link" style="color:var(--muted); cursor:default;">Independent Project · 2026</a>
@@ -385,28 +400,28 @@
 
 <div class="section-wrap">
 <section id="leadership">
-  <div class="section-label">Leadership & Volunteering</div>
-  <h2>Beyond the Clinic</h2>
+  <div class="section-label reveal">Leadership & Volunteering</div>
+  <h2 class="reveal">Beyond the Clinic</h2>
   <div class="leadership-grid">
-    <div class="leadership-card">
+    <div class="leadership-card reveal reveal-delay-1">
       <div class="leadership-role">Student Affairs Representative</div>
       <div class="leadership-org">USC Keck Office of Student Affairs</div>
       <div class="leadership-desc">Served as primary liaison between student body and institutional administration, advocating for housing equity, facility enhancements, and mental health resource accessibility.</div>
       <div class="leadership-date">Aug 2023 – Aug 2025</div>
     </div>
-    <div class="leadership-card">
+    <div class="leadership-card reveal reveal-delay-2">
       <div class="leadership-role">Vice President</div>
       <div class="leadership-org">Gastroenterology Student Interest Group · USC Keck</div>
       <div class="leadership-desc">Coordinated faculty and clinical speakers for lunch talk series. Led outreach connecting students with research-active faculty across subspecialties.</div>
       <div class="leadership-date">Aug 2023 – Dec 2024</div>
     </div>
-    <div class="leadership-card">
+    <div class="leadership-card reveal reveal-delay-3">
       <div class="leadership-role">Patient Liaison & Project Manager</div>
       <div class="leadership-org">AHMC Garfield Medical Center</div>
       <div class="leadership-desc">Provided real-time medical interpretation in Cantonese, Mandarin, and English. Analyzed HCAHPS, Leapfrog, and ED-Throughput metrics across a 9-hospital system.</div>
       <div class="leadership-date">May 2022 – May 2023</div>
     </div>
-    <div class="leadership-card">
+    <div class="leadership-card reveal reveal-delay-4">
       <div class="leadership-role">President & Events Director</div>
       <div class="leadership-org">USC Photography Club</div>
       <div class="leadership-desc">Led executive team of 15 organizing events for 2,000+ members including multi-day retreats and workshops.</div>
@@ -418,10 +433,10 @@
 
 <div class="section-wrap">
 <section id="origins">
-  <div class="section-label">Formative Experiences</div>
-  <h2>Where It Began</h2>
+  <div class="section-label reveal">Formative Experiences</div>
+  <h2 class="reveal">Where It Began</h2>
   <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
-    <div style="background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:2.5rem; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(200,169,110,0.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
+    <div class="reveal reveal-delay-1" style="background:var(--surface); border:1px solid var(--border); border-radius:2px; padding:2.5rem; transition: border-color 0.3s;" onmouseover="this.style.borderColor='rgba(200,169,110,0.25)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.07)'">
       <div style="font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:0.5rem;">Dmanisi Archaeological Field School</div>
       <div style="font-family:'Cormorant Garamond', serif; font-size:1.3rem; color:var(--white); margin-bottom:0.25rem; font-weight:400;">Field Researcher</div>
       <div style="font-size:0.7rem; color:var(--muted); margin-bottom:1.25rem;">Dmanisi, Georgia · Jun – Aug 2019</div>
@@ -431,7 +446,7 @@
         <li style="font-size:0.83rem; color:var(--muted2); padding-left:1.1rem; position:relative; line-height:1.65;"><span style="position:absolute; left:0; color:var(--accent); font-size:0.65rem; top:0.18rem;">—</span>Observed firsthand the burden of undertreated disease in rural Georgia — including cases of polio and other conditions rarely encountered in the U.S. — deepening my commitment to preventive medicine and global health equity.</li>
       </ul>
     </div>
-    <div style="display:flex; flex-direction:column; justify-content:center; padding: 1rem 1.5rem;">
+    <div class="reveal reveal-delay-2" style="display:flex; flex-direction:column; justify-content:center; padding: 1rem 1.5rem;">
       <div style="font-family:'Cormorant Garamond', serif; font-size:1.6rem; color:var(--white); font-weight:300; line-height:1.4; margin-bottom:1rem;">"I went to excavate the origins of our species. I came back wanting to take care of them."</div>
       <div style="font-size:0.75rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase;">Dmanisi, Georgia · 2019</div>
     </div>
@@ -441,10 +456,10 @@
 
 <div class="section-wrap">
 <section id="skills">
-  <div class="section-label">Languages & Interests</div>
-  <h2>Background & Pursuits</h2>
+  <div class="section-label reveal">Languages & Interests</div>
+  <h2 class="reveal">Background & Pursuits</h2>
   <div class="skills-grid">
-    <div class="skills-block">
+    <div class="skills-block reveal reveal-delay-1">
       <h3>Languages</h3>
       <div class="lang-list">
         <div class="lang-item"><span class="lang-name">English</span><span class="lang-level">Native</span></div>
@@ -453,7 +468,7 @@
         <div class="lang-item"><span class="lang-name">Spanish</span><span class="lang-level">Clinical Proficiency</span></div>
       </div>
     </div>
-    <div class="skills-block">
+    <div class="skills-block reveal reveal-delay-2">
       <h3>Interests</h3>
       <div class="interests-list">
         <span class="interest-tag">Piano</span>
@@ -471,14 +486,14 @@
 
 <div class="section-wrap">
 <section id="contact">
-  <div class="section-label">Contact</div>
-  <h2>Get in Touch</h2>
+  <div class="section-label reveal">Contact</div>
+  <h2 class="reveal">Get in Touch</h2>
   <div class="contact-inner">
-    <div class="contact-text">
+    <div class="contact-text reveal reveal-delay-1">
       <p>Whether you're a fellow researcher, clinician, or student — feel free to reach out. Open to discussing research, collaborations, or just connecting.</p>
       <a href="mailto:slee0339@usc.edu" class="btn btn-primary">Send an Email</a>
     </div>
-    <div class="contact-links">
+    <div class="contact-links reveal reveal-delay-2">
       <a href="mailto:slee0339@usc.edu" class="contact-link"><span class="contact-link-label">Email</span>slee0339@usc.edu</a>
       <a href="https://instagram.com/sone_zc" target="_blank" class="contact-link"><span class="contact-link-label">Instagram</span>@sone_zc</a>
       <a href="https://seanleels.com" class="contact-link"><span class="contact-link-label">Website</span>seanleels.com</a>
@@ -491,6 +506,19 @@
   <span>© 2026 Sean Lee</span>
   <span>USC Keck School of Medicine · Class of 2027</span>
 </footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 
 </body>
 </html>
