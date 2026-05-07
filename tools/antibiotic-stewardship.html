@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antibiotic Stewardship Tool</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f5f4;
+    --bg3: #eeede9;
+    --text: #1a1a18;
+    --text2: #6b6b67;
+    --text3: #9a9a96;
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.22);
+    --radius: 8px;
+    --radius-lg: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #252523;
+      --bg3: #2e2e2b;
+      --text: #f0efe9;
+      --text2: #9a9a96;
+      --text3: #6b6b67;
+      --border: rgba(255,255,255,0.12);
+      --border2: rgba(255,255,255,0.22);
+    }
+  }
+  body { font-family: var(--font); background: var(--bg3); color: var(--text); min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 720px; margin: 0 auto; }
+  header { margin-bottom: 2rem; }
+  header h1 { font-size: 22px; font-weight: 600; color: var(--text); }
+  header p { font-size: 13px; color: var(--text2); margin-top: 4px; }
+  .card { background: var(--bg); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 1.25rem; margin-bottom: 1rem; }
+  .section-label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .sys-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
+  .sys-btn { padding: 10px 8px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.15s; font-family: var(--font); }
+  .sys-btn:hover { border-color: var(--text3); color: var(--text); }
+  .sys-btn.active { background: #E6F1FB; color: #0C447C; border-color: #85B7EB; }
+  .inf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; margin-bottom: 1.25rem; }
+  .inf-btn { padding: 9px 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--bg); color: var(--text2); font-size: 13px; cursor: pointer; text-align: left; transition: all 0.15s; font-family: var(--font); }
+  .inf-btn:hover { border-color: var(--border2); color: var(--text); }
+  .inf-btn.active { background: #E6F1FB; color: #0C447C; border-color: #85B7EB; font-weight: 600; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  .fg { display: flex; flex-direction: column; gap: 6px; }
+  .fg label { font-size: 11px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; }
+  select { width: 100%; padding: 8px 10px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); font-size: 14px; font-family: var(--font); cursor: pointer; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; }
+  .tag { font-size: 12px; padding: 5px 11px; border-radius: 99px; cursor: pointer; border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); transition: all 0.15s; font-family: var(--font); }
+  .tag.active { background: #E6F1FB; color: #0C447C; border-color: #85B7EB; }
+  .go-btn { padding: 11px 20px; background: var(--text); color: var(--bg); border: none; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; font-family: var(--font); transition: opacity 0.15s; }
+  .go-btn:hover { opacity: 0.85; }
+  .rx-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 1.25rem; margin-bottom: 10px; }
+  .rx-card.fl { border-left: 3px solid #1D9E75; }
+  .rx-card.sl { border-left: 3px solid #378ADD; }
+  .rx-card.al { border-left: 3px solid #E24B4A; }
+  .rx-hdr { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 8px; }
+  .rx-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .badge { font-size: 11px; padding: 3px 9px; border-radius: 99px; font-weight: 600; white-space: nowrap; }
+  .bf { background: #E1F5EE; color: #0F6E56; }
+  .bs { background: #E6F1FB; color: #185FA5; }
+  .ba { background: #FCEBEB; color: #A32D2D; }
+  .rx-d { font-size: 13px; color: var(--text2); margin-bottom: 4px; line-height: 1.5; }
+  .rx-d strong { color: var(--text); font-weight: 600; }
+  .div-line { border: none; border-top: 0.5px solid var(--border); margin: 8px 0; }
+  .note-box { background: var(--bg2); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--text2); margin-top: 10px; line-height: 1.6; }
+  .note-box strong { color: var(--text); }
+  .dur-card { background: var(--bg2); border-radius: var(--radius); padding: 10px 14px; margin-top: 8px; }
+  .step-hint { font-size: 13px; color: var(--text3); margin-bottom: 8px; }
+  #infSection { display: none; }
+  #formSection { display: none; }
+  #results { margin-top: 0.5rem; }
+  footer { text-align: center; font-size: 11px; color: var(--text3); margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
+  @media (max-width: 500px) {
+    .form-row { grid-template-columns: 1fr; }
+    .sys-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>Antibiotic Stewardship Tool</h1>
+    <p>Empiric antibiotic selection · IDSA / ASHP guidelines · Always tailor to local antibiogram</p>
+  </header>
+
+  <div class="card">
+    <div class="step-hint" id="step1lbl">Step 1 — Select a body system</div>
+    <div class="sys-grid" id="sysGrid"></div>
+
+    <div id="infSection">
+      <div class="step-hint" id="step2lbl">Step 2 — Select infection type</div>
+      <div class="inf-grid" id="infGrid"></div>
+    </div>
+
+    <div id="formSection">
+      <div class="form-row">
+        <div class="fg">
+          <label>Clinical setting</label>
+          <select id="setting">
+            <option value="outpatient">Outpatient</option>
+            <option value="inpatient" selected>Inpatient (floor)</option>
+            <option value="icu">ICU</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>Risk factors</label>
+          <span style="font-size:12px;color:var(--text2);padding-top:6px;">Select all that apply below</span>
+        </div>
+      </div>
+      <div class="tags" id="riskTags">
+        <span class="tag" data-val="pcn">PCN allergy</span>
+        <span class="tag" data-val="mrsa">MRSA risk</span>
+        <span class="tag" data-val="pseudo">Pseudomonas risk</span>
+        <span class="tag" data-val="renal">Renal impairment</span>
+        <span class="tag" data-val="preg">Pregnancy</span>
+        <span class="tag" data-val="immuno">Immunocompromised</span>
+        <span class="tag" data-val="abx90">Abx in last 90 days</span>
+      </div>
+      <button class="go-btn" onclick="generate()">Generate recommendations</button>
+    </div>
+  </div>
+
+  <div id="results"></div>
+
+  <footer>
+    For educational and clinical decision support use only. Always verify with local antibiogram and apply clinical judgment. Not a substitute for Infectious Disease consultation.
+  </footer>
+</div>
+
+<script>
+const systems = {
+  "Respiratory": ["CAP","HAP/VAP","AECOPD","Lung abscess","Influenza"],
+  "Urinary": ["UTI — uncomplicated","UTI — complicated / pyelonephritis"],
+  "GI / Hepatobiliary": ["C. difficile","Spontaneous bacterial peritonitis","Cholangitis / cholecystitis","Infectious diarrhea","Intra-abdominal infection"],
+  "Skin & Soft Tissue": ["Cellulitis / SSTI","Diabetic foot infection","Necrotizing fasciitis"],
+  "Cardiovascular": ["Infective endocarditis (native valve)","Infective endocarditis (prosthetic valve)"],
+  "Bone & Joint": ["Septic arthritis","Osteomyelitis"],
+  "CNS": ["Bacterial meningitis","Brain abscess","HSV encephalitis"],
+  "STI / GU": ["Pelvic inflammatory disease","Gonorrhea / Chlamydia","Epididymo-orchitis"],
+  "Systemic": ["Sepsis (unknown source)","Febrile neutropenia","Candidemia","Tuberculosis (TB)"]
+};
+
+const db = {
+  "CAP": {
+    outpatient:{fl:[{name:"Amoxicillin",dose:"500 mg PO TID × 5 days",cov:"Strep pneumo — healthy, no comorbidities",note:"Preferred if no comorbidities and low atypical risk"},{name:"Azithromycin",dose:"500 mg PO day 1, then 250 mg × 4 days",cov:"Atypicals — Mycoplasma, Chlamydophila",note:"Only if pneumococcal resistance <25% locally"},{name:"Doxycycline",dose:"100 mg PO BID × 5 days",cov:"Atypicals + Strep pneumo",note:"Alternative to azithromycin; avoid in pregnancy"}],sl:[],al:{name:"Doxycycline",dose:"100 mg PO BID × 5 days",cov:"PCN allergy alternative",note:""},dur:"5 days",esc:"Add atypical coverage (azithromycin or doxycycline) if comorbidities present"},
+    inpatient:{fl:[{name:"Ceftriaxone + Azithromycin",dose:"1–2 g IV daily + 500 mg IV/PO daily",cov:"Strep pneumo + atypicals",note:"Step down to PO when tolerating"}],sl:[{name:"Levofloxacin monotherapy",dose:"750 mg IV/PO daily",cov:"Broad including atypicals",note:"Risk of C. diff, QTc prolongation — use if beta-lactam intolerance"}],al:{name:"Levofloxacin",dose:"750 mg IV/PO daily",cov:"PCN allergy alternative",note:""},dur:"5 days (extend to 7 if slow response)",esc:"Add vancomycin/linezolid if MRSA suspected (cavitary PNA, post-influenza, prior MRSA)"},
+    icu:{fl:[{name:"Ceftriaxone + Azithromycin",dose:"2 g IV daily + 500 mg IV daily",cov:"Severe CAP standard regimen",note:""}],sl:[{name:"+ Vancomycin or Linezolid",dose:"Vanc AUC-based or Linezolid 600 mg IV q12h",cov:"Add for MRSA risk",note:"De-escalate if MRSA nares swab negative"}],al:{name:"Moxifloxacin + Azithromycin",dose:"400 mg IV daily + 500 mg IV daily",cov:"Severe PCN allergy",note:"Monitor QTc"},dur:"5–7 days",esc:"Legionella + pneumococcal urinary antigens. Add oseltamivir if influenza suspected"}
+  },
+  "HAP/VAP": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"HAP/VAP requires inpatient or ICU management"},
+    inpatient:{fl:[{name:"Piperacillin-tazobactam",dose:"4.5 g IV q6h (extended infusion)",cov:"Gram-negatives incl. Pseudomonas, MSSA, anaerobes",note:"First-line without MRSA risk"}],sl:[{name:"+ Vancomycin",dose:"25–30 mg/kg/day (AUC-guided 400–600)",cov:"Add for MRSA risk factors",note:"Prior MRSA, septic shock, structural lung disease"}],al:{name:"Aztreonam + Vancomycin",dose:"2 g IV q8h + Vanc AUC-based",cov:"PCN allergy — Gram-neg + MRSA coverage",note:""},dur:"7 days — reassess at 72h",esc:"De-escalate at 48–72h with culture. Avoid dual anti-pseudomonal empirically unless high-risk"},
+    icu:{fl:[{name:"Pip-tazo + Vancomycin",dose:"4.5 g IV q6h ext. + Vanc AUC-based",cov:"Broad Gram-neg + MRSA",note:""}],sl:[{name:"Cefepime + Vancomycin",dose:"2 g IV q8h + Vanc",cov:"Alternative if pip-tazo allergy",note:""}],al:{name:"Aztreonam + Vancomycin",dose:"Standard doses",cov:"PCN allergy",note:""},dur:"7 days",esc:"BAL cultures if possible. Procalcitonin-guided discontinuation reduces duration"}
+  },
+  "AECOPD": {
+    outpatient:{fl:[{name:"Amoxicillin-clavulanate",dose:"875/125 mg PO BID × 5–7 days",cov:"H. influenzae, Moraxella, Strep pneumo",note:"Preferred if purulent sputum or 2+ Anthonisen criteria"}],sl:[{name:"Doxycycline",dose:"100 mg PO BID × 5 days",cov:"Atypicals + Gram-negatives",note:""},{name:"Azithromycin",dose:"500 mg PO day 1, 250 mg × 4 days",cov:"Atypicals + H. influenzae",note:""}],al:{name:"Doxycycline",dose:"100 mg PO BID × 5 days",cov:"PCN allergy alternative",note:""},dur:"5–7 days",esc:"Antibiotics only if purulent sputum or 2 of 3 Anthonisen criteria. Add systemic steroids (prednisone 40 mg × 5 days). Not all AECOPD requires antibiotics"},
+    inpatient:{fl:[{name:"Amoxicillin-clavulanate or Ceftriaxone",dose:"875/125 mg PO BID or 1 g IV daily",cov:"H. influenzae, Strep pneumo, Moraxella",note:"Step down to PO when tolerating"}],sl:[{name:"Levofloxacin",dose:"750 mg IV/PO daily × 5–7 days",cov:"Broader including atypicals and Pseudomonas risk",note:"Consider if FEV1 <30%, prior Pseudomonas, frequent exacerbator"}],al:{name:"Levofloxacin",dose:"750 mg IV/PO daily",cov:"PCN allergy",note:""},dur:"5–7 days",esc:"Systemic steroids essential. Culture sputum. Consider NIPPV for hypercapnic respiratory failure"},
+    icu:{fl:[{name:"Piperacillin-tazobactam",dose:"4.5 g IV q6h",cov:"Pseudomonas risk — severe AECOPD requiring ICU",note:""}],sl:[{name:"+ Vancomycin",dose:"AUC-based",cov:"Add if MRSA risk",note:""}],al:{name:"Cefepime + Metronidazole",dose:"2 g IV q8h + 500 mg q8h",cov:"PCN allergy",note:""},dur:"7 days",esc:"Intubation threshold low in ICU. Culture-guided de-escalation at 48–72h"}
+  },
+  "Lung abscess": {
+    outpatient:{fl:[{name:"Amoxicillin-clavulanate",dose:"875/125 mg PO BID × 4–6 weeks",cov:"Oral anaerobes, Strep, Gram-negatives",note:"Suitable for small abscess, clinically stable"}],sl:[{name:"Clindamycin",dose:"300 mg PO TID × 4–6 weeks",cov:"Oral anaerobes — historical standard",note:"Amox-clav preferred; D-zone resistance risk"}],al:null,dur:"4–6 weeks (until radiographic resolution)",esc:"Ensure adequate drainage. Consider bronchoscopy. Exclude malignancy"},
+    inpatient:{fl:[{name:"Ampicillin-sulbactam",dose:"3 g IV q6h",cov:"Oral anaerobes, Strep, Gram-negatives",note:"Step down to amox-clav when tolerating PO"}],sl:[{name:"Piperacillin-tazobactam",dose:"4.5 g IV q6h",cov:"Healthcare-associated or Pseudomonas risk",note:""}],al:{name:"Clindamycin + Ceftriaxone",dose:"600 mg IV q8h + 1 g IV daily",cov:"PCN allergy",note:""},dur:"4–6 weeks total (IV + oral)",esc:"Pulmonology / thoracic surgery consult. CT chest for anatomy. Positional drainage"},
+    icu:{fl:[{name:"Piperacillin-tazobactam + Vancomycin",dose:"4.5 g IV q6h + Vanc AUC",cov:"Severely ill, MRSA risk, aspiration",note:""}],sl:[],al:null,dur:"4–6 weeks",esc:"ICU for respiratory failure. IR or surgery for drainage if large / not responding"}
+  },
+  "Influenza": {
+    outpatient:{fl:[{name:"Oseltamivir (Tamiflu)",dose:"75 mg PO BID × 5 days",cov:"Influenza A & B",note:"Start within 48h of symptom onset. High-risk patients benefit even if >48h"}],sl:[{name:"Baloxavir marboxil",dose:"40 mg PO once (<80 kg) or 80 mg once",cov:"Influenza A & B — single dose",note:""},{name:"Zanamivir (inhaled)",dose:"10 mg inhaled BID × 5 days",cov:"Influenza A & B",note:"Avoid in asthma/COPD"}],al:null,dur:"5 days (oseltamivir) / 1 dose (baloxavir)",esc:"Antibiotics only if secondary bacterial pneumonia suspected. Annual vaccination is primary prevention"},
+    inpatient:{fl:[{name:"Oseltamivir",dose:"75 mg PO/NG BID × 5 days",cov:"Influenza A & B",note:"IV peramivir if unable to take oral"},{name:"IV Peramivir",dose:"600 mg IV once (or daily × 5 days if severe)",cov:"Influenza A & B — IV formulation",note:"Use if patient cannot take enteral medications"}],sl:[],al:null,dur:"5 days minimum; extend if immunocompromised",esc:"Add empiric CAP antibiotics if secondary bacterial pneumonia. Contact and droplet precautions"},
+    icu:{fl:[{name:"Oseltamivir",dose:"75 mg PO/NG BID × 10 days",cov:"Severe influenza",note:""}],sl:[{name:"+ Empiric antibiotics (CAP regimen)",dose:"Ceftriaxone + Azithromycin ± Vancomycin",cov:"Secondary bacterial pneumonia",note:""}],al:null,dur:"10 days or longer if immunocompromised",esc:"ARDS management. Oseltamivir via NG if intubated. Steroids NOT routinely recommended for influenza alone"}
+  },
+  "UTI — uncomplicated": {
+    outpatient:{fl:[{name:"Nitrofurantoin (macrocrystal)",dose:"100 mg PO BID × 5 days",cov:"E. coli, Staph saprophyticus",note:"Avoid if CrCl <30 or pyelonephritis"},{name:"TMP-SMX",dose:"1 DS tab PO BID × 3 days",cov:"E. coli — if local resistance <20%",note:"Check antibiogram"}],sl:[{name:"Fosfomycin",dose:"3 g PO × 1 dose",cov:"E. coli, Enterococcus faecalis",note:"Convenient single dose"}],al:null,dur:"3–5 days",esc:"Fluoroquinolones NOT first-line — preserve for complicated infections. Phenazopyridine for symptom relief ×2 days"},
+    inpatient:{fl:[],sl:[],al:null,dur:"",esc:"Uncomplicated UTI rarely needs inpatient admission — see complicated UTI pathway"},
+    icu:{fl:[],sl:[],al:null,dur:"",esc:"Uncomplicated UTI does not require ICU"}
+  },
+  "UTI — complicated / pyelonephritis": {
+    outpatient:{fl:[{name:"Ciprofloxacin",dose:"500 mg PO BID × 7 days",cov:"E. coli, Klebsiella, Pseudomonas",note:"Only if local FQ resistance <10%"},{name:"TMP-SMX",dose:"1 DS tab PO BID × 14 days",cov:"E. coli, Klebsiella",note:"Confirm susceptibility on culture"}],sl:[],al:null,dur:"7–14 days",esc:"Urine culture before starting. Step down based on sensitivities. Re-evaluate if no improvement at 48–72h"},
+    inpatient:{fl:[{name:"Ceftriaxone",dose:"1–2 g IV daily",cov:"E. coli, Klebsiella (non-ESBL)",note:"Step down to PO once afebrile"}],sl:[{name:"Pip-tazo",dose:"4.5 g IV q8h",cov:"ESBL risk / Pseudomonas risk / healthcare-associated",note:""}],al:{name:"Aztreonam",dose:"1–2 g IV q8h",cov:"PCN allergy — Gram-negatives",note:"Does not cover Gram-positives"},dur:"7–14 days (IV + PO total)",esc:"Culture-guided de-escalation. Consider ESBL if healthcare exposure, prior FQ use, or travel to endemic area"},
+    icu:{fl:[{name:"Pip-tazo",dose:"4.5 g IV q6h ext. infusion",cov:"Broad Gram-negative including Pseudomonas",note:""}],sl:[{name:"Meropenem",dose:"1 g IV q8h",cov:"ESBL, AmpC producers, clinical deterioration",note:"Carbapenem-sparing preferred"}],al:{name:"Aztreonam + Metronidazole",dose:"Standard doses",cov:"PCN allergy",note:""},dur:"10–14 days",esc:"Blood + urine cultures. Renal dosing critical. Urology consult if obstruction or abscess"}
+  },
+  "C. difficile": {
+    outpatient:{fl:[{name:"Vancomycin PO",dose:"125 mg PO QID × 10 days",cov:"C. difficile — initial non-severe",note:"Preferred over metronidazole for initial episode"},{name:"Fidaxomicin",dose:"200 mg PO BID × 10 days",cov:"C. difficile — preferred if recurrence risk high",note:"Lower recurrence rate than vancomycin; expensive"}],sl:[{name:"Metronidazole PO",dose:"500 mg PO TID × 10 days",cov:"C. difficile — only if vancomycin/fidaxomicin unavailable",note:"Inferior to vancomycin — use only if access limited"}],al:null,dur:"10 days",esc:"Discontinue offending antibiotic ASAP. No systemic antibiotics. Avoid anti-motility agents. Test of cure not recommended"},
+    inpatient:{fl:[{name:"Vancomycin PO",dose:"125 mg PO QID × 10 days",cov:"Non-severe C. diff",note:""},{name:"Vancomycin PO (high-dose) + Metronidazole IV",dose:"500 mg PO QID + 500 mg IV q8h",cov:"Severe complicated C. diff (ileus, toxic megacolon)",note:"IV metro penetrates poorly — only adjunctive if ileus"}],sl:[{name:"Fidaxomicin",dose:"200 mg PO BID × 10 days",cov:"Recurrent C. diff — preferred",note:"Particularly preferred for non-hypervirulent strains"}],al:null,dur:"10–14 days",esc:"Surgery consult if toxic megacolon or perforation. Taper vancomycin for recurrent CDI. Bezlotoxumab for high-recurrence risk. FMT for multiple recurrences"},
+    icu:{fl:[{name:"Vancomycin PO 500 mg QID + Metronidazole IV 500 mg q8h",dose:"As stated",cov:"Fulminant / complicated C. diff",note:""}],sl:[],al:null,dur:"10–14 days minimum",esc:"Surgical consult urgently — colectomy if deteriorating. Vancomycin rectal enemas if ileus. ICU mortality for fulminant CDI is high"}
+  },
+  "Spontaneous bacterial peritonitis": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"SBP requires inpatient IV antibiotics"},
+    inpatient:{fl:[{name:"Cefotaxime",dose:"2 g IV q8h × 5 days",cov:"E. coli, Klebsiella, Strep — community SBP",note:"Gold standard for SBP treatment"},{name:"Ceftriaxone",dose:"1–2 g IV daily × 5 days",cov:"Equivalent alternative to cefotaxime",note:"Easier once-daily dosing"}],sl:[{name:"Pip-tazo",dose:"3.375 g IV q6h",cov:"Healthcare-associated SBP or suspected resistant organism",note:""}],al:{name:"Ciprofloxacin IV",dose:"400 mg IV q12h",cov:"Cephalosporin allergy",note:""},dur:"5 days",esc:"IV albumin (1.5 g/kg at diagnosis, 1 g/kg on day 3) reduces hepatorenal syndrome risk. Long-term norfloxacin prophylaxis after first episode"},
+    icu:{fl:[{name:"Pip-tazo",dose:"4.5 g IV q6h",cov:"Severe / healthcare-associated SBP",note:""}],sl:[{name:"Meropenem",dose:"1 g IV q8h",cov:"ESBL or resistant organism suspected",note:""}],al:null,dur:"5–7 days",esc:"Hepatorenal syndrome prophylaxis with albumin is critical. ID and hepatology consult"}
+  },
+  "Cholangitis / cholecystitis": {
+    outpatient:{fl:[{name:"Amoxicillin-clavulanate",dose:"875/125 mg PO BID × 5–7 days",cov:"Mild cholecystitis post-procedure or definitive source control",note:"Only if mild and source controlled"}],sl:[],al:null,dur:"5–7 days after source control",esc:"Moderate-severe cholangitis or cholecystitis requires inpatient management and biliary drainage"},
+    inpatient:{fl:[{name:"Ceftriaxone + Metronidazole",dose:"1–2 g IV daily + 500 mg IV q8h",cov:"E. coli, Klebsiella, Bacteroides — community-acquired",note:""},{name:"Pip-tazo",dose:"3.375 g IV q6h",cov:"Moderate-severe or healthcare-associated",note:""}],sl:[{name:"Meropenem",dose:"1 g IV q8h",cov:"Severe / ESBL risk / failure of initial therapy",note:""}],al:{name:"Ciprofloxacin + Metronidazole",dose:"400 mg IV q12h + 500 mg IV q8h",cov:"PCN allergy",note:""},dur:"4–7 days after source control",esc:"ERCP for biliary drainage in cholangitis. Surgery/IR consult. Tokyo Guidelines grading directs urgency of drainage"},
+    icu:{fl:[{name:"Pip-tazo or Meropenem",dose:"4.5 g IV q6h or 1 g IV q8h",cov:"Severe cholangitis with septic shock",note:""}],sl:[],al:null,dur:"5–7 days post source control",esc:"Emergent biliary drainage — ERCP or PTC. Surgical consult. Vasopressors per sepsis protocol"}
+  },
+  "Infectious diarrhea": {
+    outpatient:{fl:[{name:"Azithromycin",dose:"500 mg PO daily × 3 days",cov:"Campylobacter, Shigella, Salmonella typhi",note:"Preferred empiric in traveler's diarrhea; Campylobacter first-line"},{name:"Ciprofloxacin",dose:"500 mg PO BID × 3 days",cov:"Shigella, ETEC — if azithromycin unavailable",note:"Increasing fluoroquinolone resistance in Campylobacter"}],sl:[],al:null,dur:"3 days (most bacterial diarrhea)",esc:"Most infectious diarrhea is self-limiting. Antibiotics only if severe. Always rule out C. diff. Avoid antibiotics for non-typhi Salmonella (prolongs carrier state)"},
+    inpatient:{fl:[{name:"Ceftriaxone",dose:"1–2 g IV daily",cov:"Salmonella typhi / systemic Salmonellosis / severe Shigella",note:""}],sl:[{name:"Azithromycin",dose:"500 mg IV/PO daily",cov:"Campylobacter, enteric fever",note:""}],al:null,dur:"7–14 days for typhi; 3–5 days for other bacterial causes",esc:"Stool cultures + C. diff PCR. Contact precautions. Fluid resuscitation. Avoid loperamide in bloody diarrhea"},
+    icu:{fl:[{name:"Ceftriaxone",dose:"2 g IV daily",cov:"Severe enteric infection / bacteremia",note:""}],sl:[],al:null,dur:"14 days for typhi",esc:"Blood cultures for bacteremia. Steroids for severe typhoid with neurological involvement"}
+  },
+  "Intra-abdominal infection": {
+    outpatient:{fl:[{name:"Amoxicillin-clavulanate",dose:"875/125 mg PO BID × 5–7 days",cov:"Mild — E. coli, Bacteroides, Enterococci",note:"Only post source control"}],sl:[{name:"Ciprofloxacin + Metronidazole",dose:"500 mg PO BID + 500 mg PO TID × 5–7 days",cov:"PCN allergy or amox-clav intolerance",note:""}],al:null,dur:"5–7 days after source control",esc:"Source control is paramount. Moderate-severe infection should be admitted"},
+    inpatient:{fl:[{name:"Ceftriaxone + Metronidazole",dose:"1–2 g IV daily + 500 mg IV q8h",cov:"Community-acquired — E. coli, Klebsiella, Bacteroides",note:""},{name:"Pip-tazo",dose:"3.375–4.5 g IV q6h",cov:"Moderate-severe or healthcare-associated",note:""}],sl:[{name:"Ertapenem",dose:"1 g IV daily",cov:"ESBL or treatment failure",note:"Reserve for documented resistant organisms"}],al:{name:"Aztreonam + Metronidazole + Vancomycin",dose:"Standard doses",cov:"PCN allergy",note:""},dur:"4 days after source control (IDSA/SIS)",esc:"4-day course non-inferior to longer after adequate source control. No anti-enterococcal coverage unless immunocompromised"},
+    icu:{fl:[{name:"Pip-tazo + Fluconazole",dose:"4.5 g IV q6h + 400 mg IV daily",cov:"Severe + fungal coverage if Candida risk",note:""}],sl:[{name:"Meropenem",dose:"1 g IV q8h",cov:"Resistant Gram-negatives / ESBL / treatment failure",note:""}],al:null,dur:"4–7 days after source control",esc:"Surgical source control is priority. Consider micafungin if Candida glabrata/krusei risk"}
+  },
+  "Cellulitis / SSTI": {
+    outpatient:{fl:[{name:"Cephalexin",dose:"500 mg PO QID × 5–7 days",cov:"Non-purulent — Strep, MSSA",note:"Cellulitis without purulence"},{name:"TMP-SMX",dose:"1–2 DS tabs PO BID × 5–7 days",cov:"Purulent / abscess — MRSA",note:"Combine with cephalexin if mixed infection concern"}],sl:[{name:"Doxycycline",dose:"100 mg PO BID × 5–7 days",cov:"MRSA alternative",note:"Avoid in pregnancy"}],al:{name:"Clindamycin",dose:"300–450 mg PO TID × 5–7 days",cov:"PCN allergy — MRSA + Strep",note:"Check inducible resistance (D-zone test)"},dur:"5–7 days — reassess at day 3",esc:"I&D primary treatment for abscesses. Mark cellulitis borders. Culture abscess drainage"},
+    inpatient:{fl:[{name:"Cefazolin",dose:"2 g IV q8h",cov:"MSSA — preferred, easier dosing",note:""},{name:"Nafcillin / Oxacillin",dose:"1–2 g IV q4h",cov:"MSSA — superior for confirmed MSSA bacteremia",note:""}],sl:[{name:"Vancomycin",dose:"25–30 mg/kg/day IV (AUC 400–600)",cov:"MRSA — purulent / complicated SSTI",note:"De-escalate to oral TMP-SMX/doxycycline if MRSA confirmed and improving"}],al:{name:"Vancomycin",dose:"AUC-guided",cov:"Severe PCN allergy",note:""},dur:"5–14 days depending on severity",esc:"Surgical consult if necrotizing fasciitis concern (pain out of proportion, crepitus, rapid spread)"},
+    icu:{fl:[{name:"Vancomycin + Pip-tazo",dose:"Vanc AUC-based + 4.5 g IV q6h",cov:"Necrotizing fasciitis / polymicrobial SSTI",note:""}],sl:[{name:"+ Clindamycin",dose:"900 mg IV q8h",cov:"Toxin inhibition — strep/staph toxic shock",note:"Protein synthesis inhibitor reduces toxin production"}],al:null,dur:"Until source control + 48–72h afebrile",esc:"SURGICAL EMERGENCY if necrotizing fasciitis — OR debridement. IVIG may be considered for streptococcal TSS"}
+  },
+  "Diabetic foot infection": {
+    outpatient:{fl:[{name:"Amoxicillin-clavulanate",dose:"875/125 mg PO BID × 1–2 weeks",cov:"Mild — Strep, MSSA, anaerobes",note:"Non-limb-threatening, no osteomyelitis"},{name:"TMP-SMX + Amoxicillin-clavulanate",dose:"1 DS tab PO BID + 875/125 PO BID",cov:"Mild with MRSA risk",note:""}],sl:[],al:{name:"Clindamycin",dose:"300 mg PO TID",cov:"PCN allergy — mild DFI",note:""},dur:"1–2 weeks mild; 2–4 weeks if osteomyelitis",esc:"Deep tissue culture (not swab). Vascular surgery if ischemia. X-ray to exclude osteomyelitis (MRI if suspicious)"},
+    inpatient:{fl:[{name:"Pip-tazo",dose:"3.375–4.5 g IV q6h",cov:"Moderate-severe — Strep, MSSA, Gram-neg, anaerobes",note:""},{name:"Pip-tazo + Vancomycin",dose:"4.5 g IV q6h + Vanc AUC-based",cov:"Moderate-severe with MRSA risk",note:""}],sl:[{name:"Ertapenem",dose:"1 g IV daily",cov:"ESBL risk or treatment failure",note:""}],al:{name:"Aztreonam + Metronidazole + Vancomycin",dose:"Standard doses",cov:"PCN allergy",note:""},dur:"2–4 weeks (longer if osteomyelitis — 6 weeks)",esc:"MRI for osteomyelitis. Surgical debridement / amputation discussion. Revascularization if ischemic"},
+    icu:{fl:[{name:"Meropenem + Vancomycin",dose:"1 g IV q8h + Vanc AUC",cov:"Severe / septic DFI",note:""}],sl:[],al:null,dur:"4–6 weeks if osteomyelitis",esc:"Vascular surgery and orthopedics urgently. ID consult for duration and step-down planning"}
+  },
+  "Necrotizing fasciitis": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"SURGICAL EMERGENCY — go to ED immediately. Antibiotics are adjunctive to surgical debridement"},
+    inpatient:{fl:[{name:"Pip-tazo + Vancomycin + Clindamycin",dose:"4.5 g IV q6h + Vanc AUC + 900 mg IV q8h",cov:"Polymicrobial Type I — Gram-pos, Gram-neg, anaerobes",note:"Clindamycin for toxin suppression"}],sl:[{name:"Penicillin G + Clindamycin",dose:"4 MU IV q4h + 900 mg IV q8h",cov:"Type II — Group A Strep (necrotizing)",note:"Combination superior to penicillin alone for GAS"}],al:{name:"Vancomycin + Aztreonam + Metronidazole",dose:"Standard doses",cov:"PCN allergy",note:""},dur:"Until serial debridements complete + 48–72h afebrile",esc:"IMMEDIATE OR — repeat debridement every 24–48h until clean margins. IVIG 1 g/kg for streptococcal TSS"},
+    icu:{fl:[{name:"Meropenem + Vancomycin + Clindamycin",dose:"1 g IV q8h + Vanc AUC + 900 mg IV q8h",cov:"Broadest empiric — septic shock + necrotizing fasciitis",note:""}],sl:[],al:null,dur:"Source control dependent",esc:"LRINEC score aids diagnosis but does not replace clinical judgment. Mortality 20–40% — early surgery is the only intervention that reduces mortality"}
+  },
+  "Infective endocarditis (native valve)": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Native valve IE requires inpatient IV antibiotics for 4–6 weeks"},
+    inpatient:{fl:[{name:"Nafcillin/Oxacillin + Gentamicin",dose:"2 g IV q4h + Gent 1 mg/kg q8h × 3–5 days",cov:"MSSA native valve IE",note:"Gentamicin only for short synergy"},{name:"Penicillin G or Ceftriaxone",dose:"Pen G 12–18 MU/day or CTX 2 g IV daily",cov:"Strep viridans / Strep bovis",note:"4 weeks; 2 weeks if susceptible and uncomplicated"}],sl:[{name:"Vancomycin",dose:"25–30 mg/kg/day (AUC 400–600)",cov:"MRSA or PCN allergy — MRSA IE",note:"6 weeks for MRSA"},{name:"Ampicillin + Gentamicin",dose:"2 g IV q4h + Gent 1 mg/kg q8h",cov:"Enterococcal IE",note:"4–6 weeks; check aminoglycoside synergy testing"}],al:{name:"Vancomycin",dose:"AUC-based, 6 weeks",cov:"PCN allergy",note:""},dur:"4–6 weeks (organism and complication-dependent)",esc:"Echo (TTE then TEE). Blood cultures × 3 sets. Dental consult. Surgery for valve destruction, abscess, persistent bacteremia, or heart failure"},
+    icu:{fl:[{name:"Vancomycin + Pip-tazo",dose:"Vanc AUC + 4.5 g IV q6h",cov:"Empiric — septic shock, unknown organism",note:""}],sl:[],al:null,dur:"4–6 weeks",esc:"Cardiac surgery consultation urgently. Duke criteria for diagnosis. Repeat blood cultures every 48h until negative"}
+  },
+  "Infective endocarditis (prosthetic valve)": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Prosthetic valve IE — all require inpatient management and early cardiac surgery consultation"},
+    inpatient:{fl:[{name:"Vancomycin + Rifampin + Gentamicin",dose:"Vanc AUC + Rifampin 300 mg PO/IV q8h + Gent 1 mg/kg q8h × 2 weeks",cov:"MRSA prosthetic valve IE",note:"Add rifampin after 3–5 days to allow bactericidal activity"},{name:"Nafcillin/Oxacillin + Rifampin + Gentamicin",dose:"2 g IV q4h + Rifampin 300 mg q8h + Gent × 2 weeks",cov:"MSSA prosthetic valve IE",note:""}],sl:[{name:"Penicillin G + Gentamicin",dose:"18 MU/day cont. + Gent × 2 weeks",cov:"Streptococcal prosthetic valve IE",note:""}],al:{name:"Daptomycin + Rifampin + Gentamicin",dose:"8–10 mg/kg IV daily + Rifampin + Gent",cov:"PCN/vancomycin allergy or VRE",note:""},dur:"6 weeks minimum",esc:"Early cardiac surgery consultation. ID mandatory. Repeat echo at 1–2 weeks to assess response"},
+    icu:{fl:[{name:"Vancomycin + Rifampin + Pip-tazo",dose:"Standard doses — empiric",cov:"Septic shock with prosthetic valve",note:"De-escalate once organisms identified"}],sl:[],al:null,dur:"6 weeks",esc:"Cardiac surgery for perivalvular extension, new heart block, or persistent bacteremia"}
+  },
+  "Septic arthritis": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Septic arthritis requires joint aspiration + inpatient IV antibiotics"},
+    inpatient:{fl:[{name:"Nafcillin/Oxacillin",dose:"2 g IV q4h",cov:"MSSA — native joint, healthy adult",note:""},{name:"Cefazolin",dose:"2 g IV q8h",cov:"MSSA — easier dosing schedule",note:""}],sl:[{name:"Vancomycin",dose:"25–30 mg/kg/day (AUC-based)",cov:"MRSA risk or healthcare-associated septic arthritis",note:""},{name:"Ceftriaxone",dose:"1–2 g IV daily",cov:"Gonococcal arthritis — N. gonorrhoeae",note:"Step down to PO cefixime after improvement"}],al:{name:"Vancomycin",dose:"AUC-guided",cov:"PCN allergy",note:""},dur:"2–4 weeks (Staph aureus); 1–2 weeks (Strep); 7–14 days (Gonococcal)",esc:"Joint drainage — repeat aspiration or arthroscopy. Orthopedics consult. Synovial fluid: WBC, gram stain, culture, glucose"},
+    icu:{fl:[{name:"Vancomycin + Cefepime",dose:"Vanc AUC + 2 g IV q8h",cov:"Septic shock with septic arthritis",note:""}],sl:[],al:null,dur:"4 weeks",esc:"Surgical drainage if hip or shoulder joint, or if no improvement with aspiration"}
+  },
+  "Osteomyelitis": {
+    outpatient:{fl:[{name:"TMP-SMX",dose:"1–2 DS tabs PO BID",cov:"MRSA osteomyelitis — oral step-down",note:"High oral bioavailability; good bone penetration"},{name:"Doxycycline",dose:"100 mg PO BID",cov:"MRSA — alternative oral step-down",note:""}],sl:[{name:"Amoxicillin-clavulanate",dose:"875/125 mg PO BID",cov:"MSSA — oral step-down",note:""},{name:"Ciprofloxacin",dose:"500–750 mg PO BID",cov:"Gram-negative osteomyelitis — Pseudomonas",note:"Excellent oral bioavailability and bone penetration"}],al:null,dur:"6 weeks total (IV + oral)",esc:"Culture-directed therapy is critical. Bone biopsy for organism identification if possible. MRI for extent"},
+    inpatient:{fl:[{name:"Nafcillin/Oxacillin",dose:"2 g IV q4h",cov:"MSSA — acute hematogenous",note:""},{name:"Vancomycin",dose:"25–30 mg/kg/day AUC-based",cov:"MRSA osteomyelitis",note:""}],sl:[{name:"Pip-tazo or Cefepime",dose:"4.5 g IV q6h or 2 g IV q8h",cov:"Gram-negative or polymicrobial — post-surgical, diabetic foot",note:""}],al:{name:"Daptomycin",dose:"6 mg/kg IV daily",cov:"Vancomycin failure or intolerance",note:"Good bone penetration"},dur:"6 weeks (IV or IV + oral)",esc:"Surgical debridement if necrotic bone. PET or MRI for diagnosis. Bone biopsy. PICC line for outpatient IV therapy"},
+    icu:{fl:[{name:"Vancomycin + Pip-tazo",dose:"Vanc AUC + 4.5 g IV q6h",cov:"Severe / septic presentation",note:""}],sl:[],al:null,dur:"6 weeks",esc:"Source control — surgical debridement. Vascular surgery if ischemic limb"}
+  },
+  "Bacterial meningitis": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Bacterial meningitis — go to ED immediately. Do not delay treatment"},
+    inpatient:{fl:[{name:"Ceftriaxone + Vancomycin",dose:"2 g IV q12h + 25–30 mg/kg/day AUC-based",cov:"Strep pneumo (PCN-resistant) + N. meningitidis",note:"Do not delay for LP if herniation concern"},{name:"+ Dexamethasone",dose:"0.15 mg/kg IV q6h × 4 days",cov:"Adjunct — reduces mortality and neurological sequelae",note:"Give WITH or BEFORE first antibiotic dose"}],sl:[{name:"+ Ampicillin",dose:"2 g IV q4h",cov:"Listeria risk: age >50, immunocompromised, pregnancy, alcoholism",note:"Listeria not covered by cephalosporins"}],al:{name:"Chloramphenicol",dose:"Specialist guidance required",cov:"Severe beta-lactam allergy — rare",note:"Consult ID immediately"},dur:"Pneumo: 10–14 days | Meningococcal: 5–7 days | Listeria: 21 days",esc:"Blood cultures + LP before abx if safe. Notify public health for N. meningitidis. Rifampin prophylaxis for close contacts"},
+    icu:{fl:[{name:"Ceftriaxone + Vancomycin + Dexamethasone ± Ampicillin",dose:"2 g IV q12h + Vanc AUC + Dexa 0.15 mg/kg q6h + Ampicillin 2 g q4h",cov:"Empiric ICU meningitis — add ampicillin routinely",note:""}],sl:[],al:null,dur:"Organism-dependent — see inpatient",esc:"ICP management: HOB 30°. Neurosurgery if hydrocephalus. Repeat LP at 24–48h if no improvement. ID mandatory"}
+  },
+  "Brain abscess": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Brain abscess requires inpatient IV antibiotics ± neurosurgery"},
+    inpatient:{fl:[{name:"Ceftriaxone + Metronidazole",dose:"2 g IV q12h + 500 mg IV q8h",cov:"Streptococci, anaerobes, Gram-negatives — community",note:"Standard empiric regimen"},{name:"+ Vancomycin",dose:"25–30 mg/kg/day AUC-based",cov:"Add if MRSA risk or post-neurosurgical",note:""}],sl:[{name:"Pip-tazo + Metronidazole",dose:"4.5 g IV q6h + 500 mg IV q8h",cov:"Post-surgical or otogenic source",note:""}],al:{name:"Meropenem + Vancomycin",dose:"1 g IV q8h + Vanc AUC",cov:"PCN allergy or resistant organisms",note:"Excellent CNS penetration"},dur:"6–8 weeks IV (may shorten with surgical drainage)",esc:"Neurosurgery consult for aspiration/drainage. MRI with contrast. Source identification. No steroids unless significant mass effect"},
+    icu:{fl:[{name:"Meropenem + Vancomycin + Metronidazole",dose:"2 g IV q8h + Vanc AUC + 500 mg q8h",cov:"Severe / immunocompromised / post-surgical",note:""}],sl:[],al:null,dur:"6–8 weeks",esc:"Neurosurgery urgently. ICP management. ID mandatory. Consider Toxoplasma if HIV + CD4 <200 — add pyrimethamine/sulfadiazine empirically"}
+  },
+  "HSV encephalitis": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"HSV encephalitis — immediate hospitalization required"},
+    inpatient:{fl:[{name:"Acyclovir IV",dose:"10 mg/kg IV q8h (renal-dose adjusted)",cov:"HSV-1 / HSV-2 encephalitis",note:"Start empirically whenever HSV encephalitis suspected — do not wait for PCR result"}],sl:[{name:"Oral step-down — Valacyclovir",dose:"1 g PO TID after full IV course",cov:"Step-down after improvement and CSF PCR confirmed",note:"Only after full IV course in confirmed cases"}],al:null,dur:"14–21 days IV acyclovir",esc:"LP for CSF HSV PCR. MRI brain (temporal lobe involvement). Aggressive seizure management. EEG. Neurology consult"},
+    icu:{fl:[{name:"Acyclovir IV",dose:"10–15 mg/kg IV q8h",cov:"Severe HSV encephalitis — coma, seizures",note:"Higher end of dosing in critically ill"}],sl:[],al:null,dur:"21 days",esc:"Intracranial hypertension management. EEG monitoring for non-convulsive status. Acyclovir nephrotoxicity — ensure adequate hydration"}
+  },
+  "Pelvic inflammatory disease": {
+    outpatient:{fl:[{name:"Ceftriaxone + Doxycycline + Metronidazole",dose:"500 mg IM × 1 + Doxy 100 mg PO BID × 14 days + Metro 500 mg PO BID × 14 days",cov:"N. gonorrhoeae, Chlamydia, anaerobes",note:"CDC-preferred outpatient regimen 2021"}],sl:[{name:"Cefoxitin + Probenecid + Doxycycline",dose:"2 g IM + Probenecid 1 g PO + Doxy 100 mg PO BID × 14 days",cov:"Alternative outpatient",note:""}],al:null,dur:"14 days",esc:"Test for gonorrhea/chlamydia. Partner treatment. Hospitalize if no response to PO at 72h, or TOA"},
+    inpatient:{fl:[{name:"Cefotetan + Doxycycline",dose:"2 g IV q12h + 100 mg PO/IV q12h",cov:"Gonorrhea, Chlamydia, anaerobes",note:"Step down to oral doxycycline when tolerating"},{name:"Cefoxitin + Doxycycline",dose:"2 g IV q6h + 100 mg IV q12h",cov:"Alternative inpatient regimen",note:""}],sl:[{name:"Clindamycin + Gentamicin",dose:"900 mg IV q8h + Gent 1.5 mg/kg q8h",cov:"Alternative — cephalosporin allergy or anaerobic-heavy",note:""}],al:null,dur:"14 days total (IV + PO step-down)",esc:"Pelvic US for TOA. GC/CT NAAT. Surgical consult if TOA not responding. Fitz-Hugh-Curtis if RUQ pain"},
+    icu:{fl:[{name:"Pip-tazo + Doxycycline",dose:"4.5 g IV q6h + 100 mg IV q12h",cov:"Severe PID / septic shock",note:""}],sl:[],al:null,dur:"14 days",esc:"IR or surgery for TOA drainage if not responding"}
+  },
+  "Gonorrhea / Chlamydia": {
+    outpatient:{fl:[{name:"Ceftriaxone",dose:"500 mg IM × 1 dose (1 g if >150 kg)",cov:"N. gonorrhoeae — uncomplicated urogenital/rectal/pharyngeal",note:"CDC 2021 — higher dose; pharyngeal GC requires 500 mg"},{name:"Doxycycline",dose:"100 mg PO BID × 7 days",cov:"Chlamydia trachomatis — urogenital",note:"Preferred over azithromycin; 21 days for LGV"}],sl:[{name:"Azithromycin",dose:"1 g PO × 1 dose",cov:"Chlamydia — single dose alternative",note:"Use only if doxycycline intolerance"},{name:"Gentamicin 240 mg IM + Azithromycin 2 g PO",dose:"As stated",cov:"Gonorrhea if ceftriaxone allergy",note:"Inferior efficacy — use only with true allergy"}],al:null,dur:"Single dose for GC; 7 days for Chlamydia",esc:"Treat both GC and Chlamydia empirically if GC confirmed. Test-of-cure for pharyngeal GC. Partner notification. HIV / syphilis / Hep B testing. Report to public health"},
+    inpatient:{fl:[{name:"Ceftriaxone",dose:"1–2 g IV daily",cov:"Disseminated gonococcal infection",note:"Step down to PO cefixime after improvement"},{name:"Doxycycline",dose:"100 mg IV/PO q12h",cov:"Chlamydia — inpatient",note:""}],sl:[],al:null,dur:"DGI: 7 days IV then PO for 14 days total",esc:"DGI: joint aspiration, echocardiogram, ophthalmology consult"},
+    icu:{fl:[],sl:[],al:null,dur:"",esc:"GC/Chlamydia rarely requires ICU — see septic arthritis or endocarditis pathways if complicated"}
+  },
+  "Epididymo-orchitis": {
+    outpatient:{fl:[{name:"Ceftriaxone + Doxycycline",dose:"500 mg IM × 1 + Doxy 100 mg PO BID × 10 days",cov:"STI-related — GC + Chlamydia (<35y or MSM)",note:""},{name:"Levofloxacin",dose:"500 mg PO daily × 10 days",cov:"Enteric Gram-negatives (>35y, non-STI)",note:"For older men with urinary pathogens or anal intercourse"}],sl:[{name:"Ofloxacin",dose:"300 mg PO BID × 10 days",cov:"Enteric or STI-related alternative",note:""}],al:null,dur:"10–14 days",esc:"Urine GC/CT NAAT + urine culture. Scrotal ultrasound to exclude abscess / torsion. Partner treatment if STI-related"},
+    inpatient:{fl:[{name:"Ceftriaxone + Doxycycline",dose:"500 mg IV daily + 100 mg IV/PO q12h",cov:"Severe STI-related",note:""}],sl:[{name:"Pip-tazo",dose:"3.375 g IV q6h",cov:"Complicated / abscess / severe Gram-negative",note:""}],al:null,dur:"14 days",esc:"Surgical consult if abscess or failed conservative management. Rule out Fournier's gangrene"},
+    icu:{fl:[],sl:[],al:null,dur:"",esc:"Fournier's gangrene — see necrotizing fasciitis pathway"}
+  },
+  "Sepsis (unknown source)": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Sepsis requires inpatient or ICU management — go to ED"},
+    inpatient:{fl:[{name:"Pip-tazo",dose:"4.5 g IV q6h (extended infusion)",cov:"Broad Gram-neg + anaerobic — unknown source",note:"Start within 1 hour. Blood cultures ×2 before antibiotics if possible"}],sl:[{name:"+ Vancomycin",dose:"25–30 mg/kg/day AUC-based",cov:"Add if MRSA risk: healthcare-associated, line infection, known colonization",note:""}],al:{name:"Cefepime + Metronidazole ± Vancomycin",dose:"2 g IV q8h + 500 mg IV q8h + Vanc if needed",cov:"PCN allergy",note:""},dur:"Reassess at 48–72h — target 7–10 days or source-specific",esc:"1-hour bundle: cultures, lactate, broad-spectrum abx, 30 mL/kg IV if hypotension / lactate ≥4. De-escalate aggressively. Procalcitonin-guided discontinuation"},
+    icu:{fl:[{name:"Meropenem + Vancomycin",dose:"1–2 g IV q8h + Vanc AUC-based",cov:"Septic shock — broadest empiric coverage",note:""}],sl:[{name:"Pip-tazo + Vancomycin",dose:"4.5 g IV q6h + Vanc AUC",cov:"Alternative if lower resistance risk",note:""}],al:{name:"Aztreonam + Vancomycin + Metronidazole",dose:"Standard doses",cov:"PCN allergy",note:""},dur:"De-escalate at 48–72h. Source-specific duration once identified",esc:"Septic shock: norepinephrine first-line vasopressor. Hydrocortisone 200 mg/day if refractory. ID consult all ICU sepsis cases"}
+  },
+  "Febrile neutropenia": {
+    outpatient:{fl:[{name:"Ciprofloxacin + Amoxicillin-clavulanate",dose:"500 mg PO BID + 875/125 mg PO BID",cov:"Low-risk febrile neutropenia (MASCC score ≥21)",note:"ONLY for low-risk patients — confirm MASCC score first"}],sl:[],al:null,dur:"Until afebrile + ANC >500 for 48h",esc:"MASCC score required before outpatient management. Close follow-up at 24–48h mandatory. Add antifungal if fever persists >4–7 days"},
+    inpatient:{fl:[{name:"Cefepime",dose:"2 g IV q8h",cov:"Broad Gram-neg including Pseudomonas — first-line monotherapy",note:""},{name:"Pip-tazo",dose:"4.5 g IV q6h",cov:"Alternative monotherapy",note:""}],sl:[{name:"+ Vancomycin",dose:"AUC-based",cov:"Add if: MRSA risk, catheter infection, mucositis, hemodynamic instability",note:"Do NOT add vancomycin routinely"},{name:"Empiric Micafungin",dose:"100 mg IV daily",cov:"Add if fever persists 4–7 days despite broad-spectrum abx",note:""}],al:{name:"Aztreonam + Vancomycin",dose:"Standard doses",cov:"PCN allergy / cephalosporin allergy",note:""},dur:"Until afebrile AND ANC >500 for 48h",esc:"Blood cultures × 2 sets (peripheral + each lumen). CXR. Antifungal prophylaxis review. G-CSF consideration. ID consult. Risk stratification (MASCC)"},
+    icu:{fl:[{name:"Meropenem + Vancomycin",dose:"1 g IV q8h + Vanc AUC",cov:"High-risk febrile neutropenia / septic shock",note:""}],sl:[{name:"+ Micafungin",dose:"100 mg IV daily",cov:"Empiric antifungal in critically ill",note:""},{name:"+ Voriconazole",dose:"6 mg/kg IV q12h × 2 doses then 4 mg/kg IV q12h",cov:"Aspergillus risk — hematologic malignancy, prolonged neutropenia",note:""}],al:null,dur:"Until ANC recovery and source controlled",esc:"Hematology + ID consult mandatory. CT chest for invasive pulmonary aspergillosis. G-CSF in severe cases"}
+  },
+  "Candidemia": {
+    outpatient:{fl:[],sl:[],al:null,dur:"",esc:"Candidemia requires inpatient IV antifungal therapy"},
+    inpatient:{fl:[{name:"Micafungin",dose:"100 mg IV daily",cov:"Candidemia — non-neutropenic, non-severe",note:"Echinocandin preferred over fluconazole — superior safety and efficacy"},{name:"Caspofungin",dose:"70 mg IV loading, then 50 mg IV daily",cov:"Candidemia — alternative echinocandin",note:""}],sl:[{name:"Fluconazole",dose:"800 mg IV loading, then 400 mg IV/PO daily",cov:"Step-down — susceptible Candida albicans after improvement",note:"Not for C. glabrata, C. krusei, or azole-resistant species"}],al:null,dur:"14 days after first negative blood culture",esc:"Remove/replace central lines ASAP. Ophthalmology exam (endophthalmitis). Echocardiogram if persistent candidemia. Step down to oral fluconazole when stable + susceptible species"},
+    icu:{fl:[{name:"Micafungin",dose:"100–150 mg IV daily",cov:"Candidemia in critically ill — higher dose",note:""},{name:"Liposomal Amphotericin B",dose:"3–5 mg/kg IV daily",cov:"Azole/echinocandin-resistant / severe / CNS candidiasis",note:"Reserve for resistant species"}],sl:[],al:null,dur:"14 days after first negative blood culture",esc:"Ophthalmology + echo mandatory. Central line removal. Speciation and sensitivity testing critical — C. auris requires ID expert"}
+  },
+  "Tuberculosis (TB)": {
+    outpatient:{fl:[{name:"RIPE regimen",dose:"Rifampin 10 mg/kg (max 600 mg) PO daily + Isoniazid 5 mg/kg (max 300 mg) PO daily + Pyrazinamide 15–30 mg/kg PO daily + Ethambutol 15–25 mg/kg PO daily",cov:"Drug-susceptible pulmonary TB",note:"RIPE × 2 months, then RI × 4 months"},{name:"Pyridoxine (B6)",dose:"25–50 mg PO daily",cov:"Co-administration with INH — prevent peripheral neuropathy",note:"Always add with isoniazid"}],sl:[],al:null,dur:"6 months (2 RIPE + 4 RI) — extend to 9 months for CNS/bone TB",esc:"MANDATORY ID / pulmonology referral. Directly observed therapy (DOT). Sputum AFB × 3, GeneXpert. Public health notification. Baseline LFTs. Check for drug resistance before initiating"},
+    inpatient:{fl:[{name:"RIPE + Pyridoxine",dose:"Standard doses as above",cov:"Active TB requiring inpatient initiation",note:"Airborne precautions — negative pressure room"}],sl:[{name:"Bedaquiline + Linezolid-based regimen",dose:"Per ID specialist guidance",cov:"MDR-TB or RR-TB",note:"Always consult ID + TB specialist for MDR-TB"}],al:null,dur:"6–9 months (18–24 months for MDR-TB)",esc:"Airborne precautions. 3 negative sputum smears before discontinuing isolation. DOT after discharge. Contact tracing. HIV testing"},
+    icu:{fl:[{name:"RIPE IV/PO + Dexamethasone",dose:"IV rifampin if enteral not possible + Dexa 0.4 mg/kg/day tapered over 6 weeks",cov:"Severe TB — miliary, ARDS, meningitis, pericarditis",note:"Steroids reduce mortality in TB meningitis and pericarditis"}],sl:[],al:null,dur:"9–12 months for meningitis/miliary",esc:"ID specialist mandatory. Airborne precautions strict. Liver function monitoring — DILI is significant risk"}
+  }
+};
+
+let selectedSys = null, selectedInf = null, risks = new Set();
+
+function renderSystems() {
+  const g = document.getElementById('sysGrid');
+  Object.keys(systems).forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'sys-btn'; b.textContent = s;
+    b.onclick = () => selectSystem(s);
+    g.appendChild(b);
+  });
+}
+
+function selectSystem(sys) {
+  selectedSys = sys; selectedInf = null;
+  document.querySelectorAll('.sys-btn').forEach(b => b.classList.toggle('active', b.textContent === sys));
+  const g = document.getElementById('infGrid');
+  g.innerHTML = '';
+  systems[sys].forEach(inf => {
+    const b = document.createElement('button');
+    b.className = 'inf-btn'; b.textContent = inf;
+    b.onclick = () => selectInfection(inf, b);
+    g.appendChild(b);
+  });
+  document.getElementById('infSection').style.display = 'block';
+  document.getElementById('formSection').style.display = 'none';
+  document.getElementById('results').innerHTML = '';
+  document.getElementById('step2lbl').textContent = 'Step 2 — Select infection type (' + sys + ')';
+  document.getElementById('step1lbl').textContent = 'Step 1 — Body system';
+}
+
+function selectInfection(inf, btn) {
+  selectedInf = inf;
+  document.querySelectorAll('.inf-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('formSection').style.display = 'block';
+  document.getElementById('results').innerHTML = '';
+}
+
+document.querySelectorAll('.tag').forEach(t => {
+  t.addEventListener('click', () => {
+    const v = t.dataset.val;
+    risks.has(v) ? risks.delete(v) : risks.add(v);
+    t.classList.toggle('active');
+  });
+});
+
+function generate() {
+  if (!selectedInf) return;
+  const setting = document.getElementById('setting').value;
+  const data = db[selectedInf]?.[setting];
+  const res = document.getElementById('results');
+  if (!data || (!data.fl?.length && !data.esc)) { res.innerHTML = '<div class="card"><p style="color:var(--text2);font-size:13px;">No data for this combination.</p></div>'; return; }
+  if (!data.fl?.length) { res.innerHTML = `<div class="card"><p style="color:var(--text2);font-size:13px;">${data.esc}</p></div>`; return; }
+
+  const hasPCN = risks.has('pcn'), hasMRSA = risks.has('mrsa');
+  let html = '<div class="card">';
+  html += `<div class="section-label">Recommended regimen</div>`;
+
+  if (hasPCN && data.al) {
+    html += card(data.al, 'al', 'PCN allergy alternative');
+  } else {
+    data.fl.forEach(d => html += card(d, 'fl', 'First line'));
+  }
+
+  if (data.sl?.length) {
+    html += `<div class="section-label" style="margin-top:1.25rem;">Alternative / escalation</div>`;
+    data.sl.forEach(d => {
+      const isMRSA = d.cov.toLowerCase().includes('mrsa');
+      if (!isMRSA || hasMRSA) html += card(d, 'sl', isMRSA && hasMRSA ? 'Add — MRSA risk' : 'Second line');
+    });
+  }
+
+  if (data.dur) html += `<div class="dur-card"><span style="font-size:13px;color:var(--text2);"><strong style="color:var(--text);">Duration:</strong> ${data.dur}</span></div>`;
+  if (data.esc) html += `<div class="note-box"><strong>Stewardship note:</strong> ${data.esc}</div>`;
+  html += `<div class="note-box" style="margin-top:6px;font-size:11px;color:var(--text3);">Always verify against local antibiogram. Adjust for renal/hepatic function. Clinical judgment supersedes any algorithm.</div>`;
+  html += '</div>';
+  res.innerHTML = html;
+  res.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function card(d, type, lbl) {
+  const cls = type==='fl'?'fl':type==='al'?'al':'sl';
+  const bc = type==='fl'?'bf':type==='al'?'ba':'bs';
+  return `<div class="rx-card ${cls}">
+    <div class="rx-hdr"><div class="rx-name">${d.name}</div><span class="badge ${bc}">${lbl}</span></div>
+    <div class="rx-d"><strong>Dose:</strong> ${d.dose}</div>
+    <div class="rx-d"><strong>Coverage:</strong> ${d.cov}</div>
+    ${d.note?`<div class="div-line"></div><div class="rx-d">${d.note}</div>`:''}
+  </div>`;
+}
+
+renderSystems();
+</script>
+</body>
+</html>

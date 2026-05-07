@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IM Clinical Scores</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#ffffff;--bg2:#f5f5f4;--bg3:#eeede9;
+  --text:#1a1a18;--text2:#6b6b67;--text3:#9a9a96;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
+  --radius:8px;--radius-lg:12px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+@media(prefers-color-scheme:dark){
+  :root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0efe9;--text2:#9a9a96;--text3:#6b6b67;--border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.22);}
+}
+body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:100vh;padding:2rem 1rem;}
+.container{max-width:740px;margin:0 auto;}
+header{margin-bottom:1.75rem;}
+header h1{font-size:22px;font-weight:600;color:var(--text);}
+header p{font-size:13px;color:var(--text2);margin-top:4px;}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1.25rem;}
+.tab{padding:7px 16px;border-radius:99px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;font-family:var(--font);}
+.tab:hover{border-color:var(--text3);color:var(--text);}
+.tab.active{background:#E6F1FB;color:#0C447C;border-color:#85B7EB;}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:1.5rem;}
+.score-card{padding:12px 14px;border-radius:var(--radius-lg);border:0.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all 0.15s;}
+.score-card:hover{border-color:var(--border2);}
+.score-card.active{border-color:#85B7EB;background:#E6F1FB;}
+.score-card .sc-name{font-size:14px;font-weight:600;color:var(--text);}
+.score-card.active .sc-name{color:#0C447C;}
+.score-card .sc-sub{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.4;}
+.score-card.active .sc-sub{color:#185FA5;}
+.calc-area{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;}
+.calc-title{font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.calc-desc{font-size:12px;color:var(--text2);margin-bottom:1.25rem;}
+.sec-label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+.criteria-list{display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem;}
+.criterion{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:var(--radius);border:0.5px solid var(--border);background:var(--bg2);cursor:pointer;transition:all 0.15s;}
+.criterion:hover{border-color:var(--border2);}
+.criterion.checked{background:#E6F1FB;border-color:#85B7EB;}
+.chk{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:all 0.15s;}
+.criterion.checked .chk{background:#378ADD;border-color:#378ADD;}
+.criterion.checked .chk::after{content:'';width:10px;height:6px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);display:block;}
+.clbl{font-size:13px;color:var(--text);line-height:1.4;}
+.cpts{font-size:11px;color:var(--text2);margin-top:2px;}
+.num-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;}
+.ni{display:flex;flex-direction:column;gap:5px;}
+.ni label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.05em;}
+.ni input{padding:8px 10px;border-radius:var(--radius);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:14px;font-family:var(--font);width:100%;}
+.note-box{background:var(--bg2);border-radius:var(--radius);padding:10px 13px;font-size:11px;color:var(--text2);line-height:1.65;margin-bottom:1rem;}
+.result-box{border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-top:1rem;}
+.result-box.low{background:#E1F5EE;border:0.5px solid #5DCAA5;}
+.result-box.mod{background:#FAEEDA;border:0.5px solid #EF9F27;}
+.result-box.high{background:#FCEBEB;border:0.5px solid #F09595;}
+.result-box.info{background:#E6F1FB;border:0.5px solid #85B7EB;}
+.res-score{font-size:30px;font-weight:600;margin-bottom:2px;}
+.res-score.low{color:#0F6E56;}.res-score.mod{color:#854F0B;}.res-score.high{color:#A32D2D;}.res-score.info{color:#185FA5;}
+.res-label{font-size:15px;font-weight:600;margin-bottom:5px;}
+.res-label.low{color:#0F6E56;}.res-label.mod{color:#854F0B;}.res-label.high{color:#A32D2D;}.res-label.info{color:#185FA5;}
+.res-detail{font-size:13px;line-height:1.6;}
+.res-detail.low{color:#085041;}.res-detail.mod{color:#633806;}.res-detail.high{color:#791F1F;}.res-detail.info{color:#0C447C;}
+.reset-btn{margin-top:12px;padding:8px 16px;border-radius:var(--radius);border:0.5px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;font-family:var(--font);}
+.reset-btn:hover{background:var(--bg2);}
+.grp-header{font-size:12px;font-weight:600;color:var(--text2);padding:5px 10px;background:var(--bg2);border-radius:var(--radius);margin-bottom:6px;}
+footer{text-align:center;font-size:11px;color:var(--text3);margin-top:2.5rem;padding-top:1rem;border-top:0.5px solid var(--border);}
+@media(max-width:500px){.num-inputs{grid-template-columns:1fr;}.score-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>IM Clinical Scores</h1>
+    <p>15 calculators · Cardiology · Pulmonary · GI/Liver · Sepsis/ICU · Neurology</p>
+  </header>
+  <div class="tabs" id="catTabs"></div>
+  <div class="score-grid" id="scoreGrid"></div>
+  <div class="calc-area" id="calcArea" style="display:none;"></div>
+  <footer>For educational and clinical decision support use only. Always apply clinical judgment. Not a substitute for specialist consultation.</footer>
+</div>
+<script>
+const categories={
+  "Cardiology":["CHA₂DS₂-VASc","CHADS₂","HEART Score","TIMI (NSTEMI)","GRACE (ACS)"],
+  "Pulmonary":["CURB-65","PSI/PORT","Wells (PE)","Wells (DVT)"],
+  "GI / Liver":["MELD-Na","Child-Pugh","Glasgow-Blatchford","Ranson (pancreatitis)"],
+  "Sepsis / ICU":["qSOFA","SOFA","APACHE II"],
+  "Neurology":["NIH Stroke Scale"]
+};
+
+const scores={
+  "CHA₂DS₂-VASc":{
+    desc:"Stroke risk in non-valvular atrial fibrillation",
+    type:"checklist",
+    criteria:[
+      {label:"Congestive heart failure",pts:1},
+      {label:"Hypertension",pts:1},
+      {label:"Age 75 or older",pts:2},
+      {label:"Diabetes mellitus",pts:1},
+      {label:"Stroke / TIA / thromboembolism (prior)",pts:2},
+      {label:"Vascular disease (prior MI, PAD, aortic plaque)",pts:1},
+      {label:"Age 65–74",pts:1},
+      {label:"Female sex",pts:1}
+    ],
+    interpret:(s)=>{
+      if(s===0) return {tier:"low",label:"Low risk",detail:"Anticoagulation not recommended. Annual stroke risk ~0%. Reassess if female sex is the only point (score 1 for women = low risk)."};
+      if(s===1) return {tier:"mod",label:"Low-moderate risk",detail:"Consider anticoagulation in men with score 1. Women with score 1 only for female sex — reassess. Annual stroke risk ~1.3%."};
+      return {tier:"high",label:"High risk — anticoagulate",detail:`Score ${s}: Annual stroke risk ~${[0,1.3,2.2,3.2,4.0,6.7,9.8,9.6,12.5,15.2][Math.min(s,9)]||">12"}%. Anticoagulation recommended (DOAC preferred) unless contraindicated.`};
+    }
+  },
+  "CHADS₂":{
+    desc:"Stroke risk in atrial fibrillation (simplified)",
+    type:"checklist",
+    criteria:[
+      {label:"Congestive heart failure",pts:1},
+      {label:"Hypertension",pts:1},
+      {label:"Age 75 or older",pts:1},
+      {label:"Diabetes mellitus",pts:1},
+      {label:"Stroke or TIA (prior)",pts:2}
+    ],
+    interpret:(s)=>{
+      if(s===0) return {tier:"low",label:"Low risk",detail:"Annual stroke risk ~1.9%. Aspirin or no therapy. CHA₂DS₂-VASc preferred for more nuanced risk."};
+      if(s===1) return {tier:"mod",label:"Moderate risk",detail:"Annual stroke risk ~2.8%. Consider anticoagulation."};
+      return {tier:"high",label:"High risk",detail:`Score ${s}: Annual stroke risk ~${[0,2.8,4.0,5.9,8.5,12.5,18.2][Math.min(s,6)]||">12"}%. Anticoagulation recommended.`};
+    }
+  },
+  "HEART Score":{
+    desc:"Risk stratification for chest pain / MACE at 6 weeks",
+    type:"checklist-multi",
+    sections:[
+      {name:"History",opts:[{label:"Slightly suspicious",pts:1},{label:"Moderately suspicious",pts:1},{label:"Highly suspicious",pts:2}],single:true,key:"H"},
+      {name:"ECG",opts:[{label:"Normal",pts:0},{label:"Non-specific repolarisation disturbance",pts:1},{label:"Significant ST deviation",pts:2}],single:true,key:"E"},
+      {name:"Age",opts:[{label:"< 45",pts:0},{label:"45–64",pts:1},{label:"≥ 65",pts:2}],single:true,key:"A"},
+      {name:"Risk factors",opts:[{label:"No known risk factors",pts:0},{label:"1–2 risk factors or obesity (BMI >30)",pts:1},{label:"≥3 risk factors, atherosclerotic disease, or diabetes",pts:2}],single:true,key:"R"},
+      {name:"Troponin",opts:[{label:"≤ normal limit",pts:0},{label:"1–3× normal limit",pts:1},{label:"> 3× normal limit",pts:2}],single:true,key:"T"}
+    ],
+    interpret:(s)=>{
+      if(s<=3) return {tier:"low",label:"Low risk",detail:`Score ${s}: MACE risk ~1.7%. Safe for early discharge with outpatient follow-up. No further workup needed acutely.`};
+      if(s<=6) return {tier:"mod",label:"Moderate risk",detail:`Score ${s}: MACE risk ~12%. Admit for observation, serial troponins, stress testing or non-invasive imaging.`};
+      return {tier:"high",label:"High risk",detail:`Score ${s}: MACE risk ~65%. Early invasive strategy — urgent cardiology consult, likely cath lab.`};
+    }
+  },
+  "TIMI (NSTEMI)":{
+    desc:"Risk score for UA/NSTEMI — 14-day MACE",
+    type:"checklist",
+    criteria:[
+      {label:"Age ≥ 65",pts:1},
+      {label:"≥ 3 CAD risk factors (family Hx, HTN, hyperlipidaemia, DM, active smoker)",pts:1},
+      {label:"Known CAD (stenosis ≥ 50%)",pts:1},
+      {label:"ASA use in past 7 days",pts:1},
+      {label:"Severe angina (≥ 2 episodes in 24h)",pts:1},
+      {label:"ST deviation ≥ 0.5 mm on ECG",pts:1},
+      {label:"Positive cardiac marker (troponin or CK-MB)",pts:1}
+    ],
+    interpret:(s)=>{
+      if(s<=2) return {tier:"low",label:"Low risk",detail:`Score ${s}: 14-day MACE ~5%. Medical management appropriate. Consider early discharge with outpatient follow-up.`};
+      if(s<=4) return {tier:"mod",label:"Intermediate risk",detail:`Score ${s}: 14-day MACE ~13–20%. Admit, anticoagulation, serial troponins. Consider early invasive strategy.`};
+      return {tier:"high",label:"High risk",detail:`Score ${s}: 14-day MACE ~26–41%. Urgent invasive strategy — cardiology consult, early cath.`};
+    }
+  },
+  "GRACE (ACS)":{
+    desc:"In-hospital and 6-month mortality in ACS",
+    type:"checklist",
+    criteria:[
+      {label:"Age 60–69",pts:18},{label:"Age 70–79",pts:36},{label:"Age ≥ 80",pts:55},
+      {label:"HR 70–89 bpm",pts:7},{label:"HR 90–109 bpm",pts:13},{label:"HR ≥ 110 bpm",pts:23},
+      {label:"SBP 80–99 mmHg",pts:24},{label:"SBP 100–119 mmHg",pts:22},{label:"SBP 120–139 mmHg",pts:18},
+      {label:"Creatinine 1.4–1.9 mg/dL",pts:5},{label:"Creatinine 2.0–3.9 mg/dL",pts:8},{label:"Creatinine ≥ 4.0 mg/dL",pts:10},
+      {label:"Cardiac arrest at admission",pts:39},
+      {label:"ST segment deviation on ECG",pts:28},
+      {label:"Elevated cardiac enzymes / biomarkers",pts:14},
+      {label:"Killip class II (rales)",pts:14},{label:"Killip class III (pulmonary oedema)",pts:28},{label:"Killip class IV (cardiogenic shock)",pts:59}
+    ],
+    interpret:(s)=>{
+      if(s<109) return {tier:"low",label:"Low risk",detail:`Score ${s}: In-hospital mortality <1%. Medical management, early discharge may be appropriate.`};
+      if(s<140) return {tier:"mod",label:"Moderate risk",detail:`Score ${s}: In-hospital mortality ~1–3%. Admit, consider invasive strategy within 24–72h.`};
+      return {tier:"high",label:"High risk",detail:`Score ${s}: In-hospital mortality >3%. Early invasive strategy — cardiology urgently.`};
+    }
+  },
+  "CURB-65":{
+    desc:"Pneumonia severity and disposition",
+    type:"checklist",
+    criteria:[
+      {label:"Confusion (new disorientation to person, place, or time)",pts:1},
+      {label:"Urea > 7 mmol/L (BUN > 19 mg/dL)",pts:1},
+      {label:"Respiratory rate ≥ 30 breaths/min",pts:1},
+      {label:"Blood pressure: SBP < 90 or DBP ≤ 60 mmHg",pts:1},
+      {label:"Age ≥ 65",pts:1}
+    ],
+    interpret:(s)=>{
+      if(s<=1) return {tier:"low",label:"Low severity",detail:`Score ${s}: 30-day mortality ~1.5%. Outpatient treatment appropriate for most patients.`};
+      if(s===2) return {tier:"mod",label:"Moderate severity",detail:"Score 2: 30-day mortality ~9.2%. Short inpatient admission or closely supervised outpatient therapy."};
+      return {tier:"high",label:"High severity",detail:`Score ${s}: 30-day mortality ~${s===3?"14.5%":s===4?"40%":">57%"}. Hospital admission required. Consider ICU if score 4–5.`};
+    }
+  },
+  "PSI/PORT":{
+    desc:"Pneumonia Severity Index — risk class for CAP",
+    type:"numeric",
+    fields:[
+      {label:"Age (years)",key:"age",placeholder:"e.g. 65"},
+      {label:"Additional comorbidity points",key:"pts",placeholder:"Sum from list below"}
+    ],
+    note:"Female sex −10 | Nursing home resident +10 | Neoplastic disease +30 | Liver disease +20 | CHF +10 | Cerebrovascular disease +10 | Renal disease +10 | Altered mental status +20 | RR ≥ 30 +20 | SBP < 90 mmHg +20 | Temp < 35°C or ≥ 40°C +15 | HR ≥ 125 +10 | pH < 7.35 +30 | BUN ≥ 30 mg/dL +20 | Na < 130 +20 | Glucose ≥ 250 +10 | Hct < 30% +10 | PaO₂ < 60 mmHg +10 | Pleural effusion +10",
+    interpret:(f)=>{
+      const s=(parseInt(f.age)||0)+(parseInt(f.pts)||0);
+      if(s<=70) return {tier:"low",label:`Class I–II (score ${s})`,detail:"30-day mortality <1%. Outpatient treatment recommended."};
+      if(s<=90) return {tier:"mod",label:`Class III (score ${s})`,detail:"30-day mortality ~2.8%. Brief inpatient stay or observation unit."};
+      if(s<=130) return {tier:"high",label:`Class IV (score ${s})`,detail:"30-day mortality ~8.2%. Inpatient admission required."};
+      return {tier:"high",label:`Class V (score ${s})`,detail:"30-day mortality ~29%. Inpatient admission — consider ICU."};
+    }
+  },
+  "Wells (PE)":{
+    desc:"Pre-test probability of pulmonary embolism",
+    type:"checklist",
+    criteria:[
+      {label:"Clinical signs / symptoms of DVT",pts:3},
+      {label:"PE is #1 diagnosis or equally likely",pts:3},
+      {label:"Heart rate > 100 bpm",pts:1.5},
+      {label:"Immobilisation ≥ 3 days OR surgery in past 4 weeks",pts:1.5},
+      {label:"Previously documented DVT or PE",pts:1.5},
+      {label:"Haemoptysis",pts:1},
+      {label:"Malignancy (treated within 6 months or palliative)",pts:1}
+    ],
+    interpret:(s)=>{
+      if(s<2) return {tier:"low",label:"Low probability",detail:`Score ${s.toFixed(1)}: PE prevalence ~3.6%. D-dimer — if negative, PE excluded. If positive, CT pulmonary angiogram.`};
+      if(s<=6) return {tier:"mod",label:"Moderate probability",detail:`Score ${s.toFixed(1)}: PE prevalence ~20.5%. D-dimer — if positive, proceed to CT-PA.`};
+      return {tier:"high",label:"High probability",detail:`Score ${s.toFixed(1)}: PE prevalence ~66.7%. Proceed directly to CT-PA — do not wait for D-dimer result.`};
+    }
+  },
+  "Wells (DVT)":{
+    desc:"Pre-test probability of deep vein thrombosis",
+    type:"checklist",
+    criteria:[
+      {label:"Active cancer (treatment within 6 months or palliative)",pts:1},
+      {label:"Paralysis / paresis or recent lower extremity plaster cast",pts:1},
+      {label:"Bedridden > 3 days OR major surgery within 12 weeks requiring GA",pts:1},
+      {label:"Localised tenderness along deep venous system",pts:1},
+      {label:"Entire leg swollen",pts:1},
+      {label:"Calf swelling > 3 cm vs asymptomatic leg (below tibial tuberosity)",pts:1},
+      {label:"Pitting oedema (greater in symptomatic leg)",pts:1},
+      {label:"Collateral superficial veins (non-varicose)",pts:1},
+      {label:"Previously documented DVT",pts:1},
+      {label:"Alternative diagnosis at least as likely as DVT",pts:-2}
+    ],
+    interpret:(s)=>{
+      if(s<=0) return {tier:"low",label:"Low probability",detail:`Score ${s}: DVT prevalence ~5%. D-dimer — if negative, DVT excluded.`};
+      if(s<=2) return {tier:"mod",label:"Moderate probability",detail:`Score ${s}: DVT prevalence ~17%. D-dimer then venous ultrasound if positive.`};
+      return {tier:"high",label:"High probability",detail:`Score ${s}: DVT prevalence ~53%. Proceed to proximal venous ultrasound — do not wait for D-dimer.`};
+    }
+  },
+  "MELD-Na":{
+    desc:"Liver disease severity and transplant priority",
+    type:"numeric",
+    fields:[
+      {label:"Bilirubin (mg/dL)",key:"bili",placeholder:"e.g. 2.0"},
+      {label:"Creatinine (mg/dL)",key:"cr",placeholder:"e.g. 1.2"},
+      {label:"INR",key:"inr",placeholder:"e.g. 1.5"},
+      {label:"Sodium (mEq/L)",key:"na",placeholder:"e.g. 138"}
+    ],
+    interpret:(f)=>{
+      let bili=Math.max(parseFloat(f.bili)||1,1);
+      let cr=Math.min(Math.max(parseFloat(f.cr)||1,1),4);
+      let inr=Math.max(parseFloat(f.inr)||1,1);
+      let na=Math.min(Math.max(parseFloat(f.na)||130,125),137);
+      const meld=Math.round(3.78*Math.log(bili)+11.2*Math.log(inr)+9.57*Math.log(cr)+6.43);
+      const meldna=Math.round(meld+1.32*(137-na)-0.033*meld*(137-na));
+      if(meldna<10) return {tier:"low",label:`MELD-Na ${meldna}`,detail:"90-day mortality ~2%. Low urgency. Routine hepatology follow-up."};
+      if(meldna<20) return {tier:"mod",label:`MELD-Na ${meldna}`,detail:"90-day mortality ~6%. Active transplant list evaluation. Hepatology review."};
+      if(meldna<30) return {tier:"high",label:`MELD-Na ${meldna}`,detail:"90-day mortality ~20%. High transplant priority — urgent hepatology."};
+      return {tier:"high",label:`MELD-Na ${meldna}`,detail:"90-day mortality >50%. Very high priority — urgent liver transplant evaluation."};
+    }
+  },
+  "Child-Pugh":{
+    desc:"Cirrhosis severity and surgical risk",
+    type:"checklist-multi",
+    sections:[
+      {name:"Hepatic encephalopathy",opts:[{label:"None",pts:1},{label:"Grade 1–2 (or suppressed with medication)",pts:2},{label:"Grade 3–4",pts:3}],single:true,key:"enc"},
+      {name:"Ascites",opts:[{label:"Absent",pts:1},{label:"Mild (controlled with diuretics)",pts:2},{label:"Moderate–severe (refractory)",pts:3}],single:true,key:"asc"},
+      {name:"Bilirubin",opts:[{label:"< 2 mg/dL",pts:1},{label:"2–3 mg/dL",pts:2},{label:"> 3 mg/dL",pts:3}],single:true,key:"bil"},
+      {name:"Albumin",opts:[{label:"> 3.5 g/dL",pts:1},{label:"2.8–3.5 g/dL",pts:2},{label:"< 2.8 g/dL",pts:3}],single:true,key:"alb"},
+      {name:"Prothrombin time (seconds prolonged)",opts:[{label:"< 4 sec",pts:1},{label:"4–6 sec",pts:2},{label:"> 6 sec",pts:3}],single:true,key:"pt"}
+    ],
+    interpret:(s)=>{
+      if(s<=6) return {tier:"low",label:`Class A (score ${s})`,detail:"1-year survival ~100%, 2-year ~85%. Well-compensated cirrhosis. Perioperative mortality ~10%."};
+      if(s<=9) return {tier:"mod",label:`Class B (score ${s})`,detail:"1-year survival ~81%, 2-year ~57%. Significant functional compromise. Perioperative mortality ~30%."};
+      return {tier:"high",label:`Class C (score ${s})`,detail:"1-year survival ~45%, 2-year ~35%. Decompensated cirrhosis. Perioperative mortality ~80%. Transplant evaluation urgently."};
+    }
+  },
+  "Glasgow-Blatchford":{
+    desc:"Upper GI bleed — need for intervention",
+    type:"checklist",
+    criteria:[
+      {label:"BUN 18–22.4 mg/dL",pts:2},{label:"BUN 22.4–28 mg/dL",pts:3},{label:"BUN 28–70 mg/dL",pts:4},{label:"BUN > 70 mg/dL",pts:6},
+      {label:"Haemoglobin 12–13 g/dL (men) or 10–12 g/dL (women)",pts:1},
+      {label:"Haemoglobin 10–12 g/dL (men)",pts:3},
+      {label:"Haemoglobin < 10 g/dL (either sex)",pts:6},
+      {label:"SBP 100–109 mmHg",pts:1},{label:"SBP 90–99 mmHg",pts:2},{label:"SBP < 90 mmHg",pts:3},
+      {label:"Heart rate ≥ 100 bpm",pts:1},
+      {label:"Melaena on presentation",pts:1},
+      {label:"Syncope",pts:2},
+      {label:"Hepatic disease (known)",pts:2},
+      {label:"Cardiac failure (known)",pts:2}
+    ],
+    interpret:(s)=>{
+      if(s===0) return {tier:"low",label:"Score 0 — very low risk",detail:"Safe for outpatient management. No intervention likely needed. Sensitivity ~99% for identifying low-risk patients."};
+      if(s<=3) return {tier:"mod",label:`Low–moderate risk (score ${s})`,detail:"Intervention needed in ~5–10%. Inpatient observation, early endoscopy within 24h."};
+      return {tier:"high",label:`High risk (score ${s})`,detail:`Score ${s}: High likelihood of needing transfusion, endoscopy, or surgery. Urgent upper GI endoscopy. GI consult.`};
+    }
+  },
+  "Ranson (pancreatitis)":{
+    desc:"Acute pancreatitis severity (admission + 48h criteria)",
+    type:"checklist-grouped",
+    groups:[
+      {name:"At admission",items:[
+        {label:"Age > 55",pts:1},
+        {label:"WBC > 16,000 /mm³",pts:1},
+        {label:"Blood glucose > 200 mg/dL",pts:1},
+        {label:"LDH > 350 IU/L",pts:1},
+        {label:"AST > 250 IU/L",pts:1}
+      ]},
+      {name:"At 48 hours",items:[
+        {label:"Haematocrit fall > 10%",pts:1},
+        {label:"BUN rise > 5 mg/dL",pts:1},
+        {label:"Calcium < 8 mg/dL",pts:1},
+        {label:"PaO₂ < 60 mmHg",pts:1},
+        {label:"Base deficit > 4 mEq/L",pts:1},
+        {label:"Fluid sequestration > 6 litres",pts:1}
+      ]}
+    ],
+    interpret:(s)=>{
+      if(s<3) return {tier:"low",label:`Mild pancreatitis (score ${s})`,detail:"Mortality <1%. Medical management, early oral feeding when tolerated. Monitor closely."};
+      if(s<=4) return {tier:"mod",label:`Moderate severity (score ${s})`,detail:"Mortality ~15%. Inpatient admission, NPO, aggressive IV fluid resuscitation, close monitoring."};
+      return {tier:"high",label:`Severe pancreatitis (score ${s})`,detail:`Score ${s}: Mortality ${s<=6?"~40%":">40%"}. ICU admission, surgical / GI consult, CT abdomen with contrast.`};
+    }
+  },
+  "qSOFA":{
+    desc:"Quick bedside screen for sepsis-related poor outcome",
+    type:"checklist",
+    criteria:[
+      {label:"Altered mentation (GCS < 15 or new confusion)",pts:1},
+      {label:"Respiratory rate ≥ 22 breaths/min",pts:1},
+      {label:"Systolic BP ≤ 100 mmHg",pts:1}
+    ],
+    interpret:(s)=>{
+      if(s<2) return {tier:"low",label:`qSOFA ${s} — low concern`,detail:"Low risk for sepsis-related poor outcome based on bedside criteria. Monitor clinically. Does not exclude sepsis."};
+      return {tier:"high",label:`qSOFA ${s} — sepsis alert`,detail:`Score ${s}: High risk for poor outcome if infection present. Initiate full sepsis workup: blood cultures ×2, lactate, broad-spectrum antibiotics within 1 hour. Consider ICU.`};
+    }
+  },
+  "SOFA":{
+    desc:"Sequential Organ Failure Assessment — ICU organ dysfunction",
+    type:"checklist-multi",
+    sections:[
+      {name:"Respiration (PaO₂/FiO₂ ratio)",opts:[{label:"≥ 400",pts:0},{label:"300–399",pts:1},{label:"200–299",pts:2},{label:"100–199 (mechanically ventilated)",pts:3},{label:"< 100 (mechanically ventilated)",pts:4}],single:true,key:"resp"},
+      {name:"Coagulation (platelets ×10³/µL)",opts:[{label:"≥ 150",pts:0},{label:"100–149",pts:1},{label:"50–99",pts:2},{label:"20–49",pts:3},{label:"< 20",pts:4}],single:true,key:"coag"},
+      {name:"Liver (bilirubin mg/dL)",opts:[{label:"< 1.2",pts:0},{label:"1.2–1.9",pts:1},{label:"2.0–5.9",pts:2},{label:"6.0–11.9",pts:3},{label:"≥ 12.0",pts:4}],single:true,key:"liver"},
+      {name:"Cardiovascular",opts:[{label:"MAP ≥ 70 mmHg",pts:0},{label:"MAP < 70 mmHg",pts:1},{label:"Dopamine ≤5 or any dobutamine",pts:2},{label:"Dopamine 5.1–15 or epi/norepi ≤ 0.1 µg/kg/min",pts:3},{label:"Dopamine >15 or epi/norepi > 0.1 µg/kg/min",pts:4}],single:true,key:"cv"},
+      {name:"CNS (Glasgow Coma Scale)",opts:[{label:"GCS 15",pts:0},{label:"GCS 13–14",pts:1},{label:"GCS 10–12",pts:2},{label:"GCS 6–9",pts:3},{label:"GCS < 6",pts:4}],single:true,key:"cns"},
+      {name:"Renal (creatinine mg/dL or urine output)",opts:[{label:"Cr < 1.2",pts:0},{label:"Cr 1.2–1.9",pts:1},{label:"Cr 2.0–3.4",pts:2},{label:"Cr 3.5–4.9 or UO < 500 mL/day",pts:3},{label:"Cr ≥ 5.0 or UO < 200 mL/day",pts:4}],single:true,key:"renal"}
+    ],
+    interpret:(s)=>{
+      if(s<6) return {tier:"low",label:`SOFA ${s} — low dysfunction`,detail:"Predicted mortality <10%. Monitor closely, identify and treat underlying cause."};
+      if(s<10) return {tier:"mod",label:`SOFA ${s} — moderate dysfunction`,detail:"Predicted mortality ~15–20%. Active organ support. Close ICU monitoring."};
+      if(s<12) return {tier:"high",label:`SOFA ${s} — significant dysfunction`,detail:"Predicted mortality ~40–50%. Aggressive multi-organ support."};
+      return {tier:"high",label:`SOFA ${s} — severe dysfunction`,detail:`Score ${s}: Predicted mortality >50–95%. Maximum organ support. Goals of care discussion.`};
+    }
+  },
+  "APACHE II":{
+    desc:"ICU severity of illness score",
+    type:"numeric",
+    fields:[
+      {label:"Age (years)",key:"age",placeholder:"e.g. 65"},
+      {label:"APS — Acute Physiology Score",key:"aps",placeholder:"0–60, sum of 12 variables"},
+      {label:"Chronic health points",key:"chp",placeholder:"2 elective / 5 emergency or non-op"}
+    ],
+    note:"APS = sum of 12 variables (each 0–4): Temp, MAP, HR, RR, A-a gradient or PaO₂, arterial pH, serum Na, serum K, creatinine (double if AKI), haematocrit, WBC, GCS points (15 minus actual GCS). Age points: <44=0, 45–54=2, 55–64=3, 65–74=5, ≥75=6. Chronic health: cirrhosis, severe COPD, end-stage renal failure, immunocompromised, NYHA class IV heart failure.",
+    interpret:(f)=>{
+      const ageMap=[[44,0],[54,2],[64,3],[74,5],[200,6]];
+      const age=parseInt(f.age)||0;
+      const agePts=ageMap.find(([max])=>age<=max)?.[1]||6;
+      const s=Math.round((parseInt(f.aps)||0)+(parseInt(f.chp)||0)+agePts);
+      if(s<10) return {tier:"low",label:`APACHE II ${s}`,detail:"Predicted hospital mortality ~5–8%."};
+      if(s<20) return {tier:"mod",label:`APACHE II ${s}`,detail:"Predicted hospital mortality ~15–25%."};
+      if(s<30) return {tier:"high",label:`APACHE II ${s}`,detail:"Predicted hospital mortality ~40–55%."};
+      return {tier:"high",label:`APACHE II ${s}`,detail:`Score ${s}: Predicted hospital mortality >75%. Maximum organ support — goals of care discussion.`};
+    }
+  },
+  "NIH Stroke Scale":{
+    desc:"Stroke severity and thrombolysis eligibility",
+    type:"checklist-multi",
+    sections:[
+      {name:"1a. Level of consciousness",opts:[{label:"Alert; keenly responsive",pts:0},{label:"Not alert — arousable by minor stimulation",pts:1},{label:"Not alert — requires repeated stimulation",pts:2},{label:"Unresponsive or reflex responses only",pts:3}],single:true,key:"loc"},
+      {name:"1b. LOC questions (month / age — 2 items)",opts:[{label:"Both correct",pts:0},{label:"One correct (or dysarthria/intubated)",pts:1},{label:"Neither correct",pts:2}],single:true,key:"locq"},
+      {name:"1c. LOC commands (grip / eyes — 2 items)",opts:[{label:"Both obeys",pts:0},{label:"One obeys",pts:1},{label:"Neither obeys",pts:2}],single:true,key:"locc"},
+      {name:"2. Best gaze",opts:[{label:"Normal",pts:0},{label:"Partial gaze palsy",pts:1},{label:"Forced deviation or total gaze paresis",pts:2}],single:true,key:"gaze"},
+      {name:"3. Visual fields",opts:[{label:"No visual loss",pts:0},{label:"Partial hemianopia",pts:1},{label:"Complete hemianopia",pts:2},{label:"Bilateral blindness",pts:3}],single:true,key:"vis"},
+      {name:"4. Facial palsy",opts:[{label:"Normal",pts:0},{label:"Minor paralysis",pts:1},{label:"Partial paralysis (lower face)",pts:2},{label:"Complete paralysis (upper and lower face)",pts:3}],single:true,key:"face"},
+      {name:"5. Motor arm (best limb)",opts:[{label:"No drift — holds 10 sec",pts:0},{label:"Drift before 10 sec, does not hit bed",pts:1},{label:"Falls before 10 sec, effort against gravity",pts:2},{label:"No effort against gravity",pts:3},{label:"No movement",pts:4}],single:true,key:"arm"},
+      {name:"6. Motor leg (best limb)",opts:[{label:"No drift — holds 5 sec",pts:0},{label:"Drift before 5 sec",pts:1},{label:"Falls before 5 sec, effort against gravity",pts:2},{label:"No effort against gravity",pts:3},{label:"No movement",pts:4}],single:true,key:"leg"},
+      {name:"7. Limb ataxia",opts:[{label:"Absent",pts:0},{label:"Present in one limb",pts:1},{label:"Present in two or more limbs",pts:2}],single:true,key:"atax"},
+      {name:"8. Sensory",opts:[{label:"Normal — no sensory loss",pts:0},{label:"Mild to moderate loss — aware of being touched",pts:1},{label:"Severe to total loss — unaware of touch",pts:2}],single:true,key:"sens"},
+      {name:"9. Best language",opts:[{label:"Normal — no aphasia",pts:0},{label:"Mild to moderate aphasia",pts:1},{label:"Severe aphasia — fragmentary expression",pts:2},{label:"Mute / global aphasia",pts:3}],single:true,key:"lang"},
+      {name:"10. Dysarthria",opts:[{label:"Normal",pts:0},{label:"Mild — slurred but understandable",pts:1},{label:"Severe — unintelligible / mute",pts:2}],single:true,key:"dysart"},
+      {name:"11. Extinction / inattention",opts:[{label:"Absent",pts:0},{label:"Mild — inattention to one modality",pts:1},{label:"Severe — does not recognise own hand / orients to one side only",pts:2}],single:true,key:"extinct"}
+    ],
+    interpret:(s)=>{
+      if(s<=4) return {tier:"low",label:`NIHSS ${s} — minor stroke`,detail:"Minor stroke. Evaluate for tPA if within 4.5h of onset. Neurology consult. Early MRI."};
+      if(s<=15) return {tier:"mod",label:`NIHSS ${s} — moderate stroke`,detail:"Moderate stroke. tPA if within 4.5h and no contraindications. CT/CTA urgently. Thrombectomy if large vessel occlusion. Stroke unit admission."};
+      if(s<=20) return {tier:"high",label:`NIHSS ${s} — moderate–severe`,detail:"Moderate-severe stroke. Immediate CT/CTA. Thrombectomy if eligible (LVO). Stroke unit / ICU."};
+      return {tier:"high",label:`NIHSS ${s} — severe stroke`,detail:`Score ${s}: Severe stroke. Immediate neurovascular imaging. Thrombectomy for LVO. ICU / stroke unit — aggressive monitoring and supportive care.`};
+    }
+  }
+};
+
+let currentCat="Cardiology",currentScore=null,checkedMap={},sectionMap={},numFields={};
+
+function renderCatTabs(){
+  const t=document.getElementById('catTabs');t.innerHTML='';
+  Object.keys(categories).forEach(c=>{
+    const b=document.createElement('button');
+    b.className='tab'+(c===currentCat?' active':'');b.textContent=c;
+    b.onclick=()=>{currentCat=c;currentScore=null;checkedMap={};sectionMap={};numFields={};renderCatTabs();renderScoreGrid();document.getElementById('calcArea').style.display='none';};
+    t.appendChild(b);
+  });
+}
+
+function renderScoreGrid(){
+  const g=document.getElementById('scoreGrid');g.innerHTML='';
+  categories[currentCat].forEach(name=>{
+    const sc=scores[name];
+    const card=document.createElement('div');
+    card.className='score-card'+(name===currentScore?' active':'');
+    card.innerHTML=`<div class="sc-name">${name}</div><div class="sc-sub">${sc.desc}</div>`;
+    card.onclick=()=>openScore(name);
+    g.appendChild(card);
+  });
+}
+
+function openScore(name){
+  currentScore=name;checkedMap={};sectionMap={};numFields={};
+  renderScoreGrid();
+  const area=document.getElementById('calcArea');
+  area.style.display='block';
+  renderCalc(scores[name],name);
+  area.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderCalc(sc,name){
+  const area=document.getElementById('calcArea');
+  let html=`<div class="calc-title">${name}</div><div class="calc-desc">${sc.desc}</div>`;
+  if(sc.type==='checklist'){
+    html+=`<div class="criteria-list" id="critList">`;
+    sc.criteria.forEach((c,i)=>{
+      const pts=c.pts>0?`+${c.pts}`:c.pts;
+      html+=`<div class="criterion${checkedMap[i]?' checked':''}" onclick="toggleCheck(${i})"><div class="chk"></div><div><div class="clbl">${c.label}</div><div class="cpts">${pts} pt${Math.abs(c.pts)!==1?'s':''}</div></div></div>`;
+    });
+    html+=`</div>`;
+  } else if(sc.type==='checklist-multi'){
+    sc.sections.forEach((sec,si)=>{
+      html+=`<div style="margin-bottom:14px;"><div class="sec-label">${sec.name}</div><div class="criteria-list">`;
+      sec.opts.forEach((o,oi)=>{
+        html+=`<div class="criterion${sectionMap[si]===oi?' checked':''}" onclick="toggleSection(${si},${oi})"><div class="chk"></div><div><div class="clbl">${o.label}</div><div class="cpts">+${o.pts} pt${o.pts!==1?'s':''}</div></div></div>`;
+      });
+      html+=`</div></div>`;
+    });
+  } else if(sc.type==='checklist-grouped'){
+    sc.groups.forEach((grp,gi)=>{
+      html+=`<div style="margin-bottom:16px;"><div class="grp-header">${grp.name}</div><div class="criteria-list">`;
+      grp.items.forEach((c,i)=>{
+        const key=`g${gi}_${i}`;
+        html+=`<div class="criterion${checkedMap[key]?' checked':''}" onclick="toggleCheckKey('${key}')"><div class="chk"></div><div><div class="clbl">${c.label}</div><div class="cpts">+${c.pts} pt${c.pts!==1?'s':''}</div></div></div>`;
+      });
+      html+=`</div></div>`;
+    });
+  } else if(sc.type==='numeric'){
+    html+=`<div class="num-inputs">`;
+    sc.fields.forEach(f=>{html+=`<div class="ni"><label>${f.label}</label><input type="number" step="any" placeholder="${f.placeholder}" oninput="updateNum('${f.key}',this.value)" value="${numFields[f.key]||''}"></div>`;});
+    html+=`</div>`;
+    if(sc.note) html+=`<div class="note-box">${sc.note}</div>`;
+  }
+  html+=`<div id="resultArea"></div><button class="reset-btn" onclick="resetCalc()">Reset</button>`;
+  area.innerHTML=html;
+  calcResult();
+}
+
+function toggleCheck(i){checkedMap[i]=!checkedMap[i];document.querySelectorAll('#critList .criterion')[i].classList.toggle('checked',!!checkedMap[i]);calcResult();}
+function toggleCheckKey(key){checkedMap[key]=!checkedMap[key];renderCalc(scores[currentScore],currentScore);}
+function toggleSection(si,oi){sectionMap[si]=(sectionMap[si]===oi)?undefined:oi;renderCalc(scores[currentScore],currentScore);}
+function updateNum(key,val){numFields[key]=val;calcResult();}
+
+function calcResult(){
+  const sc=scores[currentScore];if(!sc)return;
+  let total=0;
+  if(sc.type==='checklist'){sc.criteria.forEach((c,i)=>{if(checkedMap[i])total+=c.pts;});showResult(sc.interpret(total),total);}
+  else if(sc.type==='checklist-multi'){sc.sections.forEach((sec,si)=>{const oi=sectionMap[si];if(oi!==undefined)total+=sec.opts[oi].pts;});showResult(sc.interpret(total),total);}
+  else if(sc.type==='checklist-grouped'){sc.groups.forEach((grp,gi)=>{grp.items.forEach((c,i)=>{const key=`g${gi}_${i}`;if(checkedMap[key])total+=c.pts;});});showResult(sc.interpret(total),total);}
+  else if(sc.type==='numeric'){const ok=sc.fields.every(f=>numFields[f.key]!==undefined&&numFields[f.key]!=='');if(!ok){document.getElementById('resultArea').innerHTML='';return;}showResult(sc.interpret(numFields),null);}
+}
+
+function showResult(r,score){
+  const area=document.getElementById('resultArea');if(!area)return;
+  area.innerHTML=`<div class="result-box ${r.tier}">${score!==null?`<div class="res-score ${r.tier}">${Number.isInteger(score)?score:score.toFixed(1)}</div>`:''}<div class="res-label ${r.tier}">${r.label}</div><div class="res-detail ${r.tier}">${r.detail}</div></div>`;
+}
+
+function resetCalc(){checkedMap={};sectionMap={};numFields={};renderCalc(scores[currentScore],currentScore);}
+
+renderCatTabs();
+renderScoreGrid();
+</script>
+</body>
+</html>
