@@ -24,16 +24,8 @@
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
 
-    /* ── Scroll reveal ── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
@@ -93,7 +85,6 @@
     .pub-authors { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem; line-height: 1.6; }
     .pub-journal { font-size: 0.78rem; color: var(--muted2); font-style: italic; }
 
-    /* ── Abstract hover reveal ── */
     .pub-item { cursor: default; }
     .pub-abstract-toggle { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.65rem; font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); cursor: pointer; border: none; background: none; padding: 0; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; user-select: none; }
     .pub-abstract-toggle:hover { opacity: 0.75; }
@@ -458,6 +449,13 @@
       <div class="project-title">AI Clinical Documentation Tool</div>
       <div class="project-desc">HIPAA-compliant note-taking application generating standardized physician documentation using keyword recognition and dictation. Designed to improve efficiency in clinical note-writing without storing patient data.</div>
       <a class="project-link" style="color:var(--muted); cursor:default;">Independent Project · 2026</a>
+    </div>
+    <div class="project-card reveal reveal-delay-4">
+      <div class="project-title">RoundHelper</div>
+      <div class="project-desc">iPhone app for inpatient rounds built around a live patient list with per-patient timers and reminders — so critical steps and pending tasks never slip through. Includes a built-in signout composer to draft and organize what to hand off to the next physician at end of shift.</div>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+        <a href="https://github.com/infer321/rounds" target="_blank" class="project-link">GitHub →</a>
+      </div>
     </div>
   </div>
 </section>
