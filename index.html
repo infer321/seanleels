@@ -55,7 +55,6 @@
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
     .hero-photo { width: 100%; aspect-ratio: 3/4; min-height: 400px; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; color: var(--muted); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; position: relative; overflow: hidden; animation: fadeUp 0.6s 0.2s ease both; }
     .hero-photo::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,169,110,0.03) 0%, transparent 60%); }
-    .photo-icon { width: 48px; height: 48px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
     .section-wrap { border-top: 1px solid var(--border); }
     section { padding: 5.5rem 4rem; max-width: 1100px; margin: 0 auto; }
@@ -84,8 +83,6 @@
     .pub-title { font-size: 0.92rem; color: var(--white); margin-bottom: 0.35rem; line-height: 1.55; }
     .pub-authors { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem; line-height: 1.6; }
     .pub-journal { font-size: 0.78rem; color: var(--muted2); font-style: italic; }
-
-    .pub-item { cursor: default; }
     .pub-abstract-toggle { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.65rem; font-size: 0.67rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); cursor: pointer; border: none; background: none; padding: 0; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; user-select: none; }
     .pub-abstract-toggle:hover { opacity: 0.75; }
     .pub-abstract-toggle .toggle-arrow { display: inline-block; transition: transform 0.3s ease; font-style: normal; }
@@ -98,6 +95,7 @@
     .pub-abstract-text { font-size: 0.8rem; color: var(--muted2); line-height: 1.75; }
     .badge { display: inline-block; padding: 0.18rem 0.55rem; background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.2); color: var(--accent); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; margin-left: 0.5rem; vertical-align: middle; }
     .badge-blue { background: rgba(100,140,255,0.08); border-color: rgba(100,140,255,0.2); color: #8aabff; }
+    .badge-green { background: rgba(100,200,140,0.08); border-color: rgba(100,200,140,0.2); color: #8acfaa; }
 
     .research-list { display: flex; flex-direction: column; }
     .research-item { border-top: 1px solid var(--border); padding: 2rem 0; display: grid; grid-template-columns: 170px 1fr auto; gap: 2rem; align-items: start; }
@@ -110,10 +108,9 @@
     .research-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 0.65rem; top: 0.18rem; }
     .research-date { font-size: 0.7rem; color: var(--muted); white-space: nowrap; letter-spacing: 0.05em; padding-top: 0.15rem; }
 
-    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
     .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; transition: all 0.3s; }
     .project-card:hover { border-color: rgba(200,169,110,0.25); transform: translateY(-2px); }
-    .project-icon { font-size: 1.4rem; }
     .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); line-height: 1.3; }
     .project-desc { font-size: 0.8rem; color: var(--muted2); line-height: 1.7; flex: 1; }
     .project-link { font-size: 0.7rem; color: var(--accent); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: letter-spacing 0.3s; }
@@ -126,6 +123,13 @@
     .leadership-org { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 0.75rem; }
     .leadership-desc { font-size: 0.8rem; color: var(--muted2); line-height: 1.7; }
     .leadership-date { font-size: 0.68rem; color: var(--muted); margin-top: 0.75rem; }
+
+    .cert-list { display: flex; flex-direction: column; gap: 1rem; }
+    .cert-item { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 1.5rem 1.75rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; transition: border-color 0.3s; }
+    .cert-item:hover { border-color: rgba(200,169,110,0.25); }
+    .cert-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--white); margin-bottom: 0.2rem; }
+    .cert-org { font-size: 0.78rem; color: var(--muted2); line-height: 1.6; }
+    .cert-date { font-size: 0.7rem; color: var(--accent); letter-spacing: 0.06em; white-space: nowrap; padding-top: 0.2rem; }
 
     .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
     .skills-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--white); margin-bottom: 1.25rem; font-weight: 400; }
@@ -160,7 +164,7 @@
       .projects-grid, .leadership-grid { grid-template-columns: 1fr; }
       .research-item { grid-template-columns: 1fr; gap: 0.4rem; }
       .research-date { display: none; }
-      .edu-item { grid-template-columns: 1fr; }
+      .edu-item, .cert-item { grid-template-columns: 1fr; }
       footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
     }
   </style>
@@ -206,6 +210,7 @@
   </div>
 </div>
 
+<!-- ABOUT -->
 <div class="section-wrap">
 <section id="about">
   <div class="section-label reveal">About</div>
@@ -229,7 +234,7 @@
     </div>
     <div class="about-stats">
       <div class="stat-card reveal reveal-delay-1"><div class="stat-number">7</div><div class="stat-label">Research Projects</div></div>
-      <div class="stat-card reveal reveal-delay-2"><div class="stat-number">2</div><div class="stat-label">Publications</div></div>
+      <div class="stat-card reveal reveal-delay-2"><div class="stat-number">3</div><div class="stat-label">Publications</div></div>
       <div class="stat-card reveal reveal-delay-3"><div class="stat-number">4</div><div class="stat-label">Languages</div></div>
       <div class="stat-card reveal reveal-delay-4"><div class="stat-number">2027</div><div class="stat-label">Expected MD</div></div>
     </div>
@@ -237,20 +242,20 @@
 </section>
 </div>
 
+<!-- PUBLICATIONS -->
 <div class="section-wrap">
 <section id="publications">
   <div class="section-label reveal">Publications</div>
   <h2 class="reveal">Research Output</h2>
   <div class="pub-list">
+
     <div class="pub-item reveal">
       <div class="pub-num">1</div>
       <div>
         <div class="pub-title">Machine learning–derived clinical phenotypes of ascites in cirrhosis: A multi-center latent class analysis with external validation <span class="badge">In Revision</span></div>
         <div class="pub-authors">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, Lee BP, <strong>Lee S</strong>, Allegretti AS, Mazumder NR, Patidar KR, Verna EC.</div>
         <div class="pub-journal">Journal of Hepatology · 2026</div>
-        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">
-          Abstract <span class="toggle-arrow">↓</span>
-        </button>
+        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="toggle-arrow">↓</span></button>
         <div class="pub-abstract">
           <div class="pub-abstract-inner">
             <div class="pub-abstract-section">
@@ -273,15 +278,14 @@
         </div>
       </div>
     </div>
+
     <div class="pub-item reveal reveal-delay-1">
       <div class="pub-num">2</div>
       <div>
         <div class="pub-title">Implementation of a standardized protocol for EndoFLIP utilization alters hiatus closure intraoperatively: A proof-of-concept study <span class="badge badge-blue">In Preparation</span></div>
         <div class="pub-authors">Elshafei M, Pouwels S, Putnam L, Munoz X, Eini JI, <strong>Lee S</strong>, Lipham JC, Houghton C.</div>
         <div class="pub-journal">2026</div>
-        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">
-          Abstract <span class="toggle-arrow">↓</span>
-        </button>
+        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="toggle-arrow">↓</span></button>
         <div class="pub-abstract">
           <div class="pub-abstract-inner">
             <div class="pub-abstract-section">
@@ -304,10 +308,42 @@
         </div>
       </div>
     </div>
+
+    <div class="pub-item reveal reveal-delay-2">
+      <div class="pub-num">3</div>
+      <div>
+        <div class="pub-title">Diagnostic Accuracy of Lung Ultrasound for Pneumonia in the Intensive Care Unit: A Systematic Review and Meta-analysis <span class="badge badge-green">In Preparation</span></div>
+        <div class="pub-authors">Meremikwu K, <strong>Lee S</strong>, Tang B, Wilson ML, Killu K.</div>
+        <div class="pub-journal">2026</div>
+        <button class="pub-abstract-toggle" onclick="toggleAbstract(this)">Abstract <span class="toggle-arrow">↓</span></button>
+        <div class="pub-abstract">
+          <div class="pub-abstract-inner">
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Objective</span>
+              <span class="pub-abstract-text">To evaluate the diagnostic accuracy of lung ultrasound (LUS) for pneumonia in adult ICU patients compared to the standard of care.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Methods</span>
+              <span class="pub-abstract-text">Electronic search of MEDLINE/PubMed, ClinicalTrials.gov, and Google Scholar from inception through May 2026. Included adult patients admitted to the ICU with severe community-acquired pneumonia (CAP) or hospital-acquired/ventilator-associated pneumonia (HAP/VAP). LUS findings were compared to standard of care (CXR, CT chest, laboratory/culture data, biomarkers, or clinical diagnosis). Cochrane collaboration tool was used for bias assessment.</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Results</span>
+              <span class="pub-abstract-text">2,704 articles identified; 6 studies included with 518 total patients (275 diagnosed with pneumonia by standard of care). Mean age 63.9 years; 71.2% male. Pooled sensitivity 0.95 (95% CI: 0.88–0.98, p&lt;0.01) and specificity 0.71 (95% CI: 0.60–0.80, p&lt;0.01). Heterogeneity was moderate for both sensitivity (I²=32.68) and specificity (I²=13.17).</span>
+            </div>
+            <div class="pub-abstract-section">
+              <span class="pub-abstract-label">Conclusions</span>
+              <span class="pub-abstract-text">LUS demonstrates high sensitivity and moderate specificity for pneumonia diagnosis in the ICU compared to standard of care. Larger cohort studies and optimized protocols are needed to further define LUS utility in ICU pneumonia management.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 </div>
 
+<!-- RESEARCH -->
 <div class="section-wrap">
 <section id="research">
   <div class="section-label reveal">Research</div>
@@ -322,24 +358,26 @@
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Prediction of Early CT Escalation Following Initial Chest Radiography in Suspected Pneumonia</div>
         <ul class="research-bullets">
           <li>Conceived and designed an independent retrospective study examining clinical and laboratory predictors of imaging escalation from chest X-ray to CT in hospitalized pneumonia patients.</li>
-          <li>Formulated study hypothesis, defined patient cohort criteria, selected candidate variables, and prepared IRB submission materials.</li>
+          <li>Formulated study hypothesis, defined patient cohort inclusion/exclusion criteria, selected candidate clinical variables, and prepared IRB submission materials.</li>
           <li>Leading all phases: data collection, statistical analysis, and manuscript preparation for peer-reviewed publication.</li>
         </ul>
       </div>
-      <div class="research-date">Apr 2026 – Present</div>
+      <div class="research-date">Nov 2025 – Present</div>
     </div>
 
     <div class="research-item reveal">
       <div class="research-dept">Pulmonary &<br>Critical Care</div>
       <div>
         <div class="research-pi">Dr. Keith Killu · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Point-of-Care Ultrasound vs. CT for Pneumonia Diagnosis: A Meta-Analysis</div>
+        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Diagnostic Accuracy of Lung Ultrasound for Pneumonia in the ICU: A Systematic Review and Meta-Analysis</div>
         <ul class="research-bullets">
-          <li>Conducted systematic literature review for meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia.</li>
-          <li>Extracted and synthesized quantitative data across included studies; contributing to manuscript drafting.</li>
+          <li>Conducted systematic literature review for meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia, identifying and evaluating studies across multiple databases.</li>
+          <li>Extracted and synthesized quantitative data across included studies, assessing methodological quality and pooling effect estimates for analysis.</li>
+          <li>Contributing to manuscript drafting and preparation for peer-reviewed submission.</li>
         </ul>
+        <span class="badge badge-green">In Preparation</span>
       </div>
-      <div class="research-date">Sept 2025 – Present</div>
+      <div class="research-date">Nov 2025 – Present</div>
     </div>
 
     <div class="research-item reveal">
@@ -348,11 +386,11 @@
         <div class="research-pi">Dr. Brian Lee · USC Keck</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Cystatin C–Based MELD Scoring for Post-Transplant Outcome Prediction</div>
         <ul class="research-bullets">
-          <li>Performed chart review and longitudinal data extraction for 150+ liver transplant patients from pre-listing through post-transplant outcomes.</li>
-          <li>Contributed to study evaluating Cystatin C–based MELD scoring as a refinement to standard prognostic indices.</li>
+          <li>Performed chart review and longitudinal data extraction for 150+ liver transplant patients spanning pre-listing through post-transplant outcomes, requiring individualized manual review of complex transplant records.</li>
+          <li>Contributed to study evaluating Cystatin C–based MELD scoring as a refinement to standard prognostic indices for improving post-transplant outcome prediction.</li>
         </ul>
       </div>
-      <div class="research-date">Jan 2025 – Present</div>
+      <div class="research-date">Sept 2024 – Present</div>
     </div>
 
     <div class="research-item reveal">
@@ -361,26 +399,26 @@
         <div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Machine Learning–Derived Clinical Phenotypes of Ascites in Cirrhosis: A Multi-Center Latent Class Analysis with External Validation</div>
         <ul class="research-bullets">
-          <li>Performed chart review and data extraction for multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes.</li>
-          <li>Contributed to manuscript on phenotype-based risk stratification — currently under revision.</li>
+          <li>Performed chart review and data extraction for multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes, contributing to a dataset spanning multiple institutions.</li>
+          <li>Contributed to manuscript development and review examining phenotype-based risk stratification in cirrhosis — currently under revision for peer-reviewed publication.</li>
         </ul>
         <span class="badge">In Revision</span>
       </div>
-      <div class="research-date">Sept 2025 – Present</div>
+      <div class="research-date">Sept 2024 – Present</div>
     </div>
 
     <div class="research-item reveal">
       <div class="research-dept">General Surgery<br>GLS / MIS</div>
       <div>
-        <div class="research-pi">Dr. John Lipham · USC Keck</div>
+        <div class="research-pi">Dr. John Lipham & Dr. Luke Putnam · USC Keck</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Implementation of a Standardized Protocol for EndoFLIP Utilization Alters Hiatus Closure Intraoperatively: A Proof-of-Concept Study</div>
         <ul class="research-bullets">
-          <li>Retrospective chart review evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on surgical decision-making.</li>
-          <li>Prepared results section and contributed to manuscript examining whether EndoFLIP-guided measurements reduce postoperative reflux and dysphagia.</li>
+          <li>Retrospective chart review evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on real-time surgical decision-making and adjustment.</li>
+          <li>Prepared results section and contributed to full manuscript development examining whether EndoFLIP-guided measurements reduce postoperative reflux and dysphagia outcomes.</li>
         </ul>
         <span class="badge badge-blue">In Preparation</span>
       </div>
-      <div class="research-date">Apr 2026 – Present</div>
+      <div class="research-date">Jan 2026 – Present</div>
     </div>
 
     <div class="research-item reveal">
@@ -389,7 +427,7 @@
         <div class="research-pi">Dr. John Lipham · USC Keck</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Impact of Intraoperative PRP Injection on Outcomes Following Hiatal Hernia Repair</div>
         <ul class="research-bullets">
-          <li>Conducting retrospective chart review evaluating impact of intraoperative platelet-rich plasma (PRP) injection on outcomes following hiatal hernia repair.</li>
+          <li>Conducting retrospective chart review evaluating impact of intraoperative platelet-rich plasma (PRP) injection on postoperative outcomes following hiatal hernia repair.</li>
         </ul>
       </div>
       <div class="research-date">Jan 2026 – Present</div>
@@ -401,8 +439,8 @@
         <div class="research-pi">Dr. Alexander Sapin · USC Keck</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Automated Flagging System for ED Patients at Risk for Prolonged Length of Stay</div>
         <ul class="research-bullets">
-          <li>Contributing to quality improvement initiative developing an automated flagging system for ED patients at risk for prolonged length of stay (LOS >21 days).</li>
-          <li>Performing data collection and analysis of admission diagnostic codes to form evidential basis for future flag criteria.</li>
+          <li>Contributing to quality improvement initiative developing an automated flagging system for ED patients at risk for prolonged length of stay (LOS >21 days) to facilitate early disposition planning.</li>
+          <li>Performing data collection and analysis of admission diagnostic codes for patients meeting LOS threshold, forming the evidential basis for future flag criteria development.</li>
         </ul>
       </div>
       <div class="research-date">Apr 2026 – Present</div>
@@ -414,7 +452,8 @@
         <div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Oncology Wet-Lab Research</div>
         <ul class="research-bullets">
-          <li>Conducted weekly literature reviews of 200+ papers and performed wet lab techniques including protein/DNA purification and cell culture.</li>
+          <li>Conducted weekly literature reviews screening 200+ papers to identify novel antibody candidates for smart-exosome-based anticancer drug delivery research.</li>
+          <li>Performed protein and DNA purification, cell culture maintenance, and preparation of Antibody-Drug Conjugate specimens in support of CD36-targeted cancer antibody studies.</li>
         </ul>
       </div>
       <div class="research-date">Jun 2020 – Jun 2022</div>
@@ -424,6 +463,7 @@
 </section>
 </div>
 
+<!-- PROJECTS -->
 <div class="section-wrap">
 <section id="projects">
   <div class="section-label reveal">Projects</div>
@@ -431,7 +471,7 @@
   <div class="projects-grid">
     <div class="project-card reveal reveal-delay-1">
       <div class="project-title">Antibiotic Stewardship Tool</div>
-      <div class="project-desc">Interactive web-based reference supporting evidence-based antibiotic prescribing in Internal Medicine. Delivers setting-appropriate regimens in 3 clicks across 30+ infection types and 9 organ systems with dynamic adjustments for penicillin allergy and MRSA risk.</div>
+      <div class="project-desc">Publicly deployed web-based prescribing reference covering 30+ infection types across 9 organ systems, with dynamic adjustments for penicillin allergy and MRSA risk. Delivers setting-appropriate regimens (outpatient/floor/ICU) aligned with current IDSA/ASHP guidelines in 3 clicks.</div>
       <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
         <a href="tools/antibiotic-stewardship.html" target="_blank" class="btn btn-primary" style="font-size:0.68rem; padding:0.5rem 1.1rem;">Launch Tool ↗</a>
         <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" class="project-link">GitHub →</a>
@@ -439,7 +479,7 @@
     </div>
     <div class="project-card reveal reveal-delay-2">
       <div class="project-title">Internal Medicine Scoring Calculator</div>
-      <div class="project-desc">Web-based calculator integrating 15 validated clinical scoring tools including HEART, CURB-65, MELD-Na, NIH Stroke Scale, Wells PE/DVT, SOFA, APACHE II, GRACE, and CHA₂DS₂-VASc. Mobile-optimised and deployable offline.</div>
+      <div class="project-desc">Mobile-optimized, offline-capable web calculator consolidating 15 validated scoring tools (HEART, CURB-65, MELD-Na, Wells PE/DVT, SOFA, APACHE II, and others) with real-time interpretation and evidence-based clinical guidance.</div>
       <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
         <a href="tools/im-clinical-scores.html" target="_blank" class="btn btn-primary" style="font-size:0.68rem; padding:0.5rem 1.1rem;">Launch Tool ↗</a>
         <a href="https://github.com/infer321/InternalMedCalc" target="_blank" class="project-link">GitHub →</a>
@@ -447,12 +487,14 @@
     </div>
     <div class="project-card reveal reveal-delay-3">
       <div class="project-title">AI Clinical Documentation Tool</div>
-      <div class="project-desc">HIPAA-compliant note-taking application generating standardized physician documentation using keyword recognition and dictation. Designed to improve efficiency in clinical note-writing without storing patient data.</div>
-      <a class="project-link" style="color:var(--muted); cursor:default;">Independent Project · 2026</a>
+      <div class="project-desc">HIPAA-compliant web tool using keyword recognition and speech dictation to generate structured clinical notes, standardizing documentation output across encounter types without retaining patient data.</div>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+        <a href="https://github.com/infer321/note-helper" target="_blank" class="project-link">GitHub →</a>
+      </div>
     </div>
     <div class="project-card reveal reveal-delay-4">
       <div class="project-title">RoundHelper</div>
-      <div class="project-desc">iPhone app for inpatient rounds built around a live patient list with per-patient timers and reminders — so critical steps and pending tasks never slip through. Includes a built-in signout composer to draft and organize what to hand off to the next physician at end of shift.</div>
+      <div class="project-desc">Cross-platform mobile app (iOS/Android) in React Native to reduce cognitive load during clinical rotations, featuring patient task tracking, clinical timers, and shift signout checklists. No patient data stored.</div>
       <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
         <a href="https://github.com/infer321/rounds" target="_blank" class="project-link">GitHub →</a>
       </div>
@@ -461,6 +503,7 @@
 </section>
 </div>
 
+<!-- LEADERSHIP -->
 <div class="section-wrap">
 <section id="leadership">
   <div class="section-label reveal">Leadership & Volunteering</div>
@@ -490,10 +533,23 @@
       <div class="leadership-desc">Led executive team of 15 organizing events for 2,000+ members including multi-day retreats and workshops.</div>
       <div class="leadership-date">Aug 2020 – Aug 2023</div>
     </div>
+    <div class="leadership-card reveal reveal-delay-1">
+      <div class="leadership-role">Emergency Medicine Shadowing & Volunteer</div>
+      <div class="leadership-org">Alhambra Hospital · Alhambra, CA</div>
+      <div class="leadership-desc">Observed clinical decision-making in high-acuity emergency settings across diverse patient populations, and assisted nursing staff with patient care, vitals, and unit operations.</div>
+      <div class="leadership-date">Jul 2020 – Dec 2022</div>
+    </div>
+    <div class="leadership-card reveal reveal-delay-2">
+      <div class="leadership-role">Tutor Volunteer</div>
+      <div class="leadership-org">Connect Tech Network · San Francisco, CA</div>
+      <div class="leadership-desc">Taught digital literacy (Zoom, Google tools) in Cantonese to elderly clients during COVID-19 to improve accessibility of remote services.</div>
+      <div class="leadership-date">Jun 2020 – Jun 2021</div>
+    </div>
   </div>
 </section>
 </div>
 
+<!-- ORIGINS -->
 <div class="section-wrap">
 <section id="origins">
   <div class="section-label reveal">Formative Experiences</div>
@@ -517,6 +573,31 @@
 </section>
 </div>
 
+<!-- CERTIFICATES -->
+<div class="section-wrap">
+<section id="certificates">
+  <div class="section-label reveal">Certificates</div>
+  <h2 class="reveal">Certifications & Awards</h2>
+  <div class="cert-list">
+    <div class="cert-item reveal reveal-delay-1">
+      <div>
+        <div class="cert-title">Quality Improvement Certificate</div>
+        <div class="cert-org">USC Keck School of Medicine · Completed formal training in QI methodology, including process improvement frameworks and patient safety principles applicable to clinical practice.</div>
+      </div>
+      <div class="cert-date">2026</div>
+    </div>
+    <div class="cert-item reveal reveal-delay-2">
+      <div>
+        <div class="cert-title">Certificate of Merit Piano, Level 10 (Highest Level)</div>
+        <div class="cert-org">Music Teachers' Association of California · Achieved the highest level of the statewide classical piano assessment, demonstrating years of disciplined technical and musical development.</div>
+      </div>
+      <div class="cert-date">2018</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- SKILLS -->
 <div class="section-wrap">
 <section id="skills">
   <div class="section-label reveal">Languages & Interests</div>
@@ -547,6 +628,7 @@
 </section>
 </div>
 
+<!-- CONTACT -->
 <div class="section-wrap">
 <section id="contact">
   <div class="section-label reveal">Contact</div>
