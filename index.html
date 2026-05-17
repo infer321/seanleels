@@ -108,7 +108,7 @@
     .research-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 0.65rem; top: 0.18rem; }
     .research-date { font-size: 0.7rem; color: var(--muted); white-space: nowrap; letter-spacing: 0.05em; padding-top: 0.15rem; }
 
-    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; transition: all 0.3s; }
     .project-card:hover { border-color: rgba(200,169,110,0.25); transform: translateY(-2px); }
     .project-title { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); line-height: 1.3; }
@@ -233,7 +233,7 @@
       </div>
     </div>
     <div class="about-stats">
-      <div class="stat-card reveal reveal-delay-1"><div class="stat-number">7</div><div class="stat-label">Research Projects</div></div>
+      <div class="stat-card reveal reveal-delay-1"><div class="stat-number">9</div><div class="stat-label">Research Projects</div></div>
       <div class="stat-card reveal reveal-delay-2"><div class="stat-number">3</div><div class="stat-label">Publications</div></div>
       <div class="stat-card reveal reveal-delay-3"><div class="stat-number">4</div><div class="stat-label">Languages</div></div>
       <div class="stat-card reveal reveal-delay-4"><div class="stat-number">2027</div><div class="stat-label">Expected MD</div></div>
@@ -350,107 +350,118 @@
   <h2 class="reveal">Clinical Research Experience</h2>
   <div class="research-list">
 
-    <div class="research-item reveal">
-      <div class="research-dept">Pulmonary &<br>Critical Care</div>
-      <div>
-        <div class="research-role">Project Lead</div>
-        <div class="research-pi">Dr. Keith Killu · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Prediction of Early CT Escalation Following Initial Chest Radiography in Suspected Pneumonia</div>
-        <ul class="research-bullets">
-          <li>Conceived and designed an independent retrospective study examining clinical and laboratory predictors of imaging escalation from chest X-ray to CT in hospitalized pneumonia patients.</li>
-          <li>Formulated study hypothesis, defined patient cohort inclusion/exclusion criteria, selected candidate clinical variables, and prepared IRB submission materials.</li>
-          <li>Leading all phases: data collection, statistical analysis, and manuscript preparation for peer-reviewed publication.</li>
-        </ul>
-      </div>
-      <div class="research-date">Nov 2025 – Present</div>
-    </div>
-
-    <div class="research-item reveal">
-      <div class="research-dept">Pulmonary &<br>Critical Care</div>
-      <div>
-        <div class="research-pi">Dr. Keith Killu · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Diagnostic Accuracy of Lung Ultrasound for Pneumonia in the ICU: A Systematic Review and Meta-Analysis</div>
-        <ul class="research-bullets">
-          <li>Conducted systematic literature review for meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia, identifying and evaluating studies across multiple databases.</li>
-          <li>Extracted and synthesized quantitative data across included studies, assessing methodological quality and pooling effect estimates for analysis.</li>
-          <li>Contributing to manuscript drafting and preparation for peer-reviewed submission.</li>
-        </ul>
-        <span class="badge badge-green">In Preparation</span>
-      </div>
-      <div class="research-date">Nov 2025 – Present</div>
-    </div>
-
-    <div class="research-item reveal">
-      <div class="research-dept">Transplant<br>Hepatology</div>
-      <div>
-        <div class="research-pi">Dr. Brian Lee · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Cystatin C–Based MELD Scoring for Post-Transplant Outcome Prediction</div>
-        <ul class="research-bullets">
-          <li>Performed chart review and longitudinal data extraction for 150+ liver transplant patients spanning pre-listing through post-transplant outcomes, requiring individualized manual review of complex transplant records.</li>
-          <li>Contributed to study evaluating Cystatin C–based MELD scoring as a refinement to standard prognostic indices for improving post-transplant outcome prediction.</li>
-        </ul>
-      </div>
-      <div class="research-date">Sept 2024 – Present</div>
-    </div>
-
-    <div class="research-item reveal">
-      <div class="research-dept">Transplant<br>Hepatology</div>
-      <div>
-        <div class="research-pi">Dr. Brian Lee & Dr. Giuseppe Cullaro · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Machine Learning–Derived Clinical Phenotypes of Ascites in Cirrhosis: A Multi-Center Latent Class Analysis with External Validation</div>
-        <ul class="research-bullets">
-          <li>Performed chart review and data extraction for multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes, contributing to a dataset spanning multiple institutions.</li>
-          <li>Contributed to manuscript development and review examining phenotype-based risk stratification in cirrhosis — currently under revision for peer-reviewed publication.</li>
-        </ul>
-        <span class="badge">In Revision</span>
-      </div>
-      <div class="research-date">Sept 2024 – Present</div>
-    </div>
-
+    <!-- General Surgery -->
     <div class="research-item reveal">
       <div class="research-dept">General Surgery<br>GLS / MIS</div>
       <div>
-        <div class="research-pi">Dr. John Lipham & Dr. Luke Putnam · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Implementation of a Standardized Protocol for EndoFLIP Utilization Alters Hiatus Closure Intraoperatively: A Proof-of-Concept Study</div>
-        <ul class="research-bullets">
-          <li>Retrospective chart review evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on real-time surgical decision-making and adjustment.</li>
-          <li>Prepared results section and contributed to full manuscript development examining whether EndoFLIP-guided measurements reduce postoperative reflux and dysphagia outcomes.</li>
-        </ul>
-        <span class="badge badge-blue">In Preparation</span>
+        <div class="research-pi">Dr. John Lipham, Dr. Luke Putnam · USC Keck</div>
+
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Comparative Pathologic Outcomes of FLOT vs CROSS Neoadjuvant Therapy for Resectable Esophageal Cancer: A Single-Institution Retrospective Series</div>
+          <ul class="research-bullets">
+            <li>Retrospective review of 28 patients with esophageal or GEJ cancer treated with FLOT (± immunotherapy) or CROSS (2023–2025), comparing operative completion, pathologic complete response, nodal sterilization, and adverse pathologic features between regimens.</li>
+            <li>FLOT achieved 100% operative completion vs 76.5% for CROSS; aborted/metastatic cases occurred exclusively in the CROSS cohort (23.5%). pCR rates were comparable (18.2% vs 15.4%), while CROSS showed higher nodal sterilization (ypN0 61.5% vs 36.4%) and FLOT showed higher residual LVI/PNI (54.5% vs 23.1%).</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Intraoperative and Postoperative Gastric Conduit Tissue Oxygenation and Anastomotic Outcomes Following Esophagectomy</div>
+          <ul class="research-bullets">
+            <li>Prospective study evaluating the association between continuous intraoperative and early postoperative gastric conduit tissue oxygenation — measured via ViOptix near-infrared spectroscopy (NIRS) — and anastomotic outcomes following esophagectomy.</li>
+            <li>Addresses a critical gap in perfusion assessment: while ICGFA provides snapshot evaluation, NIRS enables continuous, quantitative rSO₂ monitoring at the anastomotic site to better predict anastomotic leak and postoperative stricture risk.</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Implementation of a Standardized Protocol for EndoFLIP Utilization Alters Hiatus Closure Intraoperatively: A Proof-of-Concept Study</div>
+          <ul class="research-bullets">
+            <li>Conducted retrospective chart review and data collection evaluating intraoperative EndoFLIP utilization during antireflux surgery and its impact on real-time surgical decision-making and adjustment.</li>
+            <li>Prepared results section and contributed to full manuscript development examining whether EndoFLIP-guided intraoperative measurements reduce postoperative reflux and dysphagia outcomes.</li>
+          </ul>
+          <span class="badge badge-blue" style="margin-top:0.5rem; display:inline-block;">In Preparation</span>
+        </div>
+
+        <div>
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Impact of Intraoperative PRP Injection on Outcomes Following Hiatal Hernia Repair</div>
+          <ul class="research-bullets">
+            <li>Conducted retrospective chart review and data collection for a study evaluating the impact of intraoperative platelet-rich plasma (PRP) injection on postoperative outcomes following hiatal hernia repair.</li>
+          </ul>
+        </div>
       </div>
       <div class="research-date">Jan 2026 – Present</div>
     </div>
 
+    <!-- Pulmonary & Critical Care -->
     <div class="research-item reveal">
-      <div class="research-dept">General Surgery<br>GLS / MIS</div>
+      <div class="research-dept">Pulmonary &<br>Critical Care</div>
       <div>
-        <div class="research-pi">Dr. John Lipham · USC Keck</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Impact of Intraoperative PRP Injection on Outcomes Following Hiatal Hernia Repair</div>
-        <ul class="research-bullets">
-          <li>Conducting retrospective chart review evaluating impact of intraoperative platelet-rich plasma (PRP) injection on postoperative outcomes following hiatal hernia repair.</li>
-        </ul>
+        <div class="research-pi">Dr. Keith Killu · USC Keck</div>
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin-bottom:0.3rem;">Project Lead</div>
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Prediction of Early CT Escalation Following Initial Chest Radiography in Suspected Pneumonia</div>
+          <ul class="research-bullets">
+            <li>Conceived and designed an independent retrospective study examining clinical and laboratory predictors of imaging escalation from chest X-ray to CT in hospitalized pneumonia patients, with the goal of developing evidence-based criteria to guide resource-appropriate workup.</li>
+            <li>Formulated study hypothesis, defined patient cohort inclusion/exclusion criteria, selected candidate clinical variables, and prepared IRB submission materials.</li>
+            <li>Lead all phases of the project including data collection, statistical analysis, and manuscript preparation for peer-reviewed publication.</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Diagnostic Accuracy of Lung Ultrasound for Pneumonia in the Intensive Care Unit: A Systematic Review and Meta-Analysis</div>
+          <ul class="research-bullets">
+            <li>Conducted comprehensive systematic literature review and study screening for a meta-analysis comparing diagnostic accuracy of point-of-care ultrasound versus CT for pneumonia, identifying and evaluating studies across multiple databases.</li>
+            <li>Extracted and synthesized quantitative data across included studies, assessing methodological quality and pooling effect estimates for analysis.</li>
+            <li>Contributing to manuscript drafting and preparation for peer-reviewed submission.</li>
+          </ul>
+          <span class="badge badge-green" style="margin-top:0.5rem; display:inline-block;">In Preparation</span>
+        </div>
       </div>
-      <div class="research-date">Jan 2026 – Present</div>
+      <div class="research-date">Nov 2025 – Present</div>
     </div>
 
+    <!-- Transplant Hepatology -->
+    <div class="research-item reveal">
+      <div class="research-dept">Transplant<br>Hepatology</div>
+      <div>
+        <div class="research-pi">Dr. Brian Lee, Dr. Giuseppe Cullaro · USC Keck</div>
+        <div style="margin-bottom:1.25rem;">
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Cystatin C–Based MELD Scoring for Post-Transplant Outcome Prediction</div>
+          <ul class="research-bullets">
+            <li>Performed detailed chart review and longitudinal data extraction for 150+ liver transplant patients spanning pre-listing through post-transplant outcomes, requiring individualized manual review of complex transplant records.</li>
+            <li>Contributed to a study evaluating Cystatin C–based MELD scoring as a refinement to standard prognostic indices for improving post-transplant outcome prediction.</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Machine Learning–Derived Clinical Phenotypes of Ascites in Cirrhosis: A Multi-Center Latent Class Analysis with External Validation</div>
+          <ul class="research-bullets">
+            <li>Performed chart review and data extraction for a multi-center study identifying clinical predictors of cirrhosis and ascites phenotypes, contributing to a dataset spanning multiple institutions.</li>
+            <li>Contributed to manuscript development and review examining phenotype-based risk stratification in cirrhosis — currently under revision for peer-reviewed publication.</li>
+          </ul>
+          <span class="badge" style="margin-top:0.5rem; display:inline-block;">In Revision</span>
+        </div>
+      </div>
+      <div class="research-date">Sept 2024 – Present</div>
+    </div>
+
+    <!-- Emergency Medicine -->
     <div class="research-item reveal">
       <div class="research-dept">Emergency<br>Medicine</div>
       <div>
         <div class="research-pi">Dr. Alexander Sapin · USC Keck</div>
         <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Automated Flagging System for ED Patients at Risk for Prolonged Length of Stay</div>
         <ul class="research-bullets">
-          <li>Contributing to quality improvement initiative developing an automated flagging system for ED patients at risk for prolonged length of stay (LOS >21 days) to facilitate early disposition planning.</li>
-          <li>Performing data collection and analysis of admission diagnostic codes for patients meeting LOS threshold, forming the evidential basis for future flag criteria development.</li>
+          <li>Contributed to a quality improvement initiative aimed at developing an automated flagging system to identify ED patients at risk for prolonged length of stay (LOS >21 days) to facilitate early disposition planning.</li>
+          <li>Performed data collection and analysis of admission diagnostic codes for patients meeting LOS threshold, forming the evidential basis for future flag criteria development.</li>
         </ul>
       </div>
       <div class="research-date">Apr 2026 – Present</div>
     </div>
 
+    <!-- Oncology -->
     <div class="research-item reveal">
       <div class="research-dept">Oncology<br>Research</div>
       <div>
-        <div class="research-pi">Dr. Yong (Tiger) Zhang · USC Mann School of Pharmacy</div>
-        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Oncology Wet-Lab Research</div>
+        <div class="research-pi">Dr. Yong (Tiger) Zhang · USC Alfred E. Mann School of Pharmacy</div>
+        <div style="font-size:0.8rem; color:var(--text); font-style:italic; margin-bottom:0.6rem; line-height:1.5;">Smart-Exosome Anticancer Drug Delivery Research</div>
         <ul class="research-bullets">
           <li>Conducted weekly literature reviews screening 200+ papers to identify novel antibody candidates for smart-exosome-based anticancer drug delivery research.</li>
           <li>Performed protein and DNA purification, cell culture maintenance, and preparation of Antibody-Drug Conjugate specimens in support of CD36-targeted cancer antibody studies.</li>
@@ -468,37 +479,64 @@
 <section id="projects">
   <div class="section-label reveal">Projects</div>
   <h2 class="reveal">Tools I've Built</h2>
-  <div class="projects-grid">
-    <div class="project-card reveal reveal-delay-1">
-      <div class="project-title">Antibiotic Stewardship Tool</div>
-      <div class="project-desc">Publicly deployed web-based prescribing reference covering 30+ infection types across 9 organ systems, with dynamic adjustments for penicillin allergy and MRSA risk. Delivers setting-appropriate regimens (outpatient/floor/ICU) aligned with current IDSA/ASHP guidelines in 3 clicks.</div>
-      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
-        <a href="tools/antibiotic-stewardship.html" target="_blank" class="btn btn-primary" style="font-size:0.68rem; padding:0.5rem 1.1rem;">Launch Tool ↗</a>
-        <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" class="project-link">GitHub →</a>
+  <!-- RoundHelper — featured full-width card -->
+  <div class="project-card reveal" style="grid-column: 1 / -1; border-color: rgba(200,169,110,0.28); background: linear-gradient(135deg, rgba(200,169,110,0.06) 0%, var(--surface) 55%); position:relative; overflow:hidden; padding: 2.5rem;">
+    <div style="position:absolute; top:0; right:0; width:320px; height:100%; background: radial-gradient(ellipse at right center, rgba(200,169,110,0.07) 0%, transparent 70%); pointer-events:none;"></div>
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1.5rem;">
+      <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:0.75rem;">
+        <div style="display:flex; align-items:center; gap:0.75rem;">
+          <div style="width:36px; height:36px; background:rgba(200,169,110,0.12); border:1px solid rgba(200,169,110,0.25); border-radius:9px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c8a96e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><path d="M9 7h6M9 11h4"/></svg>
+          </div>
+          <div>
+            <div class="project-title" style="font-size:1.35rem;">RoundHelper</div>
+            <div style="font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-top:0.1rem;">Live on the App Store</div>
+          </div>
+        </div>
+        <div class="project-desc" style="font-size:0.85rem; max-width:560px;">Cross-platform mobile app (iOS/Android) in React Native to reduce cognitive load during clinical rotations, featuring patient task tracking, clinical timers, and shift signout checklists. No patient data stored.</div>
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin-top:0.25rem;">
+          <a href="https://apps.apple.com/app/rounds-af5429/id6769269478" target="_blank" style="display:inline-flex; align-items:center; gap:0.55rem; padding:0.55rem 1.1rem; background:var(--accent); border-radius:8px; text-decoration:none; transition:all 0.25s;" onmouseover="this.style.background='var(--accent2)'" onmouseout="this.style.background='var(--accent)'">
+            <svg width="14" height="14" viewBox="0 0 814 1000" fill="#0a0a0f" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.5 268.3-317.5 71 0 130.2 46.9 175.3 46.9 42.8 0 109.8-49.7 188.6-49.7 30.7 0 108.2 2.6 168.2 74.6zm-126.7-84.2c0-53.2-19.3-107.7-55.9-149.8-44.8-51.3-119.2-90.2-189.8-90.2-9.7 0-19.3.6-29 1.3 9 57.8 31.7 113.2 64.1 156.6 34.6 45.7 99.6 86.7 210.6 82.1z"/></svg>
+            <span style="font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:#0a0a0f; font-family:'DM Sans',sans-serif; font-weight:500;">Download on App Store</span>
+          </a>
+          <a href="https://github.com/infer321/rounds" target="_blank" class="project-link">GitHub →</a>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:0.5rem; align-items:flex-end; flex-shrink:0;">
+        <div style="display:flex; gap:0.5rem;">
+          <span style="padding:0.25rem 0.65rem; background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:3px; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent);">React Native</span>
+          <span style="padding:0.25rem 0.65rem; background:rgba(200,169,110,0.08); border:1px solid rgba(200,169,110,0.2); border-radius:3px; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent);">iOS · Android</span>
+        </div>
+        <span style="padding:0.25rem 0.65rem; background:rgba(100,200,140,0.08); border:1px solid rgba(100,200,140,0.2); border-radius:3px; font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; color:#8acfaa;">Published 2026</span>
       </div>
     </div>
-    <div class="project-card reveal reveal-delay-2">
-      <div class="project-title">Internal Medicine Scoring Calculator</div>
-      <div class="project-desc">Mobile-optimized, offline-capable web calculator consolidating 15 validated scoring tools (HEART, CURB-65, MELD-Na, Wells PE/DVT, SOFA, APACHE II, and others) with real-time interpretation and evidence-based clinical guidance.</div>
-      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
-        <a href="tools/im-clinical-scores.html" target="_blank" class="btn btn-primary" style="font-size:0.68rem; padding:0.5rem 1.1rem;">Launch Tool ↗</a>
-        <a href="https://github.com/infer321/InternalMedCalc" target="_blank" class="project-link">GitHub →</a>
-      </div>
+  </div>
+
+  <!-- Secondary projects grid (3-col) -->
+  <div style="display:contents;">
+  <div class="project-card reveal reveal-delay-1">
+    <div class="project-title">Antibiotic Stewardship Tool</div>
+    <div class="project-desc">Publicly deployed web-based prescribing reference covering 30+ infection types across 9 organ systems, with dynamic adjustments for penicillin allergy and MRSA risk. Delivers setting-appropriate regimens (outpatient/floor/ICU) aligned with current IDSA/ASHP guidelines in 3 clicks.</div>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+      <a href="tools/antibiotic-stewardship.html" target="_blank" class="btn btn-primary" style="font-size:0.68rem; padding:0.5rem 1.1rem;">Launch Tool ↗</a>
+      <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" class="project-link">GitHub →</a>
     </div>
-    <div class="project-card reveal reveal-delay-3">
-      <div class="project-title">AI Clinical Documentation Tool</div>
-      <div class="project-desc">HIPAA-compliant web tool using keyword recognition and speech dictation to generate structured clinical notes, standardizing documentation output across encounter types without retaining patient data.</div>
-      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
-        <a href="https://github.com/infer321/note-helper" target="_blank" class="project-link">GitHub →</a>
-      </div>
+  </div>
+  <div class="project-card reveal reveal-delay-2">
+    <div class="project-title">Internal Medicine Scoring Calculator</div>
+    <div class="project-desc">Mobile-optimized, offline-capable web calculator consolidating 15 validated scoring tools (HEART, CURB-65, MELD-Na, Wells PE/DVT, SOFA, APACHE II, and others) with real-time interpretation and evidence-based clinical guidance.</div>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+      <a href="tools/im-clinical-scores.html" target="_blank" class="btn btn-primary" style="font-size:0.68rem; padding:0.5rem 1.1rem;">Launch Tool ↗</a>
+      <a href="https://github.com/infer321/InternalMedCalc" target="_blank" class="project-link">GitHub →</a>
     </div>
-    <div class="project-card reveal reveal-delay-4">
-      <div class="project-title">RoundHelper</div>
-      <div class="project-desc">Cross-platform mobile app (iOS/Android) in React Native to reduce cognitive load during clinical rotations, featuring patient task tracking, clinical timers, and shift signout checklists. No patient data stored.</div>
-      <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
-        <a href="https://github.com/infer321/rounds" target="_blank" class="project-link">GitHub →</a>
-      </div>
+  </div>
+  <div class="project-card reveal reveal-delay-3">
+    <div class="project-title">AI Clinical Documentation Tool</div>
+    <div class="project-desc">HIPAA-compliant web tool using keyword recognition and speech dictation to generate structured clinical notes, standardizing documentation output across encounter types without retaining patient data.</div>
+    <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+      <a href="https://github.com/infer321/note-helper" target="_blank" class="project-link">GitHub →</a>
     </div>
+  </div>
   </div>
 </section>
 </div>
