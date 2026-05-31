@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Tracker · Sean Lee</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='4' fill='%230a0a0f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='500' fill='%23c8a96e'>SL</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: rgba(255,255,255,0.07);
+      --accent: #c8a96e;
+      --accent2: #e8c98e;
+      --text: #e0e0ec;
+      --muted: #72728a;
+      --muted2: #9090a8;
+      --white: #ffffff;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.4rem 4rem; display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,15,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; text-decoration: none; }
+    .nav-back { color: var(--muted); text-decoration: none; font-size: 0.73rem; letter-spacing: 0.13em; text-transform: uppercase; transition: color 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-back:hover { color: var(--accent); }
+
+    .page-hero { padding: 9rem 4rem 4rem; max-width: 1100px; margin: 0 auto; }
+    .hero-tag { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .hero-tag::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--accent); }
+    h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 300; line-height: 1.05; color: var(--white); margin-bottom: 1rem; }
+    h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 0.92rem; color: var(--muted2); max-width: 500px; line-height: 1.85; }
+
+    .main { padding: 2rem 4rem 6rem; max-width: 1100px; margin: 0 auto; }
+
+    /* XP Hero */
+    .xp-hero { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2.5rem; margin-bottom: 2rem; position: relative; overflow: hidden; }
+    .xp-hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); animation: shimmer 3s linear infinite; background-size: 200%; }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    .xp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem; }
+    .xp-left .label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .xp-level { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--white); font-weight: 300; line-height: 1; }
+    .xp-rank { font-size: 0.85rem; color: var(--muted2); margin-top: 0.3rem; }
+    .xp-right { text-align: right; }
+    .xp-right .label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .xp-number { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--white); font-weight: 300; line-height: 1; transition: all 0.3s; }
+    .xp-number.pop { animation: numPop 0.35s ease; }
+    @keyframes numPop { 0%{transform:scale(1)} 40%{transform:scale(1.15)} 100%{transform:scale(1)} }
+    .xp-next { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+    .xp-track { height: 3px; background: rgba(255,255,255,0.06); border-radius: 0; overflow: visible; position: relative; }
+    .xp-fill { height: 3px; background: var(--accent); transition: width 1s cubic-bezier(.22,1,.36,1); position: relative; }
+    .xp-fill::after { content: ''; position: absolute; right: -1px; top: -2px; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; }
+
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 1.5rem; transition: border-color 0.3s; }
+    .stat-card:hover { border-color: rgba(200,169,110,0.25); }
+    .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 0.5rem; }
+    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--white); font-weight: 300; line-height: 1; transition: transform 0.3s; }
+    .stat-value.pop { animation: numPop 0.35s ease; }
+    .stat-sub { font-size: 0.72rem; color: var(--muted2); margin-top: 0.3rem; }
+    .streak-fire { display: inline-block; animation: fire 0.9s ease-in-out infinite alternate; }
+    @keyframes fire { 0%{transform:scale(1) rotate(-4deg)} 100%{transform:scale(1.2) rotate(4deg)} }
+
+    /* Log grid */
+    .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+    .log-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2rem; transition: border-color 0.3s; }
+    .log-card:hover { border-color: rgba(200,169,110,0.15); }
+    .log-head { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 1.5rem; }
+    .log-field { margin-bottom: 1rem; }
+    .log-field label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.5rem; }
+    .log-field input { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 2px; padding: 0.65rem 0.9rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 300; transition: border-color 0.3s; outline: none; -moz-appearance: textfield; }
+    .log-field input::-webkit-outer-spin-button,
+    .log-field input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .log-field input:focus { border-color: rgba(200,169,110,0.4); }
+    .log-btn { width: 100%; margin-top: 1.25rem; padding: 0.75rem 1.6rem; background: var(--accent); color: var(--bg); border: none; border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400; cursor: pointer; transition: background 0.3s; }
+    .log-btn:hover { background: var(--accent2); }
+    .log-btn:active { transform: scale(0.98); }
+
+    /* Achievements */
+    .ach-section { border-top: 1px solid var(--border); padding-top: 2rem; margin-bottom: 2rem; }
+    .section-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-label::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--accent); }
+    .ach-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
+    .ach { padding: 0.35rem 0.85rem; border: 1px solid var(--border); border-radius: 2px; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); background: transparent; transition: all 0.4s; cursor: default; }
+    .ach.unlocked { border-color: rgba(200,169,110,0.35); color: var(--accent); background: rgba(200,169,110,0.06); }
+    .ach.just-unlocked { animation: achPop 0.5s cubic-bezier(.22,1,.36,1); }
+    @keyframes achPop { 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
+
+    /* Heatmap */
+    .hmap-section { border-top: 1px solid var(--border); padding-top: 2rem; margin-bottom: 2rem; }
+    .hmap-grid { display: flex; gap: 3px; flex-wrap: wrap; margin-top: 1.25rem; }
+    .hd { width: 14px; height: 14px; border-radius: 1px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.03); transition: transform 0.2s; cursor: default; }
+    .hd:hover { transform: scale(1.3); }
+    .hd.h1 { background: rgba(200,169,110,0.2); border-color: rgba(200,169,110,0.15); }
+    .hd.h2 { background: rgba(200,169,110,0.5); border-color: rgba(200,169,110,0.4); }
+    .hd.h3 { background: var(--accent); border-color: var(--accent2); }
+    .hmap-legend { display: flex; align-items: center; gap: 6px; margin-top: 0.75rem; }
+    .hleg { width: 11px; height: 11px; border-radius: 1px; }
+    .hmap-legend span { font-size: 0.65rem; color: var(--muted); letter-spacing: 0.06em; }
+
+    /* Reset */
+    .reset-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; padding: 0.45rem 1rem; font-family: 'DM Sans', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s; margin-top: 0.75rem; }
+    .reset-btn:hover { border-color: rgba(255,80,80,0.3); color: rgba(255,100,100,0.7); }
+
+    /* Toast */
+    .toast-wrap { position: fixed; bottom: 2rem; right: 2rem; display: flex; flex-direction: column; gap: 8px; z-index: 999; pointer-events: none; }
+    .toast { background: var(--surface); border: 1px solid rgba(200,169,110,0.25); color: var(--accent); padding: 0.7rem 1.2rem; border-radius: 2px; font-size: 0.78rem; letter-spacing: 0.06em; transform: translateX(120px); opacity: 0; transition: all 0.35s cubic-bezier(.22,1,.36,1); white-space: nowrap; }
+    .toast.show { transform: translateX(0); opacity: 1; }
+
+    /* Level up overlay */
+    .lvlup-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(4px); }
+    .lvlup-overlay.show { opacity: 1; pointer-events: all; }
+    .lvlup-card { background: var(--surface); border: 1px solid rgba(200,169,110,0.3); border-radius: 2px; padding: 3rem 3.5rem; text-align: center; max-width: 340px; transform: translateY(20px); transition: transform 0.45s cubic-bezier(.22,1,.36,1); position: relative; overflow: hidden; }
+    .lvlup-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+    .lvlup-overlay.show .lvlup-card { transform: translateY(0); }
+    .lvlup-eyebrow { font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .lvlup-rank { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--white); font-weight: 300; margin-bottom: 0.5rem; animation: fadeIn 0.6s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+    .lvlup-quote { font-size: 0.82rem; color: var(--muted2); line-height: 1.75; margin-bottom: 2rem; font-style: italic; }
+    .lvlup-btn { padding: 0.7rem 2rem; background: var(--accent); color: var(--bg); border: none; border-radius: 2px; font-family: 'DM Sans', sans-serif; font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: background 0.3s; }
+    .lvlup-btn:hover { background: var(--accent2); }
+
+    /* XP float */
+    .xp-float { position: fixed; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); pointer-events: none; z-index: 9998; animation: floatUp 1.4s ease forwards; font-family: 'DM Sans', sans-serif; }
+    @keyframes floatUp { 0%{opacity:1;transform:translateY(0)} 100%{opacity:0;transform:translateY(-64px)} }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.72rem; letter-spacing: 0.06em; max-width: 1100px; margin: 0 auto; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .page-hero { padding: 7rem 1.5rem 3rem; }
+      .main { padding: 1.5rem 1.5rem 4rem; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .log-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sean Lee</a>
+  <a href="index.html" class="nav-back">← Back to Site</a>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-tag">Step 2 CK · M4 · 2026</div>
+  <h1>Study <em>Tracker</em></h1>
+  <p class="hero-sub">Log UWorld blocks and Anki sessions. Track XP, streaks, and progress toward boards.</p>
+</div>
+
+<div class="main">
+
+  <!-- XP Hero -->
+  <div class="xp-hero">
+    <div class="xp-top">
+      <div class="xp-left">
+        <div class="label">Level</div>
+        <div class="xp-level" id="lv-num">1</div>
+        <div class="xp-rank" id="lv-rank">Intern</div>
+      </div>
+      <div class="xp-right">
+        <div class="label">Total XP</div>
+        <div class="xp-number" id="xp-total">0</div>
+        <div class="xp-next"><span id="xp-cur">0</span> / <span id="xp-nxt">500</span> to next level</div>
+      </div>
+    </div>
+    <div class="xp-track">
+      <div class="xp-fill" id="xp-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Day Streak</div>
+      <div class="stat-value" id="streak-v">0</div>
+      <div class="stat-sub" id="streak-sub">Start logging to build your streak</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">UWorld Questions</div>
+      <div class="stat-value" id="uw-v">0</div>
+      <div class="stat-sub"><span id="uw-avg">--</span>% avg · <span id="uw-best">--</span>% best</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Anki Reviewed</div>
+      <div class="stat-value" id="anki-v">0</div>
+      <div class="stat-sub"><span id="anki-new-total">0</span> new cards total</div>
+    </div>
+  </div>
+
+  <!-- Log -->
+  <div class="log-grid">
+    <div class="log-card">
+      <div class="log-head">UWorld Block</div>
+      <div class="log-field">
+        <label>Questions completed</label>
+        <input type="number" id="uw-q" min="1" max="120" placeholder="40">
+      </div>
+      <div class="log-field">
+        <label>Score (%)</label>
+        <input type="number" id="uw-s" min="0" max="100" placeholder="65">
+      </div>
+      <button class="log-btn" onclick="logUW()">Log Block</button>
+    </div>
+    <div class="log-card">
+      <div class="log-head">Anki Session</div>
+      <div class="log-field">
+        <label>Cards reviewed</label>
+        <input type="number" id="ak-r" min="1" placeholder="150">
+      </div>
+      <div class="log-field">
+        <label>New cards</label>
+        <input type="number" id="ak-n" min="0" placeholder="20">
+      </div>
+      <button class="log-btn" onclick="logAnki()">Log Session</button>
+    </div>
+  </div>
+
+  <!-- Achievements -->
+  <div class="ach-section">
+    <div class="section-label">Achievements</div>
+    <div class="ach-grid" id="ach-grid"></div>
+  </div>
+
+  <!-- Heatmap -->
+  <div class="hmap-section">
+    <div class="section-label">Activity — last 90 days</div>
+    <div class="hmap-grid" id="hmap"></div>
+    <div class="hmap-legend">
+      <div class="hleg" style="background:rgba(255,255,255,0.04)"></div>
+      <div class="hleg h1"></div>
+      <div class="hleg h2"></div>
+      <div class="hleg h3"></div>
+      <span>more activity</span>
+    </div>
+    <div style="display:flex;gap:0.6rem;margin-top:0.75rem;flex-wrap:wrap;">
+      <button class="reset-btn" onclick="exportData()">Export backup</button>
+      <button class="reset-btn" onclick="document.getElementById('import-input').click()">Import backup</button>
+      <button class="reset-btn" onclick="confirmReset()">Reset all data</button>
+    </div>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)">
+  </div>
+
+</div>
+
+<footer>
+  <span>seanleels.com/study</span>
+  <span>Step 2 CK · Class of 2027</span>
+</footer>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<div class="lvlup-overlay" id="lvlup">
+  <div class="lvlup-card">
+    <div class="lvlup-eyebrow">Level Up</div>
+    <div class="lvlup-rank" id="lu-rank">PGY-1</div>
+    <div class="lvlup-quote" id="lu-quote">"Keep going."</div>
+    <button class="lvlup-btn" onclick="closeLvlUp()">Continue</button>
+  </div>
+</div>
+
+<script>
+const LEVELS = [
+  [0,     500,   'Intern',    '"The grind begins."'],
+  [500,   1200,  'PGY-1',     '"You survived intern year."'],
+  [1200,  2500,  'PGY-2',     '"Getting dangerous."'],
+  [2500,  4500,  'Resident',  '"Attendings are starting to listen."'],
+  [4500,  7500,  'Fellow',    '"Specialized and lethal."'],
+  [7500,  11000, 'Attending', '"Board-certified."'],
+  [11000, Infinity, 'Chief',  '"This is why you started."'],
+];
+
+const ACHS = [
+  { id:'first_uw',    label:'First block',    check: s => s.uwBlocks >= 1 },
+  { id:'first_anki',  label:'First session',  check: s => s.ankiSessions >= 1 },
+  { id:'streak3',     label:'3-day streak',   check: s => s.streak >= 3 },
+  { id:'streak7',     label:'Week warrior',   check: s => s.streak >= 7 },
+  { id:'streak30',    label:'30-day streak',  check: s => s.streak >= 30 },
+  { id:'uw500',       label:'500 questions',  check: s => s.uwTotal >= 500 },
+  { id:'uw1000',      label:'1,000 questions',check: s => s.uwTotal >= 1000 },
+  { id:'uw2000',      label:'2,000 questions',check: s => s.uwTotal >= 2000 },
+  { id:'anki1k',      label:'1k cards',       check: s => s.ankiTotal >= 1000 },
+  { id:'anki5k',      label:'5k cards',       check: s => s.ankiTotal >= 5000 },
+  { id:'anki10k',     label:'10k cards',      check: s => s.ankiTotal >= 10000 },
+  { id:'xp1k',        label:'1,000 XP',       check: s => s.xp >= 1000 },
+  { id:'xp5k',        label:'5,000 XP',       check: s => s.xp >= 5000 },
+  { id:'pct70',       label:'Above 70%',      check: s => s.bestPct >= 70 },
+  { id:'pct80',       label:'Above 80%',      check: s => s.bestPct >= 80 },
+  { id:'pct90',       label:'Above 90%',      check: s => s.bestPct >= 90 },
+];
+
+let S = JSON.parse(localStorage.getItem('sls_study') || 'null') || {
+  xp: 0, streak: 0, lastDate: null,
+  uwTotal: 0, uwCorrectSum: 0, uwBlocks: 0, bestPct: 0,
+  ankiTotal: 0, ankiNewTotal: 0, ankiSessions: 0,
+  history: {}, unlocked: []
+};
+
+function save() { localStorage.setItem('sls_study', JSON.stringify(S)); }
+function today() { return new Date().toISOString().slice(0,10); }
+
+function getLevelIdx(xp) {
+  for (let i = LEVELS.length - 1; i >= 0; i--) {
+    if (xp >= LEVELS[i][0]) return i;
+  }
+  return 0;
+}
+
+function updateStreak() {
+  const t = today();
+  if (S.lastDate === t) return;
+  const yday = new Date(Date.now() - 86400000).toISOString().slice(0,10);
+  S.streak = S.lastDate === yday ? S.streak + 1 : 1;
+  S.lastDate = t;
+}
+
+function render() {
+  const li = getLevelIdx(S.xp);
+  const lv = LEVELS[li];
+  document.getElementById('lv-num').textContent = li + 1;
+  document.getElementById('lv-rank').textContent = lv[2];
+  document.getElementById('xp-total').textContent = S.xp.toLocaleString();
+  const cur = S.xp - lv[0];
+  const nxt = lv[1] === Infinity ? '∞' : lv[1] - lv[0];
+  document.getElementById('xp-cur').textContent = cur.toLocaleString();
+  document.getElementById('xp-nxt').textContent = typeof nxt === 'number' ? nxt.toLocaleString() : nxt;
+  const pct = lv[1] === Infinity ? 100 : Math.round((cur / (lv[1] - lv[0])) * 100);
+  document.getElementById('xp-fill').style.width = pct + '%';
+
+  // Streak
+  const sv = document.getElementById('streak-v');
+  sv.textContent = S.streak;
+  document.getElementById('streak-sub').innerHTML = S.streak >= 3
+    ? `<span class="streak-fire">🔥</span> ${S.streak}-day streak`
+    : S.streak === 1 ? 'Day 1 — keep going'
+    : 'Start logging to build your streak';
+
+  // UWorld
+  document.getElementById('uw-v').textContent = S.uwTotal.toLocaleString();
+  document.getElementById('uw-avg').textContent = S.uwBlocks > 0 ? Math.round(S.uwCorrectSum / S.uwBlocks) : '--';
+  document.getElementById('uw-best').textContent = S.bestPct > 0 ? S.bestPct : '--';
+
+  // Anki
+  document.getElementById('anki-v').textContent = S.ankiTotal.toLocaleString();
+  document.getElementById('anki-new-total').textContent = S.ankiNewTotal.toLocaleString();
+
+  renderAchs();
+  renderHmap();
+}
+
+function renderAchs() {
+  const g = document.getElementById('ach-grid');
+  g.innerHTML = '';
+  ACHS.forEach(a => {
+    const unlocked = S.unlocked.includes(a.id) || a.check(S);
+    const el = document.createElement('div');
+    el.className = 'ach' + (unlocked ? ' unlocked' : '');
+    el.title = unlocked ? 'Unlocked' : 'Locked';
+    el.textContent = a.label;
+    g.appendChild(el);
+  });
+}
+
+function renderHmap() {
+  const g = document.getElementById('hmap');
+  g.innerHTML = '';
+  for (let i = 89; i >= 0; i--) {
+    const d = new Date(Date.now() - i * 86400000).toISOString().slice(0, 10);
+    const v = S.history[d] || 0;
+    const el = document.createElement('div');
+    el.className = 'hd' + (v >= 400 ? ' h3' : v >= 150 ? ' h2' : v > 0 ? ' h1' : '');
+    el.title = d.slice(5) + ' — ' + (v > 0 ? v + ' XP' : 'no activity');
+    g.appendChild(el);
+  }
+}
+
+function showToast(msg) {
+  const wrap = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  wrap.appendChild(t);
+  requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+  setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 2500);
+}
+
+function floatXP(amount) {
+  const el = document.createElement('div');
+  el.className = 'xp-float';
+  el.textContent = '+' + amount + ' xp';
+  el.style.cssText = 'bottom:5rem;right:2.5rem';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1500);
+}
+
+function popEl(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+}
+
+function checkAchs() {
+  ACHS.forEach((a, idx) => {
+    if (!S.unlocked.includes(a.id) && a.check(S)) {
+      S.unlocked.push(a.id);
+      setTimeout(() => showToast(a.label + ' — unlocked'), idx * 500);
+      const els = document.querySelectorAll('.ach');
+      const el = Array.from(els).find(e => e.textContent === a.label);
+      if (el) { el.className = 'ach unlocked just-unlocked'; }
+    }
+  });
+}
+
+function showLvlUp(rank, quote) {
+  document.getElementById('lu-rank').textContent = rank;
+  document.getElementById('lu-quote').textContent = quote;
+  document.getElementById('lvlup').classList.add('show');
+}
+
+function closeLvlUp() {
+  document.getElementById('lvlup').classList.remove('show');
+}
+
+function addXP(amount, label) {
+  updateStreak();
+  const t = today();
+  S.history[t] = (S.history[t] || 0) + amount;
+  const before = getLevelIdx(S.xp);
+  S.xp += amount;
+  const after = getLevelIdx(S.xp);
+  save();
+  floatXP(amount);
+  showToast('+' + amount + ' XP — ' + label);
+  popEl('xp-total');
+  if (after > before) {
+    setTimeout(() => showLvlUp(LEVELS[after][2], LEVELS[after][3]), 700);
+  }
+  checkAchs();
+  render();
+}
+
+function logUW() {
+  const q = parseInt(document.getElementById('uw-q').value) || 0;
+  const s = parseInt(document.getElementById('uw-s').value) || 0;
+  if (q < 1) { showToast('Enter questions completed'); return; }
+  S.uwTotal += q;
+  S.uwCorrectSum += s;
+  S.uwBlocks++;
+  if (s > S.bestPct) S.bestPct = s;
+  const bonus = s >= 90 ? 120 : s >= 80 ? 80 : s >= 70 ? 50 : s >= 55 ? 25 : 0;
+  const xp = Math.round(q * 2 + bonus);
+  document.getElementById('uw-q').value = '';
+  document.getElementById('uw-s').value = '';
+  popEl('uw-v');
+  addXP(xp, q + ' UWorld Qs' + (s > 0 ? ' · ' + s + '%' : '') + (bonus > 0 ? ' · bonus' : ''));
+}
+
+function logAnki() {
+  const r = parseInt(document.getElementById('ak-r').value) || 0;
+  const n = parseInt(document.getElementById('ak-n').value) || 0;
+  if (r < 1) { showToast('Enter cards reviewed'); return; }
+  S.ankiTotal += r;
+  S.ankiNewTotal += n;
+  S.ankiSessions++;
+  const xp = Math.round(r * 0.5 + n * 2);
+  document.getElementById('ak-r').value = '';
+  document.getElementById('ak-n').value = '';
+  popEl('anki-v');
+  addXP(xp, r + ' Anki cards' + (n > 0 ? ' · ' + n + ' new' : ''));
+}
+
+function exportData() {
+  const date = new Date().toISOString().slice(0,10);
+  const blob = new Blob([JSON.stringify(S, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'study-backup-' + date + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Backup downloaded');
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      if (typeof parsed.xp !== 'number') throw new Error('Invalid file');
+      S = parsed;
+      save();
+      render();
+      showToast('Data restored from backup');
+    } catch {
+      showToast('Invalid backup file');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function confirmReset() {
+  if (confirm('Reset all study data? This cannot be undone.')) {
+    localStorage.removeItem('sls_study');
+    S = { xp:0,streak:0,lastDate:null,uwTotal:0,uwCorrectSum:0,uwBlocks:0,bestPct:0,ankiTotal:0,ankiNewTotal:0,ankiSessions:0,history:{},unlocked:[] };
+    render();
+    showToast('Data reset');
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
