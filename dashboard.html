@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · Sean Lee</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='4' fill='%230a0a0f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='500' fill='%23c8a96e'>SL</text></svg>">
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    .domain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+    .domain-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2rem 2.25rem; text-decoration: none; display: block; transition: all 0.3s; position: relative; overflow: hidden; }
+    .domain-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; opacity: 0; transition: opacity 0.3s; }
+    .domain-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.12); }
+    .domain-card:hover::before { opacity: 1; }
+    .domain-card.study  { --c: var(--study); }
+    .domain-card.research { --c: var(--research); }
+    .domain-card.gym    { --c: var(--gym); }
+    .domain-card.piano  { --c: var(--piano); }
+    .domain-card::before { background: linear-gradient(90deg, transparent, var(--c), transparent); }
+    .domain-eyebrow { font-size: 0.63rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c); margin-bottom: 0.5rem; }
+    .domain-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--white); font-weight: 300; margin-bottom: 1.25rem; }
+    .domain-xp-track { height: 2px; background: rgba(255,255,255,0.06); margin-bottom: 0.75rem; position: relative; overflow: visible; }
+    .domain-xp-fill { height: 2px; background: var(--c); transition: width 1s cubic-bezier(.22,1,.36,1); position: relative; }
+    .domain-xp-fill::after { content: ''; position: absolute; right: -3px; top: -3px; width: 8px; height: 8px; background: var(--c); border-radius: 50%; }
+    .domain-stats { display: flex; justify-content: space-between; align-items: flex-end; }
+    .domain-level { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); font-weight: 300; }
+    .domain-xp-num { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.06em; }
+    .domain-arrow { font-size: 0.7rem; color: var(--c); opacity: 0; transition: opacity 0.3s; letter-spacing: 0.1em; text-transform: uppercase; }
+    .domain-card:hover .domain-arrow { opacity: 1; }
+
+    .total-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; padding: 2rem 2.5rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+    .total-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+    .total-xp { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: var(--white); font-weight: 300; line-height: 1; }
+    .total-sub { font-size: 0.8rem; color: var(--muted2); margin-top: 0.3rem; }
+    .total-breakdown { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .tb-item { text-align: right; }
+    .tb-val { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--white); font-weight: 300; line-height: 1; }
+    .tb-lbl { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-top: 0.2rem; }
+
+    .today-section { border-top: 1px solid var(--border); padding-top: 1.75rem; }
+    .today-empty { font-size: 0.83rem; color: var(--muted); font-style: italic; padding: 0.5rem 0; }
+    .today-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .today-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; font-size: 0.8rem; }
+    .today-domain { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .today-xp { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--white); font-weight: 300; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="dashboard.html" class="nav-logo">Sean Lee</a>
+  <div class="nav-links"></div>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-eyebrow">Personal Dashboard</div>
+  <h1>Life <em>OS</em></h1>
+  <p>Track progress across study, research, gym, and piano. Every domain, one place.</p>
+</div>
+
+<div class="main">
+
+  <div class="total-card">
+    <div>
+      <div class="total-label">Total XP — All Domains</div>
+      <div class="total-xp" id="total-xp">0</div>
+      <div class="total-sub" id="total-sub">Log something to get started</div>
+    </div>
+    <div class="total-breakdown">
+      <div class="tb-item">
+        <div class="tb-val" id="tb-study" style="color:var(--study)">0</div>
+        <div class="tb-lbl" style="color:var(--study)">Study</div>
+      </div>
+      <div class="tb-item">
+        <div class="tb-val" id="tb-research" style="color:var(--research)">0</div>
+        <div class="tb-lbl" style="color:var(--research)">Research</div>
+      </div>
+      <div class="tb-item">
+        <div class="tb-val" id="tb-gym" style="color:var(--gym)">0</div>
+        <div class="tb-lbl" style="color:var(--gym)">Gym</div>
+      </div>
+      <div class="tb-item">
+        <div class="tb-val" id="tb-piano" style="color:var(--piano)">0</div>
+        <div class="tb-lbl" style="color:var(--piano)">Piano</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="domain-grid">
+    <a href="study.html" class="domain-card study">
+      <div class="domain-eyebrow">Study</div>
+      <div class="domain-title">Step 2 CK</div>
+      <div class="domain-xp-track"><div class="domain-xp-fill" id="fill-study" style="width:0%"></div></div>
+      <div class="domain-stats">
+        <div>
+          <div class="domain-level" id="rank-study">Intern</div>
+          <div class="domain-xp-num">Level <span id="lv-study">1</span></div>
+        </div>
+        <div class="domain-arrow">Open →</div>
+      </div>
+    </a>
+
+    <a href="research.html" class="domain-card research">
+      <div class="domain-eyebrow">Research</div>
+      <div class="domain-title">Clinical Work</div>
+      <div class="domain-xp-track"><div class="domain-xp-fill" id="fill-research" style="width:0%"></div></div>
+      <div class="domain-stats">
+        <div>
+          <div class="domain-level" id="rank-research">Scholar</div>
+          <div class="domain-xp-num">Level <span id="lv-research">1</span></div>
+        </div>
+        <div class="domain-arrow">Open →</div>
+      </div>
+    </a>
+
+    <a href="gym.html" class="domain-card gym">
+      <div class="domain-eyebrow">Gym</div>
+      <div class="domain-title">Training</div>
+      <div class="domain-xp-track"><div class="domain-xp-fill" id="fill-gym" style="width:0%"></div></div>
+      <div class="domain-stats">
+        <div>
+          <div class="domain-level" id="rank-gym">Recruit</div>
+          <div class="domain-xp-num">Level <span id="lv-gym">1</span></div>
+        </div>
+        <div class="domain-arrow">Open →</div>
+      </div>
+    </a>
+
+    <a href="piano.html" class="domain-card piano">
+      <div class="domain-eyebrow">Piano</div>
+      <div class="domain-title">Practice</div>
+      <div class="domain-xp-track"><div class="domain-xp-fill" id="fill-piano" style="width:0%"></div></div>
+      <div class="domain-stats">
+        <div>
+          <div class="domain-level" id="rank-piano">Student</div>
+          <div class="domain-xp-num">Level <span id="lv-piano">1</span></div>
+        </div>
+        <div class="domain-arrow">Open →</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="today-section">
+    <div class="section-lbl">Today's Activity</div>
+    <div id="today-list"></div>
+  </div>
+
+</div>
+
+<footer>
+  <span>seanleels.com/dashboard</span>
+  <span>Sean Lee · Class of 2027</span>
+</footer>
+
+<script src="dashboard.js"></script>
+<script>
+buildNav('dashboard.html');
+
+const STUDY_LEVELS    = [[0,500,'Intern'],[500,1200,'PGY-1'],[1200,2500,'PGY-2'],[2500,4500,'Resident'],[4500,7500,'Fellow'],[7500,11000,'Attending'],[11000,Infinity,'Chief']];
+const RESEARCH_LEVELS = [[0,400,'Scholar'],[400,1000,'Analyst'],[1000,2200,'Investigator'],[2200,4000,'PI'],[4000,7000,'Director'],[7000,Infinity,'Luminary']];
+const GYM_LEVELS      = [[0,300,'Recruit'],[300,800,'Athlete'],[800,1800,'Lifter'],[1800,3500,'Competitor'],[3500,6000,'Elite'],[6000,Infinity,'Apex']];
+const PIANO_LEVELS    = [[0,300,'Student'],[300,800,'Apprentice'],[800,1800,'Performer'],[1800,3500,'Recitalist'],[3500,6000,'Virtuoso'],[6000,Infinity,'Maestro']];
+
+const ALL = {
+  study:    { key: 'sls_study',    levels: STUDY_LEVELS },
+  research: { key: 'sls_research', levels: RESEARCH_LEVELS },
+  gym:      { key: 'sls_gym',      levels: GYM_LEVELS },
+  piano:    { key: 'sls_piano',    levels: PIANO_LEVELS },
+};
+
+const DOMAIN_LEVEL_RANGES = {
+  study:    [[0,500],[500,1200],[1200,2500],[2500,4500],[4500,7500],[7500,11000],[11000,Infinity]],
+  research: [[0,400],[400,1000],[1000,2200],[2200,4000],[4000,7000],[7000,Infinity]],
+  gym:      [[0,300],[300,800],[800,1800],[1800,3500],[3500,6000],[6000,Infinity]],
+  piano:    [[0,300],[300,800],[800,1800],[1800,3500],[3500,6000],[6000,Infinity]],
+};
+
+function render() {
+  let totalXP = 0;
+  const t = today();
+  const todayItems = [];
+
+  Object.entries(ALL).forEach(([domain, cfg]) => {
+    const raw = localStorage.getItem(cfg.key);
+    const S = raw ? JSON.parse(raw) : { xp: 0, history: {} };
+    const xp = S.xp || 0;
+    totalXP += xp;
+
+    document.getElementById('tb-' + domain).textContent = xp.toLocaleString();
+
+    const li = getLevelIdx(xp, cfg.levels);
+    const lv = cfg.levels[li];
+    document.getElementById('rank-' + domain).textContent = lv[2];
+    document.getElementById('lv-' + domain).textContent = li + 1;
+
+    const cur = xp - lv[0];
+    const nxt = lv[1] === Infinity ? 1 : lv[1] - lv[0];
+    const pct = lv[1] === Infinity ? 100 : Math.round((cur / nxt) * 100);
+    document.getElementById('fill-' + domain).style.width = pct + '%';
+
+    const todayXP = S.history && S.history[t] ? S.history[t] : 0;
+    if (todayXP > 0) todayItems.push({ domain, xp: todayXP });
+  });
+
+  document.getElementById('total-xp').textContent = totalXP.toLocaleString();
+  document.getElementById('total-sub').textContent = totalXP > 0
+    ? 'across all domains'
+    : 'Log something to get started';
+
+  const tl = document.getElementById('today-list');
+  if (todayItems.length === 0) {
+    tl.innerHTML = '<div class="today-empty">Nothing logged today yet.</div>';
+  } else {
+    tl.innerHTML = '';
+    todayItems.forEach(item => {
+      const el = document.createElement('div');
+      el.className = 'today-item';
+      el.innerHTML = `<span class="today-domain" style="color:var(--${item.domain})">${item.domain}</span><span class="today-xp">+${item.xp} xp</span>`;
+      tl.appendChild(el);
+    });
+  }
+}
+
+render();
+</script>
+</body>
+</html>

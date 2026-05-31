@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research · Sean Lee</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='4' fill='%230a0a0f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='500' fill='%237eb8c8'>SL</text></svg>">
+  <link rel="stylesheet" href="dashboard.css">
+  <style> :root { --accent: var(--research); --accent2: #a8d4e0; } </style>
+</head>
+<body>
+<nav><a href="dashboard.html" class="nav-logo">Sean Lee</a><div class="nav-links"></div></nav>
+
+<div class="page-hero">
+  <div class="hero-eyebrow">Clinical Research · USC Keck</div>
+  <h1>Research <em>Tracker</em></h1>
+  <p>Log meetings, data work, writing sessions, and milestones across your active projects.</p>
+</div>
+
+<div class="main">
+  <div class="xp-hero">
+    <div class="xp-top">
+      <div><div class="xp-eyebrow">Level</div><div class="xp-level-num" id="lv-num">1</div><div class="xp-rank" id="lv-rank">Scholar</div></div>
+      <div class="xp-right"><div class="xp-eyebrow">Total XP</div><div class="xp-big" id="xp-total">0</div><div class="xp-to-next"><span id="xp-cur">0</span> / <span id="xp-nxt">400</span> to next</div></div>
+    </div>
+    <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="stats-row cols-4">
+    <div class="stat-card"><div class="stat-lbl">Day Streak</div><div class="stat-val" id="streak-v">0</div><div class="stat-sub" id="streak-sub">—</div></div>
+    <div class="stat-card"><div class="stat-lbl">Sessions</div><div class="stat-val" id="sessions-v">0</div><div class="stat-sub">total logged</div></div>
+    <div class="stat-card"><div class="stat-lbl">Milestones</div><div class="stat-val" id="milestones-v">0</div><div class="stat-sub">completed</div></div>
+    <div class="stat-card"><div class="stat-lbl">Papers</div><div class="stat-val" id="papers-v">0</div><div class="stat-sub">submitted / in revision</div></div>
+  </div>
+
+  <div class="log-grid cols-2">
+    <div class="log-card">
+      <div class="log-head">Log Session</div>
+      <div class="log-field">
+        <label>Type</label>
+        <select id="sess-type">
+          <option value="data">Data collection / analysis</option>
+          <option value="writing">Writing / manuscript</option>
+          <option value="meeting">PI / team meeting</option>
+          <option value="lit">Literature review</option>
+          <option value="stats">Statistics</option>
+          <option value="irb">IRB / admin</option>
+        </select>
+      </div>
+      <div class="log-field"><label>Duration (minutes)</label><input type="number" id="sess-dur" min="15" placeholder="60"></div>
+      <button class="log-btn" onclick="logSession()">Log Session</button>
+    </div>
+    <div class="log-card">
+      <div class="log-head">Log Milestone</div>
+      <div class="log-field">
+        <label>Milestone</label>
+        <select id="ms-type">
+          <option value="draft">Draft section completed</option>
+          <option value="submit">Paper submitted</option>
+          <option value="revision">Revision submitted</option>
+          <option value="accepted">Paper accepted</option>
+          <option value="irb_approved">IRB approved</option>
+          <option value="data_collected">Dataset collected</option>
+          <option value="abstract">Abstract submitted</option>
+          <option value="presentation">Presented at conference</option>
+        </select>
+      </div>
+      <div class="log-field"><label>Project</label><input type="text" id="ms-proj" placeholder="e.g. EndoFLIP, Cirrhosis"></div>
+      <button class="log-btn" onclick="logMilestone()">Log Milestone</button>
+    </div>
+  </div>
+
+  <div class="section-block"><div class="section-lbl">Achievements</div><div class="ach-grid" id="ach-grid"></div></div>
+  <div class="section-block">
+    <div class="section-lbl">Activity — last 90 days</div>
+    <div class="hmap-grid" id="hmap"></div>
+    <div class="hmap-legend"><div class="hleg" style="background:rgba(255,255,255,0.04)"></div><div class="hleg h1"></div><div class="hleg h2"></div><div class="hleg h3"></div><span>more</span></div>
+    <div class="data-btns">
+      <button class="ghost-btn" onclick="doExport()">Export backup</button>
+      <button class="ghost-btn" onclick="document.getElementById('imp').click()">Import backup</button>
+      <button class="ghost-btn danger" onclick="doReset()">Reset</button>
+      <input type="file" id="imp" accept=".json" style="display:none" onchange="doImport(event)">
+    </div>
+  </div>
+</div>
+
+<footer><span>seanleels.com/research</span><span>USC Keck · Class of 2027</span></footer>
+<div class="toast-wrap" id="toasts"></div>
+<div class="lvlup-overlay" id="lvlup"><div class="lvlup-card"><div class="lvlup-ey">Level Up</div><div class="lvlup-rank" id="lu-rank"></div><div class="lvlup-quote" id="lu-quote"></div><button class="lvlup-btn" onclick="closeLvlUp()">Continue</button></div></div>
+
+<script src="dashboard.js"></script>
+<script>
+buildNav('research.html');
+const KEY='sls_research';
+const LEVELS=[[0,400,'Scholar','"Ask the question no one is asking."'],[400,1000,'Analyst','"The data starts to speak."'],[1000,2200,'Investigator','"You know what you are looking for."'],[2200,4000,'PI','"Others follow your lead."'],[4000,7000,'Director','"Shaping the field."'],[7000,Infinity,'Luminary','"Your name is in the literature."']];
+const SESSION_XP={data:40,writing:50,meeting:25,lit:30,stats:45,irb:20};
+const MILESTONE_XP={draft:80,submit:200,revision:150,accepted:300,irb_approved:100,data_collected:120,abstract:80,presentation:150};
+const ACHS=[
+  {id:'first_sess',label:'First session',check:s=>s.sessions>=1},
+  {id:'first_ms',label:'First milestone',check:s=>s.milestones>=1},
+  {id:'streak3',label:'3-day streak',check:s=>s.streak>=3},
+  {id:'streak7',label:'Week streak',check:s=>s.streak>=7},
+  {id:'sess10',label:'10 sessions',check:s=>s.sessions>=10},
+  {id:'sess50',label:'50 sessions',check:s=>s.sessions>=50},
+  {id:'submitted',label:'Submitted',check:s=>s.papers>=1},
+  {id:'accepted',label:'Accepted',check:s=>s.accepted>=1},
+  {id:'ms5',label:'5 milestones',check:s=>s.milestones>=5},
+  {id:'xp1k',label:'1,000 XP',check:s=>s.xp>=1000},
+  {id:'xp3k',label:'3,000 XP',check:s=>s.xp>=3000},
+];
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||{xp:0,streak:0,lastDate:null,sessions:0,milestones:0,papers:0,accepted:0,history:{},unlocked:[]};
+function save(){localStorage.setItem(KEY,JSON.stringify(S));}
+function render(){
+  renderXPBar(S,LEVELS,'');
+  document.getElementById('streak-v').textContent=S.streak;
+  document.getElementById('streak-sub').innerHTML=S.streak>=3?'🔥 '+S.streak+'-day streak':S.streak===1?'Day 1':'Build your streak';
+  document.getElementById('sessions-v').textContent=S.sessions;
+  document.getElementById('milestones-v').textContent=S.milestones;
+  document.getElementById('papers-v').textContent=S.papers;
+  renderAchs(S,ACHS,'ach-grid');
+  renderHmap(S.history,'hmap');
+}
+function addXP(amount,label){
+  updateStreak(S);
+  const t=today(); S.history[t]=(S.history[t]||0)+amount;
+  const before=getLevelIdx(S.xp,LEVELS); S.xp+=amount;
+  const after=getLevelIdx(S.xp,LEVELS);
+  save(); floatXP(amount); showToast('+'+amount+' XP — '+label);
+  if(after>before) setTimeout(()=>showLvlUp(LEVELS[after][2],LEVELS[after][3]),700);
+  checkAchs(S,ACHS,'ach-grid'); render();
+}
+function logSession(){
+  const type=document.getElementById('sess-type').value;
+  const dur=parseInt(document.getElementById('sess-dur').value)||60;
+  S.sessions++;
+  const base=SESSION_XP[type]||30;
+  const xp=Math.round(base*(dur/60));
+  addXP(xp,type.charAt(0).toUpperCase()+type.slice(1)+' · '+dur+'min');
+}
+function logMilestone(){
+  const type=document.getElementById('ms-type').value;
+  const proj=document.getElementById('ms-proj').value||'project';
+  S.milestones++;
+  if(type==='submit'||type==='revision') S.papers++;
+  if(type==='accepted') S.accepted++;
+  const xp=MILESTONE_XP[type]||80;
+  document.getElementById('ms-proj').value='';
+  addXP(xp,proj+' — '+type.replace('_',' '));
+}
+function doExport(){exportData(S,'research-backup');}
+function doImport(e){importData(e,p=>{S=p;save();render();});}
+function doReset(){if(confirm('Reset research data?')){localStorage.removeItem(KEY);S={xp:0,streak:0,lastDate:null,sessions:0,milestones:0,papers:0,accepted:0,history:{},unlocked:[]};save();render();}}
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piano · Sean Lee</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='4' fill='%230a0a0f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='26' font-weight='500' fill='%23a98bca'>SL</text></svg>">
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    :root { --accent: var(--piano); --accent2: #c4a8e0; }
+    .piece-list { display: flex; flex-direction: column; gap: 0; }
+    .piece-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .piece-item:last-child { border-bottom: none; }
+    .piece-name { font-size: 0.85rem; color: var(--text); }
+    .piece-composer { font-size: 0.68rem; color: var(--muted); margin-top: 0.1rem; }
+    .piece-status { font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.2rem 0.6rem; border-radius: 2px; border: 1px solid var(--border); }
+    .piece-status.learning { color: var(--piano); border-color: rgba(169,139,202,0.3); }
+    .piece-status.polishing { color: #c4a8e0; border-color: rgba(196,168,224,0.3); }
+    .piece-status.complete { color: #a0c8a0; border-color: rgba(160,200,160,0.3); }
+    .piece-empty { font-size: 0.8rem; color: var(--muted); font-style: italic; padding: 0.5rem 0; }
+  </style>
+</head>
+<body>
+<nav><a href="dashboard.html" class="nav-logo">Sean Lee</a><div class="nav-links"></div></nav>
+
+<div class="page-hero">
+  <div class="hero-eyebrow">Piano · Classical</div>
+  <h1>Piano <em>Tracker</em></h1>
+  <p>Log practice sessions and pieces. From Chopin to Liebesleid — every minute compounds.</p>
+</div>
+
+<div class="main">
+  <div class="xp-hero">
+    <div class="xp-top">
+      <div><div class="xp-eyebrow">Level</div><div class="xp-level-num" id="lv-num">1</div><div class="xp-rank" id="lv-rank">Student</div></div>
+      <div class="xp-right"><div class="xp-eyebrow">Total XP</div><div class="xp-big" id="xp-total">0</div><div class="xp-to-next"><span id="xp-cur">0</span> / <span id="xp-nxt">300</span> to next</div></div>
+    </div>
+    <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="stats-row cols-4">
+    <div class="stat-card"><div class="stat-lbl">Day Streak</div><div class="stat-val" id="streak-v">0</div><div class="stat-sub" id="streak-sub">—</div></div>
+    <div class="stat-card"><div class="stat-lbl">Practice Time</div><div class="stat-val" id="mins-v">0</div><div class="stat-sub" id="hrs-v">0 hours total</div></div>
+    <div class="stat-card"><div class="stat-lbl">Sessions</div><div class="stat-val" id="sessions-v">0</div><div class="stat-sub">total logged</div></div>
+    <div class="stat-card"><div class="stat-lbl">Pieces</div><div class="stat-val" id="pieces-v">0</div><div class="stat-sub" id="complete-v">0 completed</div></div>
+  </div>
+
+  <div class="log-grid cols-2">
+    <div class="log-card">
+      <div class="log-head">Log Practice</div>
+      <div class="log-field">
+        <label>Focus</label>
+        <select id="p-focus">
+          <option value="repertoire">Repertoire piece</option>
+          <option value="technique">Technique / scales / etudes</option>
+          <option value="sight">Sight reading</option>
+          <option value="theory">Theory / ear training</option>
+          <option value="improv">Improvisation</option>
+        </select>
+      </div>
+      <div class="log-field"><label>Duration (minutes)</label><input type="number" id="p-dur" min="5" placeholder="45"></div>
+      <div class="log-field"><label>Piece worked on (optional)</label><input type="text" id="p-piece" placeholder="e.g. Liebesleid"></div>
+      <button class="log-btn" onclick="logPractice()">Log Session</button>
+    </div>
+
+    <div class="log-card">
+      <div class="log-head">Add / Update Piece</div>
+      <div class="log-field"><label>Title</label><input type="text" id="pc-title" placeholder="Liebesleid"></div>
+      <div class="log-field"><label>Composer</label><input type="text" id="pc-composer" placeholder="Kreisler / Rachmaninoff"></div>
+      <div class="log-field">
+        <label>Status</label>
+        <select id="pc-status">
+          <option value="learning">Learning</option>
+          <option value="polishing">Polishing</option>
+          <option value="complete">Performance ready</option>
+        </select>
+      </div>
+      <button class="log-btn" onclick="addPiece()">Save Piece</button>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-lbl">Current Repertoire</div>
+    <div id="piece-list" class="piece-list"></div>
+  </div>
+
+  <div class="section-block"><div class="section-lbl">Achievements</div><div class="ach-grid" id="ach-grid"></div></div>
+  <div class="section-block">
+    <div class="section-lbl">Activity — last 90 days</div>
+    <div class="hmap-grid" id="hmap"></div>
+    <div class="hmap-legend"><div class="hleg" style="background:rgba(255,255,255,0.04)"></div><div class="hleg h1"></div><div class="hleg h2"></div><div class="hleg h3"></div><span>more</span></div>
+    <div class="data-btns">
+      <button class="ghost-btn" onclick="doExport()">Export backup</button>
+      <button class="ghost-btn" onclick="document.getElementById('imp').click()">Import backup</button>
+      <button class="ghost-btn danger" onclick="doReset()">Reset</button>
+      <input type="file" id="imp" accept=".json" style="display:none" onchange="doImport(event)">
+    </div>
+  </div>
+</div>
+
+<footer><span>seanleels.com/piano</span><span>Sean Lee · Class of 2027</span></footer>
+<div class="toast-wrap" id="toasts"></div>
+<div class="lvlup-overlay" id="lvlup"><div class="lvlup-card"><div class="lvlup-ey">Level Up</div><div class="lvlup-rank" id="lu-rank"></div><div class="lvlup-quote" id="lu-quote"></div><button class="lvlup-btn" onclick="closeLvlUp()">Continue</button></div></div>
+
+<script src="dashboard.js"></script>
+<script>
+buildNav('piano.html');
+const KEY='sls_piano';
+const LEVELS=[[0,300,'Student','"Begin again, every day."'],[300,800,'Apprentice','"The muscle memory is forming."'],[800,1800,'Performer','"You play for others now."'],[1800,3500,'Recitalist','"The stage knows your name."'],[3500,6000,'Virtuoso','"The piece no longer fights you."'],[6000,Infinity,'Maestro','"You play like you mean it."']];
+const ACHS=[
+  {id:'first_p',label:'First session',check:s=>s.sessions>=1},
+  {id:'first_piece',label:'First piece',check:s=>Object.keys(s.pieces||{}).length>=1},
+  {id:'streak3',label:'3-day streak',check:s=>s.streak>=3},
+  {id:'streak7',label:'Week streak',check:s=>s.streak>=7},
+  {id:'hr5',label:'5 hours',check:s=>s.totalMins>=300},
+  {id:'hr20',label:'20 hours',check:s=>s.totalMins>=1200},
+  {id:'hr100',label:'100 hours',check:s=>s.totalMins>=6000},
+  {id:'pieces3',label:'3 pieces',check:s=>Object.keys(s.pieces||{}).length>=3},
+  {id:'complete1',label:'First completion',check:s=>s.completedPieces>=1},
+  {id:'complete5',label:'5 completed',check:s=>s.completedPieces>=5},
+  {id:'xp1k',label:'1,000 XP',check:s=>s.xp>=1000},
+  {id:'xp3k',label:'3,000 XP',check:s=>s.xp>=3000},
+];
+let S=JSON.parse(localStorage.getItem(KEY)||'null')||{xp:0,streak:0,lastDate:null,sessions:0,totalMins:0,pieces:{},completedPieces:0,history:{},unlocked:[]};
+function save(){localStorage.setItem(KEY,JSON.stringify(S));}
+function render(){
+  renderXPBar(S,LEVELS,'');
+  document.getElementById('streak-v').textContent=S.streak;
+  document.getElementById('streak-sub').innerHTML=S.streak>=3?'🔥 '+S.streak+'-day streak':S.streak===1?'Day 1':'Build your streak';
+  document.getElementById('mins-v').textContent=S.totalMins;
+  document.getElementById('hrs-v').textContent=(S.totalMins/60).toFixed(1)+' hours total';
+  document.getElementById('sessions-v').textContent=S.sessions;
+  const pKeys=Object.keys(S.pieces||{});
+  document.getElementById('pieces-v').textContent=pKeys.length;
+  document.getElementById('complete-v').textContent=S.completedPieces+' completed';
+  renderPieces();
+  renderAchs(S,ACHS,'ach-grid');
+  renderHmap(S.history,'hmap');
+}
+function renderPieces(){
+  const el=document.getElementById('piece-list');
+  const pieces=S.pieces||{};
+  const keys=Object.keys(pieces);
+  if(keys.length===0){el.innerHTML='<div class="piece-empty">No pieces added yet.</div>';return;}
+  el.innerHTML=keys.map(k=>{
+    const p=pieces[k];
+    return `<div class="piece-item"><div><div class="piece-name">${p.title}</div><div class="piece-composer">${p.composer}</div></div><span class="piece-status ${p.status}">${p.status==='complete'?'Performance ready':p.status.charAt(0).toUpperCase()+p.status.slice(1)}</span></div>`;
+  }).join('');
+}
+function addXP(amount,label){
+  updateStreak(S);
+  const t=today(); S.history[t]=(S.history[t]||0)+amount;
+  const before=getLevelIdx(S.xp,LEVELS); S.xp+=amount;
+  const after=getLevelIdx(S.xp,LEVELS);
+  save(); floatXP(amount); showToast('+'+amount+' XP — '+label);
+  if(after>before) setTimeout(()=>showLvlUp(LEVELS[after][2],LEVELS[after][3]),700);
+  checkAchs(S,ACHS,'ach-grid'); render();
+}
+function logPractice(){
+  const focus=document.getElementById('p-focus').value;
+  const dur=parseInt(document.getElementById('p-dur').value)||45;
+  const piece=document.getElementById('p-piece').value;
+  S.sessions++; S.totalMins+=dur;
+  const bonus=focus==='repertoire'?15:0;
+  const xp=Math.round((dur/60)*60+bonus);
+  document.getElementById('p-piece').value='';
+  addXP(xp,(piece||focus)+' · '+dur+'min');
+}
+function addPiece(){
+  const title=document.getElementById('pc-title').value.trim();
+  const composer=document.getElementById('pc-composer').value.trim();
+  const status=document.getElementById('pc-status').value;
+  if(!title){showToast('Enter piece title');return;}
+  if(!S.pieces) S.pieces={};
+  const key=title.toLowerCase().replace(/\s+/g,'-');
+  const wasComplete=S.pieces[key]&&S.pieces[key].status==='complete';
+  S.pieces[key]={title,composer:composer||'Unknown',status};
+  if(status==='complete'&&!wasComplete) S.completedPieces=(S.completedPieces||0)+1;
+  document.getElementById('pc-title').value=''; document.getElementById('pc-composer').value='';
+  const xp=status==='complete'?150:50;
+  addXP(xp,title+(status==='complete'?' — performance ready':''));
+}
+function doExport(){exportData(S,'piano-backup');}
+function doImport(e){importData(e,p=>{S=p;save();render();});}
+function doReset(){if(confirm('Reset piano data?')){localStorage.removeItem(KEY);S={xp:0,streak:0,lastDate:null,sessions:0,totalMins:0,pieces:{},completedPieces:0,history:{},unlocked:[]};save();render();}}
+render();
+</script>
+</body>
+</html>
