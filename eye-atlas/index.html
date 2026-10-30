@@ -41,6 +41,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html,body{height:100%}
 body{background:var(--bg);color:var(--ink);font:400 14px/1.5 var(--body);-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit}
@@ -248,7 +249,7 @@ kbd{font:500 11px/1 var(--mono);border:1px solid var(--line-2);border-bottom-wid
 .fields ul{margin:0;padding-left:15px}
 .fields li{margin:2px 0}
 .fields li::marker{color:var(--faint)}
-.fields dd.pearls{background:color-mix(in srgb,var(--c-cornea) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--c-cornea) 22%,transparent);border-radius:8px;padding:8px 10px 8px 8px}
+.fields dd.pearls{background:color-mix(in srgb,var(--sc,var(--c-cornea)) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--sc,var(--c-cornea)) 22%,transparent);border-radius:8px;padding:8px 10px 8px 8px}
 .fields dd.trials li{font-size:13px}
 .trial-name{font:600 11px var(--mono);letter-spacing:.02em;color:var(--ink)}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
@@ -320,7 +321,7 @@ button.chip:hover{background:var(--accent-soft)}
     </div>
     <div class="top-actions">
       <button class="btn-miss" id="miss" aria-pressed="false" title="Highlight structures that hold emergent diagnoses"><span class="pip"></span>Can't-miss</button>
-      <div class="proto">Prototype · cornea fully written</div>
+      <div class="proto">Draft content · verify before clinical use</div>
     </div>
   </header>
 
@@ -359,6 +360,15 @@ button.chip:hover{background:var(--accent-soft)}
   </main>
 </div>
 
+<script>window.EA_CARDS = []; window.EA = function (s, a){ a.forEach(function (c){ c.s = s; window.EA_CARDS.push(c); }); };</script>
+<script src="data/adnexa.js"></script>
+<script src="data/ac.js"></script>
+<script src="data/iris.js"></script>
+<script src="data/lens.js"></script>
+<script src="data/vitreous.js"></script>
+<script src="data/retina.js"></script>
+<script src="data/choroid.js"></script>
+<script src="data/optic.js"></script>
 <script>
 (() => {
 'use strict';
@@ -864,7 +874,12 @@ const CARDS = [
  pearls:['Brown-McLean syndrome: peripheral edema with a clear center after aphakic or intracapsular cataract surgery']}
 ];
 CARDS.forEach(c => { c.s = 'cornea'; });
+const slug = n => n.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+(window.EA_CARDS || []).forEach(c => { if (!c.id) c.id = slug(c.name); CARDS.push(c); });
 const CARD = Object.fromEntries(CARDS.map(c => [c.id, c]));
+const CARD_BY_NAME = Object.fromEntries(CARDS.map(c => [c.name.toLowerCase(), c]));
+const ALIAS = {'blepharitis':'Blepharitis / MGD', 'recurrent erosions':'Recurrent corneal erosion', 'hydrops':'Acute corneal hydrops', 'hydrops (less common than in keratoconus)':'Acute corneal hydrops', 'cme':'CME / Irvine-Gass', 'retinal detachment':'Macula-on rhegmatogenous RD', 'endophthalmitis':'Endophthalmitis (vitreous involvement)', 'subepithelial infiltrates':'Viral conjunctivitis / EKC', 'lacquer cracks':'Myopic CNV', 'retinal neovascularization':'PDR', 'neovascular glaucoma, phthisis':'Neovascular glaucoma', 'orbital invasion (medial canthal and morpheaform types)':'Basal cell carcinoma'};
+const findCard = x => { const k = String(x).toLowerCase(); return CARD[x] || CARD_BY_NAME[k] || (ALIAS[k] && CARD_BY_NAME[ALIAS[k].toLowerCase()]); };
 const SIDX = Object.fromEntries(STRUCTS.map((s, i) => [s.id, i]));
 STRUCTS.forEach(s => {
   s.cards = CARDS.filter(c => c.s === s.id);
@@ -1290,10 +1305,10 @@ function flush(seed, lim = 120, out = 190, n = 70, col = INJ, a0 = 0, a1 = 360, 
   }
   return `<g clip-path="url(#cpField)">${s}</g>`;
 }
-function conjInj(seed, n = 40, w = 1.6, col = INJ, op = .8, x0 = 140, x1 = 505){
+function conjInj(seed, n = 40, w = 1.6, col = INJ, op = .8, x0 = 140, x1 = 505, y0 = 250, y1 = 390){
   const R = rng(seed); let s = '', g = 0;
   while (n > 0 && g++ < 900){
-    const x = x0 + R() * (x1 - x0), y = 250 + R() * 140;
+    const x = x0 + R() * (x1 - x0), y = y0 + R() * (y1 - y0);
     if (Math.hypot(x - 320, y - 320) < 80) continue;
     const a = R() * 6.28, l = 24 + R() * 40, ex = x + Math.cos(a) * l, ey = y + Math.sin(a) * l * .4;
     const mx = (x + ex) / 2 + (R() - .5) * 14, my = (y + ey) / 2 + (R() - .5) * 10;
@@ -1533,6 +1548,69 @@ S('Peripapillary atrophy', 'Temporal crescent of peripapillary atrophy (beta zon
 S('Neovascularization of the disc', 'Fine new-vessel fronds on the disc surface', DZM, () => nvFrond(320, 320, 90, 4, 1.4));
 S('Leber hereditary optic neuropathy', 'Hyperemic disc with peripapillary telangiectasia but no leakage', DZM, () => Ci(320, 320, 124, '#f29a76', .5, 'fB3') + nvRing(40, 118, 150, 6));
 
+/* --- More drawings (second batch) --- */
+const UPM = t => bez(LC, U1, U2, MC, t), LOM = t => bez(MC, D1, D2, LC, t);
+const LOWER_MARGIN = 'M506 334C420 396 232 398 138 322', UPPER_MARGIN = 'M138 322C208 236 412 228 506 334';
+S('Blepharitis / MGD', 'Hyperemic lid margins with capped meibomian glands and crusting at the lashes', EXT, () => Ln(LOWER_MARGIN, '#d9534a', 5, .55) + Ln(UPPER_MARGIN, '#d9534a', 4, .45) + Array.from({length:16}, (_, k) => { const [x, y] = LOM(.12 + k * .05); return Ci(x, y + 2, 2.2, '#f3e2a6', .95); }).join('') + Array.from({length:12}, (_, k) => { const [x, y] = UPM(.15 + k * .06); return Bl(x, y - 5, 3, k + 1, '#efe0b0', .9, {n:6}); }).join(''));
+S('Demodex blepharitis', 'Cylindrical dandruff (collarettes) cuffing the lash bases', EXT, () => { let s = ''; for (let t = .1; t <= .92; t += .034){ const p = UPM(t), d = bezT(LC, U1, U2, MC, t), L = Math.hypot(d[0], d[1]), n = [d[1] / L, -d[0] / L]; s += `<circle cx="${r1(p[0] + n[0] * 4)}" cy="${r1(p[1] + n[1] * 4)}" r="2.6" fill="#f6eed6" stroke="#c9b98a" stroke-width=".6"/>`; } return s; });
+S('Entropion', 'Lower lid turned inward with lashes rubbing the globe', EXT, () => { let s = `<path d="M138 322C232 368 420 366 506 334C420 396 232 398 138 322Z" style="fill:var(--skin-2)"/>` + Ln('M138 322C232 368 420 366 506 334', '#3a2b24', 2.2, 1); for (let t = .15; t <= .86; t += .06){ const p = bez(MC, [420, 366], [232, 368], LC, t); s += Ln(`M${r1(p[0])} ${r1(p[1])}l-2 -10`, '#3a2b24', 1.6, .95); } return s; });
+S('Ectropion', 'Lower lid everted away from the globe, exposing red palpebral conjunctiva', EXT, () => `<path d="M138 322C232 398 420 396 506 334C430 440 230 442 138 330Z" fill="#d9726b" opacity=".92"/>` + Ln('M138 330C230 442 430 440 506 334', '#3a2b24', 2.2, 1) + Ci(486, 372, 2.6, '#3a2b24'));
+S('Trichiasis', 'Misdirected lashes from a normal lid margin touching the cornea', EXT, () => [.42, .48, .55, .6].map(t => { const [x, y] = UPM(t); return Ln(`M${r1(x)} ${r1(y)}Q${r1(x + 6)} ${r1(y + 14)} ${r1(x + 2)} ${r1(y + 28)}`, '#3a2b24', 1.7, 1); }).join(''));
+S('Dermatochalasis', 'Redundant upper-lid skin hooding the lid margin', EXT, () => `<path d="M126 300C214 160 430 158 514 304C440 262 220 268 126 300Z" style="fill:var(--skin-2)"/>` + Ln('M126 300C220 268 440 262 514 304', '#b08a76', 2, .9));
+S('Squamous cell carcinoma', 'Keratotic, ulcerated lesion at the lateral upper lid margin', EXT, () => Bl(212, 264, 16, 4, '#d9b4a2', 1, {j:.45}) + Bl(212, 264, 9, 5, '#8a4a32', .9, {j:.5}) + Bl(206, 258, 5, 6, '#efe3c8', .9));
+S('Sebaceous carcinoma', 'Yellowish upper-lid nodule with loss of lashes', EXT, () => `<path d="${blobD(292, 244, 22, 3, .25, 12, 14)}" style="fill:var(--skin-2)"/>` + Bl(292, 240, 13, 5, '#ecd58e', .95, {j:.3}));
+S('Nasolacrimal duct obstruction', 'Raised tear meniscus with mucus at the inner corner', EXT, () => Ln('M150 330C232 392 420 390 498 338', '#cfe8f5', 7, .8) + Bl(490, 336, 8, 3, '#efe8c8', .95, {j:.5}));
+S('Acute dacryocystitis', 'Tender red swelling below the medial canthal tendon', EXT, () => Ci(548, 346, 34, '#d9584c', .45, 'fB3') + Bl(548, 350, 20, 5, '#e06a5c', .9, {j:.25}) + Ci(544, 344, 5, '#fff2c8', .7, 'fB1'));
+S('Canaliculitis', 'Pouting red punctum with expressible yellow concretions', EXT, () => { const [x, y] = LOM(.08); return Ci(x, y, 7, '#d9584c', .85) + Ci(x, y, 3, '#5a2a20', .9) + Bl(x + 8, y + 6, 4, 3, '#e9c84a', .95, {n:7}); });
+S('Dacryoadenitis', 'Red swelling of the outer upper lid over the lacrimal gland', EXT, () => Bl(196, 246, 50, 6, '#d9584c', .38, {f:'fB3', ry:30}) + Bl(190, 236, 30, 7, '#ffffff', .12, {f:'fB3', ry:16}));
+S('Chlamydial (inclusion) conjunctivitis', 'Follicular conjunctivitis with injection', EXT, () => conjInj(9, 34) + `<g clip-path="url(#cpFis)">${ptsIn(26, 5, 320, 372, 150, (x, y) => y > 352 && Math.hypot(x - 320, y - 320) > 76).map(([x, y]) => Ci(x, y, 4, '#f2d8cf', .9) + Ci(x - 1, y - 1, 1.4, '#fff', .7)).join('')}</g>`);
+S('Allergic conjunctivitis', 'Chemosis: glassy, swollen conjunctiva with mild injection', EXT, () => `<g clip-path="url(#cpFis)">${Bl(210, 322, 52, 4, '#f4e6e2', .6, {ry:34})}${Bl(436, 326, 48, 6, '#f4e6e2', .6, {ry:34})}</g>` + conjInj(10, 20, 1.2, INJ, .45));
+S('VKC / AKC', 'Horner-Trantas dots and gelatinous thickening at the superior limbus', EXT, () => `<g clip-path="url(#cpFis)"><path d="${arcSegD(72, 84, 20, 160)}" fill="#efe1cf" opacity=".8"/>${Array.from({length:11}, (_, k) => { const [x, y] = pol(78, 25 + k * 13); return Ci(x, y, 3, '#ffffff', .95); }).join('')}</g>` + conjInj(11, 22, 1.2, INJ, .55));
+S('Ocular surface squamous neoplasia', 'Gelatinous limbal lesion with feeder vessels and leukoplakia', EXT, () => `<g clip-path="url(#cpFis)">${Bl(236, 320, 20, 7, '#ead0c6', .95, {j:.35})}${Bl(232, 316, 8, 8, '#fbf7ee', .9)}${[300, 312, 326, 340].map((y, i) => Ln(`M150 ${y}Q190 ${r1(y + (320 - y) * .3)} 222 ${318 + i * 2}`, '#c8323a', 1.4, .85)).join('')}</g>`);
+S('Conjunctival nevus / PAM / melanoma', 'Pigmented bulbar lesion with clear cysts (nevus)', EXT, () => Bl(432, 322, 16, 5, '#6b4426', .85, {ry:11}) + [[426, 318, 2.6], [436, 326, 2], [440, 316, 1.8]].map(([x, y, r]) => Ci(x, y, r, '#f6efe6', .85)).join(''));
+S('Stevens-Johnson syndrome / TEN', 'Acute injection with pseudomembranes and lid-margin sloughing', EXT, () => conjInj(12, 60, 2) + `<g clip-path="url(#cpFis)">${Bl(200, 342, 22, 3, '#f4f0e4', .85, {ry:8})}${Bl(440, 346, 20, 4, '#f4f0e4', .85, {ry:7})}</g>` + Ln(LOWER_MARGIN, '#f6efe0', 4, .8) + Ln(UPPER_MARGIN, '#f6efe0', 3, .6));
+S('Mucous membrane pemphigoid', 'Symblepharon bands tethering the lower lid to the globe', EXT, () => `<g clip-path="url(#cpFis)">${[250, 300, 372].map((x, i) => `<path d="M${x - 8} 400L${x - 4} ${352 + i * 4}Q${x} ${346 + i * 4} ${x + 4} ${352 + i * 4}L${x + 8} 400Z" fill="#e9b8b0" opacity=".9"/>`).join('')}</g>` + conjInj(13, 20, 1.2, INJ, .5));
+S('Superior limbic keratoconjunctivitis', 'Sectoral injection of the superior bulbar conjunctiva', EXT, () => `<g clip-path="url(#cpFis)">${Bl(320, 262, 90, 4, '#d9534a', .3, {ry:16, f:'fB3'})}</g>` + conjInj(14, 26, 1.6, INJ, .85, 240, 400, 250, 282));
+S('Necrotizing scleritis', 'Avascular necrotic patch with blue uveal show amid violaceous injection', EXT, () => `<g clip-path="url(#cpFis)">${Bl(206, 326, 42, 4, '#7d2a55', .5, {f:'fB3'})}</g>` + conjInj(15, 22, 2, '#7a1f45', .85, 145, 250) + Bl(206, 328, 14, 6, '#f5f3ec', 1, {j:.35}) + Bl(206, 328, 7, 7, '#5c6a8a', .85));
+S('Scleromalacia perforans', 'Blue-gray patches of thin sclera in a quiet eye', EXT, () => Bl(196, 330, 12, 4, '#7d8aa3', .65, {ry:9}) + Bl(450, 318, 9, 6, '#7d8aa3', .6, {ry:7}));
+S('Chronic postoperative endophthalmitis', 'White capsular plaque behind the IOL, granulomatous KPs and a small hypopyon', SLL, () => Ci(320, 320, 33, '#2a2622', .9) + `<circle cx="320" cy="320" r="30" fill="none" stroke="#e8eef2" stroke-width="1.5"/>` + Bl(326, 326, 12, 4, '#fbf7ee', .95) + ptsIn(10, 3, 320, 362, 34, (x, y) => y > 348).map(([x, y, g]) => Ci(x, y, 3 + g * 2, '#f1ead8', .9)).join('') + hypo(414, 108, '#f2ead0', .9));
+S('Pseudoexfoliation glaucoma', 'Exfoliative flakes on the pupil margin', SLL, () => Array.from({length:22}, (_, k) => { const [x, y] = pol(34 + (k % 3), k * 16.4); return Ci(x, y, 1.8 + (k % 2), '#f6f3ea', .95); }).join('') + Ci(320, 320, 16, '#f1efe8', .35));
+S('Posner-Schlossman syndrome', 'A few fine KPs on a white eye with very high pressure', SLL, () => ptsIn(8, 6, 320, 340, 30).map(([x, y]) => Ci(x, y, 2, '#ffffff', .95)).join('') + Ci(320, 320, 118, '#eef2f4', .2, 'fB3'));
+S('Uveitic glaucoma', 'Seclusio pupillae with KPs and ciliary flush', SLL, () => flush(18, 120, 180, 50) + `<path d="${polarPath(a => 30 + 5 * Math.abs(Math.sin(a * Math.PI / 180 * 3)))}" fill="#141210" opacity=".9"/>` + ptsIn(14, 7, 320, 352, 34, (x, y) => y > 340).map(([x, y]) => Ci(x, y, 2.4, '#f4f1ea', .95)).join(''));
+S('JIA-associated uveitis', 'Band keratopathy and posterior synechiae in a white eye', SLL, () => irisPatch(52) + `<path d="${polarPath(a => 30 + 9 * Math.abs(Math.sin(a * Math.PI / 180 * 2.5)))}" fill="#141210"/>` + `<path d="M216 296Q320 286 424 296L426 344Q320 354 214 344Z" fill="#ece6d6" opacity=".85"/>` + ptsIn(16, 6, 320, 320, 100, (x, y) => y > 300 && y < 340).map(([x, y]) => Ci(x, y, 2.2, '#8a7660', .4)).join(''));
+S('Sarcoid uveitis', 'Mutton-fat KPs with Koeppe (pupil margin) and Busacca (stromal) nodules', SLL, () => ptsIn(10, 4, 320, 366, 40, (x, y) => y > 350).map(([x, y, g]) => Ci(x, y, 4.5 + g * 3, '#f3ead2', .95) + Ci(x - 1.5, y - 1.5, 1.4, '#fff', .8)).join('') + Array.from({length:6}, (_, k) => { const [x, y] = pol(36, k * 60 + 10); return Ci(x, y, 3.2, '#efe6d8', .95); }).join('') + ptsIn(5, 9, 320, 320, 96, (x, y, r) => r > 60).map(([x, y]) => Ci(x, y, 4, '#ede2d0', .9)).join(''));
+S('HSV / VZV anterior uveitis', 'Sectoral iris atrophy with KPs', SLL, () => `<path d="${arcSegD(38, 112, 195, 245)}" fill="#d8c3a4" opacity=".75"/>` + ptsIn(12, 8, 320, 360, 36, (x, y) => y > 346).map(([x, y]) => Ci(x, y, 2.6, '#f4f1ea', .95)).join(''));
+S('Axenfeld-Rieger syndrome', 'Posterior embryotoxon with iris strands, corectopia and polycoria', SLL, () => `<circle cx="320" cy="320" r="118" fill="none" stroke="#f6f3ec" stroke-width="4" opacity=".9"/>` + [20, 70, 160, 230, 300].map(a => { const [x0, y0] = pol(117, a), [x1, y1] = pol(92, a + 3); return Ln(`M${x0} ${y0}L${x1} ${y1}`, '#7a5232', 2.2, .9); }).join('') + irisPatch(38) + Bl(302, 334, 22, 3, '#141210', 1, {j:.3, ry:18}) + `<ellipse cx="368" cy="290" rx="9" ry="6" fill="#141210"/>`);
+S('Traumatic mydriasis / sphincter tears', 'Dilated pupil with small V-shaped notches at the margin', SLL, () => { const notch = a => [30, 140, 250].reduce((m, n) => { const d = Math.abs(((a - n + 540) % 360) - 180); return Math.max(m, 7 * Math.max(0, 1 - d / 4)); }, 0); return `<path d="${polarPath(a => 48 + notch(a), CX, CY, 360)}" fill="#141210" stroke="#3b2614" stroke-width="2"/>`; });
+S('Retained lens fragments', 'A nuclear fragment in the inferior pupil behind an IOL', DIL, () => lensCover() + `<circle cx="320" cy="314" r="58" fill="#e8f0f2" fill-opacity=".12" stroke="#e8eef2" stroke-width="2"/>` + Bl(334, 398, 14, 4, '#f1e2b0', .95, {j:.4}));
+S('Weill-Marchesani / microspherophakia', 'Small round lens with its whole equator visible', DIL, () => lensCover() + zonFan(320, 320, 66, 0, 352) + lensAt(320, 320, 66));
+S('Vitreous base avulsion (trauma)', 'A “bucket handle” strip of vitreous base hanging in the periphery', NDL, () => Ln(arcD(172, 200, 262), '#efe6d2', 6, .9) + Ln(arcD(186, 198, 264), '#c9bfa8', 1.4, .6));
+S('Mittendorf dot', 'Small white dot on the posterior lens capsule', NDL, () => Ci(332, 322, 5, '#ffffff', .95) + Ci(332, 322, 9, '#ffffff', .2, 'fB1'));
+S('Radiation retinopathy', 'Microaneurysms, cotton wool spots, exudates and telangiectasia around the macula', FUN, () => RET(ptsIn(24, 13, 290, 320, 80, notDisc).map(([x, y]) => Ci(x, y, 1.8, '#8c0f14', .95)).join('') + arcDots(282, 330, 34, 180, 330, 14, EXU) + cws(330, 276, 9, 4) + cws(250, 362, 8, 6) + nvRing(14, 14, 30, 7, 282, 320)));
+S('Retinal artery macroaneurysm', 'Arteriolar aneurysm with a ring of exudate and blood in several layers', FUN, () => RET(Bl(300, 232, 26, 4, BLD2, .6, {f:'fB1'}) + arcDots(300, 232, 22, 0, 360, 18, EXU) + Ci(300, 216, 7, '#d6402c', 1) + Ci(300, 216, 10, '#ff9a7a', .3, 'fB1')));
+S('Ocular ischemic syndrome', 'Midperipheral dot-blot hemorrhages with dilated, non-tortuous veins', FUN, () => RET(RV.veins.map(d => Ln(d, '#6b1410', 7.5, .75)).join('') + ptsIn(28, 5, 320, 320, 180, (x, y) => Math.hypot(x - 320, y - 320) > 110 && notDisc(x, y)).map(([x, y, g]) => Ci(x, y, 3.5 + g * 2, BLD2, .9)).join('')));
+S('Polypoidal choroidal vasculopathy', 'Orange-red peripapillary polyps with subretinal hemorrhage', FUN, () => RET(Bl(410, 330, 30, 4, BLD2, .7, {j:.4}) + [[420, 300], [404, 312], [426, 318]].map(([x, y]) => Ci(x, y, 6, '#f0884e', .95) + Ci(x - 1.5, y - 1.5, 2, '#ffd2b0', .7)).join('')));
+S('Exudative RD', 'Smooth, bullous inferior detachment that shifts with posture, with no break', FUN, () => RET(`<path d="M110 360C200 420 440 424 530 356L540 520L100 520Z" fill="#dcc0b2" opacity=".7"/>` + Ln('M110 360C200 420 440 424 530 356', '#ffffff', 1.6, .45)));
+S('Tractional RD', 'Fibrovascular bands along the arcades tenting the retina', FUN, () => RET(Bl(300, 226, 40, 4, '#dcc0b2', .5, {ry:22}) + Bl(300, 414, 40, 6, '#dcc0b2', .5, {ry:22}) + Ln('M452 300C430 246 360 220 290 230C240 238 200 250 160 270', '#efe6d6', 9, .85) + Ln('M452 340C430 394 360 420 290 410C240 402 200 390 160 370', '#efe6d6', 9, .85) + nvFrond(352, 226, 14, 5)));
+S('Toxocariasis', 'White posterior pole granuloma with a retinal fold toward the disc', FUN, () => RET(Ln('M248 300Q350 300 440 316', '#f1e7d6', 5, .85) + Bl(244, 300, 20, 4, '#f6f1e6', .95, {j:.3}) + Ci(244, 300, 30, '#ffffff', .2, 'fB6')));
+S('Syphilitic retinitis', 'Large yellow placoid macular lesion (posterior placoid chorioretinitis)', FUN, () => Bl(288, 322, 48, 5, '#f2d48e', .75, {j:.25, f:'fB1'}) + ptsIn(30, 6, 288, 322, 40).map(([x, y]) => Ci(x, y, 1.6, '#b8762e', .8)).join(''));
+S('White dot syndromes (MEWDS, APMPPE, serpiginous)', 'MEWDS: small gray-white dots with foveal granularity', FUN, () => RET(ptsIn(40, 4, 320, 320, 170, notDisc).map(([x, y, g]) => Ci(x, y, 3 + g * 3, '#f2ece2', .75, 'fB1')).join('') + ptsIn(14, 8, 280, 320, 10).map(([x, y]) => Ci(x, y, 1.2, '#f4c08a', .95)).join('')));
+S('Cone dystrophy', 'Bull’s-eye maculopathy with temporal disc pallor', FUN, () => `<path d="${ringD(32, 16, 280, 320)}" fill-rule="evenodd" fill="#f0b58e" opacity=".7"/><path d="${arcSegD(.1, 27, 90, 270, 455, 320)}" fill="#f8ead0" opacity=".8"/>`);
+S('Choroideremia', 'Scalloped atrophy exposing choroidal vessels and sclera, macula spared', FUN, () => RET(`<path d="${ringD(212, 96, 300, 320)}" fill-rule="evenodd" fill="#f1e2cc" opacity=".9"/>` + Array.from({length:14}, (_, k) => { const a = k * 25.7, [x0, y0] = pol(110, a, 300, 320), [x1, y1] = pol(200, a + 12, 300, 320); return Ln(`M${x0} ${y0}Q${pol(160, a + 20, 300, 320).join(' ')} ${x1} ${y1}`, '#d36d4a', 5, .8); }).join('') + `<path d="${polarPath(a => 96 + 10 * Math.sin(a * Math.PI / 180 * 7), 300, 320)}" fill="none" stroke="#8a4a2e" stroke-width="2" opacity=".6"/>`) + Ci(455, 320, 27, '#f7d6aa', 1) + Ci(459, 320, 11, '#fcefd4', 1));
+S('Gyrate atrophy', 'Scalloped, coalescing round patches of peripheral atrophy', FUN, () => RET(Array.from({length:22}, (_, k) => { const a = k * 16.4, [x, y] = pol(180 + (k % 3) * 8, a); return `<circle cx="${x}" cy="${y}" r="${16 + (k % 4) * 4}" fill="#f1e2cc" stroke="#7a3a24" stroke-width="1.5" opacity=".9"/>`; }).join('')));
+S('Astrocytic hamartoma', 'Calcified “mulberry” lesion near the disc', FUN, () => RET(ptsIn(16, 5, 424, 272, 14).map(([x, y]) => Ci(x, y, 4.5, '#f6ecc8', .95) + Ci(x - 1, y - 1, 1.5, '#fff', .8)).join('')));
+S('Sympathetic ophthalmia', 'Dalen-Fuchs nodules: small yellow-white deep spots in the midperiphery', CHV, () => RET(ptsIn(26, 4, 320, 320, 180, (x, y, r) => r > 80).map(([x, y, g]) => Ci(x, y, 4 + g * 3, '#f2e2b8', .9)).join('')));
+S('Pachychoroid spectrum', 'Dilated pachyvessels with overlying RPE mottling', CHV, () => RET(['M140 300C220 280 300 330 400 300', 'M150 360C240 380 320 340 420 370'].map(d => Ln(d, '#3a0a14', 16, .65)).join('')) + ptsIn(30, 7, 284, 320, 30).map(([x, y]) => Ci(x, y, 2, '#e9b08a', .8)).join(''));
+S('RPE hypertrophy / hyperplasia', 'Grouped “bear track” pigment', CHV, () => RET([[220, 240], [400, 410]].map(([cx, cy], i) => ptsIn(6, i + 3, cx, cy, 22).map(([x, y, g]) => `<ellipse cx="${r1(x)}" cy="${r1(y)}" rx="${r1(4 + g * 3)}" ry="${r1(3 + g * 2)}" fill="#120c0a" opacity=".92"/>`).join('')).join('')));
+S('Optic nerve glioma', 'Diffuse disc pallor (some show mild swelling)', DZM, () => Ci(320, 320, 120, '#f7efe2', .75, 'fB1') + OPV(5.5, 8));
+S('Optic nerve sheath meningioma', 'Optic atrophy with optociliary shunt vessels', DZM, () => Ci(320, 320, 118, '#f6efe4', .8) + OPV(5, 8) + [40, 150, 230, 320].map(a => { const p = pol(100, a), q = pol(140, a + 10), r = pol(104, a + 22); return Ln(`M${p.join(' ')}Q${q.join(' ')} ${r.join(' ')}`, '#8a1a14', 4, .9); }).join(''));
+S('Compressive optic neuropathy', 'Band (bow-tie) pallor of the nasal and temporal rim', DZM, () => `<path d="${arcSegD(50, 118, 140, 220)}" fill="#f7efe2" opacity=".85"/><path d="${arcSegD(50, 118, -40, 40)}" fill="#f7efe2" opacity=".85"/>` + OPV());
+S('Toxic / nutritional optic neuropathy', 'Temporal pallor from papillomacular bundle loss', DZM, () => `<path d="${arcSegD(48, 118, 130, 230)}" fill="#f7efe2" opacity=".85"/>` + OPV());
+
+/* --- Outline topics that now have full cards: move their drawings onto the card and drop the stub --- */
+CARDS.forEach(c => { const k = 's:' + c.name; if (FIG[k] && !FIG[c.id]) FIG[c.id] = FIG[k]; });
+STRUCTS.forEach(s => { const names = new Set(s.cards.map(c => c.name)); s.stubList = s.stubList.filter(x => !names.has(x.name)); });
+
 /* --- Drawing state --- */
 const figbar = $('#figbar');
 const figName = k => CARD[k] ? CARD[k].name : k.slice(2);
@@ -1543,14 +1621,14 @@ function syncFigMarks(){
 function renderFig(){
   $$('#eye .patho').forEach(g => g.remove());
   const f = state.fig && FIG[state.fig];
-  if (!f || f.stop !== state.stop){ figbar.hidden = true; eye.classList.remove('figon'); syncFigMarks(); return; }
+  if (!f || f.stop !== state.stop){ figbar.hidden = true; eye.classList.remove('figon'); syncFigMarks(); updateHits(); return; }
   let html = '';
   try { html = f.d(); } catch(e){ console.error(e); }
   layers()[f.stop].insertAdjacentHTML('beforeend', `<g class="patho${state.figCmp ? ' off' : ''}">${html}</g>`);
   eye.classList.toggle('figon', !state.figCmp);
   $('#figN').textContent = figName(state.fig); $('#figT').textContent = f.t; $('#figV').textContent = f.v;
   $('#figCmp').setAttribute('aria-pressed', !!state.figCmp);
-  figbar.hidden = false; syncFigMarks();
+  figbar.hidden = false; syncFigMarks(); updateHits();
 }
 function hideFig(){ state.fig = null; state.figCmp = false; renderFig(); }
 $('#figX').addEventListener('click', hideFig);
@@ -1583,14 +1661,15 @@ function miniCornea(){
   for (let k = 0; k < 18; k++) art += `<ellipse cx="${r1(18 + R() * (W - 18))}" cy="${r1(58 + R() * 68)}" rx="7" ry="1.4" style="fill:var(--c-cornea)" opacity=".75"/>`;
   art += `<rect x="10" y="130" width="${W}" height="7" style="fill:var(--c-cornea)" opacity=".42"/>`;
   for (let x = 10; x < W + 6; x += 18) art += `<rect x="${x}" y="138" width="17" height="12" rx="2" style="fill:var(--c-cornea);stroke:var(--c-cornea)" fill-opacity=".25" stroke-opacity=".7" stroke-width=".7"/><circle cx="${x + 8.5}" cy="144" r="2" style="fill:var(--c-cornea)" opacity=".8"/>`;
+  let prev = -99;
   const rows = bands.map(b => {
-    const ly = b.y + b.h / 2 + 4;
-    const label = `<line x1="${10 + W}" x2="${W + 22}" y1="${b.y + b.h / 2}" y2="${b.y + b.h / 2}" style="stroke:var(--line-2)"/><text x="${W + 26}" y="${ly - 1}">${b.name}</text><text class="sm" x="${W + 26}" y="${ly + 11}">${b.note}</text>`;
+    const c = b.y + b.h / 2, ly = Math.max(c, prev + 24); prev = ly;
+    const label = `<path d="M${10 + W} ${c}L${W + 10} ${c}L${W + 20} ${ly}L${W + 24} ${ly}" fill="none" style="stroke:var(--line-2)"/><text x="${W + 28}" y="${ly + 3}">${b.name}</text><text class="sm" x="${W + 28}" y="${ly + 15}">${b.note}</text>`;
     if (!b.sub) return `<g>${label}</g>`;
     return `<g class="band${state.sub === b.sub ? ' sel' : ''}" data-act="layer" data-sub="${b.sub}" role="button" tabindex="0" aria-label="Filter to ${b.name}"><rect class="bhit" x="4" y="${b.y}" width="412" height="${b.h}" rx="3"/>${label}</g>`;
   }).join('');
   return `<div class="mini"><div class="mini-h"><span>Corneal layers</span><span>not to scale · click a layer</span></div>
-    <svg viewBox="0 0 420 172">${art}${rows}</svg></div>`;
+    <svg viewBox="0 0 420 180">${art}${rows}</svg></div>`;
 }
 function miniGonio(){
   const bands = [
@@ -1656,17 +1735,17 @@ function fieldHTML(key, v){
   if (!v || (Array.isArray(v) && !v.length)) return '';
   let dd;
   if (key === 'ddx'){
-    dd = `<div class="chips">${v.map(x => CARD[x] ? `<button class="chip" data-act="goto" data-id="${x}">${esc(CARD[x].name)}</button>` : `<span class="chip">${esc(x)}</span>`).join('')}</div>`;
+    dd = `<div class="chips">${v.map(x => { const c = findCard(x); return c ? `<button class="chip" data-act="goto" data-id="${c.id}">${esc(c.name)}</button>` : `<span class="chip">${esc(x)}</span>`; }).join('')}</div>`;
   } else if (key === 'trials'){
     dd = `<ul>${v.map(([n, t]) => `<li><span class="trial-name">${esc(n)}</span> · ${esc(t)}</li>`).join('')}</ul>`;
   } else if (key === 'comp'){
-    dd = `<ul>${v.map(x => CARD[x] ? `<li><button class="chip" data-act="goto" data-id="${x}">${esc(CARD[x].name)}</button></li>` : `<li>${esc(x)}</li>`).join('')}</ul>`;
+    dd = `<ul>${v.map(x => { const c = findCard(x); return c ? `<li><button class="chip" data-act="goto" data-id="${c.id}">${esc(c.name)}</button></li>` : `<li>${esc(x)}</li>`; }).join('')}</ul>`;
   } else dd = Array.isArray(v) ? `<ul>${v.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : `<p>${esc(v)}</p>`;
   return `<dt>${LABELS[key]}</dt><dd class="${key}">${dd}</dd>`;
 }
 function cardHTML(c){
   const open = state.open.has(c.id), m = state.mastered.has(c.id);
-  return `<article class="card${open ? ' open' : ''}" id="card-${c.id}" data-id="${c.id}">
+  return `<article class="card${open ? ' open' : ''}" id="card-${c.id}" data-id="${c.id}" style="--sc:var(--c-${c.s})">
     <button class="card-head" data-act="toggle" data-id="${c.id}" aria-expanded="${open}" aria-controls="body-${c.id}">
       <span class="row1"><span class="names"><span class="card-name">${esc(c.name)}</span>${c.aka ? `<span class="card-aka">${esc(c.aka)}</span>` : ''}</span>
       <span class="tags"><span class="urg urg-${c.urg}">${URG[c.urg]}</span><span class="tag">${esc(c.cat)}</span>${c.hy ? '<span class="tag hy" title="High-yield">HY</span>' : ''}${m ? '<span class="tag mst" title="Mastered">✓</span>' : ''}</span></span>
@@ -1807,7 +1886,7 @@ function updateRail(){
     const m = $('#meta-' + i), a = $('#alert-' + i); if (!m) return;
     if (s.cards.length){
       const n = s.cards.filter(c => state.mastered.has(c.id)).length;
-      m.innerHTML = `${s.cards.length} cards · ${n} done <span class="bar"><i style="width:${Math.round(100 * n / s.cards.length)}%"></i></span>`;
+      m.innerHTML = `${s.cards.length} cards · ${n} done <span class="bar"><i style="width:${Math.round(100 * n / s.cards.length)}%;background:var(--c-${s.id})"></i></span>`;
     } else m.textContent = `Outline · ${s.stubList.length} topics`;
     const ec = emergentCount(s);
     a.hidden = !(state.canMiss && ec); a.textContent = ec;
@@ -1923,7 +2002,7 @@ function updateHits(){
   $$('#eye .hit').forEach(h => {
     const on = state.canMiss && (h.dataset.sub ? emSub.has(h.dataset.s + ':' + h.dataset.sub) : (h.dataset.go && emStruct.has(h.dataset.s)));
     h.classList.toggle('alert', !!on);
-    h.classList.toggle('hl', !state.canMiss && h.dataset.s === STRUCTS[state.stop].id && !!h.dataset.sub && h.dataset.sub === state.sub);
+    h.classList.toggle('hl', !state.canMiss && !state.fig && h.dataset.s === STRUCTS[state.stop].id && !!h.dataset.sub && h.dataset.sub === state.sub);
   });
 }
 
@@ -2049,8 +2128,9 @@ document.addEventListener('keydown', e => {
    INIT
    ========================================================= */
 buildEye(); buildSag(); renderRail(); measureRow(); layoutLabels();
+const initialHash = location.hash.slice(1);
 applyDepth(1);
-if (!route(location.hash.slice(1))){ /* default: cornea */ }
+route(initialHash);
 addEventListener('resize', () => { const d = state.depth; measureRow(); applyDepth(d); });
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layoutLabels(); measureRow(); applyDepth(state.depth); });
 })();
