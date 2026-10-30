@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -152,6 +152,19 @@
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
+    /* TOOLS */
+    .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; transition: border-color 0.3s, transform 0.3s; display: flex; flex-direction: column; }
+    .tool-card:hover { border-color: rgba(200,169,110,0.35); transform: translateY(-3px); }
+    .tool-preview { width: 100%; aspect-ratio: 16/9; background: #0d1116; overflow: hidden; display: flex; align-items: stretch; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .tool-preview svg { width: 100%; height: 100%; }
+    .tool-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .tool-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 0.5rem; }
+    .tool-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--white); margin-bottom: 0.6rem; font-weight: 500; line-height: 1.2; }
+    .tool-desc { font-size: 0.83rem; color: var(--muted2); line-height: 1.75; flex: 1; margin-bottom: 1.25rem; }
+    .tool-link { align-self: flex-start; padding: 0.6rem 1.4rem; border-radius: 2px; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 400; transition: all 0.3s; background: var(--accent); color: var(--bg); }
+    .tool-link:hover { background: var(--accent2); }
+
     @media (max-width: 900px) {
       nav { padding: 1.2rem 1.5rem; }
       .nav-links { gap: 1rem; }
@@ -161,7 +174,7 @@
       .hero-photo { max-width: 240px; }
       section { padding: 3.5rem 1.5rem; }
       .about-grid, .contact-inner, .skills-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .projects-grid, .leadership-grid { grid-template-columns: 1fr; }
+      .projects-grid, .leadership-grid, .tools-grid { grid-template-columns: 1fr; }
       .research-item { grid-template-columns: 1fr; gap: 0.4rem; }
       .research-date { display: none; }
       .edu-item, .cert-item { grid-template-columns: 1fr; }
@@ -178,6 +191,7 @@
     <li><a href="#publications">Publications</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="#tools">Tools</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -570,6 +584,143 @@
       </div>
     </div>
   <div class="skills-block reveal"><h3>Technical &amp; Research Skills</h3><p style="color:var(--muted2);font-size:0.83rem;">Optos ultra-widefield imaging · Retinal vessel segmentation · Quantitative vascular analysis · TriNetX · Retrospective cohort design · Propensity score matching · Kaplan–Meier analysis · Hazard and risk ratios · Systematic reviews · Meta-analysis · React Native</p></div></div>
+</section>
+</div>
+
+<!-- TOOLS -->
+<div class="section-wrap">
+<section id="tools">
+  <div class="section-label reveal">Ophthalmology Tools</div>
+  <h2 class="reveal">Built for Medicine</h2>
+  <div class="tools-grid">
+
+    <!-- Eye Atlas -->
+    <div class="tool-card reveal reveal-delay-1">
+      <div class="tool-preview">
+        <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="640" height="360" fill="#0d1116"/>
+          <rect x="0" y="0" width="160" height="360" fill="#141a21"/>
+          <rect x="159" y="0" width="1" height="360" fill="#242e39"/>
+          <text x="20" y="30" font-family="monospace" font-size="9" font-weight="600" fill="#97a3b0" letter-spacing="1.5">DEPTH</text>
+          <line x1="30" y1="50" x2="30" y2="330" stroke="#334050" stroke-width="2" stroke-linecap="round"/>
+          <line x1="30" y1="50" x2="30" y2="130" stroke="#8db0ee" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="30" cy="130" r="8" fill="#8db0ee" opacity="0.95"/>
+          <circle cx="30" cy="130" r="12" fill="#8db0ee" opacity="0.2"/>
+          <circle cx="30" cy="50"  r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="80"  r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="110" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="160" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="190" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="220" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="250" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="280" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <circle cx="30" cy="310" r="4" fill="#19212a" stroke="#334050" stroke-width="1.5"/>
+          <text x="46" y="53"  font-family="monospace" font-size="10.5" fill="#e3e8ee" font-weight="600">Adnexa</text>
+          <text x="46" y="83"  font-family="monospace" font-size="10.5" fill="#e3e8ee" font-weight="600">Cornea</text>
+          <rect x="40" y="98" width="110" height="26" rx="4" fill="#1c2a40" stroke="#8db0ee" stroke-opacity="0.4" stroke-width="1"/>
+          <text x="46" y="115" font-family="monospace" font-size="10.5" fill="#8db0ee" font-weight="600">Ant. Chamber</text>
+          <text x="46" y="163" font-family="monospace" font-size="10.5" fill="#c3ccd6">Iris / Ciliary</text>
+          <text x="46" y="193" font-family="monospace" font-size="10.5" fill="#c3ccd6">Lens</text>
+          <text x="46" y="223" font-family="monospace" font-size="10.5" fill="#c3ccd6">Vitreous</text>
+          <text x="46" y="253" font-family="monospace" font-size="10.5" fill="#c3ccd6">Retina</text>
+          <text x="46" y="283" font-family="monospace" font-size="10.5" fill="#c3ccd6">Choroid</text>
+          <text x="46" y="313" font-family="monospace" font-size="10.5" fill="#c3ccd6">Optic Nerve</text>
+          <rect x="160" y="0" width="280" height="360" fill="#0a0e12"/>
+          <ellipse cx="300" cy="180" rx="110" ry="90" fill="#e6e5e0" opacity="0.92"/>
+          <circle cx="300" cy="180" r="62" fill="#5672cc" opacity="0.9"/>
+          <circle cx="300" cy="180" r="55" fill="none" stroke="#4a62b8" stroke-width="2" opacity="0.5"/>
+          <circle cx="300" cy="180" r="48" fill="none" stroke="#3e52a0" stroke-width="1.5" opacity="0.4"/>
+          <circle cx="300" cy="180" r="28" fill="#141210"/>
+          <path d="M 252 140 Q 300 100 348 140" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.18"/>
+          <ellipse cx="285" cy="162" rx="9" ry="6" fill="white" opacity="0.22" transform="rotate(-20 285 162)"/>
+          <line x1="348" y1="140" x2="390" y2="110" stroke="#6b7785" stroke-width="1"/>
+          <circle cx="390" cy="110" r="2" fill="#6b7785"/>
+          <text x="396" y="114" font-family="sans-serif" font-size="10" fill="#97a3b0">Cornea</text>
+          <line x1="362" y1="180" x2="400" y2="168" stroke="#6b7785" stroke-width="1"/>
+          <circle cx="400" cy="168" r="2" fill="#6b7785"/>
+          <text x="406" y="172" font-family="sans-serif" font-size="10" fill="#97a3b0">Iris</text>
+          <line x1="328" y1="207" x2="400" y2="226" stroke="#6b7785" stroke-width="1"/>
+          <circle cx="400" cy="226" r="2" fill="#6b7785"/>
+          <text x="406" y="230" font-family="sans-serif" font-size="10" fill="#97a3b0">Lens</text>
+          <ellipse cx="300" cy="155" rx="50" ry="14" fill="#8199f0" opacity="0.08"/>
+          <rect x="440" y="0" width="200" height="360" fill="#141a21"/>
+          <rect x="440" y="0" width="1" height="360" fill="#242e39"/>
+          <text x="456" y="26" font-family="monospace" font-size="8.5" fill="#6b7785">Eye › Ant. Chamber</text>
+          <rect x="452" y="36" width="172" height="88" rx="6" fill="#19212a" stroke="#8db0ee" stroke-opacity="0.5" stroke-width="1"/>
+          <text x="462" y="55" font-family="sans-serif" font-size="11" font-weight="600" fill="#e3e8ee">Acute Angle-Closure</text>
+          <rect x="462" y="60" width="34" height="13" rx="6" fill="none" stroke="#f06a5d" stroke-width="1"/>
+          <text x="467" y="71" font-family="monospace" font-size="7.5" fill="#f06a5d" letter-spacing="0.5">EMERG</text>
+          <rect x="502" y="60" width="16" height="13" rx="4" fill="#1c2a40" stroke="#8db0ee" stroke-opacity="0.4" stroke-width="1"/>
+          <text x="506" y="71" font-family="monospace" font-size="7.5" fill="#8db0ee">HY</text>
+          <text x="462" y="87" font-family="sans-serif" font-size="9" fill="#97a3b0">IOP spike → halos, fixed</text>
+          <text x="462" y="99" font-family="sans-serif" font-size="9" fill="#97a3b0">mid-dilated pupil, corneal edema</text>
+          <text x="462" y="114" font-family="sans-serif" font-size="9" fill="#6b7785">Risks · Management · DDx →</text>
+          <rect x="452" y="132" width="172" height="42" rx="6" fill="#19212a" stroke="#242e39" stroke-width="1"/>
+          <text x="462" y="150" font-family="sans-serif" font-size="11" font-weight="600" fill="#e3e8ee">Hyphema</text>
+          <rect x="462" y="158" width="28" height="11" rx="5" fill="none" stroke="#e3a54b" stroke-width="1"/>
+          <text x="466" y="167" font-family="monospace" font-size="7" fill="#e3a54b">URGENT</text>
+          <rect x="452" y="182" width="172" height="42" rx="6" fill="#19212a" stroke="#242e39" stroke-width="1"/>
+          <text x="462" y="200" font-family="sans-serif" font-size="11" font-weight="600" fill="#e3e8ee">Uveitis (Ant.)</text>
+          <rect x="462" y="208" width="28" height="11" rx="5" fill="none" stroke="#e3a54b" stroke-width="1"/>
+          <text x="466" y="217" font-family="monospace" font-size="7" fill="#e3a54b">URGENT</text>
+          <rect x="452" y="234" width="172" height="22" rx="4" fill="#f06a5d" fill-opacity="0.12" stroke="#f06a5d" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="4 3"/>
+          <text x="462" y="249" font-family="monospace" font-size="8" fill="#f06a5d">● Can't-miss mode active</text>
+        </svg>
+      </div>
+      <div class="tool-body">
+        <div class="tool-label">Ophthalmology · OKAP Prep</div>
+        <div class="tool-name">Eye Atlas</div>
+        <p class="tool-desc">Interactive anatomy-to-pathology study tool covering all 9 layers of the eye — drag the depth rail from adnexa to optic nerve, click any structure to see its conditions, schematic drawings, and management. Built to OKAP depth.</p>
+        <a href="https://atlas.seanleels.com" target="_blank" rel="noopener" class="tool-link">Try It →</a>
+      </div>
+    </div>
+
+    <!-- Before You Page Ophtho -->
+    <div class="tool-card reveal reveal-delay-2">
+      <div class="tool-preview">
+        <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="640" height="360" fill="#0d1116"/>
+          <rect x="120" y="60" width="400" height="240" rx="8" fill="#141a21" stroke="#242e39" stroke-width="1"/>
+          <rect x="130" y="72" width="380" height="216" rx="6" fill="#19212a" stroke="#2e3a47" stroke-width="1"/>
+          <rect x="130" y="72" width="380" height="38" rx="6" fill="#1c2a40"/>
+          <rect x="130" y="88" width="380" height="22" fill="#1c2a40"/>
+          <circle cx="152" cy="91" r="10" fill="#8db0ee" opacity="0.85"/>
+          <text x="170" y="96" font-family="sans-serif" font-size="12" font-weight="700" fill="#e3e8ee">Before You Page Ophtho</text>
+          <rect x="146" y="120" width="54" height="18" rx="9" fill="#8db0ee" fill-opacity="0.18" stroke="#8db0ee" stroke-opacity="0.5" stroke-width="1"/>
+          <text x="156" y="133" font-family="monospace" font-size="8" fill="#8db0ee">Red Eye</text>
+          <rect x="206" y="120" width="56" height="18" rx="9" fill="#19212a" stroke="#334050" stroke-width="1"/>
+          <text x="214" y="133" font-family="monospace" font-size="8" fill="#97a3b0">Vision Loss</text>
+          <rect x="268" y="120" width="46" height="18" rx="9" fill="#19212a" stroke="#334050" stroke-width="1"/>
+          <text x="276" y="133" font-family="monospace" font-size="8" fill="#97a3b0">Diplopia</text>
+          <rect x="320" y="120" width="54" height="18" rx="9" fill="#19212a" stroke="#334050" stroke-width="1"/>
+          <text x="328" y="133" font-family="monospace" font-size="8" fill="#97a3b0">Proptosis</text>
+          <rect x="146" y="148" width="14" height="14" rx="3" fill="#1c2a40" stroke="#334050" stroke-width="1.5"/>
+          <text x="166" y="160" font-family="sans-serif" font-size="10.5" fill="#c3ccd6">VA with correction (each eye)</text>
+          <rect x="146" y="168" width="14" height="14" rx="3" fill="#5db68f" stroke="#5db68f" stroke-width="1.5"/>
+          <polyline points="149,175 153,179 158,170" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="166" y="180" font-family="sans-serif" font-size="10.5" fill="#6b7785" text-decoration="line-through">IOP by tonometry</text>
+          <rect x="146" y="188" width="14" height="14" rx="3" fill="#5db68f" stroke="#5db68f" stroke-width="1.5"/>
+          <polyline points="149,195 153,199 158,190" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <text x="166" y="200" font-family="sans-serif" font-size="10.5" fill="#6b7785" text-decoration="line-through">Pupil exam (RAPD)</text>
+          <rect x="146" y="208" width="14" height="14" rx="3" fill="#1c2a40" stroke="#334050" stroke-width="1.5"/>
+          <text x="166" y="220" font-family="sans-serif" font-size="10.5" fill="#c3ccd6">Confrontation visual fields</text>
+          <rect x="146" y="228" width="14" height="14" rx="3" fill="#1c2a40" stroke="#334050" stroke-width="1.5"/>
+          <text x="166" y="240" font-family="sans-serif" font-size="10.5" fill="#c3ccd6">EOM motility + cover test</text>
+          <rect x="146" y="260" width="358" height="6" rx="3" fill="#242e39"/>
+          <rect x="146" y="260" width="143" height="6" rx="3" fill="#5db68f"/>
+          <text x="146" y="282" font-family="monospace" font-size="9" fill="#97a3b0">2 / 5 complete</text>
+          <text x="440" y="282" font-family="monospace" font-size="9" fill="#f06a5d">IOP = 42 → page now</text>
+        </svg>
+      </div>
+      <div class="tool-body">
+        <div class="tool-label">Ophthalmology · Clinical Aid</div>
+        <div class="tool-name">Before You Page Ophtho</div>
+        <p class="tool-desc">Structured pre-call checklist for medicine and surgery teams working up eye complaints overnight. Enter the chief complaint, complete the guided exam, and know exactly what to report before you pick up the phone.</p>
+        <a href="https://beforeyoupageophtho.seanleels.com" target="_blank" rel="noopener" class="tool-link">Try It →</a>
+      </div>
+    </div>
+
+  </div>
 </section>
 </div>
 
