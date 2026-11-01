@@ -1,7 +1,7 @@
 /* ── Sean Lee · Life Dashboard · Shared JS ──────────────────────────────── */
 
 const NAV_PAGES = [
-  { href: 'dashboard.html', label: 'Home' },
+  { href: './', label: 'Home' },
   { href: 'study.html',     label: 'Study' },
   { href: 'research.html',  label: 'Research' },
   { href: 'gym.html',       label: 'Gym' },
