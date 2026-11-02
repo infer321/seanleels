@@ -20,7 +20,7 @@ Every color has one job. Pages use the token names, never raw hex values.
 | `--surface` | #13131a | #ffffff | Interactive cards only (tools, projects) |
 | `--border` | white 8% | ink 10% | Hairline rules and card borders |
 | `--border-strong` | white 16% | ink 22% | Secondary button outline, tags |
-| `--accent` | #c8a96e | #7d5f26 | **Primary:** buttons, links, the one section-heading accent. Nothing else. |
+| `--accent` | #c8a96e | #7d5f26 | **Primary:** buttons and links, plus 李洛生 in the hero. Nothing else. |
 | `--accent-hover` | #e8c98e | #5f4719 | Hover state of accent |
 | `--on-accent` | #0a0a0f | #ffffff | Text on accent buttons |
 | `--heading` | #f1efe9 | #16161d | Headings, names, emphasis |
@@ -77,7 +77,7 @@ One 4px-based scale. Every padding, margin and gap uses a token.
 
 ## Section patterns (de-templating rules)
 
-The site used to repeat one frame for every section: small gold label, big serif heading, content. These rules replace it.
+The site used to repeat one frame for every section: small gold label, big serif heading, content. These rules replace it, and the homepage follows them as of November 2026.
 
 1. **No eyebrow labels.** A section opens with its heading only.
 2. **Plain, specific headings.** Use "Research", "Publications", "Tools", "Leadership", "Contact". Avoid stock phrases like "Who I Am", "Get in Touch", "Beyond the Clinic" or "Where It Began".
