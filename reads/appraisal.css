@@ -106,7 +106,8 @@ tbody th { font-weight: 500; color: var(--heading); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .index { max-width: var(--w-index); margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-12); }
 .index-title { font-size: var(--fs-index-title); line-height: 1.1; max-width: 18ch; }
-.index-lede { font-family: var(--serif); font-style: italic; font-size: var(--fs-lede); line-height: 1.5; color: var(--muted); max-width: var(--measure-read); margin-bottom: var(--space-11); }
+.index-lede { font-family: var(--serif); font-style: italic; font-size: var(--fs-lede); line-height: 1.5; color: var(--muted); max-width: var(--measure-read); margin-bottom: var(--space-6); }
+.index-why { font-family: var(--serif); font-size: var(--fs-read); line-height: 1.65; color: var(--text); max-width: var(--measure-read); margin-bottom: var(--space-11); }
 .rows { list-style: none; border-top: 1px solid var(--border); }
 .row { display: grid; grid-template-columns: 8rem 1fr; gap: var(--space-6); padding: var(--space-7) 0; border-bottom: 1px solid var(--border); }
 .row-date { font-size: var(--fs-meta); color: var(--subtle); padding-top: var(--space-1); font-variant-numeric: tabular-nums; }
@@ -138,7 +139,7 @@ tbody th { font-weight: 500; color: var(--heading); }
   .companions li { grid-template-columns: 1fr; gap: var(--space-1); }
   h2 { margin-top: var(--space-9); }
   .index { padding: var(--space-9) var(--space-4) var(--space-10); }
-  .index-lede { margin-bottom: var(--space-9); }
+  .index-why { margin-bottom: var(--space-9); }
   .row { grid-template-columns: 1fr; gap: var(--space-2); padding: var(--space-6) 0; }
 }
 
