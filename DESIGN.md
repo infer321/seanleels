@@ -38,14 +38,15 @@ Every color has one job. Pages use the token names, never raw hex values.
 
 | Role | Family | Size token | Weight | Line height |
 | --- | --- | --- | --- | --- |
-| Display (name in hero) | Cormorant Garamond | `--fs-display` clamp(52–84px) | 400 | 1.04 |
-| Section heading (h2) | Cormorant Garamond | `--fs-h2` clamp(32–44px) | 400 | 1.15 |
-| Sub-heading, card and role titles | Cormorant Garamond | `--fs-h3` 24px | 500 | 1.25 |
-| Lead text | DM Sans | `--fs-lg` 18px | 400 | 1.75 |
-| Body | DM Sans | `--fs-body` 16px | 400 | 1.7 |
-| Meta, authors, dates, links | DM Sans | `--fs-sm` 14px | 400–500 | 1.6 |
-| Badges only | DM Sans, uppercase, tracked 0.08em | `--fs-xs` 12px | 500 | 1.6 |
+| Display (name in hero) | Newsreader | `--fs-display` clamp(48–72px), tracking −0.015em | 400 | 1.04 |
+| Section heading (h2) | Newsreader | `--fs-h2` clamp(28–38px) | 400 | 1.15 |
+| Sub-heading, card and role titles | Newsreader | `--fs-h3` 22px | 500 | 1.25 |
+| Lead text | IBM Plex Sans | `--fs-lg` 18px | 400 | 1.75 |
+| Body | IBM Plex Sans | `--fs-body` 16px | 400 | 1.7 |
+| Meta, authors, dates, links | IBM Plex Sans | `--fs-sm` 14px | 400–500 | 1.6 |
+| Badges only | IBM Plex Sans, uppercase, tracked 0.08em | `--fs-xs` 12px | 500 | 1.6 |
 
+- **Why these two:** Newsreader is a serif built for news and journal text, with optical sizes so headings stay crisp on dark backgrounds. IBM Plex Sans reads as technical and scientific. Both replace a pairing (Cormorant Garamond + DM Sans) that is common on generated portfolios.
 - 李洛生 uses Ma Shan Zheng (subset to those three characters), once, in the hero.
 - **Uppercase is for badges only.** No small-caps eyebrows above headings.
 - **Measure:** body text and publication titles max 70ch (`--measure`).

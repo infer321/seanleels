@@ -22,7 +22,7 @@
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=DM+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;text=%E6%9D%8E%E6%B4%9B%E7%94%9F&amp;display=swap">
   <script type="application/ld+json">
   {
@@ -70,13 +70,13 @@
       --space-8: 40px; --space-9: 48px; --space-10: 64px; --space-11: 80px; --space-12: 96px; --space-13: 128px;
       --measure: 70ch;
 
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'DM Sans', system-ui, sans-serif;
+      --serif: 'Newsreader', Georgia, serif;
+      --sans: 'IBM Plex Sans', system-ui, sans-serif;
 
       /* Type scale: six steps plus display */
-      --fs-display: clamp(3.25rem, 6vw, 5.25rem);
-      --fs-h2: clamp(2rem, 3vw, 2.75rem);
-      --fs-h3: 1.5rem;     /* 24px: sub-heads, card and project titles */
+      --fs-display: clamp(3rem, 5.2vw, 4.5rem);
+      --fs-h2: clamp(1.75rem, 2.6vw, 2.375rem);
+      --fs-h3: 1.375rem;   /* 22px: sub-heads, card and project titles */
       --fs-lg: 1.125rem;   /* 18px: lead text, role titles */
       --fs-body: 1rem;     /* 16px: body, bullets, descriptions */
       --fs-sm: 0.875rem;   /* 14px: meta, authors, dates, links */
@@ -140,7 +140,7 @@
     .hero-tag { font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: var(--space-6); display: flex; align-items: center; gap: var(--space-3); }
     .hero-tag::before { content: ''; flex: none; width: 28px; height: 1px; background: var(--accent); }
     .hero-name-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); }
-    h1 { font-family: var(--serif); font-size: var(--fs-display); font-weight: 400; line-height: 1.04; color: var(--heading); }
+    h1 { font-family: var(--serif); font-size: var(--fs-display); font-weight: 400; line-height: 1.04; letter-spacing: -0.015em; color: var(--heading); }
     h1 .initials { color: var(--subtle); font-size: 0.5em; letter-spacing: 0.12em; }
     .hero-avatar { display: none; }
     .hero-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-4) 0 var(--space-6); }
@@ -251,7 +251,7 @@
     .origins-role { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: var(--space-1); font-weight: 500; }
     .origins-meta { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: var(--space-5); }
     .origins-quote { display: flex; flex-direction: column; justify-content: center; padding: var(--space-4) 0; border-left: 1px solid var(--accent-line); padding-left: var(--space-7); }
-    .origins-quote blockquote { font-family: var(--serif); font-size: 1.75rem; color: var(--heading); font-style: italic; line-height: 1.4; margin-bottom: var(--space-4); }
+    .origins-quote blockquote { font-family: var(--serif); font-size: 1.5rem; color: var(--heading); font-style: italic; line-height: 1.4; margin-bottom: var(--space-4); }
     .origins-quote cite { font-style: normal; font-size: var(--fs-sm); color: var(--subtle); }
 
     /* ── Background ─────────────────────────────────────────── */
