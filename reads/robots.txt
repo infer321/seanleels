@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reads.seanleels.com/sitemap.xml

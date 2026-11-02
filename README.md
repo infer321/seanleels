@@ -11,6 +11,7 @@ Personal site for Sean L.S. Lee, medical student at USC Keck School of Medicine.
 | `files/Sean-Lee-CV.pdf` | Downloadable CV |
 | `tools/` | Antibiotic stewardship reference and IM clinical scores calculator |
 | `eye-atlas/` | Eye Atlas source. The canonical address is [atlas.seanleels.com](https://atlas.seanleels.com); the copy at `seanleels.com/eye-atlas/` redirects there |
+| `reads/` | Second Look, paper appraisals. The canonical address is [reads.seanleels.com](https://reads.seanleels.com) (Vercel, root directory `reads`); each appraisal lives in its own folder, e.g. `reads/protocol-s/` |
 | `dashboard/` | Private personal trackers (study, research, gym, piano). Not linked from the site, marked `noindex`, and meant to sit behind Cloudflare Access. Logged data lives in the browser's localStorage, not in this repo |
 | `robots.txt`, `sitemap.xml` | Search engine hints |
 | `CNAME` | Custom domain for GitHub Pages |
