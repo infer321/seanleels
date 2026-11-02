@@ -1,6 +1,6 @@
 # Second Look · Design system
 
-**What it is:** Sean Lee's critical appraisals of ophthalmology papers. One paper a month: what it found, how far to trust it, and what it means. Working name *Second Look* (a surgical term for re-examining, and what an appraisal does). Address: `reads.seanleels.com`.
+**What it is:** Sean Lee's critical appraisals of ophthalmology papers. One paper a month: what it found, how far to trust it, and what it means. Name: *Second Look*, confirmed Nov 2026 (a surgical term for re-examining, and what an appraisal does). Address: `reads.seanleels.com`.
 
 **Audience:** residency program directors and faculty skimming for judgment, and students or residents who want a fast, honest read of a paper.
 
@@ -72,8 +72,9 @@ The same 4px scale as seanleels.com: `--space-1` 4px through `--space-13` 128px.
 
 ## Components
 
-- **Masthead.** The wordmark *Second Look* on the left, with "by Sean Lee" linking to seanleels.com. On the right: Appraisals, Method, About, RSS. No hero image.
-- **Filter chips** (index). Subspecialty (Retina, Glaucoma, Cornea, Neuro-ophthalmology, Oculoplastics, Pediatrics, Uveitis) and design (RCT, Cohort, Real-world data, Meta-analysis). Chips are outlined; the active chip is accent-filled. They work as real buttons with `aria-pressed`.
+- **Masthead.** The wordmark *Second Look* on the left, with "by Sean Lee" linking to seanleels.com. On the right: Appraisals, Method, About, RSS. No hero image. Show only links whose pages exist; until Method, About and RSS are built, the nav is just Appraisals.
+- **Filter chips** (index). Subspecialty (Retina, Glaucoma, Cornea, Neuro-ophthalmology, Oculoplastics, Pediatrics, Uveitis) and design (RCT, Cohort, Real-world data, Meta-analysis). Chips are outlined; the active chip is accent-filled. They work as real buttons with `aria-pressed`. Chips appear only once there are at least 3 appraisals; filtering one or two rows helps no one. Without JavaScript all rows show and the chips are hidden.
+- **Index intro.** The h1 "Ophthalmology papers, read critically." with one italic standfirst sentence in Newsreader, then a short "why" paragraph in Sean's words (2–3 sentences, Newsreader 19px in `--text`, no heading, no box), then the appraisal list. No hero, no counts, no "latest" banner.
 - **Appraisal row** (index). A date column, then the title (Newsreader 22px), journal and year, tags (with `★ Landmark` first when it applies), a certainty meter, and a one-line bottom line. Rows are separated by hairlines; there are no cards.
 - **Study snapshot** (article top, on `--surface`). A two-column definition list: Design · Population · N · Intervention / exposure · Comparator · Primary outcome · Follow-up · Funding · Registration.
 - **Certainty meter.** Four segments plus a word, using GRADE-style levels (High, Moderate, Low, Very low). It always comes with a sentence of why.

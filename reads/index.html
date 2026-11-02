@@ -3,33 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paper appraisals · Sean Lee</title>
-  <meta name="description" content="Critical appraisals of ophthalmology papers by Sean Lee, medical student at USC Keck. Launching soon.">
-  <meta name="robots" content="noindex">
+  <title>Second Look · Ophthalmology paper appraisals by Sean Lee</title>
+  <meta name="description" content="Critical appraisals of ophthalmology papers by Sean Lee, medical student at USC Keck: what each study found, how far to trust it, and what it would change in clinic.">
   <link rel="canonical" href="https://reads.seanleels.com/">
   <link rel="icon" href="https://seanleels.com/images/favicon-32.png" sizes="32x32" type="image/png">
   <script>if (/(^|\.)seanleels\.com$/.test(location.hostname) && location.hostname !== 'reads.seanleels.com') { location.replace('https://reads.seanleels.com/'); }</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
   <link rel="stylesheet" href="tokens.css">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { min-height: 100vh; display: flex; align-items: center; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: var(--fs-ui); line-height: 1.6; padding: var(--space-9) var(--space-6); }
-    main { width: 100%; max-width: var(--w-article); margin: 0 auto; }
-    .meta { font-size: var(--fs-meta); color: var(--subtle); margin-bottom: var(--space-4); }
-    h1 { font-family: var(--serif); font-weight: 400; font-size: var(--fs-index-title); line-height: 1.1; color: var(--heading); letter-spacing: -0.01em; margin-bottom: var(--space-5); }
-    p { font-family: var(--serif); font-style: italic; font-size: var(--fs-lede); line-height: 1.5; color: var(--muted); margin-bottom: var(--space-8); }
-    a { font-size: var(--fs-meta); font-weight: 500; color: var(--accent); text-decoration: none; }
-    a:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
-  </style>
+  <link rel="stylesheet" href="appraisal.css">
 </head>
 <body>
-  <main>
-    <div class="meta">Sean Lee · Launching soon</div>
-    <h1>Ophthalmology papers, read critically.</h1>
-    <p>One paper a month: what it found, how far to trust it, and what it would change in clinic.</p>
-    <a href="https://seanleels.com">seanleels.com ↗</a>
+  <a class="skip" href="#main">Skip to the appraisals</a>
+
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="wordmark">
+        <a href="./" aria-current="page">Second Look</a>
+        <span>by <a href="https://seanleels.com">Sean Lee</a></span>
+      </div>
+      <nav aria-label="Site">
+        <a href="./" aria-current="page">Appraisals</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="index">
+    <h1 class="index-title">Ophthalmology papers, read critically.</h1>
+    <p class="index-lede">What each study found, how far to trust it, and what it would change in clinic. One paper a month.</p>
+    <p class="index-why">I started this to become better informed about ophthalmology: by studying the landmark trials that inform our guidelines, and by keeping up with the newest RCTs that change and further our understanding of disease and treatment. These are reviews of papers I enjoy doing in my spare time.</p>
+
+    <h2 class="visually-hidden">Appraisals</h2>
+    <ol class="rows">
+      <li class="row">
+        <div class="row-date"><time datetime="2026-11">Nov 2026</time></div>
+        <div class="row-body">
+          <h3 class="row-title"><a href="protocol-s/">Protocol S: ranibizumab vs PRP for proliferative diabetic retinopathy</a></h3>
+          <div class="row-meta">
+            <span class="landmark">★ Landmark</span>
+            <span>JAMA, 2015</span>
+            <span>Retina</span>
+            <span>RCT</span>
+            <span>Read with CLARITY and the 5-year follow-up</span>
+          </div>
+          <div class="certainty certainty-sm">
+            <span class="meter" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <strong>High</strong>
+            <span class="scope">certainty, 2-year result</span>
+          </div>
+          <p class="row-bottom">Protocol S supports anti-VEGF as an effective alternative, but its ongoing treatment burden makes follow-up reliability central to the decision.</p>
+        </div>
+      </li>
+    </ol>
   </main>
+
+  <footer class="footer">
+    <div class="footer-inner footer-wide">
+      <p>Educational commentary, not medical advice. Errors are mine; corrections welcome.</p>
+      <p><a href="https://seanleels.com">Back to seanleels.com ↗</a></p>
+    </div>
+  </footer>
 </body>
 </html>
