@@ -22,7 +22,7 @@
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=DM+Sans:wght@400;500;600&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;text=%E6%9D%8E%E6%B4%9B%E7%94%9F&amp;display=swap">
   <script type="application/ld+json">
   {
@@ -65,13 +65,18 @@
       --glow: rgba(200,169,110,0.055);
       --preview-bg: #0d1116;
 
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'DM Sans', system-ui, sans-serif;
+      /* Spacing: 4px scale (see DESIGN.md) */
+      --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-7: 32px;
+      --space-8: 40px; --space-9: 48px; --space-10: 64px; --space-11: 80px; --space-12: 96px; --space-13: 128px;
+      --measure: 70ch;
+
+      --serif: 'Newsreader', Georgia, serif;
+      --sans: 'IBM Plex Sans', system-ui, sans-serif;
 
       /* Type scale: six steps plus display */
-      --fs-display: clamp(3.25rem, 6vw, 5.25rem);
-      --fs-h2: clamp(2rem, 3vw, 2.75rem);
-      --fs-h3: 1.5rem;     /* 24px: sub-heads, card and project titles */
+      --fs-display: clamp(3rem, 5.2vw, 4.5rem);
+      --fs-h2: clamp(1.75rem, 2.6vw, 2.375rem);
+      --fs-h3: 1.375rem;   /* 22px: sub-heads, card and project titles */
       --fs-lg: 1.125rem;   /* 18px: lead text, role titles */
       --fs-body: 1rem;     /* 16px: body, bullets, descriptions */
       --fs-sm: 0.875rem;   /* 14px: meta, authors, dates, links */
@@ -100,23 +105,19 @@
       }
     }
 
-    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    html { scroll-behavior: smooth; scroll-padding-top: var(--space-11); }
     body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; font-size: var(--fs-body); line-height: 1.7; overflow-x: hidden; }
     a { color: inherit; }
     img { max-width: 100%; display: block; }
     :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-    .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--on-accent); padding: 0.5rem 1rem; z-index: 200; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--on-accent); padding: var(--space-2) var(--space-4); z-index: 200; }
     .skip:focus { left: 1rem; top: 1rem; }
 
-    /* Motion: only section headings reveal on scroll */
-    html.js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    html.js .reveal.visible { opacity: 1; transform: none; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
     /* ── Nav ────────────────────────────────────────────────── */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 4rem; display: flex; justify-content: space-between; align-items: center; background: var(--nav-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: var(--space-5) var(--space-10); display: flex; justify-content: space-between; align-items: center; background: var(--nav-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
     .nav-logo { font-family: var(--serif); font-size: 1.375rem; font-weight: 500; color: var(--heading); letter-spacing: 0.03em; text-decoration: none; white-space: nowrap; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links { display: flex; gap: var(--space-7); list-style: none; }
     .nav-links a { color: var(--muted); text-decoration: none; font-size: var(--fs-sm); font-weight: 500; transition: color 0.2s; }
     .nav-links a:hover { color: var(--accent); }
     .nav-toggle { display: none; background: none; border: 1px solid var(--border-strong); border-radius: 2px; color: var(--text); width: 2.75rem; height: 2.75rem; cursor: pointer; align-items: center; justify-content: center; }
@@ -128,170 +129,167 @@
     .nav-toggle[aria-expanded="true"] span::after { transform: translateY(-5px) rotate(-45deg); }
 
     /* ── Hero ───────────────────────────────────────────────── */
-    .hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 4rem 5rem; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -15%; right: -8%; width: 700px; height: 700px; background: radial-gradient(circle, var(--glow) 0%, transparent 70%); pointer-events: none; }
-    .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 300px; gap: 6rem; align-items: center; }
-    .hero-inner > * { animation: fadeUp 0.6s ease both; }
-    .hero-tag { font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-    .hero-tag::before { content: ''; flex: none; width: 28px; height: 1px; background: var(--accent); }
-    .hero-name-row { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; }
-    h1 { font-family: var(--serif); font-size: var(--fs-display); font-weight: 400; line-height: 1.04; color: var(--heading); }
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: var(--space-13) var(--space-10) var(--space-11); position: relative; overflow: hidden; }
+    .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 300px; gap: var(--space-12); align-items: center; }
+    .hero-tag { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: var(--space-4); }
+    .hero-name-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-5); }
+    h1 { font-family: var(--serif); font-size: var(--fs-display); font-weight: 400; line-height: 1.04; letter-spacing: -0.015em; color: var(--heading); }
     h1 .initials { color: var(--subtle); font-size: 0.5em; letter-spacing: 0.12em; }
     .hero-avatar { display: none; }
-    .hero-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 1rem 0 1.75rem; }
+    .hero-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-2) var(--space-4); margin: var(--space-4) 0 var(--space-6); }
     .hero-cn { font-family: 'Ma Shan Zheng', serif; font-size: 1.75rem; letter-spacing: 0.12em; color: var(--accent); line-height: 1.2; }
     .hero-role { font-size: var(--fs-lg); color: var(--muted); }
-    .hero-desc { font-size: var(--fs-lg); color: var(--muted); max-width: 540px; margin-bottom: 2rem; line-height: 1.75; }
+    .hero-desc { font-size: var(--fs-lg); color: var(--muted); max-width: 540px; margin-bottom: var(--space-7); line-height: 1.75; }
     .hero-desc strong { color: var(--heading); font-weight: 500; }
-    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-links { display: flex; gap: var(--space-4); flex-wrap: wrap; }
     .hero-photo { width: 100%; aspect-ratio: 2/3; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
     .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 
     /* ── Buttons and links ──────────────────────────────────── */
-    .btn { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 2.75rem; padding: 0.7rem 1.5rem; border-radius: 2px; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 500; letter-spacing: 0.02em; text-decoration: none; transition: background 0.2s, border-color 0.2s, color 0.2s; cursor: pointer; border: 1px solid transparent; }
+    .btn { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 2.75rem; padding: var(--space-3) var(--space-6); border-radius: 2px; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 500; letter-spacing: 0.02em; text-decoration: none; transition: background 0.2s, border-color 0.2s, color 0.2s; cursor: pointer; border: 1px solid transparent; }
     .btn-primary { background: var(--accent); color: var(--on-accent); }
     .btn-primary:hover { background: var(--accent-hover); }
     .btn-outline { background: transparent; color: var(--heading); border-color: var(--border-strong); }
     .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-    .btn-sm { min-height: 2.5rem; padding: 0.5rem 1.1rem; }
+    .btn-sm { min-height: 2.5rem; padding: var(--space-2) var(--space-4); }
     .btn svg { fill: currentColor; }
     .text-link { font-size: var(--fs-sm); font-weight: 500; color: var(--accent); text-decoration: none; }
     .text-link:hover { color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
 
     /* ── Sections ───────────────────────────────────────────── */
     .section-wrap { border-top: 1px solid var(--border); }
-    section { padding: 5.5rem 4rem; max-width: 1100px; margin: 0 auto; }
-    .section-label { font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem; }
-    .section-label::before { content: ''; width: 18px; height: 1px; background: var(--accent); }
-    h2 { font-family: var(--serif); font-size: var(--fs-h2); font-weight: 400; color: var(--heading); margin-bottom: 2.5rem; line-height: 1.15; }
-    h3.sub { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); margin: 3rem 0 1rem; }
+    section { padding: var(--space-12) var(--space-10); max-width: 1100px; margin: 0 auto; }
+    h2 { font-family: var(--serif); font-size: var(--fs-h2); font-weight: 400; color: var(--heading); margin-bottom: var(--space-8); line-height: 1.15; }
+    h3.sub { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); margin: var(--space-9) 0 var(--space-4); }
     h3.sub:first-of-type { margin-top: 0; }
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 2px; }
     .meta { font-size: var(--fs-sm); color: var(--subtle); }
 
     /* ── About ──────────────────────────────────────────────── */
-    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; }
-    .about-text p { color: var(--muted); margin-bottom: 1.1rem; line-height: 1.8; }
-    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    .stat-card { padding: 1.4rem; }
-    .stat-number { font-family: var(--serif); font-size: 2.75rem; color: var(--heading); font-weight: 500; line-height: 1; margin-bottom: 0.4rem; }
-    .stat-label { font-size: var(--fs-sm); color: var(--muted); line-height: 1.45; }
-    .edu-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
-    .row-card { padding: 1.5rem 1.75rem; display: grid; grid-template-columns: 1fr auto; gap: 1rem; }
-    .row-title { font-family: var(--serif); font-size: var(--fs-lg); font-weight: 500; color: var(--heading); margin-bottom: 0.2rem; }
-    .row-sub { font-size: var(--fs-sm); color: var(--muted); line-height: 1.6; }
-    .row-date { font-size: var(--fs-sm); color: var(--subtle); white-space: nowrap; padding-top: 0.15rem; }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-10); align-items: start; }
+    .about-text p { max-width: var(--measure); color: var(--muted); margin-bottom: var(--space-4); line-height: 1.8; }
 
     /* ── Projects ───────────────────────────────────────────── */
-    .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 1.5rem; }
+    .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); margin-bottom: var(--space-6); }
     .tool-card { overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s; }
-    .tool-card:hover, .project-card:hover, .featured:hover { border-color: var(--border-hover); }
+    .tool-card:hover { border-color: var(--border-hover); }
     .tool-preview { width: 100%; aspect-ratio: 16/9; background: var(--preview-bg); overflow: hidden; border-bottom: 1px solid var(--border); }
     .tool-preview svg { width: 100%; height: 100%; display: block; }
-    .tool-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-    .eyebrow { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: 0.35rem; }
-    .tool-name, .project-title { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); line-height: 1.2; margin-bottom: 0.6rem; }
-    .tool-desc, .project-desc { color: var(--muted); line-height: 1.7; flex: 1; margin-bottom: 1.25rem; }
-    .featured { padding: 2.5rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; transition: border-color 0.2s; }
-    .featured-main { flex: 1; min-width: 260px; }
-    .featured-head { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 0.75rem; }
-    .featured-head .project-title { margin-bottom: 0; }
-    .app-icon { width: 40px; height: 40px; color: var(--accent); background: var(--accent-faint); border: 1px solid var(--accent-line); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .featured .project-desc { max-width: 580px; }
-    .featured-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
-    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .project-card { padding: 1.75rem; display: flex; flex-direction: column; transition: border-color 0.2s; }
-    .link-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+    .tool-body { padding: var(--space-6); flex: 1; display: flex; flex-direction: column; }
+    .eyebrow { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: var(--space-1); }
+    .tool-name { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); line-height: 1.2; margin-bottom: var(--space-2); }
+    .tool-desc { color: var(--muted); line-height: 1.7; flex: 1; margin-bottom: var(--space-5); }
+    .link-row { display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: center; }
 
     /* ── Badges ─────────────────────────────────────────────── */
-    .badge { display: inline-block; padding: 0.15rem 0.55rem; border: 1px solid; font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; vertical-align: middle; white-space: nowrap; line-height: 1.6; }
+    .badge { display: inline-block; padding: var(--space-1) var(--space-2); border: 1px solid; font-size: var(--fs-xs); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 2px; vertical-align: middle; white-space: nowrap; line-height: 1.6; }
     .badge-pub { background: var(--green-bg); border-color: var(--green-line); color: var(--green); }
     .badge-sub { background: var(--blue-bg); border-color: var(--blue-line); color: var(--blue); }
     .badge-prep { background: var(--accent-faint); border-color: var(--accent-line); color: var(--accent); }
     .badge-pres { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
     .badge-tag { background: transparent; border-color: var(--border-strong); color: var(--muted); }
 
+    /* ── About facts ────────────────────────────────────────── */
+    .facts { display: flex; flex-direction: column; }
+    .facts > div { display: grid; grid-template-columns: 8rem 1fr; gap: var(--space-4); padding: var(--space-4) 0; border-top: 1px solid var(--border); }
+    .facts > div:last-child { border-bottom: 1px solid var(--border); }
+    .facts dt { font-size: var(--fs-sm); color: var(--subtle); padding-top: var(--space-1); }
+    .facts dd { color: var(--text); line-height: 1.6; }
+    .facts dd small { display: block; font-size: var(--fs-sm); color: var(--muted); }
+
+    /* ── Tool rows (non-featured tools) ────────────────────── */
+    .tool-rows { border-bottom: 1px solid var(--border); }
+    .tool-row { display: grid; grid-template-columns: 1fr auto; gap: var(--space-4) var(--space-7); align-items: start; padding: var(--space-6) 0; border-top: 1px solid var(--border); }
+    .tool-row-name { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); line-height: 1.25; margin-bottom: var(--space-1); }
+    .tool-row-name .badge { margin-left: var(--space-2); font-family: var(--sans); }
+    .tool-row-desc { max-width: var(--measure); color: var(--muted); }
+    .tool-row .link-row { padding-top: var(--space-1); justify-content: flex-end; }
+
+    /* ── Publications: year / status column ────────────────── */
+    .pub-when { font-size: var(--fs-sm); color: var(--subtle); padding-top: var(--space-1); }
+    .pub-when .badge { margin: 0; }
+
     /* ── Publications ───────────────────────────────────────── */
-    .pub-item { border-top: 1px solid var(--border); padding: 1.6rem 0; display: grid; grid-template-columns: 2rem 1fr; gap: 1.5rem; align-items: start; }
+    .pub-item { border-top: 1px solid var(--border); padding: var(--space-6) 0; display: grid; grid-template-columns: 7.5rem 1fr; gap: var(--space-6); align-items: start; }
     .pub-list .pub-item:last-child { border-bottom: 1px solid var(--border); }
-    .pub-num { font-family: var(--serif); font-size: 1.75rem; color: var(--subtle); line-height: 1.1; text-align: right; }
-    .pub-title { font-size: var(--fs-body); font-weight: 500; color: var(--heading); margin-bottom: 0.35rem; line-height: 1.55; }
-    .pub-title .badge { margin-left: 0.5rem; }
-    .pub-authors { font-size: var(--fs-sm); color: var(--muted); margin-bottom: 0.25rem; line-height: 1.6; }
+    .pub-title { max-width: var(--measure); font-size: var(--fs-body); font-weight: 500; color: var(--heading); margin-bottom: var(--space-1); line-height: 1.55; }
+    .pub-title .badge { margin-left: var(--space-2); }
+    .pub-authors { font-size: var(--fs-sm); color: var(--muted); margin-bottom: var(--space-1); line-height: 1.6; }
     .pub-authors strong { color: var(--heading); font-weight: 600; }
-    .pub-journal { font-size: var(--fs-sm); color: var(--muted); font-style: italic; margin-bottom: 0.3rem; }
+    .pub-journal { font-size: var(--fs-sm); color: var(--muted); font-style: italic; margin-bottom: var(--space-1); }
 
     /* ── Research ───────────────────────────────────────────── */
-    .research-item { border-top: 1px solid var(--border); padding: 2rem 0; display: grid; grid-template-columns: 170px 1fr auto; gap: 2rem; align-items: start; }
+    .research-item { border-top: 1px solid var(--border); padding: var(--space-7) 0; display: grid; grid-template-columns: 170px 1fr auto; gap: var(--space-7); align-items: start; }
     .research-list .research-item:last-child { border-bottom: 1px solid var(--border); }
-    .research-dept { font-size: var(--fs-sm); font-weight: 500; color: var(--muted); line-height: 1.5; padding-top: 0.2rem; }
-    .research-role { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: 0.1rem; font-weight: 500; line-height: 1.25; }
-    .research-pi { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: 0.85rem; }
-    .bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-    .bullets li { color: var(--muted); padding-left: 1.1rem; position: relative; line-height: 1.65; }
+    .research-dept { font-size: var(--fs-sm); font-weight: 500; color: var(--muted); line-height: 1.5; padding-top: var(--space-1); }
+    .research-role { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: var(--space-1); font-weight: 500; line-height: 1.25; }
+    .research-pi { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: var(--space-3); }
+    .bullets { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+    .bullets li { max-width: var(--measure); color: var(--muted); padding-left: var(--space-4); position: relative; line-height: 1.65; }
     .bullets li::before { content: ''; position: absolute; left: 0; top: 0.72em; width: 6px; height: 1px; background: var(--accent); }
     .bullets strong { color: var(--heading); font-weight: 500; }
-    .research-date { font-size: var(--fs-sm); color: var(--subtle); white-space: nowrap; padding-top: 0.2rem; }
+    .research-date { font-size: var(--fs-sm); color: var(--subtle); white-space: nowrap; padding-top: var(--space-1); }
 
     /* ── Leadership: plain list, no cards ───────────────────── */
-    .plain-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 3rem; }
-    .plain-item { border-top: 1px solid var(--border); padding: 1.5rem 0; }
-    .plain-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.15rem; }
+    .plain-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--space-9); }
+    .plain-item { border-top: 1px solid var(--border); padding: var(--space-6) 0; }
+    .plain-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); margin-bottom: var(--space-1); }
     .plain-role { font-family: var(--serif); font-size: var(--fs-lg); font-weight: 500; color: var(--heading); line-height: 1.3; }
-    .plain-org { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: 0.5rem; }
+    .plain-org { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: var(--space-2); }
     .plain-desc { font-size: var(--fs-body); color: var(--muted); line-height: 1.7; }
 
     /* ── Origins ────────────────────────────────────────────── */
-    .origins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-    .origins-role { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: 0.15rem; font-weight: 500; }
-    .origins-meta { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: 1.25rem; }
-    .origins-quote { display: flex; flex-direction: column; justify-content: center; padding: 1rem 0; border-left: 1px solid var(--accent-line); padding-left: 2rem; }
-    .origins-quote blockquote { font-family: var(--serif); font-size: 1.75rem; color: var(--heading); font-style: italic; line-height: 1.4; margin-bottom: 1rem; }
+    .origins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); align-items: start; }
+    .origins-role { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: var(--space-1); font-weight: 500; }
+    .origins-meta { font-size: var(--fs-sm); color: var(--subtle); margin-bottom: var(--space-5); }
+    .origins-quote { display: flex; flex-direction: column; justify-content: center; padding: var(--space-4) 0; border-left: 1px solid var(--accent-line); padding-left: var(--space-7); }
+    .origins-quote blockquote { font-family: var(--serif); font-size: 1.5rem; color: var(--heading); font-style: italic; line-height: 1.4; margin-bottom: var(--space-4); }
     .origins-quote cite { font-style: normal; font-size: var(--fs-sm); color: var(--subtle); }
 
     /* ── Background ─────────────────────────────────────────── */
-    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-    .skills-block h3 { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: 1rem; font-weight: 500; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-9); }
+    .skills-block h3 { font-family: var(--serif); font-size: var(--fs-h3); color: var(--heading); margin-bottom: var(--space-4); font-weight: 500; }
     .skills-wide { grid-column: 1 / -1; }
-    .lang-item, .cert-item { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.85rem 0; border-bottom: 1px solid var(--border); }
+    .lang-item, .cert-item { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-4); padding: var(--space-3) 0; border-bottom: 1px solid var(--border); }
     .lang-name { color: var(--heading); font-weight: 500; }
     .lang-level { font-size: var(--fs-sm); color: var(--muted); text-align: right; }
     .cert-title { color: var(--heading); font-weight: 500; }
     .cert-org { font-size: var(--fs-sm); color: var(--muted); }
-    .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .interest-tag { padding: 0.35rem 0.85rem; border: 1px solid var(--border-strong); border-radius: 2px; font-size: var(--fs-sm); color: var(--muted); }
+    .tag-list { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .interest-tag { padding: var(--space-1) var(--space-3); border: 1px solid var(--border-strong); border-radius: 2px; font-size: var(--fs-sm); color: var(--muted); }
 
     /* ── Contact ────────────────────────────────────────────── */
-    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-    .contact-text p { color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
-    .contact-link { display: flex; align-items: baseline; gap: 1rem; color: var(--heading); text-decoration: none; transition: color 0.2s; padding: 0.9rem 0; border-bottom: 1px solid var(--border); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-10); align-items: start; }
+    .contact-text p { color: var(--muted); line-height: 1.8; margin-bottom: var(--space-7); }
+    .contact-link { display: flex; align-items: baseline; gap: var(--space-4); color: var(--heading); text-decoration: none; transition: color 0.2s; padding: var(--space-4) 0; border-bottom: 1px solid var(--border); }
     .contact-link:hover { color: var(--accent); }
     .contact-link-label { font-size: var(--fs-sm); color: var(--subtle); width: 80px; flex-shrink: 0; }
 
-    footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; color: var(--subtle); font-size: var(--fs-sm); }
+    footer { border-top: 1px solid var(--border); padding: var(--space-7) var(--space-10); display: flex; justify-content: space-between; align-items: center; color: var(--subtle); font-size: var(--fs-sm); }
 
     /* ── Recent ─────────────────────────────────────────────── */
-    .recent { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+    .recent { padding-top: var(--space-9); padding-bottom: var(--space-9); }
+    .recent h2 { margin-bottom: var(--space-6); }
     .recent-list { list-style: none; }
-    .recent-list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1.5rem; padding: 0.85rem 0; border-top: 1px solid var(--border); }
+    .recent-list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: var(--space-6); padding: var(--space-3) 0; border-top: 1px solid var(--border); }
     .recent-list li:last-child { border-bottom: 1px solid var(--border); }
-    .recent-date { font-size: var(--fs-sm); color: var(--subtle); padding-top: 0.1rem; }
+    .recent-date { font-size: var(--fs-sm); color: var(--subtle); padding-top: var(--space-1); }
     .recent-text { color: var(--muted); }
     .recent-text strong { color: var(--heading); font-weight: 500; }
     .recent-text a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
     .recent-text a:hover { color: var(--accent-hover); }
 
     /* ── Why ophthalmology + profile links ─────────────────── */
-    .about-text p.why { color: var(--text); border-left: 1px solid var(--accent-line); padding-left: 1.25rem; }
+    .about-text p.why { color: var(--text); border-left: 1px solid var(--accent-line); padding-left: var(--space-5); }
     .about-text p.why strong { color: var(--heading); font-weight: 500; }
-    .profile-links { margin: -1.25rem 0 2.25rem; }
+    .profile-links { margin: calc(-1 * var(--space-5)) 0 var(--space-7); }
 
     /* ── Earlier research (expandable) ─────────────────────── */
     .earlier { border-bottom: 1px solid var(--border); }
-    .earlier summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.4rem 0; min-height: 2.75rem; }
+    .earlier summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-6) 0; min-height: 2.75rem; }
     .earlier summary::-webkit-details-marker { display: none; }
     .earlier-title { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); line-height: 1.25; }
-    .earlier-sub { display: block; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--subtle); margin-top: 0.15rem; }
+    .earlier-sub { display: block; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--subtle); margin-top: var(--space-1); }
     .earlier-toggle { flex: none; font-size: var(--fs-sm); font-weight: 500; color: var(--accent); }
     .earlier-toggle::after { content: ' +'; }
     .earlier[open] .earlier-toggle::after { content: ' −'; }
@@ -300,49 +298,46 @@
 
     /* ── Phone ──────────────────────────────────────────────── */
     @media (max-width: 900px) {
-      nav { padding: 0.85rem 1.5rem; }
+      nav { padding: var(--space-3) var(--space-6); }
       .nav-toggle { display: inline-flex; }
-      html.js .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 0.5rem 1.5rem 1rem; }
+      html.js .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: var(--space-2) var(--space-6) var(--space-4); }
       html.js nav.open .nav-links { display: flex; }
-      .nav-links a { display: block; padding: 0.85rem 0; font-size: var(--fs-body); border-bottom: 1px solid var(--border); }
+      .nav-links a { display: block; padding: var(--space-3) 0; font-size: var(--fs-body); border-bottom: 1px solid var(--border); }
       .nav-links li:last-child a { border-bottom: none; }
-      html:not(.js) .nav-links { flex-wrap: wrap; gap: 0.5rem 1rem; justify-content: flex-end; }
+      html:not(.js) .nav-links { flex-wrap: wrap; gap: var(--space-2) var(--space-4); justify-content: flex-end; }
       html:not(.js) .nav-links a { padding: 0; border: none; font-size: var(--fs-sm); }
-      .hero { padding: 6.5rem 1.5rem 3.5rem; min-height: 0; }
+      .hero { padding: var(--space-12) var(--space-6) var(--space-9); min-height: 0; }
       .hero-inner { grid-template-columns: 1fr; gap: 0; }
       .hero-photo { display: none; }
       .hero-avatar { display: block; flex: none; width: 88px; height: 88px; border-radius: 50%; overflow: hidden; border: 1px solid var(--border-strong); }
       .hero-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center 12%; }
       .hero-desc { font-size: var(--fs-body); }
-      section { padding: 3.5rem 1.5rem; }
-      .about-grid, .contact-inner, .skills-grid, .origins-grid, .plain-list { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: var(--space-9) var(--space-6); }
+      .tools-grid { grid-template-columns: 1fr; }
+      .tool-row { grid-template-columns: 1fr; }
+      .tool-row .link-row { justify-content: flex-start; }
+      .facts > div { grid-template-columns: 1fr; gap: 0; }
+      .about-grid, .contact-inner, .skills-grid, .origins-grid, .plain-list { grid-template-columns: 1fr; gap: var(--space-8); }
       .plain-list { gap: 0; }
-      .projects-grid, .tools-grid { grid-template-columns: 1fr; }
-      .research-item { grid-template-columns: 1fr; gap: 0.35rem; }
+      .research-item { grid-template-columns: 1fr; gap: var(--space-1); }
       .research-date { order: -1; }
-      .recent-list li { grid-template-columns: 1fr; gap: 0.1rem; }
-      .row-card { grid-template-columns: 1fr; gap: 0.35rem; }
-      .featured { padding: 1.75rem; }
-      .featured-tags { justify-content: flex-start; }
-      .origins-quote { padding-left: 1.25rem; }
-      .pub-item { grid-template-columns: 1.5rem 1fr; gap: 1rem; }
-      .pub-num { font-size: 1.4rem; }
-      .lang-item, .cert-item, .plain-head { flex-direction: column; align-items: flex-start; gap: 0.1rem; }
+      .recent-list li { grid-template-columns: 1fr; gap: var(--space-1); }
+            .origins-quote { padding-left: var(--space-5); }
+      .pub-item { grid-template-columns: 1fr; gap: var(--space-4); }
+        .lang-item, .cert-item, .plain-head { flex-direction: column; align-items: flex-start; gap: var(--space-1); }
       .lang-level { text-align: left; }
-      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+      footer { padding: var(--space-6); flex-direction: column; gap: var(--space-2); text-align: center; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition: none !important; }
-      html.js .reveal { opacity: 1; transform: none; }
     }
     @media print {
       :root { --bg: #ffffff; --surface: #ffffff; --border: rgba(0,0,0,0.15); --border-strong: rgba(0,0,0,0.3); --accent: #7d5f26; --on-accent: #ffffff; --heading: #111111; --text: #222222; --muted: #444444; --subtle: #555555; --green: #276a46; --blue: #3556b8; }
-      .hero { min-height: 0; padding-top: 2rem; }
+      .hero { min-height: 0; padding-top: var(--space-7); }
       .hero::before, .tool-preview, .skip { display: none; }
-      section { padding: 2rem 0; }
+      section { padding: var(--space-7) 0; }
       nav, .hero-links, .nav-toggle, .hero-photo { display: none; }
-      html.js .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
@@ -355,7 +350,7 @@
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><span></span></button>
   <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="#projects">Tools</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -399,7 +394,7 @@
 <!-- RECENT -->
 <div class="section-wrap">
 <section id="recent" class="recent" aria-labelledby="recent-label">
-  <div class="section-label" id="recent-label">Recent</div>
+  <h2 id="recent-label">Recent</h2>
   <ul class="recent-list">
     <li><span class="recent-date">Oct 2026</span><span class="recent-text"><strong>Launched Eye Atlas</strong>, an interactive anatomy-to-pathology ophthalmology study tool. <a href="https://atlas.seanleels.com" target="_blank" rel="noopener">Try it ↗</a></span></li>
     <li><span class="recent-date">Sep 2026</span><span class="recent-text"><strong>Poster</strong> on FLOT vs CROSS neoadjuvant therapy at the American Foregut Society Annual Meeting, National Harbor, MD.</span></li>
@@ -413,8 +408,7 @@
 <!-- ABOUT -->
 <div class="section-wrap">
 <section id="about">
-  <div class="section-label reveal">About</div>
-  <h2 class="reveal">Who I Am</h2>
+  <h2>About</h2>
   <div class="about-grid">
     <div class="about-text">
       <p>I'm a medical student at USC Keck School of Medicine applying into ophthalmology. My current work at the USC Roski Eye Institute includes independent TriNetX cohort studies, ultra-widefield retinal imaging and vessel segmentation, gene therapy wet-lab research, and ophthalmic training for long-duration spaceflight.</p>
@@ -422,23 +416,15 @@
       <p>Earlier research spans general surgery, pulmonary and critical care, transplant hepatology, and emergency medicine, including multicenter studies of cirrhosis and liver transplant outcomes.</p>
       <p>I also build clinical tools: Eye Atlas, an anatomy-to-pathology ophthalmology study tool; Before You Page Ophtho, a pre-consult checklist for overnight teams; Rounds, a mobile app for clinical rotations; and references for antibiotic selection and clinical scoring.</p>
       <p>Before medical school I spent two years in oncology wet-lab research at the USC Mann School of Pharmacy, and a year as a patient liaison at Garfield Medical Center providing medical interpretation in Cantonese, Mandarin, and English.</p>
-      <div class="edu-list">
-        <div class="card row-card">
-          <div><div class="row-title">Keck School of Medicine, USC</div><div class="row-sub">Doctor of Medicine candidate<br>Honors: Family Medicine · High Pass: Internal Medicine, Surgery, Pediatrics, Neurology, Psychiatry</div></div>
-          <div class="row-date">Expected May 2028</div>
-        </div>
-        <div class="card row-card">
-          <div><div class="row-title">University of Southern California</div><div class="row-sub">B.S. Human Biology · Healthcare Studies minor</div></div>
-          <div class="row-date">2019 – 2022</div>
-        </div>
-      </div>
     </div>
-    <div class="about-stats">
-      <div class="card stat-card"><div class="stat-number">3</div><div class="stat-label">Peer-reviewed publications</div></div>
-      <div class="card stat-card"><div class="stat-number">8</div><div class="stat-label">Manuscripts in preparation or under review</div></div>
-      <div class="card stat-card"><div class="stat-number">6</div><div class="stat-label">Clinical tools built</div></div>
-      <div class="card stat-card"><div class="stat-number">4</div><div class="stat-label">Languages</div></div>
-    </div>
+    <dl class="facts">
+      <div><dt>School</dt><dd>Keck School of Medicine of USC<small>M.D. expected May 2028</small></dd></div>
+      <div><dt>Clerkships</dt><dd>Honors in Family Medicine<small>High Pass in Internal Medicine, Surgery, Pediatrics, Neurology, Psychiatry</small></dd></div>
+      <div><dt>Research year</dt><dd>USC Roski Eye Institute<small>May 2026 – present</small></dd></div>
+      <div><dt>Output</dt><dd>3 peer-reviewed publications<small>8 manuscripts in preparation or under review</small></dd></div>
+      <div><dt>Undergraduate</dt><dd>University of Southern California<small>B.S. Human Biology, Healthcare Studies minor · 2019–2022</small></dd></div>
+      <div><dt>Languages</dt><dd>English, Cantonese, Mandarin, Spanish<small>Medical interpretation in Cantonese; clinical history and exam in Mandarin and Spanish</small></dd></div>
+    </dl>
   </div>
 </section>
 </div>
@@ -446,8 +432,7 @@
 <!-- PROJECTS -->
 <div class="section-wrap">
 <section id="projects">
-  <div class="section-label reveal">Projects</div>
-  <h2 class="reveal">Tools I've Built</h2>
+  <h2>Tools</h2>
 
   <h3 class="sub">Ophthalmology</h3>
   <div class="tools-grid">
@@ -571,53 +556,45 @@
     </div>
   </div>
 
-  <h3 class="sub">Clinical Workflow</h3>
-  <div class="card featured">
-    <div class="featured-main">
-      <div class="featured-head">
-        <div class="app-icon" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line><path d="M9 7h6M9 11h4"></path></svg>
-        </div>
-        <div>
-          <div class="project-title">Rounds</div>
-          <div class="eyebrow" style="margin:0;">Live on the App Store</div>
-        </div>
+  <h3 class="sub">Clinical workflow</h3>
+  <div class="tool-rows">
+    <div class="tool-row">
+      <div>
+        <div class="tool-row-name">Rounds <span class="badge badge-pub">On the App Store</span></div>
+        <p class="tool-row-desc">iOS app built in React Native to reduce cognitive load on rotations: H&amp;P and SOAP templates, task tracking, lab organization with auto-fill, timers, and signout checklists. Stores no patient data.</p>
       </div>
-      <p class="project-desc">iOS app built in React Native to reduce cognitive load during clinical rotations, with H&amp;P and SOAP templates, patient task tracking, lab organization with auto-fill, A/P templates, clinical timers, and shift signout checklists. No patient data stored.</p>
       <div class="link-row">
-        <a href="https://apps.apple.com/app/rounds-af5429/id6769269478" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.5 268.3-317.5 71 0 130.2 46.9 175.3 46.9 42.8 0 109.8-49.7 188.6-49.7 30.7 0 108.2 2.6 168.2 74.6zm-126.7-84.2c0-53.2-19.3-107.7-55.9-149.8-44.8-51.3-119.2-90.2-189.8-90.2-9.7 0-19.3.6-29 1.3 9 57.8 31.7 113.2 64.1 156.6 34.6 45.7 99.6 86.7 210.6 82.1z"></path></svg> Download on the App Store</a>
-        <a href="https://github.com/infer321/rounds" target="_blank" rel="noopener noreferrer" class="text-link">GitHub →</a>
+        <a href="https://apps.apple.com/app/rounds-af5429/id6769269478" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.7 0 663 0 541.8c0-207.8 135.4-317.5 268.3-317.5 71 0 130.2 46.9 175.3 46.9 42.8 0 109.8-49.7 188.6-49.7 30.7 0 108.2 2.6 168.2 74.6zm-126.7-84.2c0-53.2-19.3-107.7-55.9-149.8-44.8-51.3-119.2-90.2-189.8-90.2-9.7 0-19.3.6-29 1.3 9 57.8 31.7 113.2 64.1 156.6 34.6 45.7 99.6 86.7 210.6 82.1z"></path></svg> App Store</a>
+        <a href="https://github.com/infer321/rounds" target="_blank" rel="noopener noreferrer" class="text-link">GitHub ↗</a>
       </div>
     </div>
-    <div class="featured-tags">
-      <span class="badge badge-tag">React Native</span>
-      <span class="badge badge-tag">iOS</span>
-      <span class="badge badge-pub">Published 2026</span>
-    </div>
-  </div>
-
-  <div class="projects-grid">
-    <div class="card project-card">
-      <div class="project-title">Antibiotic Stewardship Tool</div>
-      <p class="project-desc">Web-based empiric prescribing reference covering 30+ infection types across 9 organ systems, with adjustments for penicillin allergy and MRSA risk. Gives setting-appropriate regimens (outpatient, floor, ICU) based on IDSA/ASHP guidelines in 3 clicks.</p>
+    <div class="tool-row">
+      <div>
+        <div class="tool-row-name">Antibiotic Stewardship Tool</div>
+        <p class="tool-row-desc">Empiric prescribing reference for 30+ infection types across 9 organ systems, with penicillin-allergy and MRSA adjustments and setting-specific regimens (outpatient, floor, ICU) based on IDSA/ASHP guidelines.</p>
+      </div>
       <div class="link-row">
-        <a href="tools/antibiotic-stewardship.html" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Launch ↗</a>
-        <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" rel="noopener noreferrer" class="text-link">GitHub →</a>
+        <a href="tools/antibiotic-stewardship.html" class="btn btn-outline btn-sm">Open</a>
+        <a href="https://github.com/infer321/AntibioticStewardshipTool" target="_blank" rel="noopener noreferrer" class="text-link">GitHub ↗</a>
       </div>
     </div>
-    <div class="card project-card">
-      <div class="project-title">Internal Medicine Scoring Calculator</div>
-      <p class="project-desc">Mobile-optimized, offline-capable calculator consolidating 15 validated scores (HEART, CURB-65, MELD-Na, Wells PE/DVT, SOFA, APACHE II, and others) with real-time interpretation.</p>
+    <div class="tool-row">
+      <div>
+        <div class="tool-row-name">Internal Medicine Scoring Calculator</div>
+        <p class="tool-row-desc">Offline-capable calculator for 15 validated scores (HEART, CURB-65, MELD-Na, Wells PE/DVT, SOFA, APACHE II and others) with real-time interpretation.</p>
+      </div>
       <div class="link-row">
-        <a href="tools/im-clinical-scores.html" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Launch ↗</a>
-        <a href="https://github.com/infer321/InternalMedCalc" target="_blank" rel="noopener noreferrer" class="text-link">GitHub →</a>
+        <a href="tools/im-clinical-scores.html" class="btn btn-outline btn-sm">Open</a>
+        <a href="https://github.com/infer321/InternalMedCalc" target="_blank" rel="noopener noreferrer" class="text-link">GitHub ↗</a>
       </div>
     </div>
-    <div class="card project-card">
-      <div class="project-title">Clinical Documentation Assistant</div>
-      <p class="project-desc">Web tool that uses speech dictation and keyword recognition to generate structured clinical notes, standardizing documentation across encounter types. Stores no patient data.</p>
+    <div class="tool-row">
+      <div>
+        <div class="tool-row-name">Clinical Documentation Assistant</div>
+        <p class="tool-row-desc">Web tool that turns speech dictation and keyword recognition into structured clinical notes across encounter types. Stores no patient data.</p>
+      </div>
       <div class="link-row">
-        <a href="https://github.com/infer321/note-helper" target="_blank" rel="noopener noreferrer" class="text-link">GitHub →</a>
+        <a href="https://github.com/infer321/note-helper" target="_blank" rel="noopener noreferrer" class="text-link">GitHub ↗</a>
       </div>
     </div>
   </div>
@@ -627,75 +604,74 @@
 <!-- PUBLICATIONS -->
 <div class="section-wrap">
 <section id="publications">
-  <div class="section-label reveal">Publications</div>
-  <h2 class="reveal">Research Output</h2>
+  <h2>Publications</h2>
   <div class="link-row profile-links">
     <a class="text-link" href="https://scholar.google.com/citations?user=zGZNY5EAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar ↗</a>
     <a class="text-link" href="https://orcid.org/0009-0009-9669-0627" target="_blank" rel="noopener noreferrer">ORCID ↗</a>
   </div>
 
-  <h3 class="sub">Peer-Reviewed Publications</h3>
+  <h3 class="sub">Peer-reviewed</h3>
   <div class="pub-list">
-    <div class="pub-item"><div class="pub-num">1</div><div>
-      <div class="pub-title">Machine learning-derived clinical phenotypes of ascites in cirrhosis: a multi-center latent class analysis with external validation <span class="badge badge-pub">Published</span></div>
+    <div class="pub-item"><div class="pub-when">2026</div><div>
+      <div class="pub-title">Machine learning-derived clinical phenotypes of ascites in cirrhosis: a multi-center latent class analysis with external validation</div>
       <div class="pub-authors">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, <strong>Lee S</strong>, Lee BP, Allegretti AS, Mazumder NR, Patidar KR, Verna EC.</div>
       <div class="pub-journal">Liver Transplantation · 2026;32(11):1465–1478</div>
       <div class="link-row"><a class="text-link" href="https://doi.org/10.1097/LVT.0000000000000942" target="_blank" rel="noopener noreferrer">doi:10.1097/LVT.0000000000000942 ↗</a><a class="text-link" href="https://pubmed.ncbi.nlm.nih.gov/42560069/" target="_blank" rel="noopener noreferrer">PubMed ↗</a></div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">2</div><div>
-      <div class="pub-title">Diagnostic accuracy of lung ultrasound for pneumonia in adult intensive care unit patients: a systematic review and meta-analysis <span class="badge badge-pub">Published</span></div>
+    <div class="pub-item"><div class="pub-when">2026</div><div>
+      <div class="pub-title">Diagnostic accuracy of lung ultrasound for pneumonia in adult intensive care unit patients: a systematic review and meta-analysis</div>
       <div class="pub-authors">Meremikwu K, <strong>Lee S</strong>, Tang B, Wilson ML, Killu K.</div>
       <div class="pub-journal">Cureus · 2026;18(9):e115858</div>
       <div class="link-row"><a class="text-link" href="https://doi.org/10.7759/cureus.115858" target="_blank" rel="noopener noreferrer">doi:10.7759/cureus.115858 ↗</a><a class="text-link" href="https://pubmed.ncbi.nlm.nih.gov/42703542/" target="_blank" rel="noopener noreferrer">PubMed ↗</a></div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">3</div><div>
-      <div class="pub-title">Achieving physiologic distensibility targets frequently requires modification of standard cruroplasty during anti-reflux surgery <span class="badge badge-pub">Published</span></div>
+    <div class="pub-item"><div class="pub-when">2026</div><div>
+      <div class="pub-title">Achieving physiologic distensibility targets frequently requires modification of standard cruroplasty during anti-reflux surgery</div>
       <div class="pub-authors">Munoz XC, Elshafei M, Pouwels S, <strong>Lee S</strong>, Eini JI, Lee C, Kerendian E, Ichiuji B, Akhnoukh S, Cironi K, Mihalsky KP, Kuiper JJ, Putnam LR, Wong HJ, Galvin KM, Abel SA, Samakar K, Shiraga S, Lipham JC, Houghton CC.</div>
       <div class="pub-journal">Surgical Endoscopy · 2026</div>
       <a class="text-link" href="https://doi.org/10.1007/s00464-026-13365-5" target="_blank" rel="noopener noreferrer">doi:10.1007/s00464-026-13365-5 ↗</a>
     </div></div>
   </div>
 
-  <h3 class="sub">Manuscripts in Preparation &amp; Under Review</h3>
+  <h3 class="sub">In preparation and under review</h3>
   <div class="pub-list">
-    <div class="pub-item"><div class="pub-num">1</div><div>
-      <div class="pub-title">Implementation of a standardized protocol for EndoFLIP utilization alters intraoperative hiatal closure: a proof-of-concept study <span class="badge badge-sub">Submitted</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-sub">Submitted</span></div><div>
+      <div class="pub-title">Implementation of a standardized protocol for EndoFLIP utilization alters intraoperative hiatal closure: a proof-of-concept study</div>
       <div class="pub-authors">Elshafei M, Pouwels S, Putnam L, Munoz X, Eini JI, <strong>Lee S</strong>, Lipham JC, Houghton C.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">2</div><div>
-      <div class="pub-title">Changes in ophthalmic care and 3-year outcomes among patients with proliferative diabetic retinopathy: a national TriNetX cohort study <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">Changes in ophthalmic care and 3-year outcomes among patients with proliferative diabetic retinopathy: a national TriNetX cohort study</div>
       <div class="pub-authors"><strong>Lee S</strong>, Ameri H, et al.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">3</div><div>
-      <div class="pub-title">Ophthalmic procedural training for exploration-class spaceflight: an evidence-informed framework for crew medical officers <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">Ophthalmic procedural training for exploration-class spaceflight: an evidence-informed framework for crew medical officers</div>
       <div class="pub-authors"><strong>Lee S</strong>, et al., Suh A.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">4</div><div>
-      <div class="pub-title">Post-traumatic endophthalmitis risk in long-duration spaceflight: convergence of microbial exposure and immune vulnerability <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">Post-traumatic endophthalmitis risk in long-duration spaceflight: convergence of microbial exposure and immune vulnerability</div>
       <div class="pub-authors"><strong>Lee S</strong>, Suh A, et al.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">5</div><div>
-      <div class="pub-title">The ocular–behavioral health axis in spaceflight: interconnections of two red risks on the mission to Mars <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">The ocular–behavioral health axis in spaceflight: interconnections of two red risks on the mission to Mars</div>
       <div class="pub-authors">Suh A, <strong>Lee S</strong>, Szeto J, Kumar D, Ong J, Berdahl J, Lee AG.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">6</div><div>
-      <div class="pub-title">Ocular disease burden and diagnostic and treatment patterns in street-based health clinics in the United States <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">Ocular disease burden and diagnostic and treatment patterns in street-based health clinics in the United States</div>
       <div class="pub-authors">Banashefski B, Achilles D, <strong>Lee S</strong>, Lin M, Feldman C.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">7</div><div>
-      <div class="pub-title">A cystatin C–augmented MELD score for 90-day waitlist mortality: development and validation in a multicenter US liver transplant consortium <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">A cystatin C–augmented MELD score for 90-day waitlist mortality: development and validation in a multicenter US liver transplant consortium</div>
       <div class="pub-authors">Multicenter author group including <strong>Lee S</strong>.</div>
     </div></div>
-    <div class="pub-item"><div class="pub-num">8</div><div>
-      <div class="pub-title">Comparative pathologic outcomes of FLOT vs CROSS neoadjuvant therapy for resectable esophageal cancer: a single-institution retrospective series <span class="badge badge-prep">In preparation</span></div>
+    <div class="pub-item"><div class="pub-when"><span class="badge badge-prep">In preparation</span></div><div>
+      <div class="pub-title">Comparative pathologic outcomes of FLOT vs CROSS neoadjuvant therapy for resectable esophageal cancer: a single-institution retrospective series</div>
       <div class="pub-authors"><strong>Lee S</strong>, Cironi K, Galvin K, Lipham JC, et al.</div>
     </div></div>
   </div>
 
   <h3 class="sub">Presentations</h3>
   <div class="pub-list">
-    <div class="pub-item"><div class="pub-num">1</div><div>
-      <div class="pub-title">Comparative pathologic outcomes of FLOT vs CROSS neoadjuvant therapy for resectable esophageal cancer: a single-institution retrospective series <span class="badge badge-pres">Poster</span></div>
+    <div class="pub-item"><div class="pub-when">2026</div><div>
+      <div class="pub-title">Comparative pathologic outcomes of FLOT vs CROSS neoadjuvant therapy for resectable esophageal cancer: a single-institution retrospective series</div>
       <div class="pub-authors"><strong>Lee S</strong>, Lipham JC, et al.</div>
       <div class="pub-journal">American Foregut Society Annual Meeting · September 24–26, 2026 · National Harbor, MD</div>
     </div></div>
@@ -706,8 +682,7 @@
 <!-- RESEARCH -->
 <div class="section-wrap">
 <section id="research">
-  <div class="section-label reveal">Research</div>
-  <h2 class="reveal">Research Experience</h2>
+  <h2>Research</h2>
   <div class="research-list">
 
     <div class="research-item">
@@ -822,7 +797,7 @@
     </div>
   </details>
 
-  <h3 class="sub" style="margin-top:3.5rem;">Clinical Experience</h3>
+  <h3 class="sub" style="margin-top: var(--space-10);">Clinical experience</h3>
   <div class="research-list">
     <div class="research-item">
       <div class="research-dept">Ophthalmology<br>USC Roski</div>
@@ -842,8 +817,7 @@
 <!-- LEADERSHIP -->
 <div class="section-wrap">
 <section id="leadership">
-  <div class="section-label reveal">Leadership &amp; Volunteering</div>
-  <h2 class="reveal">Beyond the Clinic</h2>
+  <h2>Leadership &amp; service</h2>
   <div class="plain-list">
     <div class="plain-item">
       <div class="plain-head"><div class="plain-role">Student Affairs Representative</div><div class="meta">Aug 2023 – Aug 2025</div></div>
@@ -887,8 +861,7 @@
 <!-- ORIGINS -->
 <div class="section-wrap">
 <section id="origins">
-  <div class="section-label reveal">Formative Experiences</div>
-  <h2 class="reveal">Where It Began</h2>
+  <h2>Dmanisi, 2019</h2>
   <div class="origins-grid">
     <div>
       <div class="origins-role">Field Researcher</div>
@@ -910,20 +883,10 @@
 <!-- BACKGROUND -->
 <div class="section-wrap">
 <section id="background">
-  <div class="section-label reveal">Background</div>
-  <h2 class="reveal">Skills, Languages &amp; Pursuits</h2>
+  <h2>Skills &amp; interests</h2>
   <div class="skills-grid">
-    <div class="skills-block">
-      <h3>Languages</h3>
-      <div>
-        <div class="lang-item"><span class="lang-name">English</span><span class="lang-level">Native</span></div>
-        <div class="lang-item"><span class="lang-name">Cantonese</span><span class="lang-level">Medical interpretation</span></div>
-        <div class="lang-item"><span class="lang-name">Mandarin</span><span class="lang-level">Intermediate · Clinical history and exam</span></div>
-        <div class="lang-item"><span class="lang-name">Spanish</span><span class="lang-level">Intermediate · Clinical history and exam</span></div>
-      </div>
-    </div>
-    <div class="skills-block">
-      <h3>Certifications &amp; Awards</h3>
+    <div class="skills-block skills-wide">
+      <h3>Certifications &amp; awards</h3>
       <div>
         <div class="cert-item">
           <div><div class="cert-title">Quality Improvement Certificate</div><div class="cert-org">USC Keck School of Medicine · QI methodology, process improvement, and patient safety</div></div>
@@ -936,7 +899,7 @@
       </div>
     </div>
     <div class="skills-block skills-wide">
-      <h3>Technical &amp; Research Skills</h3>
+      <h3>Technical and research skills</h3>
       <div class="tag-list">
         <span class="interest-tag">TriNetX</span><span class="interest-tag">Retrospective cohort design</span><span class="interest-tag">Propensity score matching</span><span class="interest-tag">Kaplan–Meier analysis</span><span class="interest-tag">Hazard &amp; risk ratios</span><span class="interest-tag">Systematic review &amp; meta-analysis</span><span class="interest-tag">Optos ultra-widefield imaging</span><span class="interest-tag">Retinal vessel segmentation</span><span class="interest-tag">Cell culture</span><span class="interest-tag">React Native</span><span class="interest-tag">Web development</span>
       </div>
@@ -954,8 +917,7 @@
 <!-- CONTACT -->
 <div class="section-wrap">
 <section id="contact">
-  <div class="section-label reveal">Contact</div>
-  <h2 class="reveal">Get in Touch</h2>
+  <h2>Contact</h2>
   <div class="contact-inner">
     <div class="contact-text">
       <p>Whether you're a fellow researcher, clinician, or student, feel free to reach out. I'm open to discussing research, collaborations, or just connecting.</p>
@@ -981,15 +943,6 @@
 
 <script>
   (function () {
-    var els = document.querySelectorAll('.reveal');
-    if (!('IntersectionObserver' in window)) { els.forEach(function (el) { el.classList.add('visible'); }); }
-    else {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-      }, { threshold: 0.12 });
-      els.forEach(function (el) { io.observe(el); });
-    }
-
     var nav = document.getElementById('nav');
     var btn = nav.querySelector('.nav-toggle');
     function setOpen(open) { nav.classList.toggle('open', open); btn.setAttribute('aria-expanded', String(open)); }
