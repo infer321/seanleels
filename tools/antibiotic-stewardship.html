@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Antibiotic Stewardship Tool</title>
+<title>Antibiotic Stewardship Tool · Sean Lee</title>
+<meta name="description" content="Empiric antibiotic selection reference for 30+ infection types across 9 organ systems, with penicillin-allergy and MRSA adjustments. Educational use; based on IDSA/ASHP guidelines.">
+<link rel="canonical" href="https://seanleels.com/tools/antibiotic-stewardship.html">
+<link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -12,7 +17,7 @@
     --bg3: #eeede9;
     --text: #1a1a18;
     --text2: #6b6b67;
-    --text3: #9a9a96;
+    --text3: #63635d;
     --border: rgba(0,0,0,0.12);
     --border2: rgba(0,0,0,0.22);
     --radius: 8px;
@@ -26,7 +31,7 @@
       --bg3: #2e2e2b;
       --text: #f0efe9;
       --text2: #9a9a96;
-      --text3: #6b6b67;
+      --text3: #9a9a96;
       --border: rgba(255,255,255,0.12);
       --border2: rgba(255,255,255,0.22);
     }
@@ -80,12 +85,14 @@
     .form-row { grid-template-columns: 1fr; }
     .sys-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
   }
+.home-link{display:inline-block;margin-bottom:0.75rem;font-size:13px;color:var(--text2);text-decoration:none}.home-link:hover{color:var(--text);text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
 
   <header>
+    <a class="home-link" href="/">← seanleels.com</a>
     <h1>Antibiotic Stewardship Tool</h1>
     <p>Empiric antibiotic selection · IDSA / ASHP guidelines · Always tailor to local antibiogram</p>
   </header>
@@ -132,7 +139,7 @@
   <footer>
     For educational and clinical decision support use only. Always verify with local antibiogram and apply clinical judgment. Not a substitute for Infectious Disease consultation.<br>Content last updated May 2026. Guidelines change; check current IDSA/ASHP recommendations.
   </footer>
-</div>
+</main>
 
 <script>
 const systems = {

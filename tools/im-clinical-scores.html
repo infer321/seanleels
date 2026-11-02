@@ -3,18 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IM Clinical Scores</title>
+<title>IM Clinical Scores · Sean Lee</title>
+<meta name="description" content="Offline-capable calculator for 15 validated internal medicine scores (HEART, CURB-65, MELD-Na, Wells, SOFA, APACHE II and more) with interpretation. Educational use.">
+<link rel="canonical" href="https://seanleels.com/tools/im-clinical-scores.html">
+<link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
   --bg:#ffffff;--bg2:#f5f5f4;--bg3:#eeede9;
-  --text:#1a1a18;--text2:#6b6b67;--text3:#9a9a96;
+  --text:#1a1a18;--text2:#6b6b67;--text3:#63635d;
   --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
   --radius:8px;--radius-lg:12px;
   --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 }
 @media(prefers-color-scheme:dark){
-  :root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0efe9;--text2:#9a9a96;--text3:#6b6b67;--border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.22);}
+  :root{--bg:#1c1c1a;--bg2:#252523;--bg3:#2e2e2b;--text:#f0efe9;--text2:#9a9a96;--text3:#9a9a96;--border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.22);}
 }
 body{font-family:var(--font);background:var(--bg3);color:var(--text);min-height:100vh;padding:2rem 1rem;}
 .container{max-width:740px;margin:0 auto;}
@@ -67,11 +72,13 @@ header p{font-size:13px;color:var(--text2);margin-top:4px;}
 .grp-header{font-size:12px;font-weight:600;color:var(--text2);padding:5px 10px;background:var(--bg2);border-radius:var(--radius);margin-bottom:6px;}
 footer{text-align:center;font-size:11px;color:var(--text3);margin-top:2.5rem;padding-top:1rem;border-top:0.5px solid var(--border);}
 @media(max-width:500px){.num-inputs{grid-template-columns:1fr;}.score-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}}
+.home-link{display:inline-block;margin-bottom:0.75rem;font-size:13px;color:var(--text2);text-decoration:none}.home-link:hover{color:var(--text);text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="container">
+<main class="container">
   <header>
+    <a class="home-link" href="/">← seanleels.com</a>
     <h1>IM Clinical Scores</h1>
     <p>15 calculators · Cardiology · Pulmonary · GI/Liver · Sepsis/ICU · Neurology</p>
   </header>
@@ -79,7 +86,7 @@ footer{text-align:center;font-size:11px;color:var(--text3);margin-top:2.5rem;pad
   <div class="score-grid" id="scoreGrid"></div>
   <div class="calc-area" id="calcArea" style="display:none;"></div>
   <footer>For educational and clinical decision support use only. Always apply clinical judgment. Not a substitute for specialist consultation.<br>Content last updated May 2026.</footer>
-</div>
+</main>
 <script>
 const categories={
   "Cardiology":["CHA₂DS₂-VASc","CHADS₂","HEART Score","TIMI (NSTEMI)","GRACE (ACS)"],

@@ -17,6 +17,8 @@
   <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f8f6f1" media="(prefers-color-scheme: light)">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='4'%20fill='%230a0a0f'/%3E%3Ctext%20x='50%25'%20y='54%25'%20dominant-baseline='middle'%20text-anchor='middle'%20font-family='Georgia,serif'%20font-size='26'%20font-weight='500'%20fill='%23c8a96e'%3ESL%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +36,7 @@
     "affiliation": { "@type": "CollegeOrUniversity", "name": "Keck School of Medicine of USC" },
     "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of Southern California" },
     "knowsLanguage": ["English", "Cantonese", "Mandarin", "Spanish"],
-    "sameAs": ["https://www.linkedin.com/in/sean-lee-560534406/", "https://github.com/infer321"]
+    "sameAs": ["https://www.linkedin.com/in/sean-lee-560534406/", "https://scholar.google.com/citations?user=zGZNY5EAAAAJ", "https://orcid.org/0009-0009-9669-0627", "https://github.com/infer321"]
   }
   </script>
   <style>
@@ -91,7 +93,7 @@
         --text: #2a2a33;
         --muted: #55556a;
         --subtle: #6a6a7e;
-        --green: #2f7a52; --green-bg: rgba(47,122,82,0.07); --green-line: rgba(47,122,82,0.3);
+        --green: #276a46; --green-bg: rgba(39,106,70,0.07); --green-line: rgba(39,106,70,0.3);
         --blue: #3556b8;  --blue-bg: rgba(53,86,184,0.07);  --blue-line: rgba(53,86,184,0.3);
         --nav-bg: rgba(248,246,241,0.92);
         --glow: rgba(125,95,38,0.06);
@@ -268,6 +270,34 @@
 
     footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; color: var(--subtle); font-size: var(--fs-sm); }
 
+    /* ── Recent ─────────────────────────────────────────────── */
+    .recent { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+    .recent-list { list-style: none; }
+    .recent-list li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1.5rem; padding: 0.85rem 0; border-top: 1px solid var(--border); }
+    .recent-list li:last-child { border-bottom: 1px solid var(--border); }
+    .recent-date { font-size: var(--fs-sm); color: var(--subtle); padding-top: 0.1rem; }
+    .recent-text { color: var(--muted); }
+    .recent-text strong { color: var(--heading); font-weight: 500; }
+    .recent-text a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    .recent-text a:hover { color: var(--accent-hover); }
+
+    /* ── Why ophthalmology + profile links ─────────────────── */
+    .about-text p.why { color: var(--text); border-left: 1px solid var(--accent-line); padding-left: 1.25rem; }
+    .about-text p.why strong { color: var(--heading); font-weight: 500; }
+    .profile-links { margin: -1.25rem 0 2.25rem; }
+
+    /* ── Earlier research (expandable) ─────────────────────── */
+    .earlier { border-bottom: 1px solid var(--border); }
+    .earlier summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1.4rem 0; min-height: 2.75rem; }
+    .earlier summary::-webkit-details-marker { display: none; }
+    .earlier-title { font-family: var(--serif); font-size: var(--fs-h3); font-weight: 500; color: var(--heading); line-height: 1.25; }
+    .earlier-sub { display: block; font-family: var(--sans); font-size: var(--fs-sm); font-weight: 400; color: var(--subtle); margin-top: 0.15rem; }
+    .earlier-toggle { flex: none; font-size: var(--fs-sm); font-weight: 500; color: var(--accent); }
+    .earlier-toggle::after { content: ' +'; }
+    .earlier[open] .earlier-toggle::after { content: ' −'; }
+    .earlier summary:hover .earlier-title { color: var(--accent); }
+    .earlier .research-item:last-child { border-bottom: none; }
+
     /* ── Phone ──────────────────────────────────────────────── */
     @media (max-width: 900px) {
       nav { padding: 0.85rem 1.5rem; }
@@ -290,6 +320,7 @@
       .projects-grid, .tools-grid { grid-template-columns: 1fr; }
       .research-item { grid-template-columns: 1fr; gap: 0.35rem; }
       .research-date { order: -1; }
+      .recent-list li { grid-template-columns: 1fr; gap: 0.1rem; }
       .row-card { grid-template-columns: 1fr; gap: 0.35rem; }
       .featured { padding: 1.75rem; }
       .featured-tags { justify-content: flex-start; }
@@ -306,6 +337,10 @@
       html.js .reveal { opacity: 1; transform: none; }
     }
     @media print {
+      :root { --bg: #ffffff; --surface: #ffffff; --border: rgba(0,0,0,0.15); --border-strong: rgba(0,0,0,0.3); --accent: #7d5f26; --on-accent: #ffffff; --heading: #111111; --text: #222222; --muted: #444444; --subtle: #555555; --green: #276a46; --blue: #3556b8; }
+      .hero { min-height: 0; padding-top: 2rem; }
+      .hero::before, .tool-preview, .skip { display: none; }
+      section { padding: 2rem 0; }
       nav, .hero-links, .nav-toggle, .hero-photo { display: none; }
       html.js .reveal { opacity: 1; transform: none; }
     }
@@ -361,6 +396,20 @@
 
 <main id="main">
 
+<!-- RECENT -->
+<div class="section-wrap">
+<section id="recent" class="recent" aria-labelledby="recent-label">
+  <div class="section-label" id="recent-label">Recent</div>
+  <ul class="recent-list">
+    <li><span class="recent-date">Oct 2026</span><span class="recent-text"><strong>Launched Eye Atlas</strong>, an interactive anatomy-to-pathology ophthalmology study tool. <a href="https://atlas.seanleels.com" target="_blank" rel="noopener">Try it ↗</a></span></li>
+    <li><span class="recent-date">Sep 2026</span><span class="recent-text"><strong>Poster</strong> on FLOT vs CROSS neoadjuvant therapy at the American Foregut Society Annual Meeting, National Harbor, MD.</span></li>
+    <li><span class="recent-date">Sep 2026</span><span class="recent-text"><strong>Published</strong> a lung ultrasound meta-analysis in <em>Cureus</em>.</span></li>
+    <li><span class="recent-date">Aug 2026</span><span class="recent-text"><strong>Published</strong> a multicenter study of ascites phenotypes in cirrhosis in <em>Liver Transplantation</em>.</span></li>
+    <li><span class="recent-date">May 2026</span><span class="recent-text"><strong>Began a dedicated research year</strong> at the USC Roski Eye Institute.</span></li>
+  </ul>
+</section>
+</div>
+
 <!-- ABOUT -->
 <div class="section-wrap">
 <section id="about">
@@ -369,6 +418,7 @@
   <div class="about-grid">
     <div class="about-text">
       <p>I'm a medical student at USC Keck School of Medicine applying into ophthalmology. My current work at the USC Roski Eye Institute includes independent TriNetX cohort studies, ultra-widefield retinal imaging and vessel segmentation, gene therapy wet-lab research, and ophthalmic training for long-duration spaceflight.</p>
+      <p class="why"><strong>Why ophthalmology.</strong> I'm drawn to the unending skill ceiling of microsurgery, and to a field that sits at the intersection of medicine and surgery, where I can operate and also care for patients over many years.</p>
       <p>Earlier research spans general surgery, pulmonary and critical care, transplant hepatology, and emergency medicine, including multicenter studies of cirrhosis and liver transplant outcomes.</p>
       <p>I also build clinical tools: Eye Atlas, an anatomy-to-pathology ophthalmology study tool; Before You Page Ophtho, a pre-consult checklist for overnight teams; Rounds, a mobile app for clinical rotations; and references for antibiotic selection and clinical scoring.</p>
       <p>Before medical school I spent two years in oncology wet-lab research at the USC Mann School of Pharmacy, and a year as a patient liaison at Garfield Medical Center providing medical interpretation in Cantonese, Mandarin, and English.</p>
@@ -579,20 +629,24 @@
 <section id="publications">
   <div class="section-label reveal">Publications</div>
   <h2 class="reveal">Research Output</h2>
+  <div class="link-row profile-links">
+    <a class="text-link" href="https://scholar.google.com/citations?user=zGZNY5EAAAAJ" target="_blank" rel="noopener noreferrer">Google Scholar ↗</a>
+    <a class="text-link" href="https://orcid.org/0009-0009-9669-0627" target="_blank" rel="noopener noreferrer">ORCID ↗</a>
+  </div>
 
   <h3 class="sub">Peer-Reviewed Publications</h3>
   <div class="pub-list">
     <div class="pub-item"><div class="pub-num">1</div><div>
       <div class="pub-title">Machine learning-derived clinical phenotypes of ascites in cirrhosis: a multi-center latent class analysis with external validation <span class="badge badge-pub">Published</span></div>
       <div class="pub-authors">Cullaro G, Lai JC, Liu T, Gomez ME, Simonetto DA, <strong>Lee S</strong>, Lee BP, Allegretti AS, Mazumder NR, Patidar KR, Verna EC.</div>
-      <div class="pub-journal">Liver Transplantation · 2026</div>
-      <a class="text-link" href="https://doi.org/10.1097/LVT.0000000000000942" target="_blank" rel="noopener noreferrer">doi:10.1097/LVT.0000000000000942 ↗</a>
+      <div class="pub-journal">Liver Transplantation · 2026;32(11):1465–1478</div>
+      <div class="link-row"><a class="text-link" href="https://doi.org/10.1097/LVT.0000000000000942" target="_blank" rel="noopener noreferrer">doi:10.1097/LVT.0000000000000942 ↗</a><a class="text-link" href="https://pubmed.ncbi.nlm.nih.gov/42560069/" target="_blank" rel="noopener noreferrer">PubMed ↗</a></div>
     </div></div>
     <div class="pub-item"><div class="pub-num">2</div><div>
       <div class="pub-title">Diagnostic accuracy of lung ultrasound for pneumonia in adult intensive care unit patients: a systematic review and meta-analysis <span class="badge badge-pub">Published</span></div>
       <div class="pub-authors">Meremikwu K, <strong>Lee S</strong>, Tang B, Wilson ML, Killu K.</div>
       <div class="pub-journal">Cureus · 2026;18(9):e115858</div>
-      <a class="text-link" href="https://doi.org/10.7759/cureus.115858" target="_blank" rel="noopener noreferrer">doi:10.7759/cureus.115858 ↗</a>
+      <div class="link-row"><a class="text-link" href="https://doi.org/10.7759/cureus.115858" target="_blank" rel="noopener noreferrer">doi:10.7759/cureus.115858 ↗</a><a class="text-link" href="https://pubmed.ncbi.nlm.nih.gov/42703542/" target="_blank" rel="noopener noreferrer">PubMed ↗</a></div>
     </div></div>
     <div class="pub-item"><div class="pub-num">3</div><div>
       <div class="pub-title">Achieving physiologic distensibility targets frequently requires modification of standard cruroplasty during anti-reflux surgery <span class="badge badge-pub">Published</span></div>
@@ -711,6 +765,11 @@
       <div class="research-date">Jan 2026 – Present</div>
     </div>
 
+  </div>
+
+  <details class="earlier">
+    <summary><span class="earlier-title">Earlier research<span class="earlier-sub">Pulmonary &amp; critical care · Transplant hepatology · Emergency medicine · Oncology</span></span><span class="earlier-toggle">Show</span></summary>
+    <div class="research-list">
     <div class="research-item">
       <div class="research-dept">Pulmonary &amp;<br>critical care</div>
       <div>
@@ -760,8 +819,8 @@
       </div>
       <div class="research-date">Jun 2020 – Jun 2022</div>
     </div>
-
-  </div>
+    </div>
+  </details>
 
   <h3 class="sub" style="margin-top:3.5rem;">Clinical Experience</h3>
   <div class="research-list">
@@ -905,6 +964,8 @@
     <div>
       <a href="mailto:slee0339@usc.edu" class="contact-link"><span class="contact-link-label">Email</span>slee0339@usc.edu</a>
       <a href="https://www.linkedin.com/in/sean-lee-560534406/" target="_blank" rel="noopener noreferrer" class="contact-link"><span class="contact-link-label">LinkedIn</span>Sean Lee</a>
+      <a href="https://scholar.google.com/citations?user=zGZNY5EAAAAJ" target="_blank" rel="noopener noreferrer" class="contact-link"><span class="contact-link-label">Scholar</span>Google Scholar</a>
+      <a href="https://orcid.org/0009-0009-9669-0627" target="_blank" rel="noopener noreferrer" class="contact-link"><span class="contact-link-label">ORCID</span>0009-0009-9669-0627</a>
       <a href="https://instagram.com/sone_zc" target="_blank" rel="noopener noreferrer" class="contact-link"><span class="contact-link-label">Instagram</span>@sone_zc</a>
     </div>
   </div>
@@ -914,7 +975,7 @@
 </main>
 
 <footer>
-  <span>© 2026 Sean Lee</span>
+  <span>© 2026 Sean Lee · Updated November 2026</span>
   <span>USC Keck School of Medicine · Class of 2028</span>
 </footer>
 
@@ -935,6 +996,12 @@
     btn.addEventListener('click', function () { setOpen(!nav.classList.contains('open')); });
     nav.querySelectorAll('.nav-links a').forEach(function (a) { a.addEventListener('click', function () { setOpen(false); }); });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+
+    document.querySelectorAll('details.earlier').forEach(function (d) {
+      var t = d.querySelector('.earlier-toggle');
+      d.addEventListener('toggle', function () { t.textContent = d.open ? 'Hide' : 'Show'; });
+    });
+    window.addEventListener('beforeprint', function () { document.querySelectorAll('details').forEach(function (d) { d.open = true; }); });
   })();
 </script>
 
