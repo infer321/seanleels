@@ -173,6 +173,9 @@
     .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); margin-bottom: var(--space-6); }
     .tool-card { overflow: hidden; display: flex; flex-direction: column; transition: border-color 0.2s; }
     .tool-card:hover { border-color: var(--border-hover); }
+    .tool-card.wide { grid-column: 1 / -1; flex-direction: row; }
+    .tool-card.wide .tool-preview { flex: 0 0 46%; border-bottom: none; border-right: 1px solid var(--border); }
+    .tool-card.wide .tool-body { justify-content: center; }
     .tool-preview { width: 100%; aspect-ratio: 16/9; background: var(--preview-bg); overflow: hidden; border-bottom: 1px solid var(--border); }
     .tool-preview svg { width: 100%; height: 100%; display: block; }
     .tool-body { padding: var(--space-6); flex: 1; display: flex; flex-direction: column; }
@@ -314,6 +317,8 @@
       .hero-desc { font-size: var(--fs-body); }
       section { padding: var(--space-9) var(--space-6); }
       .tools-grid { grid-template-columns: 1fr; }
+      .tool-card.wide { flex-direction: column; }
+      .tool-card.wide .tool-preview { flex: none; border-right: none; border-bottom: 1px solid var(--border); }
       .tool-row { grid-template-columns: 1fr; }
       .tool-row .link-row { justify-content: flex-start; }
       .facts > div { grid-template-columns: 1fr; gap: 0; }
@@ -350,7 +355,7 @@
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Menu"><span></span></button>
   <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
-    <li><a href="#projects">Tools</a></li>
+    <li><a href="#projects">Projects</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#research">Research</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -396,6 +401,7 @@
 <section id="recent" class="recent" aria-labelledby="recent-label">
   <h2 id="recent-label">Recent</h2>
   <ul class="recent-list">
+    <li><span class="recent-date">Nov 2026</span><span class="recent-text"><strong>Started Second Look</strong>, monthly critical appraisals of ophthalmology papers. <a href="https://reads.seanleels.com" target="_blank" rel="noopener">reads.seanleels.com ↗</a></span></li>
     <li><span class="recent-date">Oct 2026</span><span class="recent-text"><strong>Launched Eye Atlas</strong>, an interactive anatomy-to-pathology ophthalmology study tool. <a href="https://atlas.seanleels.com" target="_blank" rel="noopener">Try it ↗</a></span></li>
     <li><span class="recent-date">Sep 2026</span><span class="recent-text"><strong>Poster</strong> on FLOT vs CROSS neoadjuvant therapy at the American Foregut Society Annual Meeting, National Harbor, MD.</span></li>
     <li><span class="recent-date">Sep 2026</span><span class="recent-text"><strong>Published</strong> a lung ultrasound meta-analysis in <em>Cureus</em>.</span></li>
@@ -432,9 +438,9 @@
 <!-- PROJECTS -->
 <div class="section-wrap">
 <section id="projects">
-  <h2>Tools</h2>
+  <h2>Projects</h2>
 
-  <h3 class="sub">Ophthalmology</h3>
+  <h3 class="sub">Ophthalmology projects</h3>
   <div class="tools-grid">
     <div class="card tool-card">
       <div class="tool-preview" aria-hidden="true"><svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -554,9 +560,46 @@
         <div class="link-row"><a href="https://beforeyoupageophtho.seanleels.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Try it ↗</a></div>
       </div>
     </div>
+    <div class="card tool-card wide">
+      <div class="tool-preview" aria-hidden="true"><svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="640" height="360" fill="#f8f6f1"/>
+          <text x="40" y="44" font-family="Georgia, serif" font-style="italic" font-size="17" fill="#16161d">Second Look</text>
+          <text x="148" y="44" font-family="sans-serif" font-size="10" fill="#6a6a7e">by Sean Lee</text>
+          <rect x="40" y="60" width="560" height="1" fill="#d9d6ce"/>
+          <text x="40" y="104" font-family="Georgia, serif" font-size="26" fill="#16161d">Ophthalmology papers, read critically.</text>
+          <rect x="40" y="128" width="54" height="18" rx="2" fill="#7d5f26"/>
+          <text x="54" y="141" font-family="sans-serif" font-size="9.5" fill="#ffffff">Retina</text>
+          <rect x="100" y="128" width="66" height="18" rx="2" fill="none" stroke="#c4c0b6"/>
+          <text x="112" y="141" font-family="sans-serif" font-size="9.5" fill="#2a2a33">Glaucoma</text>
+          <rect x="172" y="128" width="50" height="18" rx="2" fill="none" stroke="#c4c0b6"/>
+          <text x="186" y="141" font-family="sans-serif" font-size="9.5" fill="#2a2a33">RCT</text>
+          <rect x="40" y="166" width="560" height="1" fill="#d9d6ce"/>
+          <rect x="40" y="183" width="44" height="6" rx="2" fill="#bdb9b0"/>
+          <rect x="118" y="181" width="250" height="9" rx="2" fill="#2a2a33"/>
+          <rect x="118" y="200" width="300" height="5" rx="2" fill="#dcd9d1"/>
+          <rect x="488" y="184" width="16" height="5" fill="#16161d"/><rect x="507" y="184" width="16" height="5" fill="#16161d"/><rect x="526" y="184" width="16" height="5" fill="#16161d"/><rect x="545" y="184" width="16" height="5" fill="#16161d"/>
+          <rect x="488" y="196" width="50" height="6" rx="2" fill="#bdb9b0"/>
+          <rect x="40" y="226" width="560" height="1" fill="#d9d6ce"/>
+          <rect x="40" y="243" width="44" height="6" rx="2" fill="#bdb9b0"/>
+          <rect x="118" y="241" width="210" height="9" rx="2" fill="#2a2a33"/>
+          <rect x="118" y="260" width="260" height="5" rx="2" fill="#dcd9d1"/>
+          <rect x="488" y="244" width="16" height="5" fill="#16161d"/><rect x="507" y="244" width="16" height="5" fill="#16161d"/><rect x="526" y="244" width="16" height="5" fill="#16161d"/><rect x="545" y="244" width="16" height="5" fill="none" stroke="#c4c0b6"/>
+          <rect x="488" y="256" width="44" height="6" rx="2" fill="#bdb9b0"/>
+          <rect x="40" y="286" width="560" height="1" fill="#d9d6ce"/>
+          <rect x="40" y="306" width="2" height="34" fill="#7d5f26"/>
+          <text x="54" y="318" font-family="sans-serif" font-size="9" fill="#7d5f26">Bottom line</text>
+          <text x="54" y="334" font-family="Georgia, serif" font-size="12" fill="#16161d">What it found, how far to trust it, what it changes.</text>
+        </svg></div>
+      <div class="tool-body">
+        <div class="eyebrow">Ophthalmology · Paper appraisals · Launching soon</div>
+        <div class="tool-name">Second Look</div>
+        <p class="tool-desc">Monthly critical appraisals of ophthalmology papers: what each study found, how far to trust it (certainty and risk of bias), the one number that matters, and what it would change in clinic.</p>
+        <div class="link-row"><a href="https://reads.seanleels.com" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Visit ↗</a></div>
+      </div>
+    </div>
   </div>
 
-  <h3 class="sub">Clinical workflow</h3>
+  <h3 class="sub">Clinical tools</h3>
   <div class="tool-rows">
     <div class="tool-row">
       <div>
