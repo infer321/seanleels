@@ -13,6 +13,7 @@ Personal site for Sean L.S. Lee, medical student at USC Keck School of Medicine.
 | `eye-atlas/` | Eye Atlas source. The canonical address is [atlas.seanleels.com](https://atlas.seanleels.com); the copy at `seanleels.com/eye-atlas/` redirects there |
 | `reads/` | Second Look, paper appraisals. The canonical address is [reads.seanleels.com](https://reads.seanleels.com) (Vercel, root directory `reads`); each appraisal lives in its own folder, e.g. `reads/protocol-s/` |
 | `case/` | Ophtho Case of the Day, a daily diagnosis game, served at [seanleels.com/case/](https://seanleels.com/case/). Cases and game logic are in `case/game.js`; it is `noindex` and out of `sitemap.xml` while in beta |
+| `beforeyoupageophtho/` | Before You Page Ophtho, the pre-consult worksheet, served at [seanleels.com/beforeyoupageophtho/](https://seanleels.com/beforeyoupageophtho/). `beforeyoupageophto/` redirects to it |
 | `dashboard/` | Private personal trackers (study, research, gym, piano). Not linked from the site, marked `noindex`, and meant to sit behind Cloudflare Access. Logged data lives in the browser's localStorage, not in this repo |
 | `robots.txt`, `sitemap.xml` | Search engine hints |
 | `CNAME` | Custom domain for GitHub Pages |

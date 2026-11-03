@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Before You Page Ophtho · Sean Lee</title>
+  <meta name="description" content="The workup ophthalmology will ask for, in the order they'll ask for it. A bedside worksheet for ED, floor and ICU teams by Sean Lee. Stores no patient data.">
+  <link rel="canonical" href="https://seanleels.com/beforeyoupageophtho/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seanleels.com/beforeyoupageophtho/">
+  <meta property="og:title" content="Before You Page Ophtho">
+  <meta property="og:description" content="The workup ophthalmology will ask for, in the order they'll ask for it.">
+  <link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;display=swap">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="tool.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the worksheet</a>
+
+<div class="wrap">
+  <header class="top">
+    <a class="home" href="https://seanleels.com/">← seanleels.com</a>
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><span>E</span><span>FP</span><span>TOZ</span></div>
+      <div>
+        <h1>Before You Page Ophtho</h1>
+        <p class="tag">The workup ophthalmology will ask for, in the order they’ll ask for it. Built for ED, floor, and ICU teams.</p>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button type="button" role="tab" data-tab="workup" aria-selected="true">Workup &amp; page</button>
+      <button type="button" role="tab" data-tab="tools" aria-selected="false">Bedside tools</button>
+      <button type="button" role="tab" data-tab="guide" aria-selected="false">Field guide</button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <noscript><p class="noscript">The worksheet and bedside tools need JavaScript. The field guide below works without it.</p></noscript>
+    <section id="tab-workup" role="tabpanel">
+      <div class="layout">
+        <div id="form"></div>
+        <aside class="out" id="out" aria-label="Consult page">
+          <div class="urg" id="urg">
+            <div class="urg-k">Triage</div>
+            <div class="urg-word" id="urgWord">Urgent</div>
+            <p class="urg-text" id="urgText"></p>
+            <ul class="alerts" id="alerts"></ul>
+          </div>
+          <div class="sec">
+            <div class="ready-top"><b>Page-ready</b><span class="ready-n" id="readyN">0 / 0</span></div>
+            <div class="bar" id="bar"><i></i></div>
+            <div id="missingWrap"></div>
+          </div>
+          <div class="sec">
+            <div class="otabs" role="tablist" aria-label="Message format">
+              <button type="button" role="tab" data-out="full" aria-selected="true">Secure chat / note</button>
+              <button type="button" role="tab" data-out="pager" aria-selected="false">Pager</button>
+            </div>
+            <pre class="msg" id="msg" tabindex="0" aria-live="polite"></pre>
+            <div class="msg-foot">
+              <span class="count" id="count"></span>
+              <button type="button" class="copy" id="copyBtn">Copy page</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="tab-tools" role="tabpanel" hidden>
+      <div class="tgrid">
+        <div class="tool span2">
+          <h2>Calibrate your screen first</h2>
+          <p>Hold a credit card or driver’s license against the screen with its <b>short edge</b> along the bar. Drag until the bar is exactly as long as the card is tall (54 mm). Everything below uses this to draw true-size targets.</p>
+          <div class="paper">
+            <div class="calbar"><div class="rule" id="calRule"></div></div>
+          </div>
+          <div class="calrow">
+            <button type="button" class="ghost" id="calMinus" aria-label="Shrink">−</button>
+            <input type="range" id="cal" min="2.5" max="9" step="0.01" aria-label="Screen scale, pixels per millimeter">
+            <button type="button" class="ghost" id="calPlus" aria-label="Grow">+</button>
+          </div>
+          <span class="calstat" id="calStat"></span>
+        </div>
+
+        <div class="tool span2">
+          <h2>Near card</h2>
+          <p>Hold the screen at the test distance. Cover one eye. The patient points the way the legs of each E point. Record the smallest line where they get more than half right, with readers or a pinhole if they have them. Tap a line to reshuffle it.</p>
+          <div class="ctrls">
+            <div class="seg" id="distSeg" role="group" aria-label="Test distance">
+              <button type="button" data-d="355.6" aria-pressed="true">14 in (36 cm)</button>
+              <button type="button" data-d="400" aria-pressed="false">40 cm</button>
+            </div>
+            <button type="button" class="ghost" id="keyBtn" aria-pressed="false">Show answer key</button>
+            <button type="button" class="ghost" id="shuffleBtn">Shuffle all</button>
+          </div>
+          <div class="paper" id="near"></div>
+          <p class="small">A screening aid, not a validated acuity chart. Use a printed card when one is available. Lines marked in grey are near the limit of what your screen can draw sharply.</p>
+        </div>
+
+        <div class="tool">
+          <h2>Pupil gauge</h2>
+          <p>Hold beside the patient’s eye and match each pupil to the nearest circle. Measure in bright light and again in a dim room when the sizes differ.</p>
+          <div class="paper"><div class="gauge" id="gauge"></div></div>
+        </div>
+
+        <div class="tool">
+          <h2>Red desaturation</h2>
+          <p>Show the red disc to each eye in turn. Ask whether the red looks equally bright. If one eye sees it washed out or pinkish, ask how red it looks compared with the good eye (e.g. “60%”). Asymmetry suggests optic nerve disease.</p>
+          <div class="paper redt"><i id="redDisc"></i></div>
+        </div>
+
+        <div class="tool span2">
+          <h2>OKN strip</h2>
+          <p>Moving stripes trigger optokinetic nystagmus, a reflex that needs some working vision. If a patient reports no light perception but their eyes track the stripes, some vision is present. Hold it about 50 cm away and watch the eyes.</p>
+          <div class="ctrls">
+            <button type="button" class="copy" id="oknBtn">Start</button>
+            <div class="seg" id="oknDir" role="group" aria-label="Direction">
+              <button type="button" data-dir="-1" aria-pressed="true">← Left</button>
+              <button type="button" data-dir="1" aria-pressed="false">Right →</button>
+            </div>
+            <div class="seg" id="oknSpd" role="group" aria-label="Speed">
+              <button type="button" data-spd="40" aria-pressed="false">Slow</button>
+              <button type="button" data-spd="80" aria-pressed="true">Medium</button>
+              <button type="button" data-spd="140" aria-pressed="false">Fast</button>
+            </div>
+            <button type="button" class="ghost" id="oknFs">Full screen</button>
+          </div>
+          <div class="okn" id="okn" role="img" aria-label="Moving black and white vertical stripes"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-guide" role="tabpanel" hidden>
+      <div class="ggrid">
+        <div class="gcard">
+          <h2>Don’t, before ophtho sees them</h2>
+          <ul class="dont">
+            <li><span><b>Don’t dilate.</b>The pupil exam is a neuro vital sign, and dilating drops can trigger angle closure. Ask first.</span></li>
+            <li><span><b>Don’t patch a possible open globe.</b>Use a rigid shield that rests on bone. Don’t patch a contact lens wearer’s abrasion either; it raises infection risk.</span></li>
+            <li><span><b>Don’t press on an injured eye.</b>No forcing swollen lids open, no tonometry, and no removing impaled objects if an open globe is possible.</span></li>
+            <li><span><b>Don’t send topical anesthetic home.</b>Repeated use melts the cornea.</span></li>
+            <li><span><b>Don’t start steroid drops blind.</b>Without a slit lamp exam, they can worsen herpes or fungal keratitis and raise eye pressure.</span></li>
+            <li><span><b>Don’t wait on ophtho to start the clock-sensitive work.</b>Stroke workup for a suspected CRAO and irrigation for a chemical injury start before the page is answered.</span></li>
+          </ul>
+        </div>
+
+        <div class="gcard">
+          <h2>Usually fine for clinic follow-up</h2>
+          <p>When vision is normal and there is no pain, photophobia, or contact lens use:</p>
+          <ul class="okl">
+            <li>Viral or allergic conjunctivitis</li>
+            <li>Subconjunctival hemorrhage without trauma (check BP, and INR if on warfarin)</li>
+            <li>Stye or chalazion</li>
+            <li>Chronic, stable vision loss</li>
+            <li>Dry eye</li>
+            <li>Diabetic retinopathy screening in a stable patient</li>
+          </ul>
+          <p class="hint">New flashes and floaters are the exception: they still need a dilated exam within days, even when everything else looks fine.</p>
+        </div>
+
+        <div class="gcard">
+          <h2>Speak the language</h2>
+          <div class="tbl"><table>
+            <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+            <tbody>
+              <tr><td>OD / OS / OU</td><td>Right eye / left eye / both eyes</td></tr>
+              <tr><td>cc / sc / PH</td><td>With correction / without / through a pinhole</td></tr>
+              <tr><td>CF / HM</td><td>Counts fingers / sees hand motion</td></tr>
+              <tr><td>LP / NLP</td><td>Light perception / no light perception</td></tr>
+              <tr><td>RAPD</td><td>Relative afferent pupillary defect, found with the swinging flashlight test</td></tr>
+              <tr><td>IOP</td><td>Intraocular pressure, normally about 10–21 mmHg</td></tr>
+              <tr><td>EOM</td><td>Extraocular movements</td></tr>
+              <tr><td>CVF</td><td>Confrontation visual fields</td></tr>
+              <tr><td>AC</td><td>Anterior chamber, the space between cornea and iris</td></tr>
+              <tr><td>SLE / DFE</td><td>Slit lamp exam / dilated fundus exam</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="gcard">
+          <h2>Eye drop cap colors</h2>
+          <p>Topical eye drops follow a standard cap color code, which helps identify what a patient is using when they can’t name it.</p>
+          <div class="caps">
+            <div class="cap"><i style="background:#D7262E"></i><span><b>Red</b>Dilating drops (mydriatics, cycloplegics)</span></div>
+            <div class="cap"><i style="background:#F2A7B8"></i><span><b>Pink</b>Steroids</span></div>
+            <div class="cap"><i style="background:#C8A97E"></i><span><b>Tan</b>Anti-infectives</span></div>
+            <div class="cap"><i style="background:#9AA0A6"></i><span><b>Gray</b>NSAIDs</span></div>
+            <div class="cap"><i style="background:#1F6B3A"></i><span><b>Dark green</b>Miotics (pilocarpine)</span></div>
+            <div class="cap"><i style="background:linear-gradient(90deg,#F3D23B 50%,#2D6CDF 50%)"></i><span><b>Yellow or blue</b>Beta-blockers (by strength)</span></div>
+            <div class="cap"><i style="background:#7B4BB7"></i><span><b>Purple</b>Adrenergic agonists</span></div>
+            <div class="cap"><i style="background:#F08A24"></i><span><b>Orange</b>Carbonic anhydrase inhibitors</span></div>
+            <div class="cap"><i style="background:#2BB7B3"></i><span><b>Turquoise</b>Prostaglandin analogues</span></div>
+          </div>
+          <p class="hint">A red cap in a neuro-check patient’s bag is worth asking about: it may explain a dilated pupil.</p>
+        </div>
+
+        <div class="gcard span2">
+          <h2>Sources</h2>
+          <ol class="srcs">
+            <li>Mac Grory B, et al. Management of central retinal artery occlusion: a scientific statement from the American Heart Association. <i>Stroke</i>. 2021. <a href="https://doi.org/10.1161/STR.0000000000000366" target="_blank" rel="noopener">doi.org/10.1161/STR.0000000000000366</a></li>
+            <li>Pappas PG, et al. Clinical practice guideline for the management of candidiasis: 2016 update by the IDSA. <i>Clin Infect Dis</i>. 2016. <a href="https://doi.org/10.1093/cid/civ933" target="_blank" rel="noopener">doi.org/10.1093/cid/civ933</a></li>
+            <li>Hollands H, et al. Acute-onset floaters and flashes: is this patient at risk for retinal detachment? <i>JAMA</i>. 2009. <a href="https://doi.org/10.1001/jama.2009.1714" target="_blank" rel="noopener">doi.org/10.1001/jama.2009.1714</a></li>
+            <li>American Academy of Ophthalmology. Color codes for topical ocular medications (policy statement).</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><b>Educational aid for clinicians.</b> Not a diagnostic device and not a substitute for clinical judgment, your institution’s protocols, or a conversation with your ophthalmology team.</p>
+    <p>Nothing you type is saved or sent anywhere. Only your screen calibration is remembered on this device.</p>
+    <p>Content last updated Oct 2026 · Built by <a href="https://seanleels.com/">Sean Lee</a></p>
+  </footer>
+</div>
+
+<aside class="mbar" id="mbar" aria-label="Triage summary">
+  <span class="pill" id="mPill">Urgent</span>
+  <span class="mr" id="mReady">Page-ready 0/0</span>
+  <button type="button" id="mGo">Review page</button>
+</aside>
+
+<script src="tool.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* Before You Page Ophtho · design tokens (see DESIGN.md). Pages use these names, never raw values. */
+:root {
+  color-scheme: light dark;
+
+  /* Color · light */
+  --bg: #f2f4f8;
+  --surface: #ffffff;
+  --sunk: #e8ecf3;
+  --ink: #0f1730;
+  --muted: #56607a;
+  --line: #d4dae6;
+  --line-strong: #7f889d;
+  --accent: #1e3db8;
+  --accent-soft: #e2e7fa;
+  --on-accent: #ffffff;
+  --em: #b42318;
+  --em-soft: #fcebe8;
+  --ur: #8f5100;
+  --ur-soft: #fbf0dc;
+  --ro: #1f6e47;
+  --ro-soft: #e1f2e8;
+
+  /* The chart surfaces stay white in both themes, because a printed card is white */
+  --paper: #ffffff;
+  --paper-ink: #000000;
+  --paper-line: #d9d9d9;
+  --paper-muted: #555555;
+  --paper-key: #b00020;
+  --red-disc: #e00000;
+
+  /* Type */
+  --f-display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --f-body: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --fs-word: 1.75rem;    /* 28px: triage word */
+  --fs-h3: 1.3125rem;    /* 21px */
+  --fs-lg: 1.0625rem;    /* 17px */
+  --fs-body: 1rem;       /* 16px */
+  --fs-sm: 0.875rem;     /* 14px */
+  --fs-xs: 0.75rem;      /* 12px */
+
+  /* Spacing · 4px scale shared with seanleels.com */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-7: 32px;
+  --space-8: 40px; --space-9: 48px; --space-10: 64px; --space-11: 80px; --space-12: 96px; --space-13: 128px;
+
+  /* Shape and size */
+  --radius: 2px;
+  --tap: 2.75rem;        /* 44px */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111831;
+    --sunk: #0c1327;
+    --ink: #e6eaf5;
+    --muted: #9aa4bf;
+    --line: #25304f;
+    --line-strong: #6d7690;
+    --accent: #90a4ff;
+    --accent-soft: #1a2452;
+    --on-accent: #0a0f1e;
+    --em: #ff8173;
+    --em-soft: #3a1517;
+    --ur: #f2b44c;
+    --ur-soft: #33250b;
+    --ro: #62d39c;
+    --ro-soft: #0f2d20;
+  }
+}
+
+@media print {
+  :root {
+    --bg: #ffffff; --surface: #ffffff; --sunk: #f2f2f2; --ink: #111111; --muted: #444444;
+    --line: #cccccc; --accent: #1e3db8; --accent-soft: #eeeeee;
+    --em: #b42318; --em-soft: #ffffff; --ur: #8f5100; --ur-soft: #ffffff; --ro: #1f6e47; --ro-soft: #ffffff;
+  }
+}
