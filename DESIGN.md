@@ -84,7 +84,7 @@ The site used to repeat one frame for every section: small gold label, big serif
 3. **Vary the layout.** No two adjacent sections share a structure:
    - About: prose column plus a short facts list (school, year, languages). No stat-card grid.
    - Publications: typeset list with year and journal, no oversized numerals.
-   - Projects: the ophthalmology projects featured large (Second Look spans the full width); the clinical tools as compact list rows, not identical cards.
+   - Projects: the ophthalmology projects featured large (Second Look and Ophtho Case of the Day span the full width); the clinical tools as compact list rows, not identical cards.
    - Research: department and date column, project-led bullets (current pattern).
 4. **No decoration that isn't information.** No hero glow, fade-in on scroll, or faded numerals.
 5. **One accent moment per screen.** If a button is gold, nothing else nearby needs to be.

@@ -1,0 +1,74 @@
+/* Ophtho Case of the Day · design tokens (see case/DESIGN.md). Pages use these names, never raw values. */
+:root {
+  color-scheme: light dark;
+
+  /* Color · light (chart paper) */
+  --bg: #f3f5fa;
+  --surface: #ffffff;
+  --border: #dce1eb;
+  --border-strong: #7f889d;
+  --chip: #e7ebf6;
+  --accent: #2340c8;
+  --accent-hover: #1a2f96;
+  --on-accent: #ffffff;
+  --heading: #121621;
+  --text: #121621;
+  --muted: #545c6e;
+  --wrong: #b92c25;
+  --right: #16703e;
+  --on-status: #ffffff;
+  --bar: #6f7890;
+
+  /* Type */
+  --display: 'Archivo', 'Arial Black', system-ui, sans-serif;
+  --sans: 'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fs-chart-1: clamp(1.875rem, 10vw, 3.25rem);   /* 30–52px */
+  --fs-chart-2: clamp(1.25rem, 6.6vw, 2.125rem);  /* 20–34px */
+  --fs-chart-3: clamp(0.875rem, 4.6vw, 1.5rem);   /* 14–24px */
+  --fs-dx: clamp(1.375rem, 5.6vw, 1.75rem);       /* 22–28px */
+  --fs-num: 1.625rem;     /* 26px */
+  --fs-lg: 1.125rem;      /* 18px: card and section titles, guess field */
+  --fs-body: 1rem;        /* 16px */
+  --fs-sm: 0.875rem;      /* 14px */
+  --fs-xs: 0.75rem;       /* 12px: Beta badge and chart labels only */
+  --measure: 62ch;
+
+  /* Spacing · 4px scale shared with seanleels.com */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-7: 32px;
+  --space-8: 40px; --space-9: 48px; --space-10: 64px; --space-11: 80px; --space-12: 96px; --space-13: 128px;
+
+  /* Layout */
+  --w-column: 640px;
+  --tap: 2.75rem;         /* 44px */
+
+  /* Shape */
+  --radius: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Color · dark (dimmed exam room) */
+    --bg: #0a0d15;
+    --surface: #121726;
+    --border: #242b40;
+    --border-strong: #6d7690;
+    --chip: #1a2136;
+    --accent: #8ea1ff;
+    --accent-hover: #b4c1ff;
+    --on-accent: #0a0d15;
+    --heading: #e6e9f2;
+    --text: #e6e9f2;
+    --muted: #a4abbd;
+    --wrong: #ff7d72;
+    --right: #5fdc9e;
+    --on-status: #0a0d15;
+    --bar: #8e96aa;
+  }
+}
+
+@media print {
+  :root {
+    --bg: #ffffff; --surface: #ffffff; --heading: #111111; --text: #222222; --muted: #444444;
+    --border: #cccccc; --accent: #2340c8; --chip: #eeeeee;
+  }
+}

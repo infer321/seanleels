@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ophtho Case of the Day · Sean Lee</title>
+  <meta name="description" content="A daily ophthalmology diagnosis game by Sean Lee, medical student at USC Keck. Six clues, one case. The fewer clues you need, the better.">
+  <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://seanleels.com/case/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://seanleels.com/case/">
+  <meta property="og:title" content="Ophtho Case of the Day">
+  <meta property="og:description" content="A daily ophthalmology diagnosis game. Six clues, one case.">
+  <link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;display=swap">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="case.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the case</a>
+
+  <div class="wrap">
+    <header class="masthead">
+      <div class="topbar">
+        <a class="quiet" href="https://seanleels.com/">← seanleels.com</a>
+        <span class="badge">Beta</span>
+      </div>
+
+      <h1 class="chart" aria-label="Ophtho Case of the Day">
+        <span class="row r1" aria-hidden="true"><span class="ltr">OPHTHO</span><span class="va">20/200</span></span>
+        <span class="row r2" aria-hidden="true"><span class="ltr">CASE OF</span><span class="va">20/100</span></span>
+        <span class="row r3" aria-hidden="true"><span class="ltr">THE DAY</span><span class="va">20/70</span></span>
+      </h1>
+    </header>
+
+    <main id="main">
+      <noscript>
+        <p class="noscript">This game runs in the browser and needs JavaScript: each case opens one clue at a time. Turn JavaScript on to play, or go back to <a href="https://seanleels.com/">seanleels.com</a>.</p>
+      </noscript>
+
+      <div class="game">
+      <div class="meta">
+        <p class="status"><span id="modePill">Daily</span> · <span id="streakPill">Streak 0</span></p>
+        <button class="linkbtn" id="modeSwitch" type="button">Practice a random case</button>
+      </div>
+
+      <section class="card" aria-labelledby="caseTitle">
+        <div class="card-head">
+          <h2 id="caseTitle">Case</h2>
+          <span class="count" id="clueCount">Clue 1 of 6</span>
+        </div>
+        <ol class="clues" id="clues"></ol>
+      </section>
+
+      <div class="steps-row">
+        <div class="steps" id="steps" role="img" aria-label="Your attempts"></div>
+        <p class="steps-legend">Fewer clues, better score</p>
+      </div>
+
+      <section class="guess" id="guessBox" aria-label="Your guess">
+        <div class="field">
+          <label for="guessInput">Your diagnosis</label>
+          <input id="guessInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Start typing, e.g. optic neuritis" role="combobox" aria-expanded="false" aria-controls="suggList" aria-autocomplete="list">
+          <ul class="sugg" id="suggList" role="listbox" aria-label="Matching diagnoses" hidden></ul>
+        </div>
+        <div class="actions">
+          <button class="btn" id="guessBtn" type="button">Guess</button>
+          <button class="btn ghost" id="clueBtn" type="button">Next clue</button>
+          <button class="linkbtn" id="giveUpBtn" type="button" hidden>Show answer</button>
+        </div>
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+      </section>
+
+      <section class="card" id="resultCard" aria-labelledby="dxName" hidden>
+        <div class="result">
+          <p class="verdict" id="verdict"></p>
+          <h2 class="dx" id="dxName" tabindex="-1"></h2>
+          <p class="pearl" id="pearl"></p>
+          <div class="actions">
+            <button class="btn" id="shareBtn" type="button">Copy result</button>
+            <button class="btn ghost" id="practiceBtn" type="button">Practice another case</button>
+          </div>
+          <textarea id="shareFallback" rows="3" readonly hidden aria-label="Your result, ready to copy"></textarea>
+          <p class="next" id="nextCase"></p>
+        </div>
+      </section>
+
+      <section class="stats" aria-labelledby="statsTitle">
+        <h2 id="statsTitle">Your daily record</h2>
+        <dl class="nums">
+          <div class="num"><dt>Played</dt><dd id="sPlayed">0</dd></div>
+          <div class="num"><dt>Solved</dt><dd id="sRate">0%</dd></div>
+          <div class="num"><dt>Streak</dt><dd id="sStreak">0</dd></div>
+          <div class="num"><dt>Best</dt><dd id="sBest">0</dd></div>
+        </dl>
+        <div class="dist" id="dist"></div>
+      </section>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <p>Educational vignettes written for practice and interview prep. Fictional patients. Not medical advice or clinical guidance.</p>
+      <p>A new case opens at midnight your time. Your record stays in this browser and is never sent anywhere.</p>
+      <p>Content last updated Nov 2026 · <a href="https://seanleels.com/">Sean Lee</a></p>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
