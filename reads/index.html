@@ -30,18 +30,36 @@
   </header>
 
   <main id="main" class="index">
-    <h1 class="index-title">Ophthalmology papers, read critically.</h1>
-    <p class="index-lede">What each study found, how far to trust it, and what it would change in clinic. One paper a month.</p>
-    <p class="index-why">I started this to become better informed about ophthalmology: by studying the landmark trials that inform our guidelines, and by keeping up with the newest RCTs that change and further our understanding of disease and treatment. These are reviews of papers I enjoy doing in my spare time.</p>
+    <h1 class="index-title">Ophthalmology papers</h1>
+    <p class="index-why">Papers I found interesting and reviewed to deepen my knowledge of ophthalmology: the landmark trials that inform our guidelines, and the newest research that changes our understanding of disease and treatment.</p>
 
-    <h2 class="visually-hidden">Appraisals</h2>
-    <ol class="rows">
-      <li class="row">
+    <div class="filters" id="filters" hidden>
+      <div class="chip-group" role="group" aria-labelledby="f-all-label">
+        <span class="chip-label" id="f-all-label">Show</span>
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+      </div>
+      <div class="chip-group" role="group" aria-labelledby="f-sub-label">
+        <span class="chip-label" id="f-sub-label">Subspecialty</span>
+        <button type="button" class="chip" data-filter="retina" aria-pressed="false">Retina</button>
+        <button type="button" class="chip" data-filter="glaucoma" aria-pressed="false">Glaucoma</button>
+      </div>
+      <div class="chip-group" role="group" aria-labelledby="f-design-label">
+        <span class="chip-label" id="f-design-label">Design</span>
+        <button type="button" class="chip" data-filter="rct" aria-pressed="false">RCT</button>
+        <button type="button" class="chip" data-filter="early-phase" aria-pressed="false">Early-phase trial</button>
+      </div>
+      <p class="filter-status" id="filter-status" aria-live="polite">Showing 3 of 3</p>
+    </div>
+
+    <section class="index-section" aria-labelledby="landmark-h">
+      <h2 class="index-section-title" id="landmark-h">Landmark trials</h2>
+      <p class="index-section-note">Papers that changed guidelines or standard practice.</p>
+      <ol class="rows">
+      <li class="row" data-tags="glaucoma rct">
         <div class="row-date"><time datetime="2026-11">Nov 2026</time></div>
         <div class="row-body">
           <h3 class="row-title"><a href="light/">LiGHT: laser vs eye drops as first treatment for glaucoma and ocular hypertension</a></h3>
           <div class="row-meta">
-            <span class="landmark">★ Landmark</span>
             <span>Lancet, 2019</span>
             <span>Glaucoma</span>
             <span>RCT</span>
@@ -55,12 +73,11 @@
           <p class="row-bottom">I would prefer SLT first for eligible patients who tolerate it, given the long-term personal medical and financial burden of daily drops.</p>
         </div>
       </li>
-      <li class="row">
+      <li class="row" data-tags="retina rct">
         <div class="row-date"><time datetime="2026-11">Nov 2026</time></div>
         <div class="row-body">
           <h3 class="row-title"><a href="protocol-s/">Protocol S: ranibizumab vs PRP for proliferative diabetic retinopathy</a></h3>
           <div class="row-meta">
-            <span class="landmark">★ Landmark</span>
             <span>JAMA, 2015</span>
             <span>Retina</span>
             <span>RCT</span>
@@ -74,7 +91,33 @@
           <p class="row-bottom">Protocol S supports anti-VEGF as an effective alternative, but its ongoing treatment burden makes follow-up reliability central to the decision.</p>
         </div>
       </li>
-    </ol>
+      </ol>
+    </section>
+
+    <section class="index-section" aria-labelledby="emerging-h">
+      <h2 class="index-section-title" id="emerging-h">Emerging research</h2>
+      <p class="index-section-note">Early-phase and new evidence that hasn't changed practice yet.</p>
+      <ol class="rows">
+      <li class="row" data-tags="retina early-phase">
+        <div class="row-date"><time datetime="2026-11">Nov 2026</time></div>
+        <div class="row-body">
+          <h3 class="row-title"><a href="pioneer/">PIONEER: optogenetic therapy for blindness from retinitis pigmentosa</a></h3>
+          <div class="row-meta">
+            <span>NEJM, 2026</span>
+            <span>Retina</span>
+            <span>Early-phase trial</span>
+            <span>Read with the 2021 case report</span>
+          </div>
+          <div class="certainty certainty-sm">
+            <span class="meter" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></span>
+            <strong>Very low</strong>
+            <span class="scope">certainty, visual-function benefit</span>
+          </div>
+          <p class="row-bottom">Optogenetic therapy may give limited, goggle-dependent visual function to some blind RP patients, but it needs controlled trials with prespecified outcomes before it can be called effective.</p>
+        </div>
+      </li>
+      </ol>
+    </section>
   </main>
 
   <footer class="footer">
@@ -83,5 +126,29 @@
       <p><a href="https://seanleels.com">Back to seanleels.com ↗</a></p>
     </div>
   </footer>
+  <script>
+    (function () {
+      var box = document.getElementById('filters');
+      if (!box) return;
+      var chips = box.querySelectorAll('.chip');
+      var rows = document.querySelectorAll('.row[data-tags]');
+      var status = document.getElementById('filter-status');
+      function apply(filter) {
+        var shown = 0;
+        rows.forEach(function (r) {
+          var match = filter === 'all' || r.getAttribute('data-tags').split(' ').indexOf(filter) !== -1;
+          r.hidden = !match;
+          if (match) shown++;
+        });
+        document.querySelectorAll('.index-section').forEach(function (sec) {
+          sec.hidden = !sec.querySelector('.row:not([hidden])');
+        });
+        chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c.getAttribute('data-filter') === filter)); });
+        status.textContent = 'Showing ' + shown + ' of ' + rows.length;
+      }
+      chips.forEach(function (c) { c.addEventListener('click', function () { apply(c.getAttribute('data-filter')); }); });
+      box.hidden = false;
+    })();
+  </script>
 </body>
 </html>
