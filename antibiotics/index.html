@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antibiotic Stewardship Tool · Sean Lee</title>
+  <meta name="description" content="Empiric antibiotic reference for 29 infections across 9 body systems, by setting, with penicillin-allergy and MRSA adjustments. Built by Sean Lee for educational use.">
+  <link rel="canonical" href="https://seanleels.com/antibiotics/">
+  <link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="../tools/tokens.css">
+  <link rel="stylesheet" href="../tools/tools.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the tool</a>
+  <div class="wrap">
+    <header class="tool-head">
+      <a class="back" href="/">← seanleels.com</a>
+      <h1>Antibiotic Stewardship Tool</h1>
+      <p class="lede">Empiric regimens for 29 infections across 9 body systems, by setting, with penicillin-allergy and MRSA adjustments.</p>
+      <p class="meta">Content last updated May 2026 · <a href="#sources">Sources</a></p>
+    </header>
+
+    <main id="main">
+      <p class="nojs">This tool needs JavaScript to choose an infection and show regimens. The sources it is built on are listed below.</p>
+
+      <div id="tool" hidden>
+        <div class="step">
+          <span class="step-label" id="systems-label">Body system</span>
+          <div class="chips" id="systems" role="group" aria-labelledby="systems-label"></div>
+        </div>
+
+        <div class="step" id="step-infection" hidden>
+          <span class="step-label" id="infections-label">Infection</span>
+          <div class="chips" id="infections" role="group" aria-labelledby="infections-label"></div>
+        </div>
+
+        <div class="step">
+          <span class="step-label" id="settings-label">Setting</span>
+          <div class="chips" id="settings" role="group" aria-labelledby="settings-label"></div>
+        </div>
+
+        <div class="step">
+          <span class="step-label" id="risks-label">Risk factors (select any)</span>
+          <div class="chips" id="risks" role="group" aria-labelledby="risks-label"></div>
+        </div>
+
+        <div class="step go-row">
+          <button type="button" class="btn" id="go" disabled>Show regimens</button>
+          <span class="note" id="go-hint" aria-live="polite"></span>
+        </div>
+
+        <section id="results" class="section" aria-live="polite"></section>
+      </div>
+
+      <section id="sources" class="section sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <p class="note">Based on IDSA and ASHP guidelines. Always tailor to your local antibiogram.</p>
+      </section>
+    </main>
+
+    <footer class="tool-foot">
+      <p>For education and clinical decision support only. Check your local antibiogram and apply clinical judgment. Not a substitute for infectious diseases consultation.</p>
+      <p>Content last updated May 2026. Nothing you select is stored or sent.</p>
+      <p><a href="/">Back to seanleels.com</a></p>
+    </footer>
+  </div>
+  <script src="data.js"></script>
+  <script src="rules.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

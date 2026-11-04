@@ -1,0 +1,70 @@
+/* Clinical tools · design tokens (see tools/DESIGN.md). Same palette as Second Look; pages use these names, never raw values. */
+:root {
+  color-scheme: light dark;
+
+  /* Color · light (default) */
+  --bg: #f8f6f1;
+  --surface: #ffffff;
+  --border: rgba(20, 20, 30, 0.10);
+  --border-strong: rgba(20, 20, 30, 0.22);
+  --accent: #7d5f26;
+  --accent-hover: #5f4719;
+  --on-accent: #ffffff;
+  --accent-line: rgba(125, 95, 38, 0.45);
+  --heading: #16161d;
+  --text: #2a2a33;
+  --muted: #55556a;
+  --subtle: #6a6a7e;
+  --ok: #276a46;
+  --warn: #8a5a00;
+  --risk: #a3392a;
+
+  /* Type */
+  --serif: 'Newsreader', Georgia, serif;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --fs-title: clamp(1.875rem, 3.2vw, 2.5rem); /* 30–40px */
+  --fs-h2: 1.625rem;   /* 26px */
+  --fs-h3: 1.25rem;    /* 20px */
+  --fs-score: clamp(2.5rem, 6vw, 3.5rem); /* 40–56px */
+  --fs-ui: 1rem;       /* 16px */
+  --fs-meta: 0.875rem; /* 14px */
+  --fs-badge: 0.75rem; /* 12px */
+  --measure: 70ch;
+
+  /* Spacing · 4px scale shared with seanleels.com */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-7: 32px;
+  --space-8: 40px; --space-9: 48px; --space-10: 64px; --space-11: 80px; --space-12: 96px; --space-13: 128px;
+
+  /* Layout and shape */
+  --w-tool: 880px;
+  --radius: 2px;
+  --tap: 2.75rem; /* 44px */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --accent: #c8a96e;
+    --accent-hover: #e8c98e;
+    --on-accent: #0a0a0f;
+    --accent-line: rgba(200, 169, 110, 0.45);
+    --heading: #f1efe9;
+    --text: #e0e0ec;
+    --muted: #a6a6bc;
+    --subtle: #8686a0;
+    --ok: #8acfaa;
+    --warn: #e0b25c;
+    --risk: #f08a7a;
+  }
+}
+
+@media print {
+  :root {
+    --bg: #ffffff; --surface: #ffffff; --heading: #111111; --text: #222222; --muted: #444444; --subtle: #555555;
+    --border: rgba(0, 0, 0, 0.15); --border-strong: rgba(0, 0, 0, 0.3); --accent: #7d5f26;
+    --ok: #276a46; --warn: #8a5a00; --risk: #a3392a;
+  }
+}

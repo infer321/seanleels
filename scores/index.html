@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Medicine Scoring Calculator · Sean Lee</title>
+  <meta name="description" content="Calculators for 17 internal medicine scores, including HEART, CURB-65, MELD, Wells, SOFA and NIHSS, with plain-language interpretation. Built by Sean Lee for educational use.">
+  <link rel="canonical" href="https://seanleels.com/scores/">
+  <link rel="icon" href="/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=IBM+Plex+Sans:wght@400;500&amp;display=swap">
+  <link rel="stylesheet" href="../tools/tokens.css">
+  <link rel="stylesheet" href="../tools/tools.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the calculators</a>
+  <div class="wrap">
+    <header class="tool-head">
+      <a class="back" href="/">← seanleels.com</a>
+      <h1>Internal Medicine Scoring Calculator</h1>
+      <p class="lede">Calculators for 17 internal medicine scores across cardiology, pulmonary, GI and liver, sepsis and ICU, and neurology. Results update as you answer.</p>
+      <p class="meta">Content last updated May 2026 · <a href="#sources">Sources</a></p>
+    </header>
+
+    <main id="main">
+      <p class="nojs">The calculators need JavaScript. The sources they are built on are listed below.</p>
+
+      <div id="tool" hidden>
+        <div class="step">
+          <span class="step-label" id="cats-label">Category</span>
+          <div class="chips" id="cats" role="group" aria-labelledby="cats-label"></div>
+        </div>
+        <div class="step">
+          <span class="step-label" id="list-label">Score</span>
+          <div class="chips" id="list" role="group" aria-labelledby="list-label"></div>
+        </div>
+        <section id="calc" class="calc section" hidden></section>
+      </div>
+
+      <section id="sources" class="section sources" aria-labelledby="sources-h">
+        <h2 id="sources-h">Sources</h2>
+        <p class="note">Each calculator follows its original published derivation.</p>
+      </section>
+    </main>
+
+    <footer class="tool-foot">
+      <p>For education and clinical decision support only. Always apply clinical judgment. Not a substitute for specialist consultation.</p>
+      <p>Content last updated May 2026. Nothing you enter is stored or sent.</p>
+      <p><a href="/">Back to seanleels.com</a></p>
+    </footer>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
