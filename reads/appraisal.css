@@ -107,6 +107,7 @@ tbody th { font-weight: 500; color: var(--heading); }
 .citation .appraised { margin-top: var(--space-4); font-size: var(--fs-meta); color: var(--subtle); }
 
 /* Index */
+[hidden] { display: none !important; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .index { max-width: var(--w-index); margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-12); }
 .index-title { font-size: var(--fs-index-title); line-height: 1.1; max-width: 18ch; }
@@ -130,7 +131,7 @@ tbody th { font-weight: 500; color: var(--heading); }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .filter-status { font-size: var(--fs-meta); color: var(--subtle); margin-top: var(--space-2); }
-.index-section + .index-section { margin-top: var(--space-11); }
+.index-section:not([hidden]) ~ .index-section:not([hidden]) { margin-top: var(--space-11); }
 .index-section-title { margin: 0 0 var(--space-2); }
 .index-section-note { font-size: var(--fs-ui); color: var(--muted); margin-bottom: var(--space-6); }
 .big-number .figure .of { font-size: 0.45em; color: var(--subtle); margin: 0 var(--space-3); }
@@ -158,7 +159,7 @@ tbody th { font-weight: 500; color: var(--heading); }
   .index-why { margin-bottom: var(--space-9); }
   .row { grid-template-columns: 1fr; gap: var(--space-2); padding: var(--space-6) 0; }
   .chip-label { min-width: 100%; }
-  .index-section + .index-section { margin-top: var(--space-9); }
+  .index-section:not([hidden]) ~ .index-section:not([hidden]) { margin-top: var(--space-9); }
 }
 
 @media print {
