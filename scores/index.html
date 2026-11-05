@@ -22,7 +22,7 @@
       <a class="back" href="/">← seanleels.com</a>
       <h1>Internal Medicine Scoring Calculator</h1>
       <p class="lede">Calculators for 17 internal medicine scores across cardiology, pulmonary, GI and liver, sepsis and ICU, and neurology. Results update as you answer.</p>
-      <p class="meta">Content last updated May 2026 · <a href="#sources">Sources</a></p>
+      <p class="meta">Content last updated Nov 2026 · <a href="#sources">Sources</a></p>
     </header>
 
     <main id="main">
@@ -41,18 +41,34 @@
       </div>
 
       <section id="sources" class="section sources" aria-labelledby="sources-h">
-        <h2 id="sources-h">Sources</h2>
-        <p class="note">Each calculator follows its original published derivation.</p>
+        <h2 id="sources-h">Sources and changes</h2>
+        <p class="note">Each calculator names its source under its result. All were checked in Nov 2026.</p>
+        <h3 class="list-h">Guidelines used for interpretation</h3>
+        <ul>
+          <li><strong>Cardiology:</strong> ACC/AHA/ACCP/HRS atrial fibrillation 2023; ESC atrial fibrillation 2024; AHA/ACC chest pain 2021; ESC acute coronary syndromes 2023</li>
+          <li><strong>Pulmonary:</strong> ATS/IDSA community-acquired pneumonia 2019 and 2025 update; ACP 2015 and ESC 2019 for pulmonary embolism</li>
+          <li><strong>GI and liver:</strong> OPTN liver allocation (MELD 3.0, July 2023); ACG upper GI bleeding 2021; ACG acute pancreatitis 2024</li>
+          <li><strong>Sepsis and ICU:</strong> Sepsis-3 (2016); Surviving Sepsis Campaign 2021; SOFA-2 (JAMA, Oct 2025) noted</li>
+          <li><strong>Neurology:</strong> AHA/ASA acute ischemic stroke 2026</li>
+        </ul>
+        <h3 class="list-h">What changed in Nov 2026</h3>
+        <ul>
+          <li><strong>Corrected scoring:</strong> HEART gave 1 point for a "slightly suspicious" history (it is 0); the NIHSS scored one arm and one leg instead of all four limbs; GRACE used wrong point values and is now the published in-hospital nomogram; age and lab ranges in CHA₂DS₂-VASc, GRACE and Glasgow-Blatchford can no longer be ticked twice</li>
+          <li><strong>CHA₂DS₂-VASc:</strong> now also shows CHA₂DS₂-VA (ESC 2024) and bases the recommendation on risk factors other than sex; aspirin is no longer offered for stroke prevention</li>
+          <li><strong>MELD:</strong> MELD 3.0, the score used for US allocation since 2023, added alongside MELD-Na; MELD-Na now applies the sodium term only above 11, as defined; dialysis is an option</li>
+          <li><strong>Interpretation updates:</strong> Wells PE and DVT give the two-tier result guidelines use, with age-adjusted D-dimer; Glasgow-Blatchford uses the ACG 0–1 discharge threshold; Ranson advises moderate fluids and early feeding; qSOFA carries the Surviving Sepsis caution; SOFA mortality bands fixed; NIHSS reflects the 2026 stroke guideline (tenecteplase, minor non-disabling stroke, dual antiplatelet therapy); TIMI and CURB-65 give the rate for each score</li>
+        </ul>
       </section>
     </main>
 
     <footer class="tool-foot">
       <p>For education and clinical decision support only. Always apply clinical judgment. Not a substitute for specialist consultation.</p>
-      <p>Content last updated May 2026. Nothing you enter is stored or sent.</p>
+      <p>Content last updated Nov 2026. Nothing you enter is stored or sent.</p>
       <p><a href="/">Back to seanleels.com</a></p>
     </footer>
   </div>
   <script src="data.js"></script>
+  <script src="form.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
