@@ -63,7 +63,7 @@ h3 .h3-meta { font-weight: 400; color: var(--subtle); }
 table { width: 100%; border-collapse: collapse; font-size: var(--fs-ui); font-variant-numeric: tabular-nums; }
 caption { text-align: left; font-size: var(--fs-meta); color: var(--subtle); padding-bottom: var(--space-3); }
 th, td { text-align: left; vertical-align: top; padding: var(--space-3) var(--space-4) var(--space-3) 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
-thead th { font-size: var(--fs-meta); font-weight: 500; color: var(--subtle); border-top: 0; }
+thead th { font-size: var(--fs-meta); font-weight: 500; color: var(--subtle); border-top: 0; overflow-wrap: normal; }
 tbody th { font-weight: 500; color: var(--heading); }
 
 /* Certainty meter */
