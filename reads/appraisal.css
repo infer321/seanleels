@@ -147,6 +147,7 @@ tbody th { font-weight: 500; color: var(--heading); }
   .breakout { margin-left: 0; margin-right: 0; }
 }
 @media (max-width: 600px) {
+  .concern { white-space: normal; }
   .article { padding: var(--space-8) var(--space-4) var(--space-10); }
   .masthead-inner, .footer-inner { padding-left: var(--space-4); padding-right: var(--space-4); }
   .snapshot { padding: var(--space-5) var(--space-4); }
