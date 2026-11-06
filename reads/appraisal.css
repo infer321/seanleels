@@ -64,6 +64,7 @@ table { width: 100%; border-collapse: collapse; font-size: var(--fs-ui); font-va
 caption { text-align: left; font-size: var(--fs-meta); color: var(--subtle); padding-bottom: var(--space-3); }
 th, td { text-align: left; vertical-align: top; padding: var(--space-3) var(--space-4) var(--space-3) 0; border-top: 1px solid var(--border); overflow-wrap: anywhere; }
 thead th { font-size: var(--fs-meta); font-weight: 500; color: var(--subtle); border-top: 0; overflow-wrap: normal; }
+table:has(.concern) tbody th[scope="row"] { overflow-wrap: normal; hyphens: auto; }
 tbody th { font-weight: 500; color: var(--heading); }
 
 /* Certainty meter */
@@ -81,6 +82,7 @@ tbody th { font-weight: 500; color: var(--heading); }
 .concern.warn { color: var(--warn); }
 .concern.risk { color: var(--risk); }
 .concern.none { color: var(--subtle); font-weight: 400; }
+.concern + .why { display: block; margin-top: var(--space-1); overflow-wrap: normal; hyphens: auto; }
 .sym { display: inline-block; position: relative; overflow: hidden; width: 0.7em; height: 0.7em; margin-right: var(--space-2); border: 1.5px solid currentColor; border-radius: 50%; vertical-align: -0.05em; }
 .sym.full { background: currentColor; }
 .sym.half::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 50%; background: currentColor; }
