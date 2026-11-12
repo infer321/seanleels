@@ -1,366 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Eye Atlas</title>
 <link rel="canonical" href="https://atlas.seanleels.com/">
 <script>if(/(^|\.)seanleels\.com$/.test(location.hostname)&&location.hostname!=='atlas.seanleels.com'){location.replace('https://atlas.seanleels.com/'+location.search+location.hash);}</script>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Eye Atlas: an interactive study tool linking eye anatomy to the conditions found in each structure. Draft content.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&family=Spectral:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Public+Sans:wght@400;500;600&family=Spectral:wght@500;600&display=swap">
+<link rel="stylesheet" href="tokens.css">
 <style>
-/* Layout: one-screen study tool — depth rail | exam-view stage | structure panel. Textbook schematic, clinical neutrals biased toward ink blue. */
-:root{
-  --bg:#f1f3f6; --surface:#ffffff; --surface-2:#f6f8fa; --ink:#17202b; --ink-2:#2e3a47; --muted:#5d6977; --faint:#8a96a3;
-  --line:#dce2e8; --line-2:#c8d0d8; --accent:#294d8c; --accent-ink:#ffffff; --accent-soft:#e2e9f5;
-  --stage:#e7ebef; --field:#dde3e9; --field-ring:#c4ced7;
-  --emergent:#c0352b; --urgent:#a86b12; --routine:#3a7653;
-  --c-adnexa:#c4687a; --c-cornea:#2a92bd; --c-ac:#5672cc; --c-iris:#a26e2c; --c-lens:#b8921a; --c-vitreous:#8669c0; --c-retina:#d7552f; --c-choroid:#a12b47; --c-optic:#378868;
-  --skin:#efd9cb; --skin-2:#e8cdbb; --skin-line:#c29a86; --brow:#8a6a58; --lash:#3a2b24;
-  --sclera:#f8f7f3; --conj-v:#d3666b; --iris:#9b6a35; --iris-dark:#5c3a19; --iris-light:#cf9f62; --pupil:#141210; --ruff:#3b2614; --limbus:#7c5a3b; --beam:#ffffff;
-  --lens-cortex:#efdf9f; --lens-hi:#fbf3cf; --lens-nucleus:#d6b053; --lens-capsule:#9e7c10;
-  --fundus-1:#ee9063; --fundus-2:#c4452c; --macula:#8f2a1b; --fovea:#6a1c12; --disc:#f7d6aa; --cup:#fcefd4; --vein:#7a1913; --artery:#c3392b;
-  --chor-bg:#6c1527; --chor-v1:#e46b4f; --chor-v2:#c95039; --rpe:#5b3b2c; --rpe-line:#9a6a4d; --rpe-curl:#80583f;
-  --ppa:#f3bd94; --disc-zoom:#f4c89f; --lamina:#8c8070;
-  --display:"Spectral",Georgia,"Times New Roman",serif;
-  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --row:54px;
-}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0d1116; --surface:#141a21; --surface-2:#19212a; --ink:#e3e8ee; --ink-2:#c3ccd6; --muted:#97a3b0; --faint:#6b7785;
-  --line:#242e39; --line-2:#334050; --accent:#8db0ee; --accent-ink:#0d1116; --accent-soft:#1c2a40;
-  --stage:#0a0e12; --field:#121920; --field-ring:#27323d;
-  --emergent:#f06a5d; --urgent:#e3a54b; --routine:#6cc08d;
-  --c-adnexa:#e48c9b; --c-cornea:#52b8e2; --c-ac:#8199f0; --c-iris:#d29b53; --c-lens:#e2c048; --c-vitreous:#aa92e6; --c-retina:#f27b56; --c-choroid:#dc5a77; --c-optic:#5db68f;
-  --skin:#d6b9a6; --skin-2:#ccab96; --skin-line:#a17e6c; --sclera:#e6e5e0; --beam:#fffdf4;
-  color-scheme:dark;
-}}
-:root[data-theme="dark"]{
-  --bg:#0d1116; --surface:#141a21; --surface-2:#19212a; --ink:#e3e8ee; --ink-2:#c3ccd6; --muted:#97a3b0; --faint:#6b7785;
-  --line:#242e39; --line-2:#334050; --accent:#8db0ee; --accent-ink:#0d1116; --accent-soft:#1c2a40;
-  --stage:#0a0e12; --field:#121920; --field-ring:#27323d;
-  --emergent:#f06a5d; --urgent:#e3a54b; --routine:#6cc08d;
-  --c-adnexa:#e48c9b; --c-cornea:#52b8e2; --c-ac:#8199f0; --c-iris:#d29b53; --c-lens:#e2c048; --c-vitreous:#aa92e6; --c-retina:#f27b56; --c-choroid:#dc5a77; --c-optic:#5db68f;
-  --skin:#d6b9a6; --skin-2:#ccab96; --skin-line:#a17e6c; --sclera:#e6e5e0; --beam:#fffdf4;
-  color-scheme:dark;
-}
+/* Eye Atlas. Design system: DESIGN.md + tokens.css. Page CSS uses token names only. */
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{height:100%}
-body{background:var(--bg);color:var(--ink);font:400 14px/1.5 var(--body);-webkit-font-smoothing:antialiased}
-button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:400 var(--text-sm)/var(--lh-ui) var(--body);-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--accent);text-decoration:none}
+a:hover,a:focus-visible{text-decoration:underline}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.skip{position:absolute;left:var(--space-4);top:-100px;z-index:100;background:var(--surface);padding:var(--space-2) var(--space-3);border:1px solid var(--line-2)}
+.skip:focus{top:var(--space-2)}
 .mono{font-family:var(--mono)}
-.app{height:100%;display:flex;flex-direction:column;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+.muted{color:var(--muted)}
 
-/* Header */
-.top{display:flex;align-items:center;gap:20px;min-height:60px;flex:none;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:11px;min-width:0;flex:none}
-.brand svg{flex:none}
-.brand-name{font:600 21px/1 var(--display);letter-spacing:-.01em}
-.brand-sub{font:500 10.5px/1.3 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:3px}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);height:36px;padding:0 var(--space-3);border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);color:var(--ink);white-space:nowrap;transition:border-color var(--fade) ease-out,background-color var(--fade) ease-out}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.primary:hover{border-color:var(--ink)}
+.btn.quiet{border-color:transparent;background:transparent;color:var(--accent);font-weight:600;padding:0 var(--space-2)}
+.btn.quiet:hover{border-color:transparent;text-decoration:underline}
+.btn.icon{width:36px;padding:0}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.btn.primary[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent)}
+
+/* Badges and tags */
+.badge{display:inline-block;font:600 var(--text-xs)/1.4 var(--body);letter-spacing:.04em;text-transform:uppercase;padding:0 6px;border-radius:var(--radius);white-space:nowrap}
+.b-E{background:var(--emergent-soft);color:var(--emergent)}
+.b-U{background:var(--urgent-soft);color:var(--urgent)}
+.b-R{background:var(--routine-soft);color:var(--routine)}
+.b-draft{background:var(--urgent-soft);color:var(--urgent)}
+.tag{display:inline-block;font-size:var(--text-xs);line-height:1.4;padding:0 6px;border:1px solid var(--line);border-radius:var(--radius);color:var(--ink-2);white-space:nowrap}
+
+/* App frame */
+.app{height:100%;display:flex;flex-direction:column}
+.top{flex:none;height:var(--header-h);display:flex;align-items:center;gap:var(--space-6);padding:0 max(var(--space-6),env(safe-area-inset-right)) 0 max(var(--space-6),env(safe-area-inset-left));background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:var(--space-2);flex:none;min-width:200px}
+.brand-name{font:600 var(--text-xl)/var(--lh-tight) var(--display)}
 .search{position:relative;flex:1;max-width:480px;margin-inline:auto;min-width:0}
-.search input{width:100%;height:38px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink);padding:0 38px 0 36px;font:inherit;font-size:14px}
-.search input::placeholder{color:var(--faint)}
-.search .s-ico{position:absolute;left:11px;top:11px;color:var(--faint);pointer-events:none}
-.search kbd{position:absolute;right:9px;top:9px}
-kbd{font:500 11px/1 var(--mono);border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:3px 5px;color:var(--muted);background:var(--surface-2)}
-.results{position:absolute;top:44px;left:0;right:0;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;box-shadow:0 14px 36px rgba(10,20,30,.16);z-index:40;max-height:min(62vh,520px);overflow:auto;padding:6px;list-style:none;margin:0}
-.results li{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:1px 10px;align-items:center;padding:8px 10px;border-radius:7px;cursor:pointer}
-.results li.act{background:var(--accent-soft)}
-.results .dot{width:9px;height:9px;border-radius:50%;grid-row:1/3}
-.results .r-name{font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.results .r-path{grid-column:2;font:400 11.5px var(--mono);color:var(--muted)}
-.results .r-kind{grid-row:1/3;grid-column:3;font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line-2);border-radius:999px;padding:3px 7px}
-.results .r-kind.em{color:var(--emergent);border-color:currentColor}
-.results mark{background:color-mix(in srgb,var(--accent) 18%,transparent);color:inherit;border-radius:2px}
-.results .none{display:block;padding:12px;color:var(--muted)}
-.top-actions{display:flex;gap:10px;align-items:center;flex:none}
-.btn-miss{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 13px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);cursor:pointer;font-weight:600;font-size:13px;color:var(--ink-2)}
-.btn-miss .pip{width:8px;height:8px;border-radius:50%;border:2px solid var(--emergent)}
-.btn-miss[aria-pressed="true"]{background:var(--emergent);border-color:var(--emergent);color:#fff}
-.btn-miss[aria-pressed="true"] .pip{background:#fff;border-color:#fff}
-.proto{font:500 10.5px/1.25 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px dashed var(--line-2);border-radius:6px;padding:5px 8px;max-width:190px}
+.search-box{display:flex;align-items:center;gap:var(--space-2);height:36px;padding:0 var(--space-3);border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface)}
+.search-box:focus-within{border-color:var(--accent)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;height:100%}
+.search input::placeholder{color:var(--muted)}
+.search .s-ico{flex:none;color:var(--muted)}
+kbd{font:400 var(--text-xs)/1 var(--mono);border:1px solid var(--line-2);border-radius:var(--radius);padding:3px 5px;color:var(--muted);background:var(--surface-2)}
+.results{position:absolute;top:40px;left:0;right:0;z-index:40;margin:0;padding:var(--space-1) 0;list-style:none;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--radius);max-height:min(62vh,520px);overflow:auto}
+.results li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px var(--space-3);padding:var(--space-2) var(--space-3);cursor:pointer;border-bottom:1px solid var(--line)}
+.results li:last-child{border-bottom:0}
+.results li.act{background:var(--surface-2)}
+.results .r-name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.results .r-path{grid-column:1;font-size:var(--text-xs);color:var(--muted)}
+.results .r-kind{grid-row:1/3;grid-column:2;align-self:center;font-size:var(--text-xs);color:var(--muted)}
+.results .r-kind.em{color:var(--emergent);font-weight:600}
+.results mark{background:var(--accent-soft);color:inherit}
+.results .none{display:block;color:var(--muted);cursor:default}
+.top-actions{display:flex;align-items:center;gap:var(--space-3);flex:none}
+.progress{color:var(--muted)}
+.progress b{font:400 var(--text-xs) var(--mono);color:var(--ink-2)}
+.only-phone{display:none!important}
 
-/* Main grid */
-.main{flex:1;min-height:0;display:grid;grid-template-columns:236px minmax(0,1fr) 470px}
+.main{flex:1;min-height:0;display:grid;grid-template-columns:var(--rail-w) minmax(0,1fr) var(--panel-w)}
 
-/* Rail */
-.rail{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;padding:16px 14px 14px 0;gap:12px}
-.rail-head{display:flex;justify-content:space-between;align-items:baseline;padding-left:2px}
-.rail-head b{font:600 12px var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
-.rail-head span{font:400 10.5px var(--mono);color:var(--faint)}
-.rail-body{position:relative;flex:none}
-.stops{list-style:none;margin:0;padding:0 0 0 30px}
-.stop{display:grid;grid-template-columns:18px minmax(0,1fr) auto;align-items:center;gap:8px;height:var(--row);width:100%;text-align:left;border:0;background:none;border-radius:8px;padding:0 8px;cursor:pointer;color:var(--ink-2)}
-.stop:hover{background:var(--surface-2)}
-.stop.on{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
-.stop-n{font:500 11px var(--mono);color:var(--faint);font-variant-numeric:tabular-nums}
-.stop.on .stop-n{color:var(--ink)}
-.stop-text{display:flex;flex-direction:column;min-width:0;gap:2px}
-.stop-name{font-weight:600;font-size:13.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.stop-meta{display:flex;align-items:center;gap:6px;font:400 10.5px var(--mono);color:var(--muted);white-space:nowrap}
-.bar{width:34px;height:4px;border-radius:2px;background:var(--line);overflow:hidden;flex:none}
-.bar i{display:block;height:100%;background:var(--c-cornea);border-radius:2px}
-.stop-alert{font:600 10.5px/1 var(--mono);color:var(--emergent);border:1px solid currentColor;border-radius:999px;padding:3px 6px}
-.track{position:absolute;left:4px;top:calc(var(--row) / 2);height:calc(var(--row) * 8);width:20px;cursor:grab;touch-action:none;border-radius:10px}
-.track:active{cursor:grabbing}
-.track-line{position:absolute;left:9px;top:0;bottom:0;width:2px;background:var(--line-2);border-radius:2px}
-.track-fill{position:absolute;left:9px;top:0;width:2px;background:var(--accent);border-radius:2px}
-.tick{position:absolute;left:5px;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--surface);border:2px solid var(--tc)}
-.thumb{position:absolute;left:0;width:20px;height:20px;margin-top:-10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent),0 2px 6px rgba(0,0,0,.2);pointer-events:none}
-.inset{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:8px 8px 4px;margin-left:12px;flex:none}
-.inset-cap{display:flex;justify-content:space-between;font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding:0 2px}
-.inset-cap b{color:var(--ink-2);font-weight:500}
-#sag{display:block;width:100%;height:auto}
-.sg{opacity:.32;transition:opacity .25s;cursor:pointer}
-.sg.on{opacity:1}
-.sg-fill{fill:var(--sc);fill-opacity:.35;stroke:var(--sc);stroke-width:1.2}
-.sg-line{fill:none;stroke:var(--sc);stroke-width:2.4;stroke-linecap:round}
-.sg.on .sg-line{stroke-width:3.4}
-.sg-glob{fill:none;stroke:var(--faint);stroke-width:2.2}
-.sghit{fill:none;stroke:transparent;stroke-width:10;cursor:pointer}
-.plane{stroke:var(--accent);stroke-width:1.6;stroke-dasharray:4 3}
-.plane-dot{fill:var(--accent)}
-.sag-txt{font:500 8.5px var(--mono);fill:var(--faint);letter-spacing:.06em}
-.rail-foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px 10px;font-size:11.5px;color:var(--muted);padding-left:12px}
-.rail-foot span{display:inline-flex;align-items:center;gap:4px}
+/* Rail: two-level structure tree */
+.rail{min-height:0;overflow:auto;border-right:1px solid var(--line);padding:var(--space-5) var(--space-3);display:flex;flex-direction:column;gap:var(--space-3);background:var(--bg)}
+.rail-head{display:flex;align-items:baseline;justify-content:space-between;padding:0 var(--space-3)}
+.rail-head h2{margin:0;font-size:var(--text-sm);font-weight:600}
+.rail-head span{font-size:var(--text-xs);color:var(--muted)}
+.rail-x{display:none!important}
+.tree,.tree ul{list-style:none;margin:0;padding:0}
+.t-stop,.t-sub{display:flex;align-items:center;gap:var(--space-3);width:100%;border:0;background:transparent;text-align:left;border-radius:var(--radius);color:var(--ink)}
+.t-stop{height:40px;padding:0 var(--space-3)}
+.t-stop:hover,.t-sub:hover{background:var(--surface-2)}
+.t-stop .tick{flex:none;width:3px;height:16px;background:var(--tc)}
+.t-stop .nm,.t-sub .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.t-stop[aria-current="true"]{font-weight:600}
+.n{font:400 var(--text-xs) var(--mono);color:var(--muted);font-weight:400}
+.t-subs{margin-left:13px!important;border-left:1px solid var(--line)}
+.t-sub{height:36px;padding:0 var(--space-3) 0 var(--space-5);color:var(--ink-2)}
+.t-sub[aria-current="true"]{background:var(--surface);color:var(--ink);font-weight:600}
+.t-em{flex:none;width:8px;height:8px;border-radius:50%;background:var(--emergent)}
+.foot{margin-top:auto;padding:var(--space-4) var(--space-3) 0;border-top:1px solid var(--line);font-size:var(--text-xs);line-height:var(--lh-read);color:var(--muted)}
+.foot p{margin:0}
+.foot a,.d-status a,.dlg p a{text-decoration:underline}
+.scrim{display:none}
 
 /* Stage */
-.stage{position:relative;min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--stage);overflow:hidden}
-.stage-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:16px 20px 0;flex:none}
-.eyebrow{font:500 10.5px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.stage-head h1{font:600 26px/1.15 var(--display);margin:3px 0 0;letter-spacing:-.01em;text-wrap:balance}
-.stage-hint{font:400 11.5px/1.4 var(--mono);color:var(--muted);text-align:right;max-width:240px}
-.eye-wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:6px 14px 14px}
-#eye{width:100%;height:100%;max-width:100%;display:block;user-select:none;-webkit-user-select:none}
+.stage{min-width:0;min-height:0;display:flex;flex-direction:column;gap:var(--space-4);padding:var(--space-5) var(--space-6) var(--space-5);background:var(--stage)}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);color:var(--muted);min-height:20px}
+.crumbs button{border:0;background:none;padding:0;color:var(--accent)}
+.crumbs button:hover{text-decoration:underline}
+.crumbs .cur{color:var(--ink)}
+.plate{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.eye-wrap{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:var(--space-4);background:var(--plate)}
+#eye{width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none}
+/* Plates are fixed light figures: structure tints use the muted plate set in every theme */
+#eye,.mini{--c-adnexa:var(--pl-adnexa);--c-cornea:var(--pl-cornea);--c-ac:var(--pl-ac);--c-iris:var(--pl-iris);--c-lens:var(--pl-lens);--c-vitreous:var(--pl-vitreous);--c-retina:var(--pl-retina);--c-choroid:var(--pl-choroid);--c-optic:var(--pl-optic)}
+.figcap{flex:none;display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-4);border-top:1px solid var(--line)}
+.figcap-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.figcap-txt b{font-weight:600}
+.figcap-txt span{color:var(--ink-2)}
+.figcap-txt small{font-size:var(--text-xs);color:var(--muted)}
+.seg{display:flex;flex:none;border:1px solid var(--line-2);border-radius:var(--radius)}
+.seg button{height:34px;padding:0 var(--space-3);border:0;background:var(--surface);color:var(--ink)}
+.seg button+button{border-left:1px solid var(--line-2)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+
+/* Depth scrub */
+.depth{flex:none;display:flex;align-items:center;gap:var(--space-4);padding-top:var(--space-6)}
+.depth>span{font-size:var(--text-xs);color:var(--muted)}
+.track{position:relative;flex:1;height:24px;cursor:pointer;touch-action:none;border-radius:var(--radius)}
+.track-line{position:absolute;left:0;right:0;top:11px;height:2px;background:var(--line-2)}
+.ticks i{position:absolute;top:7px;width:2px;height:10px;margin-left:-1px;background:var(--faint)}
+.thumb{position:absolute;top:4px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--accent);pointer-events:none}
+.thumb-lbl{position:absolute;bottom:22px;left:50%;transform:translateX(var(--lx,-50%));white-space:nowrap;font-weight:600;color:var(--ink)}
+
+/* SVG eye */
 .layer{transition:none}
-.hit{fill:transparent;stroke:transparent;cursor:pointer;transition:fill .15s,stroke .15s}
-.hit:hover,.hit.hl{fill:color-mix(in srgb,var(--hc) 22%,transparent);stroke:var(--hc);stroke-width:2}
+.hit{fill:transparent;stroke:transparent;cursor:pointer;transition:fill var(--fade) ease-out,stroke var(--fade) ease-out;outline:none}
+.hit:hover,.hit.hl,.hit:focus-visible{fill:color-mix(in srgb,var(--hc) 16%,transparent);stroke:var(--hc);stroke-width:1.5}
+.hit:focus-visible{stroke:var(--accent);stroke-width:3}
 .hit.hs{fill:none;stroke-width:16;stroke-linecap:round}
-.hit.hs:hover,.hit.hs.hl{fill:none;stroke:color-mix(in srgb,var(--hc) 45%,transparent);stroke-width:16}
-.hit.alert{stroke:var(--emergent);stroke-width:2.4;stroke-dasharray:7 6;animation:march 1.2s linear infinite}
-.hit.hs.alert{stroke:color-mix(in srgb,var(--emergent) 45%,transparent);stroke-width:16;stroke-dasharray:none;animation:none}
-@keyframes march{to{stroke-dashoffset:-26}}
-.lbl{pointer-events:none}
-.lbl text{font:500 12.5px var(--body);fill:var(--ink-2)}
-.lbl path{stroke:var(--muted);stroke-width:1;fill:none}
-.lbl circle{fill:var(--ink-2)}
-.lbl.lt text{fill:#fff}
-.lbl.lt path{stroke:rgba(255,255,255,.75)}
-.lbl.lt circle{fill:#fff}
-.ui-txt{font:600 13px var(--mono);fill:var(--ink-2);letter-spacing:.08em}
-#eye .patho{pointer-events:none;animation:pin .35s ease-out}
-@keyframes pin{from{opacity:0}to{opacity:1}}
-#eye .patho.off{opacity:0;transition:opacity .2s}
-#eye.figon .lbl{opacity:.1;transition:opacity .2s}
-.figbar{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;width:max-content;max-width:min(94%,600px);background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:9px 10px 9px 14px;box-shadow:0 10px 30px rgba(10,20,30,.16);z-index:15}
-.fig-ico{flex:none;color:var(--accent)}
-.fig-txt{display:flex;flex-direction:column;min-width:0;gap:1px}
-.fig-txt b{font-size:13px;font-weight:600;color:var(--ink)}
-.fig-txt span{font-size:12.5px;color:var(--ink-2);line-height:1.35}
-.fig-txt small{font:400 10px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.figbtn{flex:none;height:30px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface-2);padding:0 10px;font:500 12px var(--body);cursor:pointer;color:var(--ink-2);white-space:nowrap}
-.figbtn[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
-.figbtn.x{width:30px;padding:0;font-size:16px;line-height:1}
-.stubbtn{border:0;background:none;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-align:left}
-.stubbtn:hover{text-decoration:underline}
-.stubbtn svg{display:inline-block;vertical-align:-2px;margin-left:5px}
-.stubbtn.on{font-weight:600;color:var(--ink)}
-.card.figon{border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
-.linkbtn.on{font-weight:700}
-.tip{position:absolute;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);font:500 12px/1.3 var(--body);padding:6px 9px;border-radius:6px;white-space:nowrap;transform:translate(12px,12px)}
-.tip small{display:block;font:400 10.5px var(--mono);opacity:.75;margin-top:2px}
+.hit.hs:hover,.hit.hs.hl,.hit.hs:focus-visible{fill:none;stroke:color-mix(in srgb,var(--hc) 38%,transparent);stroke-width:16}
+.hit.alert{fill:color-mix(in srgb,var(--emergent) 10%,transparent);stroke:var(--emergent);stroke-width:2}
+.hit.hs.alert{fill:none;stroke:color-mix(in srgb,var(--emergent) 40%,transparent);stroke-width:16}
+.lbl{pointer-events:none;transition:opacity var(--fade) ease-out}
+.lbl text{font:500 13px var(--body);fill:var(--fig-label)}
+.lbl path{stroke:var(--fig-leader);stroke-width:1;fill:none}
+.lbl circle{fill:var(--fig-label)}
+.ui-txt{font:600 13px var(--body);fill:var(--fig-label);letter-spacing:.04em}
+#eye .patho{pointer-events:none;transition:opacity var(--fade) ease-out}
+#eye .patho.off{opacity:0}
+#eye.figon .lbl{opacity:.12}
+.tip{position:absolute;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);font-size:var(--text-xs);line-height:1.4;padding:var(--space-1) var(--space-2);border-radius:var(--radius);white-space:nowrap;transform:translate(12px,12px)}
+.tip small{display:block;opacity:.8}
 
 /* Panel */
-.panel{border-left:1px solid var(--line);overflow:auto;min-height:0;background:var(--surface);scroll-behavior:smooth}
-.p-head{padding:18px 22px 14px}
-.crumbs{display:flex;flex-wrap:wrap;gap:4px;font:400 11.5px var(--mono);color:var(--muted)}
-.crumbs button{border:0;background:none;padding:0;color:var(--muted);cursor:pointer;font:inherit}
-.crumbs button:hover{color:var(--ink);text-decoration:underline}
-.crumbs .sep{color:var(--faint)}
-.crumbs .cur{color:var(--ink-2)}
-.p-title{display:flex;align-items:center;gap:10px;margin-top:10px}
-.sw{width:12px;height:12px;border-radius:50%;flex:none}
-.p-title h2{font:600 28px/1.1 var(--display);margin:0;letter-spacing:-.01em;text-wrap:balance}
-.p-view{font:400 11px var(--mono);color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.06em}
-.p-sum{color:var(--ink-2);margin:12px 0 0;max-width:62ch;font-size:14px;line-height:1.55}
-.facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.fact{font:500 11.5px/1.3 var(--mono);padding:5px 8px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;font-variant-numeric:tabular-nums;color:var(--ink-2)}
-.mini{margin-top:14px;border:1px solid var(--line);border-radius:10px;padding:10px 12px 8px;background:var(--surface-2)}
-.mini-h{display:flex;justify-content:space-between;align-items:baseline;font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px}
+.panel{min-height:0;display:flex;flex-direction:column;background:var(--surface);border-left:1px solid var(--line)}
+.grab{display:none}
+.p-scroll{flex:1;min-height:0;overflow:auto}
+.p-head{padding:var(--space-5) var(--space-6) var(--space-4);display:flex;flex-direction:column;gap:var(--space-2)}
+.p-title{margin:0;font:600 var(--text-2xl)/var(--lh-tight) var(--display)}
+.p-view{margin:0;color:var(--muted)}
+.about{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:var(--space-2)}
+.about summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--accent);list-style:none}
+.about summary::-webkit-details-marker{display:none}
+.about summary::after{content:"Show";margin-left:auto;font-weight:400;color:var(--muted);font-size:var(--text-xs)}
+.about[open] summary::after{content:"Hide"}
+.about-body{padding-bottom:var(--space-4);display:flex;flex-direction:column;gap:var(--space-3)}
+.p-sum{margin:0;font-size:var(--text-md);line-height:var(--lh-read);color:var(--ink-2);max-width:68ch}
+.facts{display:flex;flex-wrap:wrap;gap:var(--space-2);margin:0;padding:0;list-style:none}
+.facts li{font-size:var(--text-xs);padding:2px 6px;border:1px solid var(--line);border-radius:var(--radius);color:var(--ink-2)}
+.mini{border:1px solid var(--line);border-radius:var(--radius);padding:var(--space-3);background:var(--plate)}
+.mini-h{display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-3);font-size:var(--text-xs);color:var(--fig-label);margin-bottom:var(--space-2)}
+.mini-h span:first-child{font-weight:600}
 .mini svg{display:block;width:100%;height:auto}
-.mini .band{cursor:pointer}
-.mini .band:hover .bhit{fill:color-mix(in srgb,var(--c-cornea) 14%,transparent)}
+.mini .band{cursor:pointer;outline:none}
+.mini .band:hover .bhit,.mini .band:focus-visible .bhit{fill:color-mix(in srgb,var(--c-cornea) 14%,transparent)}
+.mini .band:focus-visible .bhit{stroke:var(--accent);stroke-width:2}
 .mini .bhit{fill:transparent}
 .mini .band.sel .bhit{fill:color-mix(in srgb,var(--c-cornea) 18%,transparent)}
-.mini text{font:500 11px var(--body);fill:var(--ink-2)}
-.mini text.sm{font:400 10px var(--mono);fill:var(--muted)}
-.octcap{font-size:12.5px;color:var(--ink-2);min-height:3em;margin:6px 0 2px}
+.mini text{font:500 11px var(--body);fill:var(--fig-label)}
+.mini text.sm{font:400 10px var(--body);fill:var(--fig-label);opacity:.8}
+.octcap{font-size:var(--text-xs);color:var(--fig-label);min-height:3em;margin:var(--space-2) 0 0}
 .octcap b{font-weight:600}
-.p-ctrl{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 22px}
-.subs{display:flex;gap:6px;flex-wrap:wrap}
-.subchip{height:30px;padding:0 11px;border:1px solid var(--line-2);border-radius:999px;background:var(--surface);cursor:pointer;font-size:12.5px;font-weight:500;color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
-.subchip span{font:400 10.5px var(--mono);color:var(--muted)}
-.subchip[aria-pressed="true"]{background:color-mix(in srgb,var(--sc) 14%,var(--surface));border-color:var(--sc);color:var(--ink)}
-.filters{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
-.flabel{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--faint);margin-right:2px}
-.fchip{height:26px;padding:0 9px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);cursor:pointer;font:500 11.5px var(--body);color:var(--muted);display:inline-flex;align-items:center;gap:5px}
-.fchip .k{width:7px;height:7px;border-radius:50%;background:var(--kc)}
-.fchip[aria-pressed="true"]{color:var(--ink);border-color:var(--ink-2);background:var(--surface-2)}
-.fchip[aria-pressed="false"].u{opacity:.55;text-decoration:line-through}
-.fsel{height:26px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);color:var(--ink-2);font:500 11.5px var(--body);padding:0 6px}
-.fsp{flex:1}
-.linkbtn{border:0;background:none;color:var(--accent);font:500 12px var(--body);cursor:pointer;padding:2px 2px}
-.linkbtn:hover{text-decoration:underline}
-.p-body{padding:4px 22px 48px}
-.note{margin-top:16px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:11px 13px;font-size:13px;color:var(--ink-2);max-width:62ch}
-.note b{font-weight:600}
-.grp{margin-top:22px;scroll-margin-top:110px}
-.grp-h{display:flex;align-items:baseline;gap:10px}
-.grp-h h3{font:600 19px/1.2 var(--display);margin:0}
-.grp-n{font:400 11px var(--mono);color:var(--muted)}
-.grp-desc{color:var(--muted);font-size:13px;margin:4px 0 0;max-width:62ch}
-.grp-cards{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-.card{border:1px solid var(--line);border-radius:10px;background:var(--surface);scroll-margin-top:120px;transition:border-color .2s,box-shadow .2s}
-.card.open{border-color:var(--line-2);box-shadow:0 4px 18px rgba(15,25,40,.07)}
-.card.flash{animation:flash 1.6s ease-out}
-@keyframes flash{0%,30%{box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 45%,transparent)}100%{box-shadow:0 0 0 3px transparent}}
-.card-head{display:grid;gap:5px;width:100%;text-align:left;border:0;background:none;padding:12px 40px 12px 14px;cursor:pointer;position:relative;border-radius:10px}
-.card-head:hover{background:var(--surface-2)}
-.card.open .card-head{border-radius:10px 10px 0 0}
-.row1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.names{min-width:0}
-.card-name{font-weight:600;font-size:15px;line-height:1.3;color:var(--ink)}
-.card-aka{display:block;color:var(--muted);font-size:12px;margin-top:1px}
-.tags{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;flex:none;max-width:52%}
-.urg{font:500 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;padding:4px 7px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
-.urg-E{color:var(--emergent);background:color-mix(in srgb,var(--emergent) 9%,transparent)}
-.urg-U{color:var(--urgent);background:color-mix(in srgb,var(--urgent) 9%,transparent)}
-.urg-R{color:var(--routine);background:color-mix(in srgb,var(--routine) 9%,transparent)}
-.tag{font:500 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;padding:4px 6px;border-radius:4px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
-.tag.hy{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 40%,transparent);background:var(--accent-soft)}
-.tag.mst{color:var(--routine);border-color:color-mix(in srgb,var(--routine) 40%,transparent)}
-.card-hook{color:var(--ink-2);font-size:13px;line-height:1.45;max-width:62ch}
-.chev{position:absolute;right:14px;top:15px;color:var(--faint);transition:transform .2s}
-.card.open .chev{transform:rotate(180deg)}
-.card-body{padding:2px 14px 14px;border-top:1px solid var(--line)}
-.card.open .card-body{animation:reveal .22s ease-out}
-@keyframes reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
-.fields{display:grid;grid-template-columns:112px minmax(0,1fr);gap:11px 14px;margin:13px 0 0}
-.fields dt{font:500 10px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);padding-top:3px}
-.fields dd{margin:0;min-width:0;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
-.fields ul{margin:0;padding-left:15px}
-.fields li{margin:2px 0}
-.fields li::marker{color:var(--faint)}
-.fields dd.pearls{background:color-mix(in srgb,var(--sc,var(--c-cornea)) 8%,var(--surface));border:1px solid color-mix(in srgb,var(--sc,var(--c-cornea)) 22%,transparent);border-radius:8px;padding:8px 10px 8px 8px}
-.fields dd.trials li{font-size:13px}
-.trial-name{font:600 11px var(--mono);letter-spacing:.02em;color:var(--ink)}
-.chips{display:flex;flex-wrap:wrap;gap:5px}
-.chip{font:500 12px var(--body);padding:3px 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2)}
-button.chip{cursor:pointer;color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,transparent)}
-button.chip:hover{background:var(--accent-soft)}
-.card-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;padding-top:10px;border-top:1px dashed var(--line)}
-.mcheck{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;cursor:pointer;color:var(--ink-2)}
-.mcheck input{width:16px;height:16px;accent-color:var(--routine)}
-.anchor{font:400 11px var(--mono);color:var(--faint)}
-.stubs{margin-top:12px;border:1px dashed var(--line-2);border-radius:10px;padding:10px 14px 12px}
-.stubs-h{font:500 10px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:6px}
-.stubs ul{list-style:none;margin:0;padding:0;columns:2;column-gap:18px}
-.stubs li{break-inside:avoid;font-size:13px;color:var(--ink-2);padding:3px 0 3px 13px;position:relative;line-height:1.35;border-radius:4px}
-.stubs li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--line-2)}
-.stubs li.em::before{background:var(--emergent);width:7px;height:7px;top:8px;left:-1px}
-.stubs li.flash{animation:flashbg 1.8s ease-out}
-@keyframes flashbg{0%,35%{background:color-mix(in srgb,var(--accent) 22%,transparent)}100%{background:transparent}}
-.empty{margin-top:28px;text-align:center;color:var(--muted);font-size:13.5px}
-.legend{display:flex;gap:12px;align-items:center;margin-top:8px;font:400 11px var(--mono);color:var(--muted)}
-.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--emergent);margin-right:5px}
+.p-ctrl{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line);padding:var(--space-2) var(--space-4) var(--space-2) var(--space-6);display:flex;flex-direction:column;gap:var(--space-2)}
+.p-ctrl-row{display:flex;align-items:center;gap:var(--space-2);min-height:40px}
+.p-count{flex:1;margin:0;font-size:var(--text-sm);font-weight:600}
+.regions{display:none;gap:var(--space-2);overflow-x:auto;padding-bottom:var(--space-1);scrollbar-width:none}
+.regions .btn{flex:none}
+.fpop{display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-3) 0 var(--space-2)}
+.fpop fieldset{border:0;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-4)}
+.fpop legend{font-weight:600;margin-bottom:var(--space-2);padding:0}
+.chk{display:inline-flex;align-items:center;gap:var(--space-2);min-height:36px;cursor:pointer}
+.chk input{width:16px;height:16px;accent-color:var(--accent);margin:0}
+.fsel{display:flex;align-items:center;gap:var(--space-3)}
+.fsel select{height:36px;border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);padding:0 var(--space-2);min-width:0;flex:1;max-width:240px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--kc)}
+.grp{padding:var(--space-5) 0 0}
+.grp-h{display:flex;align-items:baseline;gap:var(--space-2);margin:0;padding:0 var(--space-6);font-size:var(--text-md);font-weight:600}
+.grp-desc{margin:var(--space-1) 0 var(--space-2);padding:0 var(--space-6);color:var(--muted);max-width:68ch}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rows>li{border-bottom:1px solid var(--line)}
+.row{display:flex;flex-direction:column;gap:2px;width:100%;min-height:64px;padding:var(--space-3) var(--space-6);border:0;background:transparent;text-align:left;color:var(--ink);transition:background-color var(--fade) ease-out}
+.row:hover{background:var(--surface-2)}
+.row-urg{display:flex;align-items:center;gap:6px;font-size:var(--text-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.row-urg i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.u-E{color:var(--emergent)} .u-U{color:var(--urgent)} .u-R{color:var(--routine)}
+.row-name{display:flex;align-items:baseline;gap:var(--space-2);font-size:var(--text-md);font-weight:600}
+.row-name .mst{font-size:var(--text-xs);font-weight:400;color:var(--routine)}
+.row-hook{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.stub{padding:var(--space-3) var(--space-6);color:var(--ink-2)}
+.empty{padding:var(--space-8) var(--space-6);text-align:center;color:var(--muted)}
 
-/* Responsive */
-@media (max-width:1320px){.main{grid-template-columns:220px minmax(0,1fr) 430px}}
-@media (max-width:1180px){
+/* Card detail */
+.d-head{padding:var(--space-4) var(--space-6) 0;display:flex;flex-direction:column;gap:var(--space-2)}
+.back{align-self:flex-start;display:inline-flex;align-items:center;min-height:36px;border:0;background:none;padding:0;color:var(--accent);text-align:left}
+.back:hover{text-decoration:underline}
+.back span{color:var(--muted)}
+.badges{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2)}
+.d-title{margin:0;font:600 var(--text-2xl)/var(--lh-tight) var(--display);outline:none}
+.d-aka{margin:0;color:var(--muted)}
+.d-hook{margin:0;font-size:var(--text-md);line-height:var(--lh-read);color:var(--ink-2);max-width:68ch}
+.tabs{position:sticky;top:0;z-index:4;display:flex;gap:var(--space-5);margin-top:var(--space-2);padding:0 var(--space-6);background:var(--surface);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs button{flex:none;height:40px;padding:0;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--ink-2)}
+.tabs button[aria-selected="true"]{border-bottom-color:var(--accent);color:var(--accent);font-weight:600}
+.d-body{padding:var(--space-5) var(--space-6) var(--space-6);display:flex;flex-direction:column;gap:var(--space-5);font-size:var(--text-md);line-height:var(--lh-read)}
+.fsec h2{margin:0 0 var(--space-1);font-size:var(--text-sm);font-weight:600;line-height:var(--lh-ui)}
+.fsec ul{margin:0;padding-left:var(--space-5);color:var(--ink-2)}
+.fsec li{margin:2px 0;max-width:68ch}
+.fsec li::marker{color:var(--faint)}
+.fsec p{margin:0;color:var(--ink-2);max-width:68ch}
+.trial b{font-weight:600;color:var(--ink)}
+.xrefs{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.xref{display:inline-flex;align-items:center;min-height:32px;padding:0 var(--space-2);border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);color:var(--ink-2);font-size:var(--text-sm);line-height:1.3;text-align:left}
+button.xref{color:var(--accent);cursor:pointer}
+button.xref:hover{border-color:var(--accent)}
+.d-foot{position:sticky;bottom:0;z-index:4;background:var(--surface);border-top:1px solid var(--line);padding:var(--space-3) var(--space-6) max(var(--space-3),env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:var(--space-3)}
+.d-status{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--muted)}
+.d-actions{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+
+/* About dialog */
+dialog{border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);color:var(--ink);padding:0;width:min(560px,calc(100vw - 2 * var(--space-4)));max-height:calc(100dvh - 2 * var(--space-6))}
+dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
+.dlg{padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--text-md);line-height:var(--lh-read)}
+.dlg h2{margin:0;font:600 var(--text-xl)/var(--lh-tight) var(--display)}
+.dlg h3{margin:0;font-size:var(--text-sm);font-weight:600}
+.dlg p{margin:0;color:var(--ink-2)}
+.dlg dl{display:grid;grid-template-columns:auto 1fr;gap:var(--space-2) var(--space-4);margin:0;font-size:var(--text-sm)}
+.dlg dd{margin:0;color:var(--ink-2)}
+.dlg-actions{display:flex;flex-wrap:wrap;gap:var(--space-3)}
+
+/* ≤ 1279: narrower columns */
+@media (max-width:1279px){ .main{grid-template-columns:224px minmax(0,1fr) 400px} .lbl text,.ui-txt{font-size:17px} }
+
+/* < 1024: rail becomes a drawer; stage over panel; page scrolls */
+@media (max-width:1023px){
   html,body{height:auto}
   .app{height:auto;min-height:100%}
-  .main{grid-template-columns:220px minmax(0,1fr)}
-  .stage{height:min(78vh,640px)}
-  .panel{grid-column:1 / -1;border-left:0;border-top:1px solid var(--line);overflow:visible}
-  .rail{padding-bottom:16px}
+  .main{display:block}
+  .rail{position:fixed;z-index:60;top:0;bottom:0;left:0;width:min(320px,86vw);border-right:1px solid var(--line-2);background:var(--surface);visibility:hidden;opacity:0;transition:opacity var(--fade) ease-out,visibility 0s linear var(--fade)}
+  .rail.open{visibility:visible;opacity:1;transition:opacity var(--fade) ease-out}
+  .rail-x{display:inline-flex!important}
+  .rail-head{align-items:center}
+  .scrim{display:block;position:fixed;inset:0;z-index:55;background:color-mix(in srgb,var(--ink) 40%,transparent)}
+  .stage{height:min(78vh,680px)}
+  .panel{border-left:0;border-top:1px solid var(--line)}
+  .p-scroll{overflow:visible}
+  .lbl text,.ui-txt{font-size:19px}
+  .regions{display:flex}
+  .top .progress{display:none}
+  .brand{min-width:0}
+  .only-narrow{display:inline-flex}
 }
-@media (max-width:760px){
-  .top{flex-wrap:wrap;padding-block:10px;gap:10px}
-  .search{order:3;flex-basis:100%;max-width:none}
-  .proto{display:none}
-  .main{grid-template-columns:minmax(0,1fr)}
-  .rail{border-right:0;padding:10px 0 8px;gap:8px}
-  .rail-head,.rail-foot,.inset,.track{display:none}
-  .stops{display:flex;overflow-x:auto;padding:0 0 4px;gap:6px;scrollbar-width:thin}
-  .stop{height:auto;padding:8px 11px;grid-template-columns:auto auto;white-space:nowrap;border:1px solid var(--line);background:var(--surface)}
-  .stop-meta{display:none}
-  .stage{height:min(108vw,560px)}
-  .stage-head{padding:12px 12px 0}
-  .stage-hint{display:none}
-  .p-head,.p-ctrl,.p-body{padding-left:0;padding-right:0}
-  .fields{grid-template-columns:minmax(0,1fr);gap:4px 0}
-  .fields dt{padding-top:8px}
-  .stubs ul{columns:1}
-  .tags{max-width:none}
-  .row1{flex-direction:column}
+/* Short landscape phones: give the figure the height; labels would be unreadable, the Structures list replaces them */
+@media (max-width:1023px) and (max-height:500px){ .stage{height:auto} .eye-wrap{height:78vh;flex:none} .plate{flex:none} .lbl{display:none} }
+@media (min-width:1024px){ .only-narrow{display:none!important} .scrim{display:none!important} }
+
+/* < 640: phone. One-row header, figure on top, bottom sheet */
+@media (max-width:639px){
+  html,body{height:100%;overflow:hidden}
+  .app{height:100dvh}
+  .top{height:52px;gap:0;padding:0 var(--space-1) 0 var(--space-4)}
+  .brand{min-width:0;flex:1}
+  .brand-name{font-size:var(--text-lg)}
+  .search{display:none;position:absolute;left:0;right:0;top:52px;z-index:70;max-width:none;margin:0;padding:var(--space-2) var(--space-4);background:var(--surface);border-bottom:1px solid var(--line)}
+  .search.open{display:block}
+  .results{top:52px;left:var(--space-4);right:var(--space-4)}
+  .top-actions{gap:0}
+  .top-actions .btn{width:44px;height:44px;border:0;background:transparent}
+  .only-phone{display:inline-flex!important}
+  .hide-phone{display:none!important}
+  .stage{height:auto;flex:none;gap:0;padding:var(--space-2) var(--space-2) var(--space-3)}
+  .crumbs{display:none}
+  .plate{flex:none}
+  .eye-wrap{padding:0;height:min(calc(100vw - 2 * var(--space-2)),40dvh)}
+  .figcap{padding:var(--space-2) var(--space-3);gap:var(--space-2)}
+  .figcap-txt span{display:none}
+  .seg button{height:44px}
+  .figcap .btn.icon{width:44px;height:44px}
+  .depth{padding:var(--space-7) var(--space-4) 0}
+  .thumb{width:24px;height:24px;margin-left:-12px;top:0}
+  .thumb-lbl{bottom:28px}
+  .lbl text{font-size:19px}
+  .ui-txt{font-size:19px}
+  .panel{position:fixed;z-index:30;left:0;right:0;bottom:0;top:var(--sheet-top,55dvh);border-top:1px solid var(--line-2);border-left:0}
+  .panel.anim{transition:top var(--fade) ease-out}
+  .grab{display:flex;flex:none;justify-content:center;touch-action:none}
+  .grab button{width:100%;height:28px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;touch-action:none}
+  .grab button span{width:36px;height:4px;border-radius:2px;background:var(--line-2)}
+  .p-scroll{overflow:auto;overscroll-behavior:contain}
+  .p-head{padding:0 var(--space-4) var(--space-2)}
+  .p-title{font-size:var(--text-xl)}
+  .p-ctrl{padding:var(--space-1) var(--space-2) var(--space-2) var(--space-4)}
+  .p-ctrl-row .btn{height:44px}
+  .regions .btn{height:36px}
+  .grp-h,.grp-desc{padding-left:var(--space-4);padding-right:var(--space-4)}
+  .row{padding:var(--space-3) var(--space-4)}
+  .d-head{padding:0 var(--space-4)}
+  .d-title{font-size:var(--text-xl)}
+  .tabs{padding:0 var(--space-4)}
+  .tabs button{height:44px}
+  .d-body{padding:var(--space-4)}
+  .d-foot{position:static;padding:var(--space-3) var(--space-4) max(var(--space-4),env(safe-area-inset-bottom))}
+  .d-actions .btn{height:44px}
+  .back{min-height:44px}
+  .xref{min-height:44px}
 }
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+@media print{
+  .top,.rail,.depth,.grab,.d-foot,.tabs{display:none!important}
+  html,body,.app{height:auto}
+  .main{display:block}
+  .panel{position:static}
 }
 </style>
-
+</head>
+<body>
+<a class="skip" href="#panel">Skip to conditions</a>
 <div class="app">
   <header class="top">
     <div class="brand">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><circle cx="15" cy="15" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="15" cy="15" r="8" fill="none" stroke="var(--c-iris)" stroke-width="3"/><circle cx="15" cy="15" r="4" fill="currentColor"/><circle cx="12.5" cy="12" r="1.4" fill="var(--surface)"/></svg>
-      <div><div class="brand-name">Eye Atlas</div><div class="brand-sub">Anatomy → pathology · OKAP depth</div></div>
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="5" fill="none" stroke="var(--accent)" stroke-width="1.5"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/></svg>
+      <span class="brand-name">Eye Atlas</span>
+      <span class="badge b-draft hide-phone" title="Content not yet clinically reviewed">Draft</span>
     </div>
-    <div class="search" role="search">
-      <svg class="s-ico" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search conditions, signs, buzzwords…" aria-label="Search conditions" aria-controls="qres" aria-expanded="false" role="combobox">
-      <kbd aria-hidden="true">/</kbd>
-      <ul class="results" id="qres" role="listbox" hidden></ul>
+    <div class="search" id="searchWrap" role="search">
+      <div class="search-box">
+        <svg class="s-ico" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+        <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search conditions and signs" aria-label="Search conditions and signs" aria-controls="qres" aria-expanded="false" aria-autocomplete="list" role="combobox">
+        <kbd class="hide-phone" aria-hidden="true">/</kbd>
+      </div>
+      <ul class="results" id="qres" role="listbox" aria-label="Search results" hidden></ul>
     </div>
     <div class="top-actions">
-      <button class="btn-miss" id="miss" aria-pressed="false" title="Highlight structures that hold emergent diagnoses"><span class="pip"></span>Can't-miss</button>
-      <div class="proto">Draft content · verify before clinical use</div>
+      <span class="progress hide-phone"><b id="progN">0 / 0</b> mastered</span>
+      <button class="btn hide-phone" id="miss" aria-pressed="false">Can't-miss list</button>
+      <button class="btn icon hide-phone" id="helpBtn" aria-haspopup="dialog" aria-label="About and keyboard shortcuts">?</button>
+      <button class="btn icon only-phone" id="searchBtn" aria-label="Search" aria-expanded="false" aria-controls="searchWrap"><svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></button>
+      <button class="btn icon only-phone" id="menuBtn" aria-haspopup="dialog" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 4H14M2 8H14M2 12H14"/></svg></button>
     </div>
   </header>
 
   <main class="main">
-    <nav class="rail" aria-label="Depth">
-      <div class="rail-head"><b>Depth</b><span>anterior → posterior</span></div>
-      <div class="rail-body">
-        <div class="track" id="track" role="slider" tabindex="0" aria-label="Depth into the eye" aria-orientation="vertical" aria-valuemin="1" aria-valuemax="9" aria-valuenow="2">
-          <div class="track-line"></div><div class="track-fill" id="tfill"></div><div id="ticks"></div><div class="thumb" id="thumb"></div>
-        </div>
-        <ol class="stops" id="stops"></ol>
+    <nav class="rail" id="rail" aria-label="Structures">
+      <div class="rail-head"><h2>Structures</h2><span>front to back</span><button class="btn icon rail-x" id="railX" aria-label="Close structures">×</button></div>
+      <ul class="tree" id="tree"></ul>
+      <div class="foot">
+        <p>Eye Atlas by Sean Lee · <a href="https://seanleels.com">seanleels.com ↗</a></p>
+        <p>Educational, not medical advice. Stores no patient data.</p>
       </div>
-      <div class="inset" id="inset">
-        <div class="inset-cap"><span>Sagittal</span><b id="insetPlane"></b></div>
-        <svg id="sag" viewBox="0 0 320 200" aria-label="Sagittal cross-section showing the current depth"></svg>
-      </div>
-      <div class="rail-foot"><span><kbd>←</kbd><kbd>→</kbd> depth</span><span><kbd>/</kbd> search</span><span><kbd>Esc</kbd> back</span></div>
     </nav>
+    <div class="scrim" id="scrim" hidden></div>
 
     <section class="stage" id="stage" aria-label="Eye diagram">
-      <div class="stage-head">
-        <div><div class="eyebrow" id="stEyebrow"></div><h1 id="stName"></h1></div>
-        <div class="stage-hint">Click a structure to open it. Scroll or drag the depth rail to go deeper.</div>
+      <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+      <div class="plate">
+        <div class="eye-wrap" id="eyeWrap">
+          <svg id="eye" viewBox="0 0 640 640" role="group" aria-label="Schematic eye at the current depth. Each region is a button."></svg>
+          <div class="tip" id="tip" hidden></div>
+        </div>
+        <div class="figcap">
+          <div class="figcap-txt"><b id="capT"></b><span id="capD"></span><small>Schematic, not a clinical photograph.</small></div>
+          <div class="seg" id="figSeg" role="group" aria-label="Figure view" hidden>
+            <button type="button" id="figOn" aria-pressed="true">Finding</button>
+            <button type="button" id="figOff" aria-pressed="false">Normal</button>
+          </div>
+          <button type="button" class="btn icon" id="figX" aria-label="Hide drawing" hidden>×</button>
+        </div>
       </div>
-      <div class="eye-wrap"><svg id="eye" viewBox="0 0 640 640" role="img" aria-label="Schematic eye at the current depth"></svg></div>
-      <div class="tip" id="tip" hidden></div>
-      <div class="figbar" id="figbar" hidden role="status">
-        <svg class="fig-ico" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M1.5 9S4.5 3.5 9 3.5 16.5 9 16.5 9 13.5 14.5 9 14.5 1.5 9 1.5 9Z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="9" r="2.6" fill="currentColor"/></svg>
-        <div class="fig-txt"><b id="figN"></b><span id="figT"></span><small id="figV"></small></div>
-        <button class="figbtn" id="figCmp" aria-pressed="false" title="Hide the drawing to compare with normal">Compare normal</button>
-        <button class="figbtn x" id="figX" aria-label="Hide drawing">×</button>
+      <div class="depth">
+        <span>Front</span>
+        <div class="track" id="track" role="slider" tabindex="0" aria-label="Depth into the eye" aria-orientation="horizontal" aria-valuemin="1" aria-valuemax="9" aria-valuenow="2">
+          <div class="track-line"></div><div class="ticks" id="ticks"></div>
+          <div class="thumb" id="thumb"><span class="thumb-lbl" id="thumbLbl"></span></div>
+        </div>
+        <span>Back</span>
       </div>
     </section>
 
-    <aside class="panel" id="panel" aria-live="polite"></aside>
+    <section class="panel" id="panel" aria-label="Conditions" tabindex="-1">
+      <div class="grab" id="grab"><button type="button" id="grabBtn" aria-label="Expand or collapse the panel"><span></span></button></div>
+      <div class="p-scroll" id="pscroll"></div>
+    </section>
   </main>
 </div>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<dialog id="about" aria-labelledby="aboutT">
+  <div class="dlg">
+    <h2 id="aboutT">Eye Atlas</h2>
+    <p>A study tool by Sean Lee that links eye anatomy to the conditions found in each structure, from the lids to the optic nerve.</p>
+    <p><span class="badge b-draft">Draft</span> The condition cards were drafted with AI assistance. They have not yet been reviewed by an ophthalmologist or checked against their sources. Verify anything before clinical use.</p>
+    <p>Educational, not medical advice. Stores no patient data; your mastered list is saved only in this browser.</p>
+    <div class="dlg-actions only-phone">
+      <button type="button" class="btn" id="missPhone">Can't-miss list</button>
+      <span class="progress"><b id="progN2">0 / 0</b> mastered</span>
+    </div>
+    <h3 class="hide-phone">Keyboard</h3>
+    <dl class="hide-phone">
+      <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Move one structure deeper or shallower</dd>
+      <dt><kbd>/</kbd></dt><dd>Search</dd>
+      <dt><kbd>Tab</kbd> <kbd>Enter</kbd></dt><dd>Move between regions of the diagram and open one</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Close the drawing, then the card, then the region</dd>
+    </dl>
+    <p><a href="https://seanleels.com">seanleels.com ↗</a> · <a href="mailto:slee0339@usc.edu?subject=Eye%20Atlas%20feedback">Send feedback</a></p>
+    <form method="dialog" class="dlg-actions"><button class="btn primary">Close</button></form>
+  </div>
+</dialog>
+
+<noscript><p style="padding:16px">Eye Atlas needs JavaScript to draw the eye and list conditions.</p></noscript>
+
 
 <script>window.EA_CARDS = []; window.EA = function (s, a){ a.forEach(function (c){ c.s = s; window.EA_CARDS.push(c); }); };</script>
 <script src="data/adnexa.js"></script>
@@ -902,7 +965,7 @@ const Storage = {
    STATE
    ========================================================= */
 const defaultFilt = () => ({urg:new Set(['E','U','R']), cat:'all', hy:false, hideM:false});
-const state = { depth:1, stop:-1, sub:'all', open:new Set(), filt:defaultFilt(), canMiss:false, savedUrg:null,
+const state = { depth:1, stop:-1, sub:'all', card:null, view:null, tab:'snap', filterOpen:false, aboutOpen:null, fig:null, figCmp:false, filt:defaultFilt(),
   mastered:new Set(Storage.get('mastered', [])) };
 let pending = null;
 
@@ -915,8 +978,8 @@ const pol = (r, deg, cx = CX, cy = CY) => [r1(cx + r * Math.cos(deg * Math.PI / 
 const circD = (r, cx = CX, cy = CY) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
 const ringD = (R, r, cx = CX, cy = CY) => circD(R, cx, cy) + (r > 0 ? circD(r, cx, cy) : '');
 function rng(seed){ return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-const hit = (d, s, sub, label, cls = '') => `<path class="hit ${cls}" d="${d}" fill-rule="evenodd" data-s="${s}"${sub ? ` data-sub="${sub}"` : ''} data-label="${esc(label)}" style="--hc:var(--c-${s})"/>`;
-const hitGo = (d, s, label) => `<path class="hit" d="${d}" data-s="${s}" data-go="1" data-label="${esc(label)}" style="--hc:var(--c-${s})"/>`;
+const hit = (d, s, sub, label, cls = '') => `<path class="hit ${cls}" d="${d}" fill-rule="evenodd" data-s="${s}"${sub ? ` data-sub="${sub}"` : ''} data-label="${esc(label)}" tabindex="0" role="button" aria-label="${esc(label)}" style="--hc:var(--c-${s})"/>`;
+const hitGo = (d, s, label) => `<path class="hit" d="${d}" data-s="${s}" data-go="1" data-label="${esc(label)}" tabindex="0" role="button" aria-label="Go to ${esc(label)}" style="--hc:var(--c-${s})"/>`;
 const lbl = (px, py, tx, ty, text, anchor = 'start', light = false) =>
   `<g class="lbl${light ? ' lt' : ''}" data-a="${anchor}" data-px="${px}" data-py="${py}" data-tx="${tx}" data-ty="${ty}"><path d="M${px} ${py}L${tx} ${ty}"/><circle cx="${px}" cy="${py}" r="2.6"/><text x="${tx}" y="${ty}" text-anchor="${anchor}">${esc(text)}</text></g>`;
 const field = () => `<circle cx="${CX}" cy="${CY}" r="224" style="fill:var(--field);stroke:var(--field-ring)" stroke-width="1.5"/>`;
@@ -976,8 +1039,7 @@ function layerAdnexa(){
       ${irisFibrils(26, 70, 48, 7, .5).replace(/(\d+(\.\d+)?)/g, m => m)}
       <circle cx="320" cy="320" r="72" fill="none" style="stroke:var(--limbus)" stroke-width="2.5"/>
       <circle cx="320" cy="320" r="25" style="fill:var(--pupil)"/>
-      <circle cx="300" cy="298" r="6" fill="#fff" opacity=".9"/>
-      <ellipse cx="493" cy="333" rx="9" ry="11" fill="#e3a3a0" opacity=".9"/>
+            <ellipse cx="493" cy="333" rx="9" ry="11" fill="#e3a3a0" opacity=".9"/>
     </g>
     <path d="${FIS}" fill="none" style="stroke:var(--lash)" stroke-width="2.2"/>
     <g style="stroke:var(--lash)" stroke-width="1.7" fill="none" stroke-linecap="round">${lashes}</g>
@@ -1051,7 +1113,6 @@ function layerIris(){
     <circle cx="${CX}" cy="${CY}" r="114" fill="none" style="stroke:var(--limbus)" stroke-width="2.5"/>
     <circle cx="${CX}" cy="${CY}" r="35" fill="none" style="stroke:var(--ruff)" stroke-width="4"/>
     <circle cx="${CX}" cy="${CY}" r="32" style="fill:var(--pupil)"/>
-    <circle cx="303" cy="304" r="5" fill="#fff" opacity=".75"/>
     ${hit(ringD(136, 116), 'iris', 'cb', 'Ciliary body (behind the limbus)')}
     ${hit(ringD(114, 40), 'iris', 'stroma', 'Iris stroma')}
     ${hit(circD(40), 'iris', 'pupil', 'Pupil & sphincter')}
@@ -1071,12 +1132,11 @@ function layerLens(){
     <circle cx="${CX}" cy="${CY}" r="118" style="fill:var(--pupil)"/>
     <g style="stroke:var(--c-lens)" stroke-width="1.1" stroke-dasharray="2 2" opacity=".75">${zon}</g>
     <path d="${ringD(122, 110)}" fill-rule="evenodd" style="fill:var(--iris)"/>
-    <circle cx="${CX}" cy="${CY}" r="92" style="fill:url(#gLens)"/>
+    <circle cx="${CX}" cy="${CY}" r="92" style="fill:var(--lens-cortex)"/>
     <g style="stroke:var(--lens-capsule)" stroke-width=".8" opacity=".28">${fib}</g>
     <circle cx="${CX}" cy="${CY}" r="50" style="fill:var(--lens-nucleus)" opacity=".85"/>
     <path d="${ys}" style="stroke:var(--lens-capsule)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
     <circle cx="${CX}" cy="${CY}" r="92" fill="none" style="stroke:var(--lens-capsule)" stroke-width="2.4"/>
-    <path d="M262 268A78 78 0 0 1 300 244" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
     ${hit(ringD(112, 97), 'lens', 'zonules', 'Zonules')}
     ${hit(ringD(97, 87), 'lens', 'capsule', 'Lens capsule')}
     ${hit(ringD(87, 50), 'lens', 'cortex', 'Cortex')}
@@ -1095,9 +1155,9 @@ function layerVitreous(){
     fib += `<path d="M110 ${r1(y)}C200 ${r1(y - a)} 260 ${r1(y + a)} 330 ${r1(y)}S460 ${r1(y - a)} 530 ${r1(y + a / 2)}"/>`;
   }
   return `<g class="layer" data-i="5">${field()}
-    <circle cx="${CX}" cy="${CY}" r="206" style="fill:var(--c-vitreous);stroke:var(--c-vitreous)" fill-opacity=".1" stroke-opacity=".5" stroke-width="1.5"/>
+    <circle cx="${CX}" cy="${CY}" r="206" style="fill:var(--c-vitreous);stroke:var(--c-vitreous)" fill-opacity=".05" stroke-opacity=".45" stroke-width="1.2"/>
     <g clip-path="url(#cpField)" style="stroke:var(--c-vitreous)" stroke-width="1.2" fill="none" opacity=".38">${fib}</g>
-    <path d="${ringD(206, 178)}" fill-rule="evenodd" style="fill:var(--c-vitreous)" opacity=".26"/>
+    <path d="${ringD(206, 178)}" fill-rule="evenodd" style="fill:var(--c-vitreous)" opacity=".13"/>
     <circle cx="${CX}" cy="${CY}" r="150" fill="none" style="stroke:var(--c-vitreous)" stroke-width="1.6" stroke-dasharray="7 5" opacity=".8"/>
     <circle cx="${CX}" cy="${CY}" r="34" style="fill:var(--c-vitreous);stroke:var(--c-vitreous)" fill-opacity=".1" stroke-width="1.4" stroke-dasharray="3 3"/>
     ${hit(ringD(206, 178), 'vitreous', 'base', 'Vitreous base')}
@@ -1119,15 +1179,15 @@ const OV_V = ['M340 310C346 268 352 236 366 198','M366 198C346 168 300 146 230 1
 function layerRetina(){
   const all = [...RV.veins, ...RV.arts].join('');
   return `<g class="layer" data-i="6">${field()}
-    <circle cx="${CX}" cy="${CY}" r="210" style="fill:url(#gFundus)"/>
-    <circle cx="280" cy="320" r="62" style="fill:url(#gMac)"/>
+    <circle cx="${CX}" cy="${CY}" r="210" style="fill:var(--fig-fundus)"/>
+    <ellipse cx="320" cy="320" rx="160" ry="140" style="fill:var(--fig-pole)"/>
+    <circle cx="280" cy="320" r="46" style="fill:var(--fig-macula)"/>
     <circle cx="280" cy="320" r="11" style="fill:var(--fovea)" opacity=".85"/>
-    <circle cx="280" cy="320" r="2.6" fill="#fff" opacity=".9"/>
     <circle cx="${CX}" cy="${CY}" r="165" fill="none" stroke="#fff" stroke-width="1.2" stroke-dasharray="4 6" opacity=".4"/>
     <g clip-path="url(#cpField)" fill="none" stroke-linecap="round">
-      ${RV.veins.map(d => `<path d="${d}" style="stroke:var(--vein)" stroke-width="6"/>`).join('')}
-      ${RV.arts.map(d => `<path d="${d}" style="stroke:var(--artery)" stroke-width="4.2"/>`).join('')}
-      ${RV.small.map((d, i) => `<path d="${d}" style="stroke:var(${i % 2 ? '--vein' : '--artery'})" stroke-width="2.2"/>`).join('')}
+      ${RV.veins.map(d => `<path d="${d}" style="stroke:var(--vein)" stroke-width="4"/>`).join('')}
+      ${RV.arts.map(d => `<path d="${d}" style="stroke:var(--artery)" stroke-width="2.6"/>`).join('')}
+      ${RV.small.map((d, i) => `<path d="${d}" style="stroke:var(${i % 2 ? '--vein' : '--artery'})" stroke-width="1.5"/>`).join('')}
     </g>
     <circle cx="455" cy="320" r="27" style="fill:var(--disc)"/>
     <circle cx="459" cy="320" r="11" style="fill:var(--cup)"/>
@@ -1168,7 +1228,6 @@ function layerChoroid(){
     <path d="${seg}" style="fill:var(--rpe)"/>
     <path d="${seg}" style="fill:url(#pHex)"/>
     <path d="M${P1[0]} ${P1[1]}Q${c1[0]} ${c1[1]} ${P2[0]} ${P2[1]}Q${c2[0]} ${c2[1]} ${P1[0]} ${P1[1]}Z" style="fill:var(--rpe-curl);stroke:var(--rpe-line)" stroke-width="1"/>
-    <path d="M${P1[0]} ${P1[1]}Q${c1[0]} ${c1[1]} ${P2[0]} ${P2[1]}" fill="none" stroke="#000" stroke-width="5" opacity=".18" transform="translate(-3 4)"/>
     <circle cx="${CX}" cy="${CY}" r="204" fill="none" stroke="#fff" stroke-width="1" stroke-dasharray="2 5" opacity=".45"/>
     ${hit(circD(197), 'choroid', 'stroma', 'Choroidal vessels')}
     ${hit(ringD(212, 197), 'choroid', 'supra', 'Suprachoroidal space')}
@@ -1188,16 +1247,15 @@ function layerOptic(){
   const vA = OV_A, vV = OV_V;
   const rimD = circD(118) + circD(50, 308, 318);
   return `<g class="layer" data-i="8">${field()}
-    <circle cx="${CX}" cy="${CY}" r="210" style="fill:url(#gFundus)"/>
-    <circle cx="${CX}" cy="${CY}" r="150" style="fill:var(--ppa)" opacity=".35"/>
+    <circle cx="${CX}" cy="${CY}" r="210" style="fill:var(--fig-fundus)"/>
+    <circle cx="${CX}" cy="${CY}" r="150" style="fill:var(--ppa)" opacity=".5"/>
     <g clip-path="url(#cpField)" stroke="#fff" stroke-width="1" opacity=".22" fill="none">${nfl}</g>
     <circle cx="${CX}" cy="${CY}" r="118" style="fill:var(--disc-zoom)"/>
-    <circle cx="${CX}" cy="${CY}" r="118" fill="none" stroke="#000" stroke-width="2" opacity=".08"/>
     <circle cx="308" cy="318" r="50" style="fill:var(--cup)"/>
     ${pores}
     <g clip-path="url(#cpField)" fill="none" stroke-linecap="round">
-      ${vV.map(d => `<path d="${d}" style="stroke:var(--vein)" stroke-width="10"/>`).join('')}
-      ${vA.map(d => `<path d="${d}" style="stroke:var(--artery)" stroke-width="7"/>`).join('')}
+      ${vV.map(d => `<path d="${d}" style="stroke:var(--vein)" stroke-width="7"/>`).join('')}
+      ${vA.map(d => `<path d="${d}" style="stroke:var(--artery)" stroke-width="4.5"/>`).join('')}
     </g>
     <text x="320" y="190" text-anchor="middle" class="ui-txt">S</text>
     <text x="320" y="462" text-anchor="middle" class="ui-txt">I</text>
@@ -1215,47 +1273,16 @@ function layerOptic(){
 }
 function buildEye(){
   const defs = `<defs>
-    <radialGradient id="gFundus" cx="46%" cy="50%" r="62%"><stop offset="0" style="stop-color:var(--fundus-1)"/><stop offset="1" style="stop-color:var(--fundus-2)"/></radialGradient>
-    <radialGradient id="gMac"><stop offset="0" style="stop-color:var(--macula);stop-opacity:.7"/><stop offset="1" style="stop-color:var(--macula);stop-opacity:0"/></radialGradient>
-    <radialGradient id="gLens" cx="40%" cy="38%" r="72%"><stop offset="0" style="stop-color:var(--lens-hi)"/><stop offset="1" style="stop-color:var(--lens-cortex)"/></radialGradient>
     <pattern id="pHex" width="18" height="10.392" patternUnits="userSpaceOnUse"><path d="M0 5.196L3 0H9L12 5.196L9 10.392H3ZM12 5.196H18" fill="none" style="stroke:var(--rpe-line)" stroke-width=".9"/></pattern>
     <clipPath id="cpField"><circle cx="${CX}" cy="${CY}" r="210"/></clipPath>
     <clipPath id="cpFis"><path d="${FIS}"/></clipPath>
     <clipPath id="cpLeft"><rect x="0" y="0" width="320" height="640"/></clipPath>
     <clipPath id="cpRight"><rect x="320" y="0" width="320" height="640"/></clipPath>
     <clipPath id="cpCornea"><circle cx="${CX}" cy="${CY}" r="118"/></clipPath>
-    <filter id="fB1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.2"/></filter>
-    <filter id="fB3" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
-    <filter id="fB6" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
   </defs>`;
-  $('#eye').innerHTML = defs + layerAdnexa() + layerCornea() + layerAC() + layerIris() + layerLens() + layerVitreous() + layerRetina() + layerChoroid() + layerOptic();
+  $('#eye').innerHTML = plate(defs + layerAdnexa() + layerCornea() + layerAC() + layerIris() + layerLens() + layerVitreous() + layerRetina() + layerChoroid() + layerOptic());
 }
 
-/* Sagittal inset */
-const PLANE_X = [88, 95, 107, 119, 132, 178, 238, 245, 270];
-function buildSag(){
-  const cx = 175, cy = 100, pp = (r, d) => [r1(cx + r * Math.cos(d * Math.PI / 180)), r1(cy - r * Math.sin(d * Math.PI / 180))];
-  const [l1x, l1y] = pp(72, 150), [l2x, l2y] = pp(72, 210);
-  const cornea = `M${l1x} ${l1y}A41.7 41.7 0 0 0 ${l2x} ${l2y}`;
-  const sclera = `M${l2x} ${l2y}A72 72 0 1 0 ${l1x} ${l1y}`;
-  const [ra, rb] = [pp(66, 214), pp(66, 146)], [ca, cb] = [pp(69, 216), pp(69, 144)];
-  const retina = `M${ra[0]} ${ra[1]}A66 66 0 1 0 ${rb[0]} ${rb[1]}`, choroid = `M${ca[0]} ${ca[1]}A69 69 0 1 0 ${cb[0]} ${cb[1]}`;
-  const g = (s, inner, sub) => `<g class="sg" data-s="${s}"${sub ? ` data-sub="${sub}"` : ''} style="--sc:var(--c-${s})">${inner}</g>`;
-  $('#sag').innerHTML = `
-    <path d="${sclera}" class="sg-glob"/>
-    ${g('vitreous', `<path class="sg-fill" d="M143 45.7A63 63 0 1 1 143 154.3Z" stroke-opacity="0"/>`)}
-    ${g('choroid', `<path class="sg-line" d="${choroid}"/><path class="sghit" d="${choroid}"/>`)}
-    ${g('retina', `<path class="sg-line" d="${retina}"/><path class="sghit" d="${retina}"/>`)}
-    ${g('optic', `<path class="sg-fill" d="M244 89L308 85L308 115L244 111Z"/>`, 'retro')}
-    ${g('ac', `<path class="sg-fill" d="${cornea}L121 112L121 88Z" stroke-opacity="0"/>`)}
-    ${g('iris', `<path class="sg-line" d="M115 69L121 88M115 131L121 112"/><path class="sg-fill" d="M112 63L127 70L116 79ZM112 137L127 130L116 121Z"/><path class="sghit" d="M115 66L121 90M115 134L121 110"/>`)}
-    ${g('lens', `<ellipse class="sg-fill" cx="132" cy="100" rx="10" ry="24"/>`)}
-    ${g('cornea', `<path class="sg-line" d="${cornea}"/><path class="sghit" d="${cornea}"/>`)}
-    ${g('adnexa', `<path class="sg-fill" d="M100 28Q76 46 84 76L92 74Q86 50 106 34ZM100 172Q76 154 84 124L92 126Q86 150 106 166Z"/>`)}
-    <line id="plane" class="plane" x1="95" y1="16" x2="95" y2="184"/>
-    <circle id="planeDot" class="plane-dot" cx="95" cy="16" r="3"/>
-    <text x="8" y="194" class="sag-txt">ANTERIOR</text><text x="312" y="194" text-anchor="end" class="sag-txt">POSTERIOR</text>`;
-}
 
 /* Leader-line layout: measure each label so the leader ends at the text edge */
 function layoutLabels(){
@@ -1347,7 +1374,7 @@ function rdPath(by){
   return `<path d="M${a} ${b}A212 212 0 0 0 ${c} ${d}C150 ${by} 260 ${by + 24} 330 ${by - 6}C380 ${by - 30} 360 170 ${a} ${b}Z" fill="#dcc0b2" opacity=".74"/>` + folds.map(f => Ln(f, '#ffffff', 1.4, .45)).join('');
 }
 const lensCover = () => Ci(CX, CY, 98, '#141210', 1);
-const lensAt = (x, y, r = 88) => `<circle cx="${x}" cy="${y}" r="${r}" style="fill:url(#gLens)"/><circle cx="${x}" cy="${y}" r="${r1(r * .54)}" style="fill:var(--lens-nucleus)" opacity=".85"/><circle cx="${x}" cy="${y}" r="${r}" fill="none" style="stroke:var(--lens-capsule)" stroke-width="2.4"/>`;
+const lensAt = (x, y, r = 88) => `<circle cx="${x}" cy="${y}" r="${r}" style="fill:var(--lens-cortex)"/><circle cx="${x}" cy="${y}" r="${r1(r * .54)}" style="fill:var(--lens-nucleus)" opacity=".85"/><circle cx="${x}" cy="${y}" r="${r}" fill="none" style="stroke:var(--lens-capsule)" stroke-width="2.4"/>`;
 const zonFan = (cx, cy, r, a0, a1) => { let s = ''; for (let a = a0; a <= a1; a += 8){ const p = pol(r, a, cx, cy), q = pol(114, a); s += Ln(`M${p[0]} ${p[1]}L${q[0]} ${q[1]}`, '#d9bc5a', 1.1, .8); } return s; };
 const irisPatch = (r = 40) => `<circle cx="${CX}" cy="${CY}" r="${r}" style="fill:var(--iris)"/>`;
 const polarPath = (f, cx = CX, cy = CY, n = 180) => { let d = ''; for (let k = 0; k <= n; k++){ const a = k / n * 360, [x, y] = pol(f(a), a, cx, cy); d += (k ? 'L' : 'M') + x + ' ' + y; } return d + 'Z'; };
@@ -1612,34 +1639,61 @@ S('Toxic / nutritional optic neuropathy', 'Temporal pallor from papillomacular b
 /* --- Outline topics that now have full cards: move their drawings onto the card and drop the stub --- */
 CARDS.forEach(c => { const k = 's:' + c.name; if (FIG[k] && !FIG[c.id]) FIG[c.id] = FIG[k]; });
 STRUCTS.forEach(s => { const names = new Set(s.cards.map(c => c.name)); s.stubList = s.stubList.filter(x => !names.has(x.name)); });
+/* --- Tonal-plate pass: every drawing goes through one muting step (flat, desaturated; no blur) --- */
+const MUTE = {};
+function muteHex(h){
+  let x = h.slice(1); if (x.length === 3) x = x.split('').map(c => c + c).join('');
+  let r = parseInt(x.slice(0, 2), 16) / 255, g = parseInt(x.slice(2, 4), 16) / 255, b = parseInt(x.slice(4, 6), 16) / 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2;
+  if (mx === mn || l > .93) return h;
+  const d = mx - mn, s0 = l > .5 ? d / (2 - mx - mn) : d / (mx + mn);
+  let hu = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; hu /= 6;
+  const s = Math.min(s0 * .62, .52);
+  const q = l < .5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+  const f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
+  return '#' + [f(hu + 1 / 3), f(hu), f(hu - 1 / 3)].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+}
+const plate = html => html.replace(/\sfilter="url\(#fB\d\)"/g, '').replace(/#(?:[0-9a-fA-F]{6}|[0-9a-fA-F]{3})(?![0-9a-zA-Z])/g, m => MUTE[m] || (MUTE[m] = muteHex(m)));
 
 /* --- Drawing state --- */
-const figbar = $('#figbar');
 const figName = k => CARD[k] ? CARD[k].name : k.slice(2);
-function syncFigMarks(){
-  $$('#panel [data-k]').forEach(b => b.classList.toggle('on', b.dataset.k === state.fig));
-  $$('#panel .card').forEach(c => c.classList.toggle('figon', c.dataset.id === state.fig));
+const lc1 = s => s ? s.charAt(0).toLowerCase() + s.slice(1) : s;
+function figShown(){ const f = state.fig && FIG[state.fig]; return !!(f && f.stop === state.stop); }
+function syncFigMarks(){}
+function updateCaption(){
+  const s = STRUCTS[state.stop]; if (!s) return;
+  if (figShown()){
+    const f = FIG[state.fig];
+    $('#capT').textContent = `${figName(state.fig)} · ${lc1(f.v)}`;
+    $('#capD').textContent = f.t;
+    $('#figSeg').hidden = false; $('#figX').hidden = false;
+    $('#figOn').setAttribute('aria-pressed', String(!state.figCmp)); $('#figOff').setAttribute('aria-pressed', String(!!state.figCmp));
+  } else {
+    $('#capT').textContent = `${s.name} · ${lc1(s.view)}`;
+    $('#capD').textContent = 'Select a region to see its conditions.';
+    $('#figSeg').hidden = true; $('#figX').hidden = true;
+  }
 }
 function renderFig(){
   $$('#eye .patho').forEach(g => g.remove());
-  const f = state.fig && FIG[state.fig];
-  if (!f || f.stop !== state.stop){ figbar.hidden = true; eye.classList.remove('figon'); syncFigMarks(); updateHits(); return; }
-  let html = '';
-  try { html = f.d(); } catch(e){ console.error(e); }
-  layers()[f.stop].insertAdjacentHTML('beforeend', `<g class="patho${state.figCmp ? ' off' : ''}">${html}</g>`);
-  eye.classList.toggle('figon', !state.figCmp);
-  $('#figN').textContent = figName(state.fig); $('#figT').textContent = f.t; $('#figV').textContent = f.v;
-  $('#figCmp').setAttribute('aria-pressed', !!state.figCmp);
-  figbar.hidden = false; syncFigMarks(); updateHits();
+  if (figShown()){
+    let html = ''; try { html = plate(FIG[state.fig].d()); } catch(e){ console.error(e); }
+    layers()[state.stop].insertAdjacentHTML('beforeend', `<g class="patho${state.figCmp ? ' off' : ''}" aria-hidden="true">${html}</g>`);
+  }
+  eye.classList.toggle('figon', figShown() && !state.figCmp);
+  updateCaption(); syncFigMarks(); updateHits();
 }
 function hideFig(){ state.fig = null; state.figCmp = false; renderFig(); }
+function setCmp(v){
+  state.figCmp = v;
+  const g = $('#eye .patho'); if (g) g.classList.toggle('off', v);
+  eye.classList.toggle('figon', !v);
+  updateCaption();
+}
 $('#figX').addEventListener('click', hideFig);
-$('#figCmp').addEventListener('click', () => {
-  state.figCmp = !state.figCmp;
-  const g = $('#eye .patho'); if (g) g.classList.toggle('off', state.figCmp);
-  eye.classList.toggle('figon', !state.figCmp);
-  $('#figCmp').setAttribute('aria-pressed', state.figCmp);
-});
+$('#figOn').addEventListener('click', () => setCmp(false));
+$('#figOff').addEventListener('click', () => setCmp(true));
+
 
 /* =========================================================
    MINI SCHEMATICS (panel)
@@ -1665,13 +1719,13 @@ function miniCornea(){
   for (let x = 10; x < W + 6; x += 18) art += `<rect x="${x}" y="138" width="17" height="12" rx="2" style="fill:var(--c-cornea);stroke:var(--c-cornea)" fill-opacity=".25" stroke-opacity=".7" stroke-width=".7"/><circle cx="${x + 8.5}" cy="144" r="2" style="fill:var(--c-cornea)" opacity=".8"/>`;
   let prev = -99;
   const rows = bands.map(b => {
-    const c = b.y + b.h / 2, ly = Math.max(c, prev + 24); prev = ly;
+    const c = b.y + b.h / 2, ly = Math.max(c, prev + 28); prev = ly;
     const label = `<path d="M${10 + W} ${c}L${W + 10} ${c}L${W + 20} ${ly}L${W + 24} ${ly}" fill="none" style="stroke:var(--line-2)"/><text x="${W + 28}" y="${ly + 3}">${b.name}</text><text class="sm" x="${W + 28}" y="${ly + 15}">${b.note}</text>`;
     if (!b.sub) return `<g>${label}</g>`;
     return `<g class="band${state.sub === b.sub ? ' sel' : ''}" data-act="layer" data-sub="${b.sub}" role="button" tabindex="0" aria-label="Filter to ${b.name}"><rect class="bhit" x="4" y="${b.y}" width="412" height="${b.h}" rx="3"/>${label}</g>`;
   }).join('');
   return `<div class="mini"><div class="mini-h"><span>Corneal layers</span><span>not to scale · click a layer</span></div>
-    <svg viewBox="0 0 420 180">${art}${rows}</svg></div>`;
+    <svg viewBox="0 0 420 ${Math.max(180, Math.ceil(prev + 24))}">${art}${rows}</svg></div>`;
 }
 function miniGonio(){
   const bands = [
@@ -1722,197 +1776,285 @@ function miniOct(){
 }
 
 /* =========================================================
-   PANEL
+   PANEL — list (structure) · detail (one condition) · can't-miss
    ========================================================= */
-const panel = $('#panel');
-const isDefaultFilt = () => state.filt.urg.size === 3 && state.filt.cat === 'all' && !state.filt.hy && !state.filt.hideM;
-const emergentOnly = () => state.filt.urg.size === 1 && state.filt.urg.has('E') && state.filt.cat === 'all' && !state.filt.hy;
+const panel = $('#panel'), pscroll = $('#pscroll'), live = $('#live');
+const announce = t => { live.textContent = ''; requestAnimationFrame(() => { live.textContent = t; }); };
 const passes = c => state.filt.urg.has(c.urg) && (state.filt.cat === 'all' || c.cat === state.filt.cat) && (!state.filt.hy || c.hy) && (!state.filt.hideM || !state.mastered.has(c.id));
-const stubPasses = x => isDefaultFilt() || (emergentOnly() && !state.filt.hideM ? x.em : (emergentOnly() ? x.em : false));
-const LABELS = {risk:'Risk factors', pres:'Presentation', find:'Exam findings', work:'Workup', ddx:'Differential', mgmt:'Management', comp:'Complications', trials:'Landmark trials', pearls:'Pearls & buzzwords'};
-const EYE_ICO = `<svg width="13" height="13" viewBox="0 0 18 18" aria-hidden="true"><path d="M1.5 9S4.5 3.5 9 3.5 16.5 9 16.5 9 13.5 14.5 9 14.5 1.5 9 1.5 9Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="9" r="2.6" fill="currentColor"/></svg>`;
-const CHEV = `<svg class="chev" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const activeFilters = () => (state.filt.urg.size < 3 ? 1 : 0) + (state.filt.cat !== 'all' ? 1 : 0) + (state.filt.hy ? 1 : 0) + (state.filt.hideM ? 1 : 0);
+const isDefaultFilt = () => activeFilters() === 0;
+const LABELS = {risk:'Risk factors', pres:'Presentation', find:'Exam findings', work:'Workup', ddx:'Differential', mgmt:'Management', comp:'Complications', trials:'Landmark trials', pearls:'Pearls'};
+const TABS = [['snap', 'Snapshot', ['risk', 'pres', 'find']], ['work', 'Workup', ['work', 'ddx']], ['mgmt', 'Management', ['mgmt', 'comp']], ['evid', 'Evidence', ['trials', 'pearls']]];
+const wide = () => matchMedia('(min-width: 1024px)').matches;
+const isPhone = () => matchMedia('(max-width: 639px)').matches;
+const subOf = c => STRUCTS[SIDX[c.s]].subs.find(u => u.id === c.sub);
+const totalCards = () => CARDS.length;
 
+function xref(x){ const c = findCard(x); return c ? `<button type="button" class="xref" data-act="goto" data-id="${c.id}">${esc(c.name)}</button>` : `<span class="xref">${esc(x)}</span>`; }
 function fieldHTML(key, v){
   if (!v || (Array.isArray(v) && !v.length)) return '';
-  let dd;
-  if (key === 'ddx'){
-    dd = `<div class="chips">${v.map(x => { const c = findCard(x); return c ? `<button class="chip" data-act="goto" data-id="${c.id}">${esc(c.name)}</button>` : `<span class="chip">${esc(x)}</span>`; }).join('')}</div>`;
-  } else if (key === 'trials'){
-    dd = `<ul>${v.map(([n, t]) => `<li><span class="trial-name">${esc(n)}</span> · ${esc(t)}</li>`).join('')}</ul>`;
-  } else if (key === 'comp'){
-    dd = `<ul>${v.map(x => { const c = findCard(x); return c ? `<li><button class="chip" data-act="goto" data-id="${c.id}">${esc(c.name)}</button></li>` : `<li>${esc(x)}</li>`; }).join('')}</ul>`;
-  } else dd = Array.isArray(v) ? `<ul>${v.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : `<p>${esc(v)}</p>`;
-  return `<dt>${LABELS[key]}</dt><dd class="${key}">${dd}</dd>`;
+  let body;
+  if (key === 'ddx') body = `<div class="xrefs">${v.map(xref).join('')}</div>`;
+  else if (key === 'comp') body = `<div class="xrefs">${v.map(xref).join('')}</div>`;
+  else if (key === 'trials') body = `<ul>${v.map(([n, t]) => `<li class="trial"><b>${esc(n)}.</b> ${esc(t)}</li>`).join('')}</ul>`;
+  else body = `<ul>${v.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  return `<section class="fsec"><h2>${LABELS[key]}</h2>${body}</section>`;
 }
-function cardHTML(c){
-  const open = state.open.has(c.id), m = state.mastered.has(c.id);
-  return `<article class="card${open ? ' open' : ''}" id="card-${c.id}" data-id="${c.id}" style="--sc:var(--c-${c.s})">
-    <button class="card-head" data-act="toggle" data-id="${c.id}" aria-expanded="${open}" aria-controls="body-${c.id}">
-      <span class="row1"><span class="names"><span class="card-name">${esc(c.name)}</span>${c.aka ? `<span class="card-aka">${esc(c.aka)}</span>` : ''}</span>
-      <span class="tags"><span class="urg urg-${c.urg}">${URG[c.urg]}</span><span class="tag">${esc(c.cat)}</span>${c.hy ? '<span class="tag hy" title="High-yield">HY</span>' : ''}${m ? '<span class="tag mst" title="Mastered">✓</span>' : ''}</span></span>
-      <span class="card-hook">${esc(c.hook)}</span>${CHEV}
-    </button>
-    <div class="card-body" id="body-${c.id}"${open ? '' : ' hidden'}>
-      <dl class="fields">${['risk','pres','find','work','ddx','mgmt','comp','trials','pearls'].map(k => fieldHTML(k, c[k])).join('')}</dl>
-      <div class="card-foot"><label class="mcheck"><input type="checkbox" id="m-${c.id}" data-act="master" data-id="${c.id}"${m ? ' checked' : ''}> Mastered</label>${FIG[c.id] ? `<button class="linkbtn" data-act="fig" data-k="${c.id}">Show drawing on the eye</button>` : ''}<span class="anchor">#${c.id}</span></div>
-    </div>
-  </article>`;
+function rowHTML(c){
+  const m = state.mastered.has(c.id);
+  return `<li><button type="button" class="row" data-act="open" data-id="${c.id}">
+    <span class="row-urg u-${c.urg}"><i aria-hidden="true"></i>${URG[c.urg]}</span>
+    <span class="row-name">${esc(c.name)}${m ? '<span class="mst">Mastered</span>' : ''}</span>
+    <span class="row-hook">${esc(c.hook)}</span></button></li>`;
 }
-function renderPanel(keepScroll){
-  const s = STRUCTS[state.stop]; if (!s) return;
-  const prevTop = panel.scrollTop;
-  const curSub = s.subs.find(x => x.id === state.sub);
-  const subsHTML = [`<button class="subchip" data-act="sub" data-sub="all" aria-pressed="${state.sub === 'all'}" style="--sc:var(--c-${s.id})">All <span>${s.cards.length + s.stubList.length}</span></button>`]
-    .concat(s.subs.map(x => `<button class="subchip" data-act="sub" data-sub="${x.id}" aria-pressed="${state.sub === x.id}" style="--sc:var(--c-${s.id})">${esc(x.name)} <span>${s.cards.filter(c => c.sub === x.id).length + s.stubList.filter(t => t.sub === x.id).length}</span></button>`)).join('');
+function filterHTML(){
   const f = state.filt;
-  const filters = `<span class="flabel">Show</span>
-    ${['E','U','R'].map(u => `<button class="fchip u" data-act="urg" data-u="${u}" aria-pressed="${f.urg.has(u)}" style="--kc:var(--${URG[u].toLowerCase()})"><span class="k"></span>${URG[u]}</button>`).join('')}
-    <select class="fsel" id="fcat" data-act="cat" aria-label="Category"><option value="all">All categories</option>${CATS.map(c => `<option${f.cat === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select>
-    <button class="fchip" data-act="hy" aria-pressed="${f.hy}">High-yield</button>
-    <button class="fchip" data-act="hideM" aria-pressed="${f.hideM}">Hide mastered</button>
-    <span class="fsp"></span>
-    ${s.cards.length ? `<button class="linkbtn" data-act="expand">Expand all</button><button class="linkbtn" data-act="collapse">Collapse</button>` : ''}`;
+  return `<div class="fpop" id="fpop">
+    <fieldset><legend>Urgency</legend>${['E', 'U', 'R'].map(u => `<label class="chk"><input type="checkbox" data-act="urg" data-u="${u}"${f.urg.has(u) ? ' checked' : ''}><span class="dot" style="--kc:var(--${URG[u].toLowerCase()})" aria-hidden="true"></span>${URG[u]}</label>`).join('')}</fieldset>
+    <label class="fsel"><span>Category</span><select data-act="cat"><option value="all">All categories</option>${CATS.map(c => `<option${f.cat === c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</select></label>
+    <div style="display:flex;flex-wrap:wrap;gap:var(--space-4)">
+      <label class="chk"><input type="checkbox" data-act="hy"${f.hy ? ' checked' : ''}>High-yield only</label>
+      <label class="chk"><input type="checkbox" data-act="hideM"${f.hideM ? ' checked' : ''}>Hide mastered</label>
+    </div>
+    ${activeFilters() ? '<div><button type="button" class="btn quiet" data-act="clear">Clear filters</button></div>' : ''}
+  </div>`;
+}
+function renderList(){
+  const s = STRUCTS[state.stop];
+  const mini = s.mini === 'cornea' ? miniCornea() : s.mini === 'gonio' ? miniGonio() : s.mini === 'oct' ? miniOct() : '';
+  const nAll = s.cards.length + s.stubList.length;
+  const chips = [`<button type="button" class="btn" data-act="sub" data-sub="all" aria-pressed="${state.sub === 'all'}">All · ${nAll}</button>`]
+    .concat(s.subs.map(x => `<button type="button" class="btn" data-act="sub" data-sub="${x.id}" aria-pressed="${state.sub === x.id}">${esc(x.name)} · ${s.cards.filter(c => c.sub === x.id).length + s.stubList.filter(t => t.sub === x.id).length}</button>`)).join('');
   let groups = '', shown = 0;
   for (const sub of s.subs){
     if (state.sub !== 'all' && sub.id !== state.sub) continue;
-    const cs = s.cards.filter(c => c.sub === sub.id && passes(c));
-    const st = s.stubList.filter(x => x.sub === sub.id && stubPasses(x));
+    const cs = s.cards.filter(c => c.sub === sub.id && passes(c)).sort((a, b) => 'EUR'.indexOf(a.urg) - 'EUR'.indexOf(b.urg));
+    const st = isDefaultFilt() ? s.stubList.filter(x => x.sub === sub.id) : [];
     if (!cs.length && !st.length) continue;
     shown += cs.length + st.length;
-    groups += `<section class="grp" id="grp-${sub.id}">
-      <div class="grp-h"><h3>${esc(sub.name)}</h3><span class="grp-n">${cs.length ? cs.length + ' card' + (cs.length > 1 ? 's' : '') : st.length + ' topic' + (st.length > 1 ? 's' : '')}</span></div>
+    groups += `<section class="grp" id="grp-${sub.id}" aria-labelledby="gh-${sub.id}">
+      <h3 class="grp-h" id="gh-${sub.id}">${esc(sub.name)} <span class="n">${cs.length + st.length}</span></h3>
       <p class="grp-desc">${esc(sub.desc)}</p>
-      ${cs.length ? `<div class="grp-cards">${cs.map(cardHTML).join('')}</div>` : ''}
-      ${st.length ? `<div class="stubs"><div class="stubs-h">Outline · blue topics have a drawing</div><ul>${st.map(x => { const k = 's:' + x.name, sr = x.em ? '<span style="position:absolute;left:-9999px"> (emergent)</span>' : ''; return `<li class="${x.em ? 'em' : ''}" data-stub="${esc(x.name)}">${FIG[k] ? `<button class="stubbtn" data-act="fig" data-k="${esc(k)}">${esc(x.name)}${sr}${EYE_ICO}</button>` : esc(x.name) + sr}</li>`; }).join('')}</ul></div>` : ''}
+      <ul class="rows">${cs.map(rowHTML).join('')}${st.map(x => `<li class="stub">${esc(x.name)} <span class="muted">· outline only</span></li>`).join('')}</ul>
     </section>`;
   }
-  if (!shown) groups = `<div class="empty">Nothing here matches these filters.<br><button class="linkbtn" data-act="clear">Clear filters</button></div>`;
-  const mini = s.mini === 'cornea' ? miniCornea() : s.mini === 'gonio' ? miniGonio() : s.mini === 'oct' ? miniOct() : '';
-  const outline = s.cards.length ? '' : `<div class="note"><b>Outline only in this prototype.</b> The cornea is fully written; this stop lists every topic its cards will cover.${state.canMiss ? '' : ' Emergent topics are marked with a red dot.'}</div>`;
-  panel.innerHTML = `
+  if (!shown) groups = `<div class="empty">Nothing here matches these filters.<br><button type="button" class="btn quiet" data-act="clear">Clear filters</button></div>`;
+  const nf = activeFilters();
+  const curSub = s.subs.find(x => x.id === state.sub);
+  pscroll.innerHTML = `
     <div class="p-head">
-      <nav class="crumbs" aria-label="Breadcrumb"><button data-act="crumb-eye">Eye</button><span class="sep">›</span>${curSub ? `<button data-act="sub" data-sub="all">${esc(s.short)}</button><span class="sep">›</span><span class="cur">${esc(curSub.name)}</span>` : `<span class="cur">${esc(s.short)}</span>`}</nav>
-      <div class="p-title"><span class="sw" style="background:var(--c-${s.id})"></span><h2>${esc(s.name)}</h2></div>
-      <div class="p-view">Stop ${state.stop + 1} of 9 · ${esc(s.view)}</div>
-      <p class="p-sum">${esc(s.summary)}</p>
-      <div class="facts">${s.facts.map(x => `<span class="fact">${esc(x)}</span>`).join('')}</div>
-      ${mini}
+      <h1 class="p-title" id="pTitle" tabindex="-1">${esc(s.name)}</h1>
+      <p class="p-view">${esc(s.view)}</p>
+      <details class="about" id="aboutStruct"${state.aboutOpen ? ' open' : ''}><summary>About this structure</summary>
+        <div class="about-body"><p class="p-sum">${esc(s.summary)}</p><ul class="facts">${s.facts.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${mini}</div>
+      </details>
     </div>
-    <div class="p-ctrl" id="pctrl"><div class="subs">${subsHTML}</div><div class="filters">${filters}</div></div>
-    <div class="p-body">${outline}${groups}</div>`;
-  if (keepScroll){
-    const ctrl = $('#pctrl');
-    panel.scrollTop = Math.min(prevTop, ctrl ? ctrl.offsetTop : prevTop);
-  }
+    <div class="p-ctrl">
+      <div class="p-ctrl-row">
+        <h2 class="p-count">${curSub ? esc(curSub.name) + ' · ' : ''}${shown} condition${shown === 1 ? '' : 's'}</h2>
+        <button type="button" class="btn quiet only-narrow" data-act="rail">Structures</button>
+        <button type="button" class="btn quiet" data-act="filter" aria-expanded="${!!state.filterOpen}" aria-controls="fpop">Filter${nf ? ' · ' + nf : ''}</button>
+      </div>
+      <div class="regions" role="group" aria-label="Region">${chips}</div>
+      ${state.filterOpen ? filterHTML() : ''}
+    </div>
+    ${groups}`;
+}
+function renderDetail(c){
+  const s = STRUCTS[SIDX[c.s]], sub = subOf(c), m = state.mastered.has(c.id);
+  const nSub = s.cards.filter(x => x.sub === c.sub).length;
+  const tab = state.tab || 'snap', T = TABS.find(t => t[0] === tab);
+  let body = T[2].map(k => fieldHTML(k, c[k])).join('');
+  if (tab === 'evid') body += `<section class="fsec"><h2>Sources</h2><p>Not yet added. The trial summaries and figures on this card have not been checked against their sources.</p></section>`;
+  if (!body) body = '<p class="muted">Nothing recorded for this section yet.</p>';
+  pscroll.innerHTML = `
+    <div class="d-head">
+      <button type="button" class="back" data-act="back">‹ ${esc(sub.name)}<span>&nbsp;· ${nSub} condition${nSub === 1 ? '' : 's'}</span></button>
+      <div class="badges"><span class="badge b-${c.urg}">${URG[c.urg]}</span><span class="tag">${esc(c.cat)}</span>${c.hy ? '<span class="tag">High-yield</span>' : ''}</div>
+      <h1 class="d-title" id="dTitle" tabindex="-1">${esc(c.name)}</h1>
+      ${c.aka ? `<p class="d-aka">Also called ${esc(c.aka)}</p>` : ''}
+      <p class="d-hook">${esc(c.hook)}</p>
+      ${FIG[c.id] ? `<div class="only-phone"><button type="button" class="btn" data-act="showfig" data-k="${c.id}">Show figure</button></div>` : ''}
+    </div>
+    <div class="tabs" role="tablist" aria-label="Card sections">${TABS.map(([id, name]) => `<button type="button" role="tab" id="tab-${id}" aria-controls="tp" aria-selected="${id === tab}" tabindex="${id === tab ? 0 : -1}" data-act="tab" data-tab="${id}">${name}</button>`).join('')}</div>
+    <div class="d-body" role="tabpanel" id="tp" aria-labelledby="tab-${tab}">${body}</div>
+    <div class="d-foot">
+      <div class="d-status"><span class="badge b-draft">Draft</span><span>Not yet reviewed by an ophthalmologist · Updated Nov 2026 · <a href="mailto:slee0339@usc.edu?subject=${encodeURIComponent('Eye Atlas error: ' + c.id)}">Report an error</a></span></div>
+      <div class="d-actions">
+        <button type="button" class="btn primary" data-act="master" data-id="${c.id}" aria-pressed="${m}">${m ? 'Mastered' : 'Mark as mastered'}</button>
+        <button type="button" class="btn" data-act="copy" data-id="${c.id}">Copy link</button>
+      </div>
+    </div>`;
   syncFigMarks();
 }
-
-function setCardOpen(id, open){
-  const el = $('#card-' + id); if (!el) return;
-  el.classList.toggle('open', open);
-  el.querySelector('.card-head').setAttribute('aria-expanded', open);
-  el.querySelector('.card-body').hidden = !open;
-  if (open) state.open.add(id); else state.open.delete(id);
+function renderMiss(){
+  const groups = STRUCTS.map(s => {
+    const cs = s.cards.filter(c => c.urg === 'E'); if (!cs.length) return '';
+    return `<section class="grp" aria-labelledby="mh-${s.id}"><h2 class="grp-h" id="mh-${s.id}">${esc(s.name)} <span class="n">${cs.length}</span></h2><ul class="rows">${cs.map(rowHTML).join('')}</ul></section>`;
+  }).join('');
+  const n = CARDS.filter(c => c.urg === 'E').length;
+  pscroll.innerHTML = `
+    <div class="d-head">
+      <button type="button" class="back" data-act="missoff">‹ ${esc(STRUCTS[state.stop].name)}</button>
+      <h1 class="d-title" id="dTitle" tabindex="-1">Can't-miss list</h1>
+      <p class="d-hook">Emergent conditions across the eye, grouped by structure. ${n} conditions. Regions that hold one are outlined on the diagram.</p>
+    </div>${groups}`;
 }
-function reveal(id){
-  const el = $('#card-' + id); if (!el) return;
-  setCardOpen(id, true);
-  if (FIG[id]){ state.fig = id; state.figCmp = false; renderFig(); }
-  requestAnimationFrame(() => {
-    const ctrl = $('#pctrl'), off = ctrl ? ctrl.offsetHeight : 0;
-    const top = el.getBoundingClientRect().top - panel.getBoundingClientRect().top + panel.scrollTop - off - 12;
-    if (panel.scrollHeight > panel.clientHeight + 4) panel.scrollTo({top, behavior: RM ? 'auto' : 'smooth'});
-    else el.scrollIntoView({block:'start', behavior: RM ? 'auto' : 'smooth'});
-    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
-  });
+function renderPanel(){
+  if (state.view === 'miss') renderMiss();
+  else if (state.card && CARD[state.card]) renderDetail(CARD[state.card]);
+  else renderList();
+  renderCrumbs(); updateTree();
+}
+function focusTitle(){ const t = $('#dTitle') || $('#pTitle'); if (t) t.focus({preventScroll:true}); }
+
+/* Open / close a condition */
+function openCard(id, opts = {}){
+  const c = CARD[id]; if (!c) return;
+  state.view = null; syncMiss();
+  state.card = id; state.tab = 'snap'; state.sub = c.sub;
+  if (FIG[id]){ state.fig = id; state.figCmp = false; } else if (state.fig && CARD[state.fig]) state.fig = null;
+  renderPanel(); renderFig(); pscroll.scrollTop = 0;
+  if (isPhone()) setSnap('full');
+  if (!opts.silent){ announce(`Opened ${c.name}`); if (opts.focus !== false) focusTitle(); }
   setHash(id);
 }
-function flashStub(name){
-  const li = $$('#panel li[data-stub]').find(x => x.dataset.stub === name); if (!li) return;
-  requestAnimationFrame(() => { li.scrollIntoView({block:'center', behavior: RM ? 'auto' : 'smooth'}); li.classList.add('flash'); });
+function closeCard(){
+  if (!state.card) return;
+  const c = CARD[state.card]; state.card = null;
+  if (state.fig === c.id) { state.fig = null; state.figCmp = false; }
+  renderPanel(); renderFig(); pscroll.scrollTop = 0;
+  if (isPhone()) setSnap('half');
+  setHash(STRUCTS[state.stop].id);
+  const row = $(`#pscroll .row[data-id="${c.id}"]`); if (row){ row.scrollIntoView({block:'center'}); row.focus({preventScroll:true}); }
 }
 
-panel.addEventListener('click', e => {
+pscroll.addEventListener('click', e => {
   const t = e.target.closest('[data-act]'); if (!t || t.tagName === 'SELECT' || t.tagName === 'INPUT') return;
   const a = t.dataset.act;
-  if (a === 'toggle'){
-    const id = t.dataset.id, open = !state.open.has(id); setCardOpen(id, open); setHash(open ? id : STRUCTS[state.stop].id);
-    if (open && FIG[id]){ state.fig = id; state.figCmp = false; renderFig(); }
-    else if (!open && state.fig === id) hideFig();
-  }
-  else if (a === 'fig'){ const k = t.dataset.k; if (state.fig === k) hideFig(); else showFig(k); }
-  else if (a === 'sub' || a === 'layer'){ state.sub = t.dataset.sub; renderPanel(true); updateHits(); }
-  else if (a === 'urg'){ const u = t.dataset.u; if (state.filt.urg.has(u)){ if (state.filt.urg.size > 1) state.filt.urg.delete(u); } else state.filt.urg.add(u); if (state.canMiss && !(state.filt.urg.size === 1 && state.filt.urg.has('E'))){ state.canMiss = false; syncMiss(); } renderPanel(true); }
-  else if (a === 'hy'){ state.filt.hy = !state.filt.hy; renderPanel(true); }
-  else if (a === 'hideM'){ state.filt.hideM = !state.filt.hideM; renderPanel(true); }
-  else if (a === 'expand'){ $$('#panel .card').forEach(c => setCardOpen(c.dataset.id, true)); }
-  else if (a === 'collapse'){ $$('#panel .card').forEach(c => setCardOpen(c.dataset.id, false)); setHash(STRUCTS[state.stop].id); if (CARD[state.fig]) hideFig(); }
-  else if (a === 'goto'){ goCard(t.dataset.id); }
-  else if (a === 'clear'){ resetFilters(); renderPanel(true); }
-  else if (a === 'crumb-eye'){ state.open.clear(); navTo(0, {sub:'all'}); }
-});
-panel.addEventListener('change', e => {
-  const t = e.target;
-  if (t.dataset.act === 'master'){
-    const id = t.dataset.id; if (t.checked) state.mastered.add(id); else state.mastered.delete(id);
+  if (a === 'open') goCard(t.dataset.id);
+  else if (a === 'goto') goCard(t.dataset.id);
+  else if (a === 'back') closeCard();
+  else if (a === 'missoff'){ state.view = null; syncMiss(); renderPanel(); focusTitle(); setHash(STRUCTS[state.stop].id); }
+  else if (a === 'tab'){ state.tab = t.dataset.tab; renderPanel(); $('#tab-' + state.tab).focus(); }
+  else if (a === 'sub' || a === 'layer'){ state.sub = t.dataset.sub; renderPanel(); updateHits(); }
+  else if (a === 'filter'){ state.filterOpen = !state.filterOpen; renderPanel(); const b = $('#pscroll [data-act="filter"]'); b && b.focus(); }
+  else if (a === 'clear'){ state.filt = defaultFilt(); renderPanel(); }
+  else if (a === 'rail') openRail();
+  else if (a === 'showfig'){ if (!figShown()){ state.fig = t.dataset.k; state.figCmp = false; renderFig(); } setSnap('half'); }
+  else if (a === 'master'){
+    const id = t.dataset.id; if (state.mastered.has(id)) state.mastered.delete(id); else state.mastered.add(id);
     Storage.set('mastered', [...state.mastered]);
-    const tags = $('#card-' + id + ' .tags'), mst = tags && tags.querySelector('.mst');
-    if (t.checked && tags && !mst) tags.insertAdjacentHTML('beforeend', '<span class="tag mst" title="Mastered">✓</span>');
-    if (!t.checked && mst) mst.remove();
-    updateRail();
-  } else if (t.dataset.act === 'cat'){ state.filt.cat = t.value; renderPanel(true); }
+    const on = state.mastered.has(id); t.setAttribute('aria-pressed', String(on)); t.textContent = on ? 'Mastered' : 'Mark as mastered';
+    updateProgress(); announce(on ? 'Marked as mastered' : 'Removed from mastered');
+  }
+  else if (a === 'copy'){
+    const url = location.href.split('#')[0] + '#' + t.dataset.id;
+    const done = () => { t.textContent = 'Link copied'; announce('Link copied'); setTimeout(() => { t.textContent = 'Copy link'; }, 1600); };
+    try { navigator.clipboard.writeText(url).then(done, () => { t.textContent = 'Copy failed'; }); } catch(err){ t.textContent = 'Copy failed'; }
+  }
 });
-panel.addEventListener('keydown', e => {
+pscroll.addEventListener('change', e => {
+  const t = e.target, a = t.dataset.act;
+  if (a === 'urg'){ const u = t.dataset.u; if (t.checked) state.filt.urg.add(u); else if (state.filt.urg.size > 1) state.filt.urg.delete(u); else t.checked = true; }
+  else if (a === 'cat') state.filt.cat = t.value;
+  else if (a === 'hy') state.filt.hy = t.checked;
+  else if (a === 'hideM') state.filt.hideM = t.checked;
+  else return;
+  const id = t.dataset.u ? `[data-act="urg"][data-u="${t.dataset.u}"]` : `[data-act="${a}"]`;
+  renderPanel(); const el = $('#pscroll ' + id); el && el.focus();
+});
+pscroll.addEventListener('toggle', e => { if (e.target.id === 'aboutStruct') state.aboutOpen = e.target.open; }, true);
+pscroll.addEventListener('keydown', e => {
+  const tb = e.target.closest && e.target.closest('[role="tab"]');
+  if (tb && (e.key === 'ArrowRight' || e.key === 'ArrowLeft' || e.key === 'Home' || e.key === 'End')){
+    e.preventDefault(); e.stopPropagation();
+    const i = TABS.findIndex(t => t[0] === tb.dataset.tab), n = TABS.length;
+    const j = e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + n) % n;
+    state.tab = TABS[j][0]; renderPanel(); $('#tab-' + state.tab).focus(); return;
+  }
   const b = e.target.closest && e.target.closest('.band');
-  if (b && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); state.sub = b.dataset.sub; renderPanel(true); }
+  if (b && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); state.sub = b.dataset.sub; renderPanel(); updateHits(); }
 });
-panel.addEventListener('pointerover', e => {
+pscroll.addEventListener('pointerover', e => {
   const t = e.target.closest && e.target.closest('[data-oct]'); if (!t) return;
   const b = OCT[+t.dataset.oct], cap = $('#octcap'); if (cap) cap.innerHTML = `<b>${esc(b.n)}</b> · ${esc(b.t.replace(/^[^:]+:\s*/, ''))}`;
 });
 
-/* =========================================================
-   RAIL & DEPTH
-   ========================================================= */
-const track = $('#track'), thumb = $('#thumb'), tfill = $('#tfill');
-let ROW = 54;
-function renderRail(){
-  $('#stops').innerHTML = STRUCTS.map((s, i) => `<li><button class="stop" data-i="${i}" aria-label="Stop ${i + 1}: ${esc(s.name)}"><span class="stop-n">${i + 1}</span><span class="stop-text"><span class="stop-name">${esc(s.short)}</span><span class="stop-meta" id="meta-${i}"></span></span><span class="stop-alert" id="alert-${i}" hidden></span></button></li>`).join('');
-  $('#ticks').innerHTML = STRUCTS.map((s, i) => `<span class="tick" data-i="${i}" style="--tc:var(--c-${s.id})"></span>`).join('');
-  updateRail();
+/* Breadcrumb */
+function renderCrumbs(){
+  const s = STRUCTS[state.stop]; if (!s) return;
+  const sub = s.subs.find(x => x.id === state.sub), c = state.card && CARD[state.card];
+  const parts = [];
+  parts.push(state.stop === 0 && !sub && !c ? `<span class="cur" aria-current="page">Eye</span>` : `<button type="button" data-cr="eye">Eye</button>`);
+  if (state.view === 'miss'){ parts.push(`<span class="cur" aria-current="page">Can't-miss list</span>`); }
+  else {
+    if (state.stop !== 0 || sub || c) parts.push(sub || c ? `<button type="button" data-cr="stop">${esc(s.short)}</button>` : `<span class="cur" aria-current="page">${esc(s.short)}</span>`);
+    if (sub) parts.push(c ? `<button type="button" data-cr="sub">${esc(sub.name)}</button>` : `<span class="cur" aria-current="page">${esc(sub.name)}</span>`);
+    if (c) parts.push(`<span class="cur" aria-current="page">${esc(c.name)}</span>`);
+  }
+  $('#crumbs').innerHTML = parts.join('<span aria-hidden="true">›</span>');
 }
-function emergentCount(s){ return s.cards.filter(c => c.urg === 'E').length + s.stubList.filter(x => x.em).length; }
-function updateRail(){
-  STRUCTS.forEach((s, i) => {
-    const m = $('#meta-' + i), a = $('#alert-' + i); if (!m) return;
-    if (s.cards.length){
-      const n = s.cards.filter(c => state.mastered.has(c.id)).length;
-      m.innerHTML = `${s.cards.length} cards · ${n} done <span class="bar"><i style="width:${Math.round(100 * n / s.cards.length)}%;background:var(--c-${s.id})"></i></span>`;
-    } else m.textContent = `Outline · ${s.stubList.length} topics`;
-    const ec = emergentCount(s);
-    a.hidden = !(state.canMiss && ec); a.textContent = ec;
-  });
-  $$('.stop').forEach(b => b.classList.toggle('on', +b.dataset.i === state.stop));
-}
-function measureRow(){ const b = $('.stop'); if (b && b.offsetHeight) ROW = b.offsetHeight; $$('.tick').forEach(t => t.style.top = (+t.dataset.i * ROW) + 'px'); }
+$('#crumbs').addEventListener('click', e => {
+  const b = e.target.closest('[data-cr]'); if (!b) return;
+  const k = b.dataset.cr;
+  state.view = null; syncMiss();
+  if (k === 'eye'){ state.card = null; if (state.stop === 0){ state.sub = 'all'; renderPanel(); updateHits(); } else navTo(0, {sub:'all'}); }
+  else if (k === 'stop'){ state.card = null; state.sub = 'all'; if (state.fig && CARD[state.fig]) hideFig(); renderPanel(); updateHits(); setHash(STRUCTS[state.stop].id); }
+  else if (k === 'sub') closeCard();
+});
 
+/* =========================================================
+   RAIL — two-level tree
+   ========================================================= */
+const rail = $('#rail'), tree = $('#tree'), scrim = $('#scrim');
+function renderTree(){
+  tree.innerHTML = STRUCTS.map((s, i) => `<li>
+    <button type="button" class="t-stop" data-i="${i}" aria-expanded="false" aria-current="false"><span class="tick" style="--tc:var(--c-${s.id})" aria-hidden="true"></span><span class="nm">${esc(s.short)}</span><span class="t-em" id="tem-${i}" hidden title="Holds emergent conditions"></span><span class="n">${s.cards.length + s.stubList.length}</span></button>
+    <ul class="t-subs" id="tsubs-${i}" hidden>${s.subs.map(x => `<li><button type="button" class="t-sub" data-i="${i}" data-sub="${x.id}" aria-current="false"><span class="nm">${esc(x.name)}</span><span class="n">${s.cards.filter(c => c.sub === x.id).length + s.stubList.filter(t => t.sub === x.id).length}</span></button></li>`).join('')}</ul>
+  </li>`).join('');
+}
+function updateTree(){
+  STRUCTS.forEach((s, i) => {
+    const on = i === state.stop, b = $(`.t-stop[data-i="${i}"]`); if (!b) return;
+    b.setAttribute('aria-expanded', String(on)); b.setAttribute('aria-current', String(on));
+    $('#tsubs-' + i).hidden = !on;
+    $('#tem-' + i).hidden = !(state.view === 'miss' && s.cards.some(c => c.urg === 'E'));
+  });
+  $$('.t-sub').forEach(b => b.setAttribute('aria-current', String(+b.dataset.i === state.stop && b.dataset.sub === state.sub)));
+}
+tree.addEventListener('click', e => {
+  const sb = e.target.closest('.t-sub'), st = e.target.closest('.t-stop');
+  if (sb){ selectRegion(STRUCTS[+sb.dataset.i].id, sb.dataset.sub); closeRail(); }
+  else if (st){ const i = +st.dataset.i; state.view = null; syncMiss(); if (i === state.stop){ state.card = null; state.sub = 'all'; if (state.fig && CARD[state.fig]) hideFig(); renderPanel(); updateHits(); setHash(STRUCTS[i].id); } else { state.card = null; animateTo(i); } if (!wide()) closeRail(); }
+});
+let railReturn = null;
+function openRail(){ railReturn = document.activeElement; rail.classList.add('open'); scrim.hidden = false; const b = $('.t-stop[aria-current="true"]') || $('.t-stop'); b && b.focus(); }
+function closeRail(){ if (!rail.classList.contains('open')) return; rail.classList.remove('open'); scrim.hidden = true; if (railReturn && railReturn.isConnected) railReturn.focus(); }
+$('#railX').addEventListener('click', closeRail);
+scrim.addEventListener('click', closeRail);
+
+/* =========================================================
+   DEPTH — horizontal scrub, crossfade between layers
+   ========================================================= */
+const track = $('#track'), thumb = $('#thumb'), thumbLbl = $('#thumbLbl'), eye = $('#eye');
 const layers = () => $$('#eye .layer');
-const smooth = x => x * x * (3 - 2 * x);
+function renderTicks(){ $('#ticks').innerHTML = STRUCTS.map((s, i) => `<i style="left:${i / 8 * 100}%"></i>`).join(''); }
+function placeThumb(d){
+  thumb.style.left = (d / 8 * 100) + '%';
+  const tw = track.clientWidth, lw = thumbLbl.offsetWidth, x = d / 8 * tw;
+  let off = -lw / 2; if (x + off < -8) off = -8 - x; if (x + off + lw > tw + 8) off = tw + 8 - x - lw;
+  thumbLbl.style.setProperty('--lx', off + 'px');
+}
 function applyDepth(d){
   d = clamp(d, 0, 8); state.depth = d;
   layers().forEach((g, i) => {
-    const t = d - i, a = Math.abs(t);
-    const op = a >= 1 ? 0 : smooth(1 - a);
-    const sc = t > 0 ? 1 + .42 * t : 1 + .14 * t;
+    const a = Math.abs(d - i), op = a >= 1 ? 0 : 1 - a;
     g.style.opacity = op;
     g.style.visibility = op < .01 ? 'hidden' : 'visible';
     g.style.pointerEvents = a < .5 ? 'auto' : 'none';
-    g.setAttribute('transform', `translate(${CX} ${CY}) scale(${r1(sc * 1000) / 1000}) translate(${-CX} ${-CY})`);
   });
-  thumb.style.top = (d * ROW) + 'px'; tfill.style.height = (d * ROW) + 'px';
-  const i0 = Math.floor(d), i1 = Math.min(8, i0 + 1), fr = d - i0, x = PLANE_X[i0] + (PLANE_X[i1] - PLANE_X[i0]) * fr;
-  const pl = $('#plane'), pd = $('#planeDot'); if (pl){ pl.setAttribute('x1', x); pl.setAttribute('x2', x); pd.setAttribute('cx', x); }
+  placeThumb(d);
   const stop = Math.round(d);
   if (stop !== state.stop) onStop(stop);
 }
@@ -1922,130 +2064,155 @@ function onStop(i){
   const p = pending && pending.target === i ? pending : null;
   if (p) pending = null;
   state.sub = (p && p.sub) || 'all';
-  if (state.fig && FIG[state.fig] && FIG[state.fig].stop !== i) { state.fig = null; state.figCmp = false; }
-  $('#stEyebrow').textContent = `Stop ${i + 1} of 9 · ${s.view}`;
-  $('#stName').textContent = s.name;
-  $('#insetPlane').textContent = s.short;
-  track.setAttribute('aria-valuenow', i + 1); track.setAttribute('aria-valuetext', `${s.name}, stop ${i + 1} of 9`);
-  $$('#sag .sg').forEach(g => g.classList.toggle('on', g.dataset.s === s.id));
-  updateRail(); renderPanel(false); panel.scrollTop = 0; updateHits();
-  renderFig();
-  if (p && p.card) reveal(p.card);
-  else {
-    if (p && p.stub) flashStub(p.stub);
-    if (p && p.fig){ state.fig = p.fig; state.figCmp = false; renderFig(); }
-    setHash(s.id);
-  }
+  if (!(p && p.card)) state.card = null;
+  if (state.fig && FIG[state.fig] && FIG[state.fig].stop !== i){ state.fig = null; state.figCmp = false; }
+  thumbLbl.textContent = `${s.short} · ${i + 1} of 9`;
+  track.setAttribute('aria-valuenow', i + 1); track.setAttribute('aria-valuetext', `${s.name}, ${i + 1} of 9`);
+  placeThumb(state.depth);
+  if (p && p.card){ renderFig(); openCard(p.card, {focus:p.focus}); return; }
+  renderPanel(); pscroll.scrollTop = 0; updateHits(); renderFig();
+  if (p && p.fig){ state.fig = p.fig; state.figCmp = false; renderFig(); }
+  announce(`${s.name}, ${i + 1} of 9`);
+  setHash(s.id);
 }
-function navTo(i, p = {}){ pending = {target:i, ...p}; animateTo(i); }
+function navTo(i, p = {}){ pending = {target:i, ...p}; if (i === state.stop){ const q = pending; pending = null; state.sub = q.sub || 'all'; if (q.card) openCard(q.card, {focus:q.focus}); else { renderPanel(); updateHits(); } return; } animateTo(i); }
 let anim = 0;
 function animateTo(target, done){
   cancelAnimationFrame(anim);
   const from = state.depth; target = clamp(target, 0, 8);
   if (RM || Math.abs(target - from) < .001){ applyDepth(target); done && done(); return; }
-  const dur = 380 + 90 * Math.min(4, Math.abs(target - from)), t0 = performance.now();
-  const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-  const tick = now => { const p = Math.min(1, (now - t0) / dur); applyDepth(from + (target - from) * ease(p)); if (p < 1) anim = requestAnimationFrame(tick); else done && done(); };
+  const dur = 160 + 40 * Math.min(4, Math.abs(target - from)), t0 = performance.now();
+  const tick = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - (1 - p) * (1 - p); applyDepth(from + (target - from) * e); if (p < 1) anim = requestAnimationFrame(tick); else done && done(); };
   anim = requestAnimationFrame(tick);
 }
-function step(n){ animateTo(clamp(state.stop + n, 0, 8)); }
+function step(n){ state.view = null; syncMiss(); animateTo(clamp(state.stop + n, 0, 8)); }
 
-/* Track drag */
 let dragging = false;
-const fromY = y => { const r = track.getBoundingClientRect(); applyDepth((y - r.top) / ROW); };
-track.addEventListener('pointerdown', e => { dragging = true; pending = null; cancelAnimationFrame(anim); track.setPointerCapture(e.pointerId); fromY(e.clientY); });
-track.addEventListener('pointermove', e => { if (dragging) fromY(e.clientY); });
+const fromX = x => { const r = track.getBoundingClientRect(); applyDepth((x - r.left) / r.width * 8); };
+track.addEventListener('pointerdown', e => { dragging = true; pending = null; state.view = null; syncMiss(); cancelAnimationFrame(anim); track.setPointerCapture(e.pointerId); fromX(e.clientX); });
+track.addEventListener('pointermove', e => { if (dragging) fromX(e.clientX); });
 const endDrag = () => { if (!dragging) return; dragging = false; animateTo(Math.round(state.depth)); };
 track.addEventListener('pointerup', endDrag); track.addEventListener('pointercancel', endDrag);
 track.addEventListener('keydown', e => {
   const k = e.key;
-  if (k === 'ArrowDown' || k === 'ArrowRight'){ e.preventDefault(); step(1); }
-  else if (k === 'ArrowUp' || k === 'ArrowLeft'){ e.preventDefault(); step(-1); }
+  if (k === 'ArrowRight' || k === 'ArrowUp'){ e.preventDefault(); step(1); }
+  else if (k === 'ArrowLeft' || k === 'ArrowDown'){ e.preventDefault(); step(-1); }
   else if (k === 'Home'){ e.preventDefault(); animateTo(0); }
   else if (k === 'End'){ e.preventDefault(); animateTo(8); }
 });
-$('#stops').addEventListener('click', e => { const b = e.target.closest('.stop'); if (b) animateTo(+b.dataset.i); });
 
-/* Stage interactions */
-const stage = $('#stage'), tip = $('#tip'), eye = $('#eye');
+/* =========================================================
+   STAGE — diagram regions (pointer and keyboard)
+   ========================================================= */
+const stage = $('#stage'), tip = $('#tip'), eyeWrap = $('#eyeWrap');
 function selectRegion(sid, sub){
   const i = SIDX[sid];
-  if (i !== state.stop) navTo(i, {sub:sub || 'all'});
-  else { state.sub = sub || 'all'; renderPanel(true); updateHits(); const g = sub && $('#grp-' + sub); if (g && panel.scrollHeight > panel.clientHeight + 4) panel.scrollTo({top: Math.max(0, $('#pctrl').offsetTop), behavior: RM ? 'auto' : 'smooth'}); }
+  state.view = null; syncMiss();
+  if (i !== state.stop){ state.card = null; navTo(i, {sub:sub || 'all'}); }
+  else { state.card = null; state.sub = sub || 'all'; if (state.fig && CARD[state.fig]) hideFig(); renderPanel(); updateHits(); pscroll.scrollTop = 0; setHash(STRUCTS[i].id); }
+  if (isPhone()) setSnap('half');
+  const s = STRUCTS[i], x = sub && s.subs.find(u => u.id === sub);
+  if (x) announce(`${s.short}: ${x.name}`);
 }
-eye.addEventListener('click', e => {
-  const h = e.target.closest('.hit'); if (!h) return;
-  if (h.dataset.go) selectRegion(h.dataset.s, null); else selectRegion(h.dataset.s, h.dataset.sub);
-});
+const activateHit = h => { if (h.dataset.go) selectRegion(h.dataset.s, null); else selectRegion(h.dataset.s, h.dataset.sub); };
+eye.addEventListener('click', e => { const h = e.target.closest('.hit'); if (h) activateHit(h); });
+eye.addEventListener('keydown', e => { const h = e.target.closest && e.target.closest('.hit'); if (h && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); activateHit(h); } });
 eye.addEventListener('pointermove', e => {
   const h = e.target.closest('.hit');
-  if (!h){ tip.hidden = true; return; }
-  const r = stage.getBoundingClientRect(), s = STRUCTS[SIDX[h.dataset.s]];
+  if (!h || e.pointerType === 'touch'){ tip.hidden = true; return; }
+  const r = eyeWrap.getBoundingClientRect(), s = STRUCTS[SIDX[h.dataset.s]];
   tip.innerHTML = `${esc(h.dataset.label)}<small>${h.dataset.go ? 'Go to ' + esc(s.short) : esc(s.short)}</small>`;
   tip.style.left = (e.clientX - r.left) + 'px'; tip.style.top = (e.clientY - r.top) + 'px'; tip.hidden = false;
 });
 eye.addEventListener('pointerleave', () => { tip.hidden = true; });
 let wAcc = 0, wLock = 0;
-stage.addEventListener('wheel', e => {
+eyeWrap.addEventListener('wheel', e => {
   if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
   e.preventDefault();
   const now = performance.now(); if (now < wLock) return;
   wAcc += e.deltaY;
-  if (Math.abs(wAcc) > 40){ const dir = wAcc > 0 ? 1 : -1; wAcc = 0; wLock = now + 420; step(dir); }
+  if (Math.abs(wAcc) > 40){ const dir = wAcc > 0 ? 1 : -1; wAcc = 0; wLock = now + 300; step(dir); }
 }, {passive:false});
-$('#sag').addEventListener('click', e => { const g = e.target.closest('.sg'); if (g) selectRegion(g.dataset.s, g.dataset.sub); });
 
 function updateHits(){
   const emSub = new Set(), emStruct = new Set();
-  STRUCTS.forEach(s => {
-    s.cards.forEach(c => { if (c.urg === 'E'){ emSub.add(s.id + ':' + c.sub); emStruct.add(s.id); } });
-    s.stubList.forEach(x => { if (x.em){ emSub.add(s.id + ':' + x.sub); emStruct.add(s.id); } });
-  });
+  STRUCTS.forEach(s => s.cards.forEach(c => { if (c.urg === 'E'){ emSub.add(s.id + ':' + c.sub); emStruct.add(s.id); } }));
+  const cur = STRUCTS[state.stop];
   $$('#eye .hit').forEach(h => {
-    const on = state.canMiss && (h.dataset.sub ? emSub.has(h.dataset.s + ':' + h.dataset.sub) : (h.dataset.go && emStruct.has(h.dataset.s)));
+    const miss = state.view === 'miss';
+    const on = miss && (h.dataset.sub ? emSub.has(h.dataset.s + ':' + h.dataset.sub) : (h.dataset.go && emStruct.has(h.dataset.s)));
     h.classList.toggle('alert', !!on);
-    h.classList.toggle('hl', !state.canMiss && !state.fig && h.dataset.s === STRUCTS[state.stop].id && !!h.dataset.sub && h.dataset.sub === state.sub);
+    h.classList.toggle('hl', !miss && !figShown() && cur && h.dataset.s === cur.id && !!h.dataset.sub && h.dataset.sub === state.sub);
   });
 }
 
-/* Can't-miss */
+/* Can't-miss list (a view in the panel) */
 const missBtn = $('#miss');
-function syncMiss(){ missBtn.setAttribute('aria-pressed', state.canMiss); updateRail(); updateHits(); }
-missBtn.addEventListener('click', () => {
-  state.canMiss = !state.canMiss;
-  if (state.canMiss){ state.savedUrg = new Set(state.filt.urg); state.filt.urg = new Set(['E']); }
-  else state.filt.urg = state.savedUrg && state.savedUrg.size ? state.savedUrg : new Set(['E','U','R']);
-  syncMiss(); renderPanel(true);
-});
-function resetFilters(){ state.filt = defaultFilt(); if (state.canMiss){ state.canMiss = false; syncMiss(); } }
+function syncMiss(){ const on = state.view === 'miss'; missBtn.setAttribute('aria-pressed', String(on)); updateHits(); updateTree(); }
+function toggleMiss(){
+  state.view = state.view === 'miss' ? null : 'miss';
+  syncMiss(); renderPanel(); pscroll.scrollTop = 0; focusTitle();
+  if (isPhone()) setSnap('full');
+  setHash(state.view === 'miss' ? 'cant-miss' : STRUCTS[state.stop].id);
+}
+missBtn.addEventListener('click', toggleMiss);
+$('#missPhone').addEventListener('click', () => { $('#about').close(); toggleMiss(); });
+
+/* Progress */
+function updateProgress(){ const t = `${CARDS.filter(c => state.mastered.has(c.id)).length} / ${totalCards()}`; $('#progN').textContent = t; $('#progN2').textContent = t; }
+
+/* About dialog, phone search */
+const about = $('#about');
+$('#helpBtn').addEventListener('click', () => about.showModal());
+$('#menuBtn').addEventListener('click', () => about.showModal());
+const searchWrap = $('#searchWrap'), searchBtn = $('#searchBtn');
+searchBtn.addEventListener('click', () => { const open = !searchWrap.classList.contains('open'); searchWrap.classList.toggle('open', open); searchBtn.setAttribute('aria-expanded', String(open)); if (open) q.focus(); });
+
+/* =========================================================
+   PHONE — bottom sheet with three snap points
+   ========================================================= */
+let snap = 'half';
+function sheetTops(){
+  const H = innerHeight, top = $('.top').getBoundingClientRect().bottom, sb = stage.getBoundingClientRect().bottom;
+  return {full:top, half:clamp(sb, top + 120, H - 140), peek:H - 96};
+}
+function setSnap(s, animate = true){
+  snap = s;
+  if (!isPhone()){ panel.style.removeProperty('--sheet-top'); return; }
+  panel.classList.toggle('anim', animate && !RM);
+  panel.style.setProperty('--sheet-top', sheetTops()[s] + 'px');
+  panel.dataset.snap = s;
+  $('#grabBtn').setAttribute('aria-label', s === 'full' ? 'Collapse the panel to show the diagram' : 'Expand the panel');
+}
+(() => {
+  const g = $('#grab'); let y0 = 0, t0 = 0, moved = false, on = false;
+  g.addEventListener('pointerdown', e => { if (!isPhone()) return; on = true; moved = false; y0 = e.clientY; t0 = sheetTops()[snap]; panel.classList.remove('anim'); g.setPointerCapture(e.pointerId); });
+  g.addEventListener('pointermove', e => { if (!on) return; const dy = e.clientY - y0; if (Math.abs(dy) > 6) moved = true; if (moved){ const T = sheetTops(); panel.style.setProperty('--sheet-top', clamp(t0 + dy, T.full, T.peek) + 'px'); } });
+  const end = e => {
+    if (!on) return; on = false;
+    if (!moved){ setSnap(snap === 'full' ? 'half' : snap === 'half' ? 'full' : 'half'); return; }
+    const T = sheetTops(), cur = clamp(t0 + e.clientY - y0, T.full, T.peek);
+    const best = Object.entries(T).sort((a, b) => Math.abs(a[1] - cur) - Math.abs(b[1] - cur))[0][0];
+    setSnap(best);
+  };
+  g.addEventListener('pointerup', end); g.addEventListener('pointercancel', end);
+})();
 
 /* =========================================================
    NAVIGATION & ROUTING
    ========================================================= */
-function goCard(id){
+function goCard(id, opts = {}){
   const c = CARD[id]; if (!c) return;
-  if (!passes(c)) resetFilters();
   const i = SIDX[c.s];
-  if (i !== state.stop) navTo(i, {sub:c.sub, card:id});
-  else { if (state.sub !== 'all' && state.sub !== c.sub) state.sub = c.sub; renderPanel(true); updateHits(); reveal(id); }
-}
-function goStub(sid, sub, name, fig){
-  if (!isDefaultFilt()) resetFilters();
-  const i = SIDX[sid];
-  if (i !== state.stop) navTo(i, {sub, stub:name, fig});
-  else { state.sub = sub; renderPanel(true); updateHits(); flashStub(name); if (fig){ state.fig = fig; state.figCmp = false; renderFig(); } }
-}
-function showFig(k){
-  const f = FIG[k]; if (!f) return;
-  if (CARD[k]){ goCard(k); return; }
-  if (f.stop !== state.stop){ goStub(STRUCTS[f.stop].id, f.sub, k.slice(2), k); return; }
-  state.fig = k; state.figCmp = false; renderFig();
+  if (i !== state.stop) navTo(i, {sub:c.sub, card:id, focus:opts.focus});
+  else openCard(id, opts);
 }
 function setHash(h){ try { if (location.hash.slice(1) !== h) history.replaceState(null, '', '#' + h); } catch(e){} }
 function route(h){
   if (!h) return false;
-  if (CARD[h]){ goCard(h); return true; }
-  if (h in SIDX){ animateTo(SIDX[h]); return true; }
+  if (CARD[h]){ goCard(h, {focus:false}); return true; }
+  if (h in SIDX){ state.card = null; animateTo(SIDX[h]); return true; }
+  if (h === 'cant-miss'){ if (state.view !== 'miss') toggleMiss(); return true; }
   return false;
 }
 addEventListener('hashchange', () => route(location.hash.slice(1)));
@@ -2057,11 +2224,10 @@ const INDEX = [];
 STRUCTS.forEach(s => {
   INDEX.push({k:'struct', name:s.name, s:s.id, blob:(s.name + ' ' + s.short).toLowerCase()});
   s.subs.forEach(sub => INDEX.push({k:'sub', name:sub.name, s:s.id, sub:sub.id, path:s.short, blob:(sub.name + ' ' + s.short).toLowerCase()}));
-  s.stubList.forEach(x => INDEX.push({k:'stub', name:x.name, s:s.id, sub:x.sub, em:x.em, path:s.short + ' › ' + s.subs.find(u => u.id === x.sub).name, blob:(x.name + ' ' + s.short).toLowerCase()}));
 });
 CARDS.forEach(c => INDEX.push({k:'card', name:c.name, aka:c.aka || '', id:c.id, s:c.s, sub:c.sub, em:c.urg === 'E',
-  path:STRUCTS[SIDX[c.s]].short + ' › ' + STRUCTS[SIDX[c.s]].subs.find(u => u.id === c.sub).name,
-  blob:[c.name, c.aka, c.hook, c.cat, ...(c.find || []), ...(c.pearls || []), ...(c.work || []), ...(c.trials || []).flat(), ...(c.risk || [])].join(' ').toLowerCase()}));
+  path:STRUCTS[SIDX[c.s]].short + ' › ' + subOf(c).name,
+  blob:[c.name, c.aka, c.hook, c.cat, ...(c.find || []), ...(c.pearls || []), ...(c.work || []), ...(c.trials || []).flat(), ...(c.risk || []), FIG[c.id] ? FIG[c.id].t : ''].join(' ').toLowerCase()}));
 const q = $('#q'), qres = $('#qres');
 let results = [], act = 0;
 function search(str){
@@ -2070,7 +2236,7 @@ function search(str){
   return INDEX.filter(e => toks.every(t => e.blob.includes(t))).map(e => {
     const n = e.name.toLowerCase(), a = (e.aka || '').toLowerCase();
     let sc = n.startsWith(s) ? 100 : n.includes(s) ? 70 : a.includes(s) ? 60 : 20;
-    sc += e.k === 'card' ? 12 : e.k === 'struct' ? 8 : e.k === 'sub' ? 4 : 0;
+    sc += e.k === 'card' ? 12 : e.k === 'struct' ? 8 : 4;
     return {e, sc};
   }).sort((x, y) => y.sc - x.sc || x.e.name.localeCompare(y.e.name)).slice(0, 12).map(x => x.e);
 }
@@ -2081,21 +2247,22 @@ function hl(name, str){
 }
 function renderResults(){
   const v = q.value;
-  if (!v.trim()){ qres.hidden = true; q.setAttribute('aria-expanded', 'false'); return; }
+  if (!v.trim()){ qres.hidden = true; q.setAttribute('aria-expanded', 'false'); q.removeAttribute('aria-activedescendant'); return; }
   results = search(v); act = 0;
-  const KIND = {card:'Card', stub:'Outline', struct:'Structure', sub:'Region'};
+  const KIND = {card:'Condition', struct:'Structure', sub:'Region'};
   qres.innerHTML = results.length ? results.map((e, i) => `<li role="option" id="opt-${i}" data-i="${i}" class="${i === act ? 'act' : ''}" aria-selected="${i === act}">
-    <span class="dot" style="background:var(--c-${e.s})"></span><span class="r-name">${hl(e.name, v)}</span>
-    <span class="r-path">${esc(e.path || 'Depth stop ' + (SIDX[e.s] + 1))}</span><span class="r-kind${e.em ? ' em' : ''}">${e.em ? 'Emergent' : (e.k === 'stub' && FIG['s:' + e.name]) ? 'Drawing' : KIND[e.k]}</span></li>`).join('')
-    : `<li class="none" role="option" aria-disabled="true">No matches. Try a sign, organism or trial name.</li>`;
+    <span class="r-name">${hl(e.name, v)}</span><span class="r-path">${esc(e.path || 'Structure ' + (SIDX[e.s] + 1) + ' of 9')}</span><span class="r-kind${e.em ? ' em' : ''}">${e.em ? 'Emergent' : KIND[e.k]}</span></li>`).join('')
+    : `<li class="none" role="option" aria-disabled="true" aria-selected="false">No matches. Try a sign, organism or trial name.</li>`;
   qres.hidden = false; q.setAttribute('aria-expanded', 'true');
+  if (results.length) q.setAttribute('aria-activedescendant', 'opt-0'); else q.removeAttribute('aria-activedescendant');
 }
-function setAct(i){ if (!results.length) return; act = (i + results.length) % results.length; $$('#qres li').forEach((li, k) => { li.classList.toggle('act', k === act); li.setAttribute('aria-selected', k === act); }); const li = $('#opt-' + act); li && li.scrollIntoView({block:'nearest'}); q.setAttribute('aria-activedescendant', 'opt-' + act); }
+function setAct(i){ if (!results.length) return; act = (i + results.length) % results.length; $$('#qres li').forEach((li, k) => { li.classList.toggle('act', k === act); li.setAttribute('aria-selected', String(k === act)); }); const li = $('#opt-' + act); li && li.scrollIntoView({block:'nearest'}); q.setAttribute('aria-activedescendant', 'opt-' + act); }
 function choose(e){
   if (!e) return;
-  qres.hidden = true; q.setAttribute('aria-expanded', 'false'); q.blur();
+  qres.hidden = true; q.setAttribute('aria-expanded', 'false'); q.value = ''; q.blur();
+  searchWrap.classList.remove('open'); searchBtn.setAttribute('aria-expanded', 'false');
+  state.view = null; syncMiss();
   if (e.k === 'card') goCard(e.id);
-  else if (e.k === 'stub') goStub(e.s, e.sub, e.name, FIG['s:' + e.name] ? 's:' + e.name : null);
   else if (e.k === 'sub') selectRegion(e.s, e.sub);
   else selectRegion(e.s, null);
 }
@@ -2105,23 +2272,27 @@ q.addEventListener('keydown', e => {
   if (e.key === 'ArrowDown'){ e.preventDefault(); setAct(act + 1); }
   else if (e.key === 'ArrowUp'){ e.preventDefault(); setAct(act - 1); }
   else if (e.key === 'Enter'){ e.preventDefault(); choose(results[act]); }
-  else if (e.key === 'Escape'){ e.preventDefault(); if (q.value) { q.value = ''; renderResults(); } else q.blur(); }
+  else if (e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); if (q.value){ q.value = ''; renderResults(); } else { q.blur(); searchWrap.classList.remove('open'); searchBtn.setAttribute('aria-expanded', 'false'); } }
 });
 qres.addEventListener('pointerdown', e => { const li = e.target.closest('li[data-i]'); if (li){ e.preventDefault(); choose(results[+li.dataset.i]); } });
 q.addEventListener('blur', () => setTimeout(() => { qres.hidden = true; q.setAttribute('aria-expanded', 'false'); }, 120));
 
 /* Global keys */
 document.addEventListener('keydown', e => {
+  if (about.open) return;
   const el = document.activeElement, typing = el && /^(INPUT|SELECT|TEXTAREA)$/.test(el.tagName) && el.type !== 'checkbox';
-  if (e.key === '/' && !typing){ e.preventDefault(); q.focus(); q.select(); return; }
+  if (e.key === '/' && !typing){ e.preventDefault(); if (isPhone()){ searchWrap.classList.add('open'); searchBtn.setAttribute('aria-expanded', 'true'); } q.focus(); q.select(); return; }
   if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key === 'Escape'){
-    if (state.fig){ hideFig(); }
-    else if (state.open.size){ $$('#panel .card.open').forEach(c => setCardOpen(c.dataset.id, false)); state.open.clear(); setHash(STRUCTS[state.stop].id); }
-    else if (state.sub !== 'all'){ state.sub = 'all'; renderPanel(true); updateHits(); }
+    if (rail.classList.contains('open')) closeRail();
+    else if (figShown() && CARD[state.fig] !== CARD[state.card]) hideFig();
+    else if (state.view === 'miss'){ state.view = null; syncMiss(); renderPanel(); setHash(STRUCTS[state.stop].id); }
+    else if (state.card) closeCard();
+    else if (figShown()) hideFig();
+    else if (state.sub !== 'all'){ state.sub = 'all'; renderPanel(); updateHits(); }
     return;
   }
-  if (el === track) return;
+  if (el === track || (el && el.getAttribute && el.getAttribute('role') === 'tab')) return;
   if (e.key === 'ArrowRight'){ e.preventDefault(); step(1); }
   else if (e.key === 'ArrowLeft'){ e.preventDefault(); step(-1); }
 });
@@ -2129,11 +2300,17 @@ document.addEventListener('keydown', e => {
 /* =========================================================
    INIT
    ========================================================= */
-buildEye(); buildSag(); renderRail(); measureRow(); layoutLabels();
-const initialHash = location.hash.slice(1);
-applyDepth(1);
-route(initialHash);
-addEventListener('resize', () => { const d = state.depth; measureRow(); applyDepth(d); });
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layoutLabels(); measureRow(); applyDepth(state.depth); });
+buildEye(); renderTree(); renderTicks(); layoutLabels(); updateProgress();
+const initialHash = location.hash.slice(1), c0 = CARD[initialHash];
+const s0 = c0 ? SIDX[c0.s] : (initialHash in SIDX ? SIDX[initialHash] : 1);
+if (c0) pending = {target:s0, sub:c0.sub, card:c0.id, focus:false};
+setSnap('half', false);
+applyDepth(s0);
+if (initialHash === 'cant-miss') toggleMiss();
+let rsz = 0;
+addEventListener('resize', () => { cancelAnimationFrame(rsz); rsz = requestAnimationFrame(() => { layoutLabels(); placeThumb(state.depth); setSnap(snap, false); if (wide()) closeRail(); }); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { layoutLabels(); placeThumb(state.depth); setSnap(snap, false); });
 })();
 </script>
+</body>
+</html>
