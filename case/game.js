@@ -389,18 +389,15 @@
     return out.sort(function (a, b) { return a.localeCompare(b); });
   })();
 
-  function mulberry32(a) {
-    return function () {
-      a |= 0; a = a + 0x6D2B79F5 | 0;
-      var t = Math.imul(a ^ a >>> 15, 1 | a);
-      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-      return ((t ^ t >>> 14) >>> 0) / 4294967296;
-    };
-  }
+  // Daily schedule: append-only. Never reorder or remove ids, or past and current days change.
+  // Any case missing from this list is appended automatically in bank order, so a new case
+  // never reshuffles today's case. Add the id here when you want to pin it to a later day.
+  var SCHEDULE = ["crvo", "aacg", "cmv", "gca", "rb", "iih", "namd", "crao", "csc", "pdr", "rbh", "hsv", "poag", "endo", "rrd",
+    "ted", "horner", "hzo", "acanth", "aau", "pit", "omg", "toxo", "orbcell", "alkali", "ogi", "cn3", "on", "bk"];
   var ORDER = (function () {
-    var idx = CASES.map(function (_, i) { return i; });
-    var r = mulberry32(20261024);
-    for (var i = idx.length - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)); var t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+    var seen = {}, idx = [];
+    SCHEDULE.forEach(function (id) { for (var i = 0; i < CASES.length; i++) if (CASES[i].id === id && !seen[id]) { seen[id] = 1; idx.push(i); } });
+    CASES.forEach(function (c, i) { if (!seen[c.id]) { seen[c.id] = 1; idx.push(i); } });
     return idx;
   })();
 
@@ -415,11 +412,34 @@
     var i = ((n - 1) % ORDER.length + ORDER.length) % ORDER.length;
     return CASES[ORDER[i]];
   }
+  function editDistance(a, b) {
+    var prev = [], cur, i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur = [i];
+      for (j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  // Exact match, or a close typo of a long answer (1 slip for 6-11 letters, 2 for 12+). Short abbreviations must be exact.
+  function isAccepted(caseId, guess) {
+    var n = norm(guess), set = ACCEPT[caseId];
+    if (set[n]) return true;
+    if (n.length < 6) return false;
+    var tol = n.length >= 12 ? 2 : 1;
+    return Object.keys(set).some(function (k) { return k.length >= 6 && Math.abs(k.length - n.length) <= tol && editDistance(n, k) <= tol; });
+  }
   function byId(id) { for (var i = 0; i < CASES.length; i++) if (CASES[i].id === id) return CASES[i]; return null; }
 
   var STORE_KEY = "ophtho-cotd-v1";
   function loadHistory() {
-    try { var raw = localStorage.getItem(STORE_KEY); var h = raw ? JSON.parse(raw) : {}; return (h && typeof h === "object") ? h : {}; }
+    try { var raw = localStorage.getItem(STORE_KEY); var h = raw ? JSON.parse(raw) : {}; if (!h || typeof h !== "object") return {};
+      Object.keys(h).forEach(function (k) {
+        var g = h[k];
+        if (!g || typeof g.caseId !== "string" || !(g.revealed >= 1 && g.revealed <= 6) || !Array.isArray(g.steps)) delete h[k];
+      });
+      return h; }
     catch (e) { return {}; }
   }
   function saveHistory(h) { try { localStorage.setItem(STORE_KEY, JSON.stringify(h)); } catch (e) { /* storage unavailable; keep in memory */ } }
@@ -434,7 +454,7 @@
     practice: null,
     lastRevealed: 0
   };
-  if (S.daily.caseId !== dailyCase(today).id) S.daily = { caseId: dailyCase(today).id, revealed: 1, steps: [], done: false, solved: false };
+  if (!byId(S.daily.caseId)) S.daily = { caseId: dailyCase(today).id, revealed: 1, steps: [], done: false, solved: false };
 
   function game() { return S.mode === "daily" ? S.daily : S.practice; }
   function persist() {
@@ -575,7 +595,7 @@
     var guess = (text != null ? text : el.input.value).trim();
     if (!guess) { setFeedback("Type a diagnosis first.", true); el.input.focus(); return; }
     hideSugg();
-    if (ACCEPT[g.caseId][norm(guess)]) {
+    if (isAccepted(g.caseId, guess)) {
       g.steps.push("right");
       el.input.value = "";
       setFeedback("");
@@ -586,7 +606,7 @@
     el.input.value = "";
     if (g.revealed >= 6) { setFeedback(""); finish(false); return; }
     g.revealed++;
-    setFeedback("Not “" + guess + "”. Clue " + g.revealed + " is open.", true);
+    setFeedback("Not “" + guess + "”. Clue " + g.revealed + " is open.", true, newClueText());
     persist();
     render();
     el.input.focus();
@@ -596,12 +616,17 @@
     var g = game(); if (g.done || g.revealed >= 6) return;
     g.steps.push("skip");
     g.revealed++;
-    setFeedback("Clue " + g.revealed + " is open.");
+    setFeedback("Clue " + g.revealed + " is open.", false, newClueText());
     persist();
     render();
   }
 
-  function setFeedback(msg, bad) { el.feedback.textContent = msg; el.feedback.className = "feedback" + (bad ? " bad" : ""); }
+  // extra is read by screen readers only, so the new clue is announced along with "Clue N is open"
+  function setFeedback(msg, bad, extra) {
+    el.feedback.innerHTML = esc(msg) + (extra ? ' <span class="vh">' + esc(extra) + "</span>" : "");
+    el.feedback.className = "feedback" + (bad ? " bad" : "");
+  }
+  function newClueText() { var g = game(), cl = byId(g.caseId).clues[g.revealed - 1]; return cl[0] + ": " + cl[1]; }
 
   function startPractice() {
     var pool = CASES.filter(function (c) { return c.id !== S.daily.caseId && (!S.practice || c.id !== S.practice.caseId); });
@@ -615,7 +640,7 @@
 
   function shareText() {
     var g = game();
-    var grid = g.steps.map(function (s) { return s === "right" ? "🟩" : s === "wrong" ? "🟥" : "⬜"; }).join("");
+    var grid = g.steps.map(function (s) { return s === "right" ? "✓" : s === "wrong" ? "×" : "–"; }).join(" ");
     var head = S.mode === "daily" ? "Ophtho Case of the Day #" + dayNumber(today) : "Ophtho Case of the Day · practice";
     return head + "\n" + grid + "  " + (g.solved ? g.revealed + "/6 clues" : "X/6") + "\nhttps://seanleels.com/case/";
   }
@@ -683,7 +708,10 @@
     } catch (e) { fallback(); }
   });
   setInterval(function () {
-    if (dateKey(new Date()) !== TODAY && !el.input.value) { location.reload(); return; }
+    if (dateKey(new Date()) !== TODAY) {
+      if (!el.input.value) { location.reload(); return; }
+      setFeedback("A new daily case is open. Finish this guess, then reload the page to play it.", true);
+    }
     if (S.mode === "daily" && S.daily.done) el.nextCase.textContent = nextCaseText();
   }, 30000);
 
