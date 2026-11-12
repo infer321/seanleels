@@ -1,0 +1,94 @@
+/* Eye Atlas tokens. Source of truth: eye-atlas/DESIGN.md. Pages use these names, never raw hex.
+   Contrast figures in DESIGN.md were computed (WCAG 2.x), not eyeballed. */
+:root{
+  /* Surfaces and text */
+  --bg:#f1f3f6;            /* page ground */
+  --surface:#ffffff;       /* panels, sheet, cards you can open */
+  --surface-2:#f6f8fa;     /* selected row, quiet fill */
+  --stage:#e7ebef;         /* figure area ground */
+  --ink:#17202b;           /* headings, body */
+  --ink-2:#2e3a47;         /* secondary body */
+  --muted:#5d6977;         /* meta text, placeholders (lowest text color) */
+  --faint:#8a96a3;         /* NON-TEXT ONLY: ticks, inactive dots, leader lines */
+  --line:#dce2e8;          /* hairlines */
+  --line-2:#c8d0d8;        /* input and control borders */
+
+  /* Accent: buttons and links only */
+  --accent:#294d8c;
+  --accent-ink:#ffffff;
+  --accent-soft:#e2e9f5;   /* selected tab or chip ground */
+
+  /* Triage (always paired with a word, never color alone) */
+  --emergent:#b02a21;  --emergent-soft:#f9e9e7;
+  --urgent:#8a5608;    --urgent-soft:#f6ecd9;
+  --routine:#2f6646;   --routine-soft:#e4f0e8;
+
+  /* Per-structure ticks (non-text, 3:1 against --surface not required; decorative locator only) */
+  --c-adnexa:#c4687a; --c-cornea:#2a92bd; --c-ac:#5672cc; --c-iris:#a26e2c; --c-lens:#b8921a;
+  --c-vitreous:#8669c0; --c-retina:#d7552f; --c-choroid:#a12b47; --c-optic:#378868;
+
+  /* Figure plate: style B, tonal plate (decided Nov 11, 2026). Fixed in every theme: plates are printed figures. */
+  --plate:#fbfaf7;             /* ground behind every figure */
+  --field:#eef0f2; --field-ring:#d3d9df;
+  --fig-outline:#5a4a42;
+  --fig-fundus:#d6a07e;  --fig-pole:#deb08f;  --fig-macula:#c98f70;  --fig-fovea:#a8674f;
+  --fig-disc:#f1dcbc;    --fig-cup:#f8edd8;
+  --fig-artery:#a8483a;  --fig-vein:#6e2a26;
+  --fig-finding:#8f2620;       /* blood, the cherry-red spot */
+  --fig-pale:#efe2d2;          /* ischemic whitening, edema, exudate ground */
+  --fig-label:#2e3a47;   --fig-leader:#8a96a3;
+
+  /* Plate tissue tones for the other stops (set Nov 11, 2026 in the same muted range; for Sean's review) */
+  --skin:#e6d3c4; --skin-2:#dcc4b2; --skin-line:#b79a88; --brow:#7d6658; --lash:#3d322d;
+  --sclera:#f6f3ec; --conj-v:#c07a74; --limbus:#7a614b; --beam:#ffffff;
+  --iris:#94704f; --iris-dark:#5f4530; --iris-light:#bd9a74; --pupil:#1e1b19; --ruff:#4a3526;
+  --lens-cortex:#eadfb8; --lens-nucleus:#d4bc80; --lens-capsule:#9c8650;
+  --chor-bg:#7a3a36; --chor-v1:#c97a62; --chor-v2:#b0644f; --rpe:#6b5040; --rpe-line:#9a7a62; --rpe-curl:#82634f;
+  --ppa:#e8c7a6; --disc-zoom:#efd5b4; --lamina:#8c8070;
+  /* Structure tints inside a plate: the per-structure colors, desaturated (same rule as the drawing pass) */
+  --pl-adnexa:#b37985; --pl-cornea:#4686a1; --pl-ac:#6c7eb6; --pl-iris:#8c6b42; --pl-lens:#9a8238;
+  --pl-vitreous:#8c7aaf; --pl-retina:#b7664f; --pl-choroid:#8b4153; --pl-optic:#467965;
+  /* Legacy names used by the layer builders, mapped to the plate tones */
+  --fovea:var(--fig-fovea); --macula:var(--fig-macula); --disc:var(--fig-disc); --cup:var(--fig-cup);
+  --artery:var(--fig-artery); --vein:var(--fig-vein);
+
+  /* Type */
+  --display:"Spectral",Georgia,"Times New Roman",serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --text-xs:12px;  --text-sm:14px;  --text-md:16px;  --text-lg:18px;
+  --text-xl:22px;  --text-2xl:28px; --text-3xl:36px;
+  --lh-tight:1.2;  --lh-ui:1.4;     --lh-read:1.55;
+
+  /* Space: 4px scale shared with seanleels.com */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px;
+  --space-7:32px; --space-8:40px; --space-9:48px; --space-10:64px; --space-11:80px; --space-12:96px; --space-13:128px;
+
+  /* Shape, motion, layout */
+  --radius:2px;
+  --tap:44px;
+  --fade:160ms;            /* the only transition: opacity or color, ease-out */
+  --rail-w:248px; --panel-w:440px; --header-h:56px; --sheet-peek:96px;
+}
+
+@media (prefers-color-scheme: dark){ :root{
+  --bg:#0d1116; --surface:#141a21; --surface-2:#19212a; --stage:#0a0e12;
+  --ink:#e3e8ee; --ink-2:#c3ccd6; --muted:#97a3b0; --faint:#6b7785;
+  --line:#242e39; --line-2:#334050;
+  --accent:#8db0ee; --accent-ink:#0d1116; --accent-soft:#1c2a40;
+  --emergent:#f06a5d; --emergent-soft:#3a1b18;
+  --urgent:#e3a54b;   --urgent-soft:#33260f;
+  --routine:#6cc08d;  --routine-soft:#15301f;
+  --c-adnexa:#e48c9b; --c-cornea:#52b8e2; --c-ac:#8199f0; --c-iris:#d29b53; --c-lens:#e2c048;
+  --c-vitreous:#aa92e6; --c-retina:#f27b56; --c-choroid:#dc5a77; --c-optic:#5db68f;
+  /* Figures keep their plate colors in dark mode; the plate sits on a light --fig-paper card. */
+  color-scheme:dark;
+}}
+
+@media print{ :root{
+  --bg:#ffffff; --surface:#ffffff; --surface-2:#f6f8fa; --stage:#ffffff;
+  --ink:#17202b; --ink-2:#2e3a47; --muted:#5d6977; --line:#dce2e8; --line-2:#c8d0d8;
+  --accent:#294d8c; --accent-ink:#ffffff; --accent-soft:#e2e9f5;
+}}
+
+@media (prefers-reduced-motion: reduce){ :root{ --fade:1ms; } }
