@@ -14,7 +14,7 @@ These rules are for whoever restyles the 221 existing drawings. **Restyle throug
 6. **Dashes are reserved.** A dashed vessel means segmented blood column (boxcarring). A dotted outline means "extent of an area that has no real edge" (edema, whitening). Dashes never mean "style".
 7. **Findings are the darkest or palest thing in the plate.** Blood and the cherry-red spot use `--fig-finding`. Ischemia, edema and exudate use `--fig-pale` in one or two flat steps. The eye should land on the finding first.
 8. **Soft edges are drawn as two flat steps**, never as blur. Example: the swollen disc is a 30-unit circle in a darker tone under a 25-unit circle in a lighter tone.
-9. **Labels.** Public Sans, `--fig-label`, 11px or larger as rendered at every viewport, sentence case, at most four per figure. Leader lines are straight, never cross each other, and end on the structure. Labels sit outside the field.
+9. **Labels.** Public Sans, `--fig-label`, 11px or larger as rendered at every viewport, sentence case, at most four per figure (a layer cross-section may label each layer, up to six). Leader lines are straight, never cross each other, and end on the structure. Labels sit outside the field.
 10. **Every figure has a caption and alt text.** Caption: the condition, the view (for example "fundus, right eye"), and "Schematic, not a clinical photograph." Alt text names the findings shown.
 
 ## Tokens (light; figures keep these in dark mode on a light plate)
@@ -42,6 +42,15 @@ Tissue tones for the other stops (skin, sclera, iris, lens, choroid, RPE and the
 - The layers use tokens. The 221 pathology drawings still contain raw hex in their source (about 200 distinct values). Every drawing passes through one `plate()` step at render time that strips blur filters and desaturates each color (saturation × 0.62, capped at 0.52; lightness unchanged; near-whites kept). This enforces the palette range for all of them at once.
 - Follow-up: replace the raw hex in the drawing source with `--fig-*` tokens, one helper at a time, then retire the `plate()` step. Until then, rule 2 is met at render time but not in source.
 - Specular highlights, drop shadows and the zoom-in depth transition are gone; depth changes crossfade.
+
+## Added Nov 13, 2026
+
+- **Cross-section plates** for cornea, anterior chamber and angle, lens, and choroid (`xsCornea`, `xsAC`, `xsLens`, `xsChoroid`). Same tokens and line weights as the front views. They are marked "not to scale". Band heights are chosen for legibility, not measured. **For Sean's review:** proportions and label wording.
+- **Finding labels.** 29 of the 221 finding drawings have one to three labels (`FLBL`): every emergent card whose finding sits at a fixed place, plus corneal abrasion. Findings drawn as scattered random dots are not labelled, because a leader cannot be guaranteed to land on one. The rest still need labels.
+- **Anatomy labels are hidden, not dimmed,** while a finding is shown.
+- **Choroid front view.** Each vortex ampulla now collects thin, curved tributaries from the posterior side in one rotational sense, in place of thick spokes in every direction. Ampulla positions (near the equator, one per quadrant) are unchanged, so the 17 choroid finding drawings still line up.
+- **Optic nerve front view.** The central vessels now leave the nasal side of the cup as one trunk each and divide on the disc.
+- **Adnexa.** Four labels in place of six, none crossing. The lower lid and bulbar conjunctiva keep their regions and hover names.
 
 ## How to apply it to the existing code
 
