@@ -245,6 +245,14 @@ kbd{font:400 var(--text-xs)/1 var(--mono);border:1px solid var(--line-2);border-
 .fsec li::marker{color:var(--faint)}
 .fsec p{margin:0;color:var(--ink-2);max-width:68ch}
 .trial b{font-weight:600;color:var(--ink)}
+.cite button{border:0;background:none;min-width:24px;min-height:24px;padding:0;color:var(--accent);font:400 var(--text-xs) var(--mono)}
+.cite button:hover{text-decoration:underline}
+.srcs ol{margin:0;padding-left:var(--space-5);color:var(--ink-2);font-size:var(--text-sm);line-height:var(--lh-read)}
+.srcs li{margin:0 0 var(--space-3);max-width:68ch}
+.srcs li.at{background:var(--surface-2)}
+.src-ids{display:flex;flex-wrap:wrap;gap:var(--space-1) var(--space-3);margin-top:2px;font-size:var(--text-xs);color:var(--muted)}
+.src-ids a{overflow-wrap:anywhere}
+.src-note{font-size:var(--text-sm);color:var(--muted)!important}
 .xrefs{display:flex;flex-wrap:wrap;gap:var(--space-2)}
 .xref{display:inline-flex;align-items:center;min-height:32px;padding:0 var(--space-2);border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);color:var(--ink-2);font-size:var(--text-sm);line-height:1.3;text-align:left}
 button.xref{color:var(--accent);cursor:pointer}
@@ -2009,12 +2017,24 @@ const subOf = c => STRUCTS[SIDX[c.s]].subs.find(u => u.id === c.sub);
 const totalCards = () => CARDS.length;
 
 function xref(x){ const c = findCard(x); return c ? `<button type="button" class="xref" data-act="goto" data-id="${c.id}">${esc(c.name)}</button>` : `<span class="xref">${esc(x)}</span>`; }
+const DATE_FMT = d => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d || ''); return m ? `${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[2] - 1]} ${+m[3]}, ${m[1]}` : ''; };
+/* Evidence tab: numbered source list. Only sources that were opened and checked are stored on a card (CARD-SCHEMA.md). */
+function sourcesHTML(c){
+  const S = c.sources || [];
+  if (!S.length) return `<section class="fsec"><h2>Sources</h2><p>Not yet added. The trial summaries and figures on this card have not been checked against their sources.</p></section>`;
+  const items = S.map((x, i) => `<li id="src-${i + 1}">${x.authors ? esc(x.authors) + ' ' : ''}${esc(x.title)}. ${x.journal ? `<i>${esc(x.journal)}</i>. ` : ''}${x.year}.
+    <span class="src-ids">${x.pmid ? `<a class="mono" href="https://pubmed.ncbi.nlm.nih.gov/${esc(x.pmid)}/" target="_blank" rel="noopener">PMID ${esc(x.pmid)} ↗</a>` : ''}${x.doi ? `<a class="mono" href="https://doi.org/${esc(x.doi)}" target="_blank" rel="noopener">doi:${esc(x.doi)} ↗</a>` : ''}${x.checked ? `<span>Checked ${DATE_FMT(x.checked)}</span>` : ''}</span></li>`).join('');
+  return `<section class="fsec srcs"><h2>Sources</h2><ol>${items}</ol><p class="src-note">Trial summaries were checked against the PubMed abstract of each source. The other lines on this card have not been source-checked yet.</p></section>`;
+}
+let refs = null;
 function fieldHTML(key, v){
   if (!v || (Array.isArray(v) && !v.length)) return '';
   let body;
   if (key === 'ddx') body = `<div class="xrefs">${v.map(xref).join('')}</div>`;
   else if (key === 'comp') body = `<div class="xrefs">${v.map(xref).join('')}</div>`;
-  else if (key === 'trials') body = `<ul>${v.map(([n, t]) => `<li class="trial"><b>${esc(n)}.</b> ${esc(t)}</li>`).join('')}</ul>`;
+  else if (key === 'trials') body = `<ul>${v.map(t => Array.isArray(t)
+    ? `<li class="trial"><b>${esc(t[0])}.</b> ${esc(t[1])}</li>`
+    : `<li class="trial"><b>${esc(t.name)}.</b> ${esc(t.finding)}${refs ? ` <span class="cite">${[].concat(t.source || []).map(id => refs[id] ? `<button type="button" data-act="src" data-n="${refs[id]}" aria-label="Go to source ${refs[id]}">[${refs[id]}]</button>` : '').join('')}</span>` : ''}</li>`).join('')}</ul>`;
   else body = `<ul>${v.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
   return `<section class="fsec"><h2>${LABELS[key]}</h2>${body}</section>`;
 }
@@ -2084,8 +2104,9 @@ function renderDetail(c){
   const s = STRUCTS[SIDX[c.s]], sub = subOf(c), m = state.mastered.has(c.id);
   const nSub = s.cards.filter(x => x.sub === c.sub).length;
   const tab = state.tab || 'snap', T = TABS.find(t => t[0] === tab);
+  refs = c.sources && c.sources.length ? Object.fromEntries(c.sources.map((x, i) => [x.id, i + 1])) : null;
   let body = T[2].map(k => fieldHTML(k, c[k])).join('');
-  if (tab === 'evid') body += `<section class="fsec"><h2>Sources</h2><p>Not yet added. The trial summaries and figures on this card have not been checked against their sources.</p></section>`;
+  if (tab === 'evid') body += sourcesHTML(c);
   if (!body) body = '<p class="muted">Nothing recorded for this section yet.</p>';
   pscroll.innerHTML = `
     <div class="d-head">
@@ -2099,7 +2120,7 @@ function renderDetail(c){
     <div class="tabs" role="tablist" aria-label="Card sections">${TABS.map(([id, name]) => `<button type="button" role="tab" id="tab-${id}" aria-controls="tp" aria-selected="${id === tab}" tabindex="${id === tab ? 0 : -1}" data-act="tab" data-tab="${id}">${name}</button>`).join('')}</div>
     <div class="d-body" role="tabpanel" id="tp" aria-labelledby="tab-${tab}">${body}</div>
     <div class="d-foot">
-      <div class="d-status"><span class="badge b-draft">Draft</span><span>Not yet reviewed by an ophthalmologist · Updated Nov 2026 · <a href="mailto:slee0339@usc.edu?subject=${encodeURIComponent('Eye Atlas error: ' + c.id)}">Report an error</a></span></div>
+      <div class="d-status"><span class="badge b-draft">Draft</span><span>Not yet reviewed by an ophthalmologist · Updated ${c.updated ? DATE_FMT(c.updated) : 'Nov 2026'} · <a href="mailto:slee0339@usc.edu?subject=${encodeURIComponent('Eye Atlas error: ' + c.id)}">Report an error</a></span></div>
       <div class="d-actions">
         <button type="button" class="btn primary" data-act="master" data-id="${c.id}" aria-pressed="${m}">${m ? 'Mastered' : 'Mark as mastered'}</button>
         <button type="button" class="btn" data-act="copy" data-id="${c.id}">Copy link</button>
@@ -2161,6 +2182,7 @@ pscroll.addEventListener('click', e => {
   else if (a === 'filter'){ state.filterOpen = !state.filterOpen; renderPanel(); const b = $('#pscroll [data-act="filter"]'); b && b.focus(); }
   else if (a === 'clear'){ state.filt = defaultFilt(); renderPanel(); }
   else if (a === 'rail') openRail();
+  else if (a === 'src'){ const li = $('#src-' + t.dataset.n); if (li){ $$('.srcs li.at').forEach(x => x.classList.remove('at')); li.classList.add('at'); li.tabIndex = -1; li.scrollIntoView({block:'nearest'}); li.focus({preventScroll:true}); } }
   else if (a === 'showfig'){ if (!figShown()){ state.fig = t.dataset.k; state.figCmp = false; renderFig(); } setSnap('half'); }
   else if (a === 'master'){
     const id = t.dataset.id; if (state.mastered.has(id)) state.mastered.delete(id); else state.mastered.add(id);
