@@ -1,6 +1,6 @@
 # Eye Atlas · card schema (v2)
 
-Last updated: Nov 11, 2026. This is the contract for every condition card. The 238 existing cards use v1 (the fields marked "existing"). v2 adds sources, review status and dates. **No field is ever filled from memory: a source is added only after it has been opened and checked.**
+Last updated: Nov 13, 2026. This is the contract for every condition card. The 238 existing cards use v1 (the fields marked "existing"). v2 adds sources, review status and dates. **No field is ever filled from memory: a source is added only after it has been opened and checked.**
 
 ## TypeScript shape
 
@@ -25,7 +25,7 @@ interface Source {
 interface Trial {             // replaces v1 [name, finding] tuples
   name: string;               // "EAGLE"
   finding: string;            // one sentence, in our words
-  source: string;             // Source.id — required
+  source: string | string[];  // Source.id, or a list when one line covers several trials — required
 }
 
 interface Card {
@@ -86,6 +86,13 @@ interface Card {
 5. **Our words.** Summaries are written fresh. At most one short quote per source.
 6. **Dates are absolute** (`2026-11-11`), never "recently".
 7. **Validation.** A script fails the build if any card lacks `sources` while its status is above `unreviewed`, any `Trial.source` or `cites` id doesn't resolve, any `ddx` id is misspelled against the id list, or any id is duplicated.
+
+## Progress (Nov 13, 2026)
+
+- **Retina: all 28 trial lines on 14 cards now use v2** (`data/retina.js`): each has `sources` with a PMID (and DOI where PubMed lists one) and `checked: 2026-11-13`.
+- **What "checked" means here:** the sentence was compared with the **PubMed abstract**, not the full paper. Eleven sentences were reworded because the abstract did not support the old wording (AREDS, AREDS2, MARINA/ANCHOR, CATT/IVAN, ETDRS, DCCT/UKPDS, PANORAMA, CVOS, SCORE, BRAVO, BEAT-ROP). Anything that needs the full text is still open.
+- These cards stay `unreviewed` (DRAFT): their other numbered lines have no cites yet.
+- Trial links in the card anchor to the source list (`#src-N`). The validation script in rule 7 is not written yet.
 
 ## VERIFY.md (one row per card)
 
