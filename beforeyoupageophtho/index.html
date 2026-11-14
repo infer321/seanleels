@@ -33,15 +33,15 @@
       </div>
     </div>
     <nav class="tabs" role="tablist" aria-label="Sections">
-      <button type="button" role="tab" data-tab="workup" aria-selected="true">Workup &amp; page</button>
-      <button type="button" role="tab" data-tab="tools" aria-selected="false">Bedside tools</button>
-      <button type="button" role="tab" data-tab="guide" aria-selected="false">Field guide</button>
+      <button type="button" role="tab" id="t-workup" aria-controls="tab-workup" data-tab="workup" aria-selected="true">Workup &amp; page</button>
+      <button type="button" role="tab" id="t-tools" aria-controls="tab-tools" data-tab="tools" aria-selected="false" tabindex="-1">Bedside tools</button>
+      <button type="button" role="tab" id="t-guide" aria-controls="tab-guide" data-tab="guide" aria-selected="false" tabindex="-1">Field guide</button>
     </nav>
   </header>
 
   <main id="main">
     <noscript><p class="noscript">The worksheet and bedside tools need JavaScript. The field guide below works without it.</p></noscript>
-    <section id="tab-workup" role="tabpanel">
+    <section id="tab-workup" role="tabpanel" aria-labelledby="t-workup">
       <div class="layout">
         <div id="form"></div>
         <aside class="out" id="out" aria-label="Consult page">
@@ -57,21 +57,22 @@
             <div id="missingWrap"></div>
           </div>
           <div class="sec">
-            <div class="otabs" role="tablist" aria-label="Message format">
-              <button type="button" role="tab" data-out="full" aria-selected="true">Secure chat / note</button>
-              <button type="button" role="tab" data-out="pager" aria-selected="false">Pager</button>
+            <div class="otabs" role="group" aria-label="Message format">
+              <button type="button" data-out="full" aria-pressed="true">Secure chat / note</button>
+              <button type="button" data-out="pager" aria-pressed="false">Pager</button>
             </div>
-            <pre class="msg" id="msg" tabindex="0" aria-live="polite"></pre>
+            <pre class="msg" id="msg" tabindex="0" role="group" aria-label="Consult page text"></pre>
             <div class="msg-foot">
               <span class="count" id="count"></span>
               <button type="button" class="copy" id="copyBtn">Copy page</button>
+              <span class="vh" id="copyStatus" role="status"></span>
             </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section id="tab-tools" role="tabpanel" hidden>
+    <section id="tab-tools" role="tabpanel" aria-labelledby="t-tools" hidden>
       <div class="tgrid">
         <div class="tool span2">
           <h2>Calibrate your screen first</h2>
@@ -135,7 +136,7 @@
       </div>
     </section>
 
-    <section id="tab-guide" role="tabpanel" hidden>
+    <section id="tab-guide" role="tabpanel" aria-labelledby="t-guide" hidden>
       <div class="ggrid">
         <div class="gcard">
           <h2>Don’t, before ophtho sees them</h2>
@@ -191,7 +192,8 @@
             <div class="cap"><i style="background:#C8A97E"></i><span><b>Tan</b>Anti-infectives</span></div>
             <div class="cap"><i style="background:#9AA0A6"></i><span><b>Gray</b>NSAIDs</span></div>
             <div class="cap"><i style="background:#1F6B3A"></i><span><b>Dark green</b>Miotics (pilocarpine)</span></div>
-            <div class="cap"><i style="background:linear-gradient(90deg,#F3D23B 50%,#2D6CDF 50%)"></i><span><b>Yellow or blue</b>Beta-blockers (by strength)</span></div>
+            <div class="cap"><i style="background:#F3D23B"></i><span><b>Yellow</b>Beta-blockers</span></div>
+            <div class="cap"><i style="background:#1F3A8A"></i><span><b>Dark blue</b>Beta-blocker combinations</span></div>
             <div class="cap"><i style="background:#7B4BB7"></i><span><b>Purple</b>Adrenergic agonists</span></div>
             <div class="cap"><i style="background:#F08A24"></i><span><b>Orange</b>Carbonic anhydrase inhibitors</span></div>
             <div class="cap"><i style="background:#2BB7B3"></i><span><b>Turquoise</b>Prostaglandin analogues</span></div>
@@ -202,10 +204,10 @@
         <div class="gcard span2">
           <h2>Sources</h2>
           <ol class="srcs">
-            <li>Mac Grory B, et al. Management of central retinal artery occlusion: a scientific statement from the American Heart Association. <i>Stroke</i>. 2021. <a href="https://doi.org/10.1161/STR.0000000000000366" target="_blank" rel="noopener">doi.org/10.1161/STR.0000000000000366</a></li>
-            <li>Pappas PG, et al. Clinical practice guideline for the management of candidiasis: 2016 update by the IDSA. <i>Clin Infect Dis</i>. 2016. <a href="https://doi.org/10.1093/cid/civ933" target="_blank" rel="noopener">doi.org/10.1093/cid/civ933</a></li>
-            <li>Hollands H, et al. Acute-onset floaters and flashes: is this patient at risk for retinal detachment? <i>JAMA</i>. 2009. <a href="https://doi.org/10.1001/jama.2009.1714" target="_blank" rel="noopener">doi.org/10.1001/jama.2009.1714</a></li>
-            <li>American Academy of Ophthalmology. Color codes for topical ocular medications (policy statement).</li>
+            <li>Mac Grory B, et al. Management of central retinal artery occlusion: a scientific statement from the American Heart Association. <i>Stroke</i>. 2021. <a href="https://doi.org/10.1161/STR.0000000000000366" target="_blank" rel="noopener">doi.org/10.1161/STR.0000000000000366 ↗</a></li>
+            <li>Pappas PG, et al. Clinical practice guideline for the management of candidiasis: 2016 update by the IDSA. <i>Clin Infect Dis</i>. 2016. <a href="https://doi.org/10.1093/cid/civ933" target="_blank" rel="noopener">doi.org/10.1093/cid/civ933 ↗</a></li>
+            <li>Hollands H, et al. Acute-onset floaters and flashes: is this patient at risk for retinal detachment? <i>JAMA</i>. 2009. <a href="https://doi.org/10.1001/jama.2009.1714" target="_blank" rel="noopener">doi.org/10.1001/jama.2009.1714 ↗</a></li>
+            <li>American Academy of Ophthalmology. Color codes for topical ocular medications (policy statement). <a href="https://www.aao.org/about/policies/color-codes-topical-ocular-medications" target="_blank" rel="noopener">aao.org/about/policies/color-codes-topical-ocular-medications ↗</a></li>
           </ol>
         </div>
       </div>
@@ -215,7 +217,7 @@
   <footer>
     <p><b>Educational aid for clinicians.</b> Not a diagnostic device and not a substitute for clinical judgment, your institution’s protocols, or a conversation with your ophthalmology team.</p>
     <p>Nothing you type is saved or sent anywhere. Only your screen calibration is remembered on this device.</p>
-    <p>Content last updated Oct 2026 · Built by <a href="https://seanleels.com/">Sean Lee</a></p>
+    <p>Content last updated Nov 2026 · Built by <a href="https://seanleels.com/">Sean Lee</a></p>
   </footer>
 </div>
 
