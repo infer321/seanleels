@@ -3,8 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Eye Atlas</title>
+<title>Eye Atlas · eye anatomy to pathology</title>
+<meta name="robots" content="noindex">
 <link rel="canonical" href="https://atlas.seanleels.com/">
+<link rel="icon" href="https://seanleels.com/images/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="https://seanleels.com/images/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Eye Atlas · eye anatomy to pathology">
+<meta property="og:description" content="A study tool linking eye anatomy to the conditions found in each structure. Draft content, not yet clinically reviewed.">
+<meta property="og:url" content="https://atlas.seanleels.com/">
+<meta property="og:image" content="https://atlas.seanleels.com/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Eye Atlas showing a schematic fundus beside a list of retinal conditions.">
+<meta name="twitter:card" content="summary_large_image">
 <script>if(/(^|\.)seanleels\.com$/.test(location.hostname)&&location.hostname!=='atlas.seanleels.com'){location.replace('https://atlas.seanleels.com/'+location.search+location.hash);}</script>
 <meta name="description" content="Eye Atlas: an interactive study tool linking eye anatomy to the conditions found in each structure. Draft content.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -206,6 +218,7 @@ kbd{font:400 var(--text-xs)/1 var(--mono);border:1px solid var(--line-2);border-
 .row-hook{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .stub{padding:var(--space-3) var(--space-6);color:var(--ink-2)}
 .empty{padding:var(--space-8) var(--space-6);text-align:center;color:var(--muted)}
+.notice{margin:0;padding:var(--space-3) var(--space-6);border-bottom:1px solid var(--line);background:var(--surface-2);color:var(--ink-2)}
 
 /* Card detail */
 .d-head{padding:var(--space-4) var(--space-6) 0;display:flex;flex-direction:column;gap:var(--space-2)}
@@ -1841,7 +1854,9 @@ function renderList(){
   if (!shown) groups = `<div class="empty">Nothing here matches these filters.<br><button type="button" class="btn quiet" data-act="clear">Clear filters</button></div>`;
   const nf = activeFilters();
   const curSub = s.subs.find(x => x.id === state.sub);
+  const missing = state.missing; state.missing = null;
   pscroll.innerHTML = `
+    ${missing ? `<p class="notice" role="status">Nothing found at <span class="mono">#${esc(missing.slice(0, 60))}</span>. The card may have been renamed. Showing ${esc(s.name)}; use search to find it.</p>` : ''}
     <div class="p-head">
       <h1 class="p-title" id="pTitle" tabindex="-1">${esc(s.name)}</h1>
       <p class="p-view">${esc(s.view)}</p>
@@ -2213,7 +2228,15 @@ function route(h){
   if (CARD[h]){ goCard(h, {focus:false}); return true; }
   if (h in SIDX){ state.card = null; animateTo(SIDX[h]); return true; }
   if (h === 'cant-miss'){ if (state.view !== 'miss') toggleMiss(); return true; }
-  return false;
+  notFound(h); return false;
+}
+/* A link to a card or structure that does not exist: say so instead of leaving the last view up */
+function notFound(h){
+  state.view = null; syncMiss(); state.card = null; state.fig = null; state.figCmp = false; state.sub = 'all'; state.missing = h;
+  renderPanel(); renderFig(); pscroll.scrollTop = 0;
+  if (isPhone()) setSnap('half');
+  announce('Nothing found at that link. Showing ' + STRUCTS[state.stop].name + '.');
+  setHash(STRUCTS[state.stop].id);
 }
 addEventListener('hashchange', () => route(location.hash.slice(1)));
 
@@ -2304,6 +2327,7 @@ buildEye(); renderTree(); renderTicks(); layoutLabels(); updateProgress();
 const initialHash = location.hash.slice(1), c0 = CARD[initialHash];
 const s0 = c0 ? SIDX[c0.s] : (initialHash in SIDX ? SIDX[initialHash] : 1);
 if (c0) pending = {target:s0, sub:c0.sub, card:c0.id, focus:false};
+if (initialHash && !c0 && !(initialHash in SIDX) && initialHash !== 'cant-miss') state.missing = initialHash;
 setSnap('half', false);
 applyDepth(s0);
 if (initialHash === 'cant-miss') toggleMiss();
