@@ -1,6 +1,6 @@
 # Eye Atlas · DESIGN.md
 
-Last updated: Nov 11, 2026. Status: **built Nov 11, 2026**; open items at the end.
+Last updated: Nov 13, 2026. Status: **built Nov 11, 2026**; open items at the end.
 Tokens live in `eye-atlas/tokens.css`. Pages use token names, never raw hex (SVG illustrations are the exception).
 
 Basis: this direction comes from the existing code, the Nov 11 audit and the seanleels.com house rules. The UXKIN library is not connected, so it is **not** based on comparing real reference sites.
@@ -121,12 +121,26 @@ Fixed for any style:
 - Real images are a separate tier with a visible credit and licence. Never mixed into a schematic.
 - Dashes, color and line weight each mean one thing (see DRAWING-RULES.md).
 
+## Added Nov 13, 2026 (after the Nov 13 audit)
+
+Basis: the Nov 13 audit of the live site and the rules above. The UXKIN library is not connected, so none of this is based on comparing reference sites. Each item reuses an existing component; no new colors, fonts or radii.
+
+- **View switch.** Stops that are taught in section (cornea, anterior chamber, lens, choroid) get a second plate. The switch is the existing segmented control in the caption row: "Front view" / "Cross-section". It is hidden while a finding is shown, because finding drawings are front-view only; the Finding / Normal switch takes its place. Cross-section bands are buttons that pick the sub-region, the same as front-view regions.
+- **Finding labels.** When a finding is shown the anatomy labels are hidden, not dimmed (12% opacity text is unreadable clutter). The finding gets one to three labels in the same label style, leader ending on the finding. A figure with no finding labels yet shows none; the caption still names the finding.
+- **Figure in the phone card.** On a phone the card starts with its figure: a plate across the card, at most 240px tall, on `--plate`, with the caption line under it. It replaces the "Show figure" button. It is a picture only (`role="img"` with the caption as its name); the interactive diagram stays in the stage.
+- **Plate size on desktop.** The plate is never taller than its figure. The figure area is square, capped by the column width and the space available; spare height stays as stage ground under the depth scrub.
+- **Touch targets.** Below 1024px every rail row, region chip, tab and cross-reference is 44px tall. The depth track and the sheet handle keep their look but have a 44px hit area.
+- **Search.** Common abbreviations (GCA, CRAO, PVD…) expand to their full terms. Search also reads presentation, management and differential text. A name or abbreviation match always ranks above a body-text match.
+- **Source list (Evidence tab).** One entry per source: authors, title, journal and year in body text; PMID in mono; the DOI as a link with ↗; then "Checked" and an absolute date. A trial line shows its sources as bracketed numbers that match the list. A card with no checked source keeps the "Not yet added" line.
+- **Self-test.** A view in the panel, opened from the list header ("Self-test", secondary button). The plate shows a finding with its caption withheld. Four answers are condition rows without triage word or hook. After answering: the right row carries the word "Correct" in `--routine`, a wrong pick carries "Your answer" in `--emergent` (never color alone), the caption appears, and one primary "Next" button moves on. The running score is mono. Questions come only from cards that have a figure, and the four answers come from the same structure.
+- **Without JavaScript.** The page shows the nine structures and their sub-regions as a plain ruled list with their one-line descriptions, and says the diagram and cards need JavaScript. Card text is not duplicated into the page (that needs a build step, which is an open decision).
+
 ## Accessibility
 
 - Text ≥ 4.5:1 in light and dark (computed above). Controls ≥ 44px on touch.
 - The diagram is operable by keyboard: each region is focusable with a name; the "Structures" list is the equivalent non-visual path.
 - Works at 375px with no sideways scroll.
-- JavaScript off: **not met yet.** The page shows a one-line notice; a static structure list and card text are a follow-up.
+- JavaScript off: the page shows the structure list and descriptions (see "Added Nov 13, 2026"). Card text without JavaScript is **not met yet**.
 - Short landscape phones (height ≤ 500px) hide the diagram labels, which would be unreadable; the Structures list replaces them.
 - Depth changes and card opens are announced through one polite live region.
 

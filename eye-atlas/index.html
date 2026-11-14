@@ -121,7 +121,7 @@ kbd{font:400 var(--text-xs)/1 var(--mono);border:1px solid var(--line-2);border-
 .eye-wrap{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:var(--space-4);background:var(--plate)}
 #eye{width:100%;height:100%;display:block;user-select:none;-webkit-user-select:none}
 /* Plates are fixed light figures: structure tints use the muted plate set in every theme */
-#eye,.mini{--c-adnexa:var(--pl-adnexa);--c-cornea:var(--pl-cornea);--c-ac:var(--pl-ac);--c-iris:var(--pl-iris);--c-lens:var(--pl-lens);--c-vitreous:var(--pl-vitreous);--c-retina:var(--pl-retina);--c-choroid:var(--pl-choroid);--c-optic:var(--pl-optic)}
+#eye,.mini,.d-fig{--c-adnexa:var(--pl-adnexa);--c-cornea:var(--pl-cornea);--c-ac:var(--pl-ac);--c-iris:var(--pl-iris);--c-lens:var(--pl-lens);--c-vitreous:var(--pl-vitreous);--c-retina:var(--pl-retina);--c-choroid:var(--pl-choroid);--c-optic:var(--pl-optic)}
 .figcap{flex:none;display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-4);border-top:1px solid var(--line)}
 .figcap-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .figcap-txt b{font-weight:600}
@@ -243,6 +243,10 @@ kbd{font:400 var(--text-xs)/1 var(--mono);border:1px solid var(--line-2);border-
 .xref{display:inline-flex;align-items:center;min-height:32px;padding:0 var(--space-2);border:1px solid var(--line-2);border-radius:var(--radius);background:var(--surface);color:var(--ink-2);font-size:var(--text-sm);line-height:1.3;text-align:left}
 button.xref{color:var(--accent);cursor:pointer}
 button.xref:hover{border-color:var(--accent)}
+.d-fig{margin:var(--space-2) 0 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.d-fig svg{display:block;width:100%;height:auto;max-height:240px;background:var(--plate)}
+.d-fig figcaption{display:flex;flex-direction:column;gap:2px;padding:var(--space-2) var(--space-3);border-top:1px solid var(--line);font-size:var(--text-sm);color:var(--ink-2)}
+.d-fig small{font-size:var(--text-xs);color:var(--muted)}
 .d-foot{position:sticky;bottom:0;z-index:4;background:var(--surface);border-top:1px solid var(--line);padding:var(--space-3) var(--space-6) max(var(--space-3),env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:var(--space-3)}
 .d-status{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--muted)}
 .d-actions{display:flex;flex-wrap:wrap;gap:var(--space-3)}
@@ -258,6 +262,11 @@ dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
 .dlg dd{margin:0;color:var(--ink-2)}
 .dlg-actions{display:flex;flex-wrap:wrap;gap:var(--space-3)}
 
+/* ≥ 1024: the plate is never taller than its figure; spare height stays as stage ground */
+@media (min-width:1024px){
+  .plate{flex:0 1 auto}
+  .eye-wrap{flex:0 1 auto;aspect-ratio:1;max-height:calc(100dvh - var(--header-h) - 240px);min-height:280px}
+}
 /* ≤ 1279: narrower columns */
 @media (max-width:1279px){ .main{grid-template-columns:224px minmax(0,1fr) 400px} .lbl text,.ui-txt{font-size:17px} }
 
@@ -279,6 +288,17 @@ dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
   .top .progress{display:none}
   .brand{min-width:0}
   .only-narrow{display:inline-flex}
+  /* touch sizes: every row, chip, tab and cross-reference is 44px */
+  .t-stop,.t-sub{height:var(--tap)}
+  .rail-x{width:var(--tap);height:var(--tap)}
+  .regions .btn,.p-ctrl-row .btn{height:var(--tap)}
+  .tabs button{height:var(--tap)}
+  .xref,.back,.chk{min-height:var(--tap)}
+  .fsel select{height:var(--tap)}
+  .track{height:var(--tap)}
+  .track-line{top:21px} .ticks i{top:17px} .thumb{top:14px}
+  .thumb-lbl{bottom:32px}
+  .foot a{display:inline-flex;align-items:center;min-height:var(--tap)}
 }
 /* Short landscape phones: give the figure the height; labels would be unreadable, the Structures list replaces them */
 @media (max-width:1023px) and (max-height:500px){ .stage{height:auto} .eye-wrap{height:78vh;flex:none} .plate{flex:none} .lbl{display:none} }
@@ -306,22 +326,21 @@ dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
   .figcap-txt span{display:none}
   .seg button{height:44px}
   .figcap .btn.icon{width:44px;height:44px}
-  .depth{padding:var(--space-7) var(--space-4) 0}
-  .thumb{width:24px;height:24px;margin-left:-12px;top:0}
-  .thumb-lbl{bottom:28px}
+  .depth{padding:var(--space-6) var(--space-4) 0}
+  .thumb{width:24px;height:24px;margin-left:-12px;top:10px}
+  .thumb-lbl{bottom:38px}
   .lbl text{font-size:19px}
   .ui-txt{font-size:19px}
   .panel{position:fixed;z-index:30;left:0;right:0;bottom:0;top:var(--sheet-top,55dvh);border-top:1px solid var(--line-2);border-left:0}
   .panel.anim{transition:top var(--fade) ease-out}
   .grab{display:flex;flex:none;justify-content:center;touch-action:none}
-  .grab button{width:100%;height:28px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;touch-action:none}
+  .grab button{width:100%;height:var(--tap);margin-bottom:calc(-1 * var(--space-4));padding-bottom:var(--space-4);border:0;background:transparent;display:flex;align-items:center;justify-content:center;touch-action:none}
   .grab button span{width:36px;height:4px;border-radius:2px;background:var(--line-2)}
   .p-scroll{overflow:auto;overscroll-behavior:contain}
   .p-head{padding:0 var(--space-4) var(--space-2)}
   .p-title{font-size:var(--text-xl)}
   .p-ctrl{padding:var(--space-1) var(--space-2) var(--space-2) var(--space-4)}
   .p-ctrl-row .btn{height:44px}
-  .regions .btn{height:36px}
   .grp-h,.grp-desc{padding-left:var(--space-4);padding-right:var(--space-4)}
   .row{padding:var(--space-3) var(--space-4)}
   .d-head{padding:0 var(--space-4)}
@@ -354,7 +373,7 @@ dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
     <div class="search" id="searchWrap" role="search">
       <div class="search-box">
         <svg class="s-ico" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
-        <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search conditions and signs" aria-label="Search conditions and signs" aria-controls="qres" aria-expanded="false" aria-autocomplete="list" role="combobox">
+        <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search conditions, signs, abbreviations" aria-label="Search conditions, signs and abbreviations" aria-controls="qres" aria-expanded="false" aria-autocomplete="list" role="combobox">
         <kbd class="hide-phone" aria-hidden="true">/</kbd>
       </div>
       <ul class="results" id="qres" role="listbox" aria-label="Search results" hidden></ul>
@@ -1696,6 +1715,20 @@ function renderFig(){
   eye.classList.toggle('figon', figShown() && !state.figCmp);
   updateCaption(); syncFigMarks(); updateHits();
 }
+/* A still copy of a finding figure for the phone card: picture only, no regions or anatomy labels */
+const LAYER_FN = () => [layerAdnexa, layerCornea, layerAC, layerIris, layerLens, layerVitreous, layerRetina, layerChoroid, layerOptic];
+function figStatic(id){
+  const f = FIG[id]; if (!f) return '';
+  let base = '', over = '';
+  try {
+    base = LAYER_FN()[f.stop]().replace(/<path class="hit[^>]*\/>/g, '').replace(/<g class="lbl[\s\S]*?<\/g>/g, '').replace(/<text[^>]*class="ui-txt"[^>]*>[^<]*<\/text>/g, '');
+    over = f.d();
+  } catch(e){ console.error(e); return ''; }
+  const defs = $('#eye defs').outerHTML;
+  const svg = plate(defs + base + over).replace(/\bid="([\w-]+)"/g, 'id="$1-s"').replace(/url\(#([\w-]+)\)/g, 'url(#$1-s)');
+  const cap = `${figName(id)}: ${f.t}. ${f.v}.`;
+  return `<figure class="d-fig"><svg viewBox="88 88 464 464" role="img" aria-label="${esc(cap)}">${svg}</svg><figcaption><span>${esc(f.t)}</span><small>${esc(f.v)} · Schematic, not a clinical photograph.</small></figcaption></figure>`;
+}
 function hideFig(){ state.fig = null; state.figCmp = false; renderFig(); }
 function setCmp(v){
   state.figCmp = v;
@@ -1889,7 +1922,7 @@ function renderDetail(c){
       <h1 class="d-title" id="dTitle" tabindex="-1">${esc(c.name)}</h1>
       ${c.aka ? `<p class="d-aka">Also called ${esc(c.aka)}</p>` : ''}
       <p class="d-hook">${esc(c.hook)}</p>
-      ${FIG[c.id] ? `<div class="only-phone"><button type="button" class="btn" data-act="showfig" data-k="${c.id}">Show figure</button></div>` : ''}
+      ${FIG[c.id] && isPhone() ? figStatic(c.id) : ''}
     </div>
     <div class="tabs" role="tablist" aria-label="Card sections">${TABS.map(([id, name]) => `<button type="button" role="tab" id="tab-${id}" aria-controls="tp" aria-selected="${id === tab}" tabindex="${id === tab ? 0 : -1}" data-act="tab" data-tab="${id}">${name}</button>`).join('')}</div>
     <div class="d-body" role="tabpanel" id="tp" aria-labelledby="tab-${tab}">${body}</div>
@@ -2250,15 +2283,30 @@ STRUCTS.forEach(s => {
 });
 CARDS.forEach(c => INDEX.push({k:'card', name:c.name, aka:c.aka || '', id:c.id, s:c.s, sub:c.sub, em:c.urg === 'E',
   path:STRUCTS[SIDX[c.s]].short + ' › ' + subOf(c).name,
-  blob:[c.name, c.aka, c.hook, c.cat, ...(c.find || []), ...(c.pearls || []), ...(c.work || []), ...(c.trials || []).flat(), ...(c.risk || []), FIG[c.id] ? FIG[c.id].t : ''].join(' ').toLowerCase()}));
+  head:[c.name, c.aka, c.hook].join(' ').toLowerCase(),
+  blob:[c.name, c.aka, c.hook, c.cat, ...(c.find || []), ...(c.pres || []), ...(c.pearls || []), ...(c.work || []), ...(c.mgmt || []), ...(c.comp || []), ...(c.ddx || []).map(x => { const d = findCard(x); return d ? d.name : x; }), ...(c.trials || []).map(t => Array.isArray(t) ? t.join(' ') : t.name + ' ' + t.finding), ...(c.risk || []), FIG[c.id] ? FIG[c.id].t : ''].join(' ').toLowerCase()}));
+/* Abbreviations people type. Each expands to the words used on the cards; these are spellings, not clinical claims. */
+const ABBR = {
+  gca:'giant cell arteritis', aaion:'arteritic aion', aion:'aion', naion:'naion', crao:'central retinal artery occlusion', brao:'branch retinal artery occlusion',
+  crvo:'crvo', brvo:'brvo', pvd:'posterior vitreous detachment', rd:'retinal detachment', rrd:'rhegmatogenous', trd:'tractional', amd:'amd', armd:'amd', namd:'neovascular amd',
+  cnv:'choroidal neovascular', csc:'central serous', cscr:'central serous', csr:'central serous', dme:'diabetic macular edema', dr:'diabetic retinopathy', npdr:'npdr', pdr:'proliferative diabetic',
+  cme:'cme', erm:'epiretinal membrane', fthm:'macular hole', rp:'retinitis pigmentosa', rop:'retinopathy of prematurity', cmv:'cmv', arn:'acute retinal necrosis', porn:'progressive outer retinal necrosis',
+  vkh:'vogt-koyanagi-harada', iih:'idiopathic intracranial hypertension', on:'optic neuritis', lhon:'leber', rapd:'rapd', poag:'primary open-angle', pacg:'angle closure', aacg:'acute angle closure', acg:'angle closure',
+  nvg:'neovascular glaucoma', pxf:'pseudoexfoliation', pex:'pseudoexfoliation', pds:'pigment dispersion', ice:'iridocorneal endothelial', hsv:'hsv', hzo:'herpes zoster ophthalmicus', vzv:'zoster',
+  puk:'peripheral ulcerative keratitis', kcn:'keratoconus', ebmd:'epithelial basement membrane', rce:'recurrent corneal erosion', fecd:'fuchs', pbk:'bullous keratopathy', ded:'dry eye', mgd:'mgd',
+  slk:'superior limbic', ekc:'epidemic keratoconjunctivitis', gpc:'giant papillary', ossn:'ocular surface squamous', bcc:'basal cell', scc:'squamous cell', ted:'thyroid eye disease', tao:'thyroid eye disease',
+  nldo:'nasolacrimal duct obstruction', iofb:'intraocular foreign body', ogi:'open globe', psc:'posterior subcapsular', pco:'posterior capsular opacification', tass:'toxic anterior segment', ifis:'floppy iris',
+  vh:'vitreous hemorrhage', pvr:'proliferative vitreoretinopathy', chrpe:'chrpe', pcv:'polypoidal', mactel:'macular telangiectasia', cws:'cotton wool', iop:'pressure', ac:'anterior chamber', kp:'keratic precipitates' };
+const termHit = (blob, t) => blob.includes(t) || (ABBR[t] !== undefined && blob.includes(ABBR[t]));
 const q = $('#q'), qres = $('#qres');
 let results = [], act = 0;
 function search(str){
   const s = str.trim().toLowerCase(); if (!s) return [];
   const toks = s.split(/\s+/);
-  return INDEX.filter(e => toks.every(t => e.blob.includes(t))).map(e => {
-    const n = e.name.toLowerCase(), a = (e.aka || '').toLowerCase();
-    let sc = n.startsWith(s) ? 100 : n.includes(s) ? 70 : a.includes(s) ? 60 : 20;
+  return INDEX.filter(e => toks.every(t => termHit(e.blob, t))).map(e => {
+    const n = e.name.toLowerCase(), a = (e.aka || '').toLowerCase(), full = ABBR[s];
+    /* name beats abbreviation-in-name beats also-called beats hook beats body text */
+    let sc = n.startsWith(s) ? 100 : n.includes(s) ? 70 : (full && n.includes(full)) ? 66 : a.includes(s) || (full && a.includes(full)) ? 60 : toks.every(t => termHit(n, t)) ? 56 : (e.head && toks.every(t => termHit(e.head, t))) ? 40 : 20;
     sc += e.k === 'card' ? 12 : e.k === 'struct' ? 8 : 4;
     return {e, sc};
   }).sort((x, y) => y.sc - x.sc || x.e.name.localeCompare(y.e.name)).slice(0, 12).map(x => x.e);
@@ -2275,7 +2323,7 @@ function renderResults(){
   const KIND = {card:'Condition', struct:'Structure', sub:'Region'};
   qres.innerHTML = results.length ? results.map((e, i) => `<li role="option" id="opt-${i}" data-i="${i}" class="${i === act ? 'act' : ''}" aria-selected="${i === act}">
     <span class="r-name">${hl(e.name, v)}</span><span class="r-path">${esc(e.path || 'Structure ' + (SIDX[e.s] + 1) + ' of 9')}</span><span class="r-kind${e.em ? ' em' : ''}">${e.em ? 'Emergent' : KIND[e.k]}</span></li>`).join('')
-    : `<li class="none" role="option" aria-disabled="true" aria-selected="false">No matches. Try a sign, organism or trial name.</li>`;
+    : `<li class="none" role="option" aria-disabled="true" aria-selected="false">No matches. Try a sign, symptom, organism or trial name.</li>`;
   qres.hidden = false; q.setAttribute('aria-expanded', 'true');
   if (results.length) q.setAttribute('aria-activedescendant', 'opt-0'); else q.removeAttribute('aria-activedescendant');
 }
