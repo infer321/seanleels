@@ -224,6 +224,18 @@ kbd{font:400 var(--text-xs)/1 var(--mono);border:1px solid var(--line-2);border-
 .row-hook{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
 .stub{padding:var(--space-3) var(--space-6);color:var(--ink-2)}
 .empty{padding:var(--space-8) var(--space-6);text-align:center;color:var(--muted)}
+.p-test{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2) var(--space-3);padding-top:var(--space-3);font-size:var(--text-xs)}
+.t-score{margin:0;color:var(--muted)} .t-score .mono{color:var(--ink-2);font-size:var(--text-xs)}
+.t-rows{margin-top:var(--space-4)}
+.t-row{min-height:52px;justify-content:center}
+.t-row[aria-disabled="true"]{cursor:default}
+.t-row[aria-disabled="true"]:hover{background:transparent}
+.t-mark{font-size:var(--text-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.t-mark.ok{color:var(--routine)} .t-mark.no{color:var(--emergent)}
+.t-after{padding:var(--space-4) var(--space-6) var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);font-size:var(--text-md);line-height:var(--lh-read)}
+.t-after p{margin:0;color:var(--ink-2);max-width:68ch}
+.t-after b{color:var(--ink);font-weight:600}
+#eye.asking .lbl.fl{opacity:0}
 .notice{margin:0;padding:var(--space-3) var(--space-6);border-bottom:1px solid var(--line);background:var(--surface-2);color:var(--ink-2)}
 
 /* Card detail */
@@ -367,6 +379,8 @@ dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
   .d-body{padding:var(--space-4)}
   .d-foot{position:static;padding:var(--space-3) var(--space-4) max(var(--space-4),env(safe-area-inset-bottom))}
   .d-actions .btn{height:44px}
+  .p-test .btn{height:44px}
+  .t-after{padding:var(--space-4)}
   .back{min-height:44px}
   .xref{min-height:44px}
 }
@@ -468,14 +482,35 @@ dialog::backdrop{background:color-mix(in srgb,var(--ink) 40%,transparent)}
       <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Move one structure deeper or shallower</dd>
       <dt><kbd>/</kbd></dt><dd>Search</dd>
       <dt><kbd>Tab</kbd> <kbd>Enter</kbd></dt><dd>Move between regions of the diagram and open one</dd>
-      <dt><kbd>Esc</kbd></dt><dd>Close the drawing, then the card, then the region</dd>
+      <dt><kbd>Esc</kbd></dt><dd>Close the drawing, then the card, then the region; leave the self-test</dd>
     </dl>
     <p><a href="https://seanleels.com">seanleels.com ↗</a> · <a href="mailto:slee0339@usc.edu?subject=Eye%20Atlas%20feedback">Send feedback</a></p>
     <form method="dialog" class="dlg-actions"><button class="btn primary">Close</button></form>
   </div>
 </dialog>
 
-<noscript><p style="padding:16px">Eye Atlas needs JavaScript to draw the eye and list conditions.</p></noscript>
+<noscript>
+<!-- Shown only without JavaScript. Generated from STRUCTS (names and one-line descriptions); update it when STRUCTS changes. -->
+<style>.app{display:none} .nojs{max-width:720px;margin:0 auto;padding:var(--space-6) var(--space-4);font-size:var(--text-md);line-height:var(--lh-read)} .nojs h1{margin:0 0 var(--space-2);font:600 var(--text-2xl)/var(--lh-tight) var(--display)} .nojs h2{margin:var(--space-7) 0 var(--space-2);font-size:var(--text-lg);font-weight:600} .nojs p{margin:0 0 var(--space-3);color:var(--ink-2)} .nojs ol{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)} .nojs ol>li{padding:var(--space-4) 0;border-bottom:1px solid var(--line)} .nojs ul{margin:var(--space-2) 0 0;padding-left:var(--space-5);color:var(--ink-2)} .nojs li li{margin:var(--space-1) 0} .nojs b{font-weight:600;color:var(--ink)} .nojs a{text-decoration:underline}</style>
+<main class="nojs">
+  <h1>Eye Atlas</h1>
+  <p>A study tool by Sean Lee that links eye anatomy to the conditions found in each structure. The diagram and the condition cards need JavaScript, which is turned off in this browser. The nine structures and their regions are listed below, front to back.</p>
+  <p>Draft content, not yet reviewed by an ophthalmologist. Educational, not medical advice. Stores no patient data.</p>
+  <h2>Structures</h2>
+  <ol>
+    <li><b>Lids, adnexa &amp; conjunctiva</b><ul><li><b>Eyelids.</b> Skin, orbicularis, tarsal plate with meibomian glands, levator aponeurosis and Müller muscle. The gray line marks the muscle of Riolan at the lid margin.</li><li><b>Lacrimal system.</b> Main gland in the superotemporal orbit. Drainage: puncta → canaliculi → common canaliculus → sac → nasolacrimal duct → inferior meatus (valve of Hasner).</li><li><b>Conjunctiva.</b> Nonkeratinized epithelium with goblet cells: palpebral, forniceal and bulbar parts. Limbal stem cells sit at its junction with the cornea.</li><li><b>Episclera &amp; sclera.</b> Vascular episclera over dense collagenous sclera. Sclera is thinnest just behind the rectus insertions (about 0.3 mm).</li></ul></li>
+    <li><b>Cornea</b><ul><li><b>Epithelium.</b> Nonkeratinized stratified squamous, 5–7 cell layers (~50 µm). Renews every 7–10 days from limbal stem cells and anchors to its basement membrane by hemidesmosomes.</li><li><b>Bowman layer.</b> Acellular condensation of the anterior stroma (8–12 µm). It does not regenerate, so anything that breaches it heals with a scar.</li><li><b>Stroma.</b> About 90% of corneal thickness. Regularly spaced type I collagen lamellae and keratocytes keep it transparent; it swells when the endothelial pump fails.</li><li><b>Descemet membrane.</b> Basement membrane of the endothelium. Thickens with age (≈3 µm at birth, 10+ µm in adults). Copper (KF ring) deposits here and guttae form on it.</li><li><b>Endothelium.</b> Single layer of hexagonal cells with Na⁺/K⁺-ATPase pumps. It does not divide in vivo; the risk of decompensation rises below roughly 500–700 cells/mm².</li></ul></li>
+    <li><b>Anterior chamber &amp; angle</b><ul><li><b>Chamber &amp; aqueous.</b> Clear aqueous behind an intact blood–aqueous barrier. Cells, flare, blood or pus here are always pathologic.</li><li><b>Angle &amp; outflow.</b> Gonioscopy, posterior to anterior: ciliary body band, scleral spur, trabecular meshwork, Schwalbe line. Conventional (trabecular → Schlemm canal) and uveoscleral outflow.</li></ul></li>
+    <li><b>Iris, pupil &amp; ciliary body</b><ul><li><b>Iris stroma &amp; pigment epithelium.</b> Loose stroma with melanocytes and vessels over a two-layer posterior pigment epithelium. Collarette divides the pupillary and ciliary zones.</li><li><b>Pupil &amp; iris muscles.</b> Sphincter at the pupillary margin, dilator arranged radially. The pupillary ruff is the posterior pigment epithelium wrapping forward.</li><li><b>Ciliary body.</b> Pars plicata (ciliary processes, aqueous production) and pars plana (flat and relatively avascular, the usual entry for vitrectomy and injections).</li></ul></li>
+    <li><b>Lens &amp; zonules</b><ul><li><b>Capsule.</b> Basement membrane of the lens epithelium; thickest anteriorly and thinnest at the posterior pole.</li><li><b>Cortex.</b> Younger lens fibers surrounding the nucleus; spoke-like opacities here are cortical cataract.</li><li><b>Nucleus.</b> The oldest, central fibers, including the embryonic and fetal nuclei bounded by the Y sutures.</li><li><b>Zonules.</b> Fibrillin-rich fibers running from the ciliary processes to the lens equator. Weak or broken zonules cause lens subluxation.</li></ul></li>
+    <li><b>Vitreous</b><ul><li><b>Vitreous body.</b> Collagen–hyaluronan gel that liquefies (synchysis) and collapses (syneresis) with age.</li><li><b>Vitreous base.</b> Band straddling the ora serrata where vitreous is permanently bonded to retina and pars plana.</li><li><b>Posterior hyaloid &amp; interface.</b> The posterior cortical vitreous. Its separation (PVD) or abnormal adhesion to the macula drives vitreomacular disease.</li><li><b>Cloquet canal.</b> Remnant of the hyaloid artery path from disc to lens, a source of developmental remnants.</li></ul></li>
+    <li><b>Retina</b><ul><li><b>Macula &amp; fovea.</b> Xanthophyll-rich central retina; the foveola contains only cones and has no inner retinal layers or vessels.</li><li><b>Retinal vasculature.</b> Central retinal artery and vein with superior and inferior arcades; tight-junction endothelium forms the inner blood–retina barrier.</li><li><b>Peripheral retina.</b> From the equator to the ora serrata, where most tears, lattice and schisis occur.</li><li><b>Diffuse &amp; multifocal.</b> Infectious, inflammatory, inherited and neoplastic disease that does not stay in one region.</li></ul></li>
+    <li><b>Choroid &amp; RPE</b><ul><li><b>Choroid &amp; vessels.</b> Haller (large) and Sattler (medium) vessel layers above the choriocapillaris. Vortex veins exit near the equator in each quadrant.</li><li><b>RPE &amp; Bruch membrane.</b> Pigmented monolayer on a five-layer Bruch membrane; drusen, detachments and neovascular membranes form here.</li><li><b>Suprachoroidal space.</b> Potential space between choroid and sclera that fills with fluid or blood in choroidal detachments.</li></ul></li>
+    <li><b>Optic nerve head</b><ul><li><b>Cup &amp; lamina cribrosa.</b> Central depression free of axons; the lamina pores are visible in its floor when the cup is large.</li><li><b>Neuroretinal rim.</b> The axon-bearing tissue between cup and disc margin; normally thickest Inferiorly, then Superiorly, Nasally, Temporally.</li><li><b>Central retinal vessels.</b> Central retinal artery and vein emerge from the nasal cup and branch on the disc surface.</li><li><b>Peripapillary RNFL.</b> Nerve fiber bundles converging on the disc; the striations are most visible superiorly and inferiorly.</li><li><b>Retrobulbar nerve.</b> Orbital, canalicular and intracranial segments up to the chiasm; assessed with imaging, pupils and visual fields.</li></ul></li>
+  </ol>
+  <p style="margin-top:var(--space-6)"><a href="https://seanleels.com">seanleels.com ↗</a></p>
+</main>
+</noscript>
 
 
 <script>window.EA_CARDS = []; window.EA = function (s, a){ a.forEach(function (c){ c.s = s; window.EA_CARDS.push(c); }); };</script>
@@ -1864,16 +1899,18 @@ function syncFigMarks(){}
 function updateCaption(){
   const s = STRUCTS[state.stop]; if (!s) return;
   if (figShown()){
-    const f = FIG[state.fig];
-    $('#capT').textContent = `${figName(state.fig)} · ${lc1(f.v)}`;
-    $('#capD').textContent = f.t;
-    $('#figSeg').hidden = false; $('#figX').hidden = false;
+    const f = FIG[state.fig], asking = state.view === 'test' && state.test && state.test.picked === null;
+    $('#capT').textContent = asking ? `Self-test · ${lc1(f.v)}` : `${figName(state.fig)} · ${lc1(f.v)}`;
+    $('#capD').textContent = asking ? 'Which condition is this?' : f.t;
+    $('#figSeg').hidden = false; $('#figX').hidden = state.view === 'test';
+    eye.classList.toggle('asking', !!asking);
     $('#figOn').setAttribute('aria-pressed', String(!state.figCmp)); $('#figOff').setAttribute('aria-pressed', String(!!state.figCmp));
   } else {
     const x = XS[state.stop], on = !!(x && state.xs);
     $('#capT').textContent = `${s.name} · ${lc1(on ? x.v : s.view)}`;
     $('#capD').textContent = on ? x.t : 'Select a region to see its conditions.';
     $('#figSeg').hidden = true; $('#figX').hidden = true;
+    eye.classList.remove('asking');
   }
   const hasX = !!XS[state.stop] && !figShown(), xsOn = !!(hasX && state.xs), was = eye.classList.contains('xs');
   $('#viewSeg').hidden = !hasX;
@@ -2088,6 +2125,7 @@ function renderList(){
       <details class="about" id="aboutStruct"${state.aboutOpen ? ' open' : ''}><summary>About this structure</summary>
         <div class="about-body"><p class="p-sum">${esc(s.summary)}</p><ul class="facts">${s.facts.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${mini}</div>
       </details>
+      ${testPool(state.stop).length >= 4 ? `<div class="p-test"><button type="button" class="btn" data-act="test">Self-test</button><span class="muted">Name the condition from its figure · ${testPool(state.stop).length} figures</span></div>` : ''}
     </div>
     <div class="p-ctrl">
       <div class="p-ctrl-row">
@@ -2141,8 +2179,47 @@ function renderMiss(){
       <p class="d-hook">Emergent conditions across the eye, grouped by structure. ${n} conditions. Regions that hold one are outlined on the diagram.</p>
     </div>${groups}`;
 }
+/* Self-test: name the condition from its figure. Four answers from the same structure. Nothing is stored. */
+const testPool = i => STRUCTS[i].cards.filter(c => FIG[c.id] && FIG[c.id].stop === i);
+const shuffle = a => { a = a.slice(); for (let k = a.length - 1; k > 0; k--){ const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; };
+function testNext(){
+  const T = state.test, pool = testPool(state.stop);
+  if (!T.queue.length) T.queue = shuffle(pool.map(c => c.id)).filter(id => id !== T.q);
+  T.q = T.queue.pop(); T.picked = null;
+  T.opts = shuffle([T.q, ...shuffle(pool.map(c => c.id).filter(id => id !== T.q)).slice(0, 3)]);
+  state.fig = T.q; state.figCmp = false;
+  renderFig(); renderPanel(); pscroll.scrollTop = 0;
+}
+function startTest(){
+  state.card = null; state.view = 'test'; state.test = {queue:[], q:null, opts:[], picked:null, right:0, done:0};
+  syncMiss(); testNext(); focusTitle();
+  if (isPhone()) setSnap('half');
+  announce('Self-test started. Which condition does the figure show?');
+}
+function endTest(){
+  state.view = null; state.test = null; state.fig = null; state.figCmp = false;
+  syncMiss(); renderFig(); renderPanel(); focusTitle();
+}
+function renderTest(){
+  const T = state.test, ans = T.picked !== null, f = FIG[T.q];
+  const rows = T.opts.map(id => {
+    const c = CARD[id], mark = !ans ? '' : id === T.q ? '<span class="t-mark ok">Correct</span>' : id === T.picked ? '<span class="t-mark no">Your answer</span>' : '';
+    return `<li><button type="button" class="row t-row" data-act="ans" data-id="${id}"${ans ? ' aria-disabled="true"' : ''}><span class="row-name">${esc(c.name)}${mark}</span></button></li>`;
+  }).join('');
+  pscroll.innerHTML = `
+    <div class="d-head">
+      <button type="button" class="back" data-act="testoff">‹ ${esc(STRUCTS[state.stop].name)}</button>
+      <h1 class="d-title" id="dTitle" tabindex="-1">Self-test</h1>
+      <p class="d-hook">Which condition does the figure show?</p>
+      <p class="t-score"><span class="mono">${T.right} / ${T.done}</span> correct</p>
+    </div>
+    <ul class="rows t-rows">${rows}</ul>
+    ${ans ? `<div class="t-after"><p><b>${esc(CARD[T.q].name)}.</b> ${esc(f.t)}.</p>
+      <div class="d-actions"><button type="button" class="btn primary" data-act="tnext">Next</button><button type="button" class="btn" data-act="open" data-id="${T.q}">Open the card</button></div></div>` : ''}`;
+}
 function renderPanel(){
-  if (state.view === 'miss') renderMiss();
+  if (state.view === 'test' && state.test) renderTest();
+  else if (state.view === 'miss') renderMiss();
   else if (state.card && CARD[state.card]) renderDetail(CARD[state.card]);
   else renderList();
   renderCrumbs(); updateTree();
@@ -2152,7 +2229,7 @@ function focusTitle(){ const t = $('#dTitle') || $('#pTitle'); if (t) t.focus({p
 /* Open / close a condition */
 function openCard(id, opts = {}){
   const c = CARD[id]; if (!c) return;
-  state.view = null; syncMiss();
+  state.view = null; state.test = null; syncMiss();
   state.card = id; state.tab = 'snap'; state.sub = c.sub;
   if (FIG[id]){ state.fig = id; state.figCmp = false; } else if (state.fig && CARD[state.fig]) state.fig = null;
   renderPanel(); renderFig(); pscroll.scrollTop = 0;
@@ -2182,6 +2259,16 @@ pscroll.addEventListener('click', e => {
   else if (a === 'filter'){ state.filterOpen = !state.filterOpen; renderPanel(); const b = $('#pscroll [data-act="filter"]'); b && b.focus(); }
   else if (a === 'clear'){ state.filt = defaultFilt(); renderPanel(); }
   else if (a === 'rail') openRail();
+  else if (a === 'test') startTest();
+  else if (a === 'testoff') endTest();
+  else if (a === 'tnext'){ testNext(); focusTitle(); }
+  else if (a === 'ans'){
+    const T = state.test; if (!T || T.picked !== null) return;
+    T.picked = t.dataset.id; T.done++; const ok = T.picked === T.q; if (ok) T.right++;
+    renderFig(); renderPanel();
+    announce(`${ok ? 'Correct' : 'Not quite'}. ${CARD[T.q].name}. ${T.right} of ${T.done} correct.`);
+    const n = $('#pscroll [data-act="tnext"]'); n && n.focus();
+  }
   else if (a === 'src'){ const li = $('#src-' + t.dataset.n); if (li){ $$('.srcs li.at').forEach(x => x.classList.remove('at')); li.classList.add('at'); li.tabIndex = -1; li.scrollIntoView({block:'nearest'}); li.focus({preventScroll:true}); } }
   else if (a === 'showfig'){ if (!figShown()){ state.fig = t.dataset.k; state.figCmp = false; renderFig(); } setSnap('half'); }
   else if (a === 'master'){
@@ -2229,7 +2316,8 @@ function renderCrumbs(){
   const sub = s.subs.find(x => x.id === state.sub), c = state.card && CARD[state.card];
   const parts = [];
   parts.push(state.stop === 0 && !sub && !c ? `<span class="cur" aria-current="page">Eye</span>` : `<button type="button" data-cr="eye">Eye</button>`);
-  if (state.view === 'miss'){ parts.push(`<span class="cur" aria-current="page">Can't-miss list</span>`); }
+  if (state.view === 'test'){ parts.push(`<button type="button" data-cr="stop">${esc(s.short)}</button>`, `<span class="cur" aria-current="page">Self-test</span>`); }
+  else if (state.view === 'miss'){ parts.push(`<span class="cur" aria-current="page">Can't-miss list</span>`); }
   else {
     if (state.stop !== 0 || sub || c) parts.push(sub || c ? `<button type="button" data-cr="stop">${esc(s.short)}</button>` : `<span class="cur" aria-current="page">${esc(s.short)}</span>`);
     if (sub) parts.push(c ? `<button type="button" data-cr="sub">${esc(sub.name)}</button>` : `<span class="cur" aria-current="page">${esc(sub.name)}</span>`);
@@ -2240,7 +2328,7 @@ function renderCrumbs(){
 $('#crumbs').addEventListener('click', e => {
   const b = e.target.closest('[data-cr]'); if (!b) return;
   const k = b.dataset.cr;
-  state.view = null; syncMiss();
+  state.view = null; state.test = null; syncMiss();
   if (k === 'eye'){ state.card = null; if (state.stop === 0){ state.sub = 'all'; renderPanel(); updateHits(); } else navTo(0, {sub:'all'}); }
   else if (k === 'stop'){ state.card = null; state.sub = 'all'; if (state.fig && CARD[state.fig]) hideFig(); renderPanel(); updateHits(); setHash(STRUCTS[state.stop].id); }
   else if (k === 'sub') closeCard();
@@ -2307,6 +2395,7 @@ function onStop(i){
   if (p) pending = null;
   state.sub = (p && p.sub) || 'all';
   if (!(p && p.card)) state.card = null;
+  if (state.view === 'test'){ state.view = null; state.test = null; state.fig = null; }
   if (state.fig && FIG[state.fig] && FIG[state.fig].stop !== i){ state.fig = null; state.figCmp = false; }
   thumbLbl.textContent = `${s.short} · ${i + 1} of 9`;
   track.setAttribute('aria-valuenow', i + 1); track.setAttribute('aria-valuetext', `${s.name}, ${i + 1} of 9`);
@@ -2349,7 +2438,7 @@ track.addEventListener('keydown', e => {
 const stage = $('#stage'), tip = $('#tip'), eyeWrap = $('#eyeWrap');
 function selectRegion(sid, sub){
   const i = SIDX[sid];
-  state.view = null; syncMiss();
+  state.view = null; state.test = null; syncMiss();
   if (i !== state.stop){ state.card = null; navTo(i, {sub:sub || 'all'}); }
   else { state.card = null; state.sub = sub || 'all'; if (state.fig && CARD[state.fig]) hideFig(); renderPanel(); updateHits(); pscroll.scrollTop = 0; setHash(STRUCTS[i].id); }
   if (isPhone()) setSnap('half');
@@ -2392,6 +2481,7 @@ function updateHits(){
 const missBtn = $('#miss');
 function syncMiss(){ const on = state.view === 'miss'; missBtn.setAttribute('aria-pressed', String(on)); updateHits(); updateTree(); }
 function toggleMiss(){
+  if (state.view === 'test'){ state.test = null; state.fig = null; state.figCmp = false; renderFig(); }
   state.view = state.view === 'miss' ? null : 'miss';
   syncMiss(); renderPanel(); pscroll.scrollTop = 0; focusTitle();
   if (isPhone()) setSnap('full');
@@ -2551,6 +2641,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape'){
     if (rail.classList.contains('open')) closeRail();
     else if (figShown() && CARD[state.fig] !== CARD[state.card]) hideFig();
+    else if (state.view === 'test') endTest();
     else if (state.view === 'miss'){ state.view = null; syncMiss(); renderPanel(); setHash(STRUCTS[state.stop].id); }
     else if (state.card) closeCard();
     else if (figShown()) hideFig();
