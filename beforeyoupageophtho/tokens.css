@@ -72,7 +72,7 @@
 @media print {
   :root {
     --bg: #ffffff; --surface: #ffffff; --sunk: #f2f2f2; --ink: #111111; --muted: #444444;
-    --line: #cccccc; --accent: #1e3db8; --accent-soft: #eeeeee;
+    --line: #cccccc; --line-strong: #7f889d; --accent: #1e3db8; --accent-soft: #eeeeee; --on-accent: #ffffff;
     --em: #b42318; --em-soft: #ffffff; --ur: #8f5100; --ur-soft: #ffffff; --ro: #1f6e47; --ro-soft: #ffffff;
   }
 }

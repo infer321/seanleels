@@ -72,7 +72,11 @@ Pages use token names (`tokens.css`), never raw hex values.
 
 - **Buttons.** One primary per view: Copy page. Secondary: outlined. All controls are at least 44px tall. Focus shows a 2px accent outline offset 3px.
 - **Red flags.** Checkbox rows that open a "Do now" action and raise the triage level.
-- **Consult panel.** Triage word, alerts, page-ready count with jump links to what's missing, then the message in Secure chat or Pager format with a 240-character counter.
+- **Consult panel.** Triage word, alerts, page-ready count with jump links to what's missing, then the message in Secure chat or Pager format with a 240-character counter. The format switch is a pair of toggle buttons, not tabs. Pager text names each eye ("VA OD CF, OS 20/25") so stacked fractions can't be misread.
+- **Section tabs.** A real tab list: arrow keys, Home and End move between tabs. The first tab is the bare address; the others use `#tools` and `#guide`.
+- **Clear all.** Offers "Undo clear" until the complaint changes, so one stray tap can't lose a workup.
+- **History chips.** Three states (not asked, present, denied), each also given to screen readers in words.
+- **Links that leave the site** end in ↗.
 - **Bedside tools.** All true-size targets depend on the card calibration, and their sizes are computed in `tool.js`.
 
 ## Behavior notes

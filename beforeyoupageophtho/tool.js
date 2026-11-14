@@ -220,7 +220,7 @@ const RLAB = {eye:"Which eye",va:"Visual acuity, each eye",pupils:"Pupil size an
 const RJUMP = {eye:"fld-eye",va:"mod-va",pupils:"mod-pupils",iop:"mod-iop",eom:"mod-eom",cvf:"mod-cvf",pen:"mod-pen",question:"fld-question",cb:"fld-pt_cb"};
 
 /* ---------- state ---------- */
-const S = {cid:"vision",v:{},hx:{},fl:{},dn:{},pen:{},example:false,out:"full"};
+const S = {cid:"vision",v:{},hx:{},fl:{},dn:{},pen:{},example:false,out:"full",undo:null};
 const cur = () => C[S.cid];
 
 function loadExample(){
@@ -235,7 +235,8 @@ function loadExample(){
   S.pen = {lid_nl:1,cj_q:1,co_cl:1,ac_deep:1,ps_round:1};
   S.example = true;
 }
-function clearAll(){
+function clearAll(keep){
+  S.undo = keep && !S.example ? JSON.stringify({v:S.v,hx:S.hx,fl:S.fl,dn:S.dn,pen:S.pen}) : null;
   S.v = {}; S.hx = {}; S.fl = {}; S.dn = {}; S.pen = {}; S.example = false;
   if (cur().eyeDefault) S.v.eye = cur().eyeDefault;
 }
@@ -243,7 +244,9 @@ function setComplaint(id){
   if (S.example){ S.cid = id; clearAll(); return; }
   S.cid = id; S.hx = {}; S.fl = {}; S.dn = {};
   Object.keys(S.v).forEach(k => { if (k.startsWith("q_") || k === "question") delete S.v[k]; });
-  if (cur().eyeDefault) S.v.eye = cur().eyeDefault; else if (S.v.eye === "OU" && cur().eye) delete S.v.eye;
+  S.undo = null;
+  /* A complaint with no eye picker must not carry a hidden eye over from the last one */
+  if (cur().eyeDefault) S.v.eye = cur().eyeDefault; else if (!cur().eye || S.v.eye === "OU") delete S.v.eye;
 }
 
 /* ---------- helpers ---------- */
@@ -257,7 +260,7 @@ function segH(k, opts, aria){
 }
 function inH(k, type, ph){
   const num = type === "num";
-  return `<input id="f-${k}" data-k="${k}" type="${num?"text":"text"}" ${num?'inputmode="decimal"':""} autocomplete="off" value="${esc(S.v[k]||"")}" placeholder="${esc(ph||"")}">`;
+  return `<input id="f-${k}" data-k="${k}" type="text" ${num?'inputmode="decimal"':""} autocomplete="off" value="${esc(S.v[k]||"")}" placeholder="${esc(ph||"")}">`;
 }
 function selH(k, opts, ph){
   return `<select id="f-${k}" data-k="${k}"><option value="">${esc(ph||"—")}</option>` +
@@ -265,8 +268,9 @@ function selH(k, opts, ph){
 }
 function fieldH(label, ctrl, o){
   o = o || {};
-  return `<div class="field${o.wide?" wide":""}"${o.id?` id="${o.id}"`:""}><span class="lab">${o.for?`<label for="${o.for}">${esc(label)}</label>`:esc(label)}${o.req?'<span class="req" title="Ophtho will ask for this"></span>':""}</span>${ctrl}${o.hint?`<p class="hint">${o.hint}</p>`:""}</div>`;
+  return `<div class="field${o.wide?" wide":""}"${o.id?` id="${o.id}"`:""}><span class="lab">${o.for?`<label for="${o.for}">${o.sr?`<span class="vh">${esc(o.sr)} </span>`:""}${esc(label)}</label>`:esc(label)}${o.req?'<span class="req" aria-hidden="true"></span><span class="vh"> (ophtho will ask)</span>':""}</span>${ctrl}${o.hint?`<p class="hint">${o.hint}</p>`:""}</div>`;
 }
+const hxSR = s => s === 1 ? ", present" : s === -1 ? ", denied" : ", not asked";
 const reqTag = r => reqSet().has(r) ? `<span class="req-tag">Ophtho will ask</span>` : "";
 
 /* ---------- form ---------- */
@@ -278,7 +282,7 @@ function modVA(){
   ${fieldH("Correction", segH("va_c",[["cc","With glasses"],["sc","Without"],["ph","Pinhole"]],"Correction"))}</div>`;
 }
 function modPupils(){
-  const col = (e, n) => `<div class="eyecol"><div class="eyelab">${e}<span>${n}</span></div>${fieldH("Size (mm)", selH("p_"+e.toLowerCase(),MM,"mm"),{for:"f-p_"+e.toLowerCase()})}${segH("pr_"+e.toLowerCase(),[["brisk","Brisk"],["sluggish","Sluggish"],["fixed","Fixed"]],e+" reactivity")}</div>`;
+  const col = (e, n) => `<div class="eyecol"><div class="eyelab">${e}<span>${n}</span></div>${fieldH("Size (mm)", selH("p_"+e.toLowerCase(),MM,"mm"),{for:"f-p_"+e.toLowerCase(),sr:e})}${segH("pr_"+e.toLowerCase(),[["brisk","Brisk"],["sluggish","Sluggish"],["fixed","Fixed"]],e+" reactivity")}</div>`;
   return `<div class="mod" id="mod-pupils"><div class="mod-h"><h3>Pupils</h3>${reqTag("pupils")}</div>
   <div class="grid2">${col("OD","right")}${col("OS","left")}</div>
   ${fieldH("Relative APD (swinging flashlight)", segH("apd",[["none","None"],["OD","OD"],["OS","OS"],["na","Can’t assess"]],"APD"),{hint:"Swing the light between eyes every 2–3 seconds. The pupil that dilates when the light reaches it has the APD. One working pupil is enough to check."})}</div>`;
@@ -318,6 +322,7 @@ function renderForm(){
   let h = `<div class="toolbar">` +
     (S.example ? `<span class="exnote"><b>Example</b>68F, sudden painless vision loss. Edit anything, or clear it.</span>` : "") +
     `<button type="button" class="ghost" id="clearBtn">Clear all</button>` +
+    (S.undo ? `<button type="button" class="ghost" id="undoBtn">Undo clear</button>` : "") +
     (S.example ? "" : `<button type="button" class="ghost" id="exampleBtn">Load example</button>`) + `</div>`;
 
   h += `<section class="step first" aria-labelledby="s1"><div class="step-h"><span class="step-n">01</span><h2 id="s1">Patient</h2></div>
@@ -341,7 +346,7 @@ function renderForm(){
       ${c.qs.map(q => qH(q, rs)).join("")}
     </div>
     ${c.hx.length ? `<div class="field"><span class="lab">History</span><p class="legend">Tap once if present <kbd>+</kbd>, twice if denied <kbd>−</kbd>. Pertinent negatives go in the page too.</p>
-      <div class="chips">${c.hx.map(x => `<button type="button" class="chip hx" data-hx="${x[0]}" data-s="${S.hx[x[0]]===1?"pos":S.hx[x[0]]===-1?"neg":""}">${esc(x[1])}</button>`).join("")}</div></div>` : ""}
+      <div class="chips">${c.hx.map(x => `<button type="button" class="chip hx" data-hx="${x[0]}" data-s="${S.hx[x[0]]===1?"pos":S.hx[x[0]]===-1?"neg":""}">${esc(x[1])}<span class="vh">${hxSR(S.hx[x[0]])}</span></button>`).join("")}</div></div>` : ""}
   </section>`;
 
   h += `<section class="step" aria-labelledby="s3"><div class="step-h"><span class="step-n">03</span><h2 id="s3">Red flags</h2></div>
@@ -519,9 +524,13 @@ function buildPager(){
   const det = c.qs.filter(q => q.pg).map(q => qDisplay(q,true)).filter(Boolean);
   if (det.length) head += ", " + det.join(", ");
   p.push(head);
-  if (val("va_od") || val("va_os")) p.push(`VA ${val("va_od")||"?"}/${val("va_os")||"?"}${val("apd")&&val("apd")!=="none"&&val("apd")!=="na"?", RAPD "+val("apd"):""}`);
+  if (S.cid === "aniso"){
+    const o = ["odl","osl","odd","osd"].map(k => val("q_"+k) || "?");
+    if (o.some(x => x !== "?")) p.push(`pupils light OD ${o[0]} OS ${o[1]}, dim OD ${o[2]} OS ${o[3]} mm${val("q_ptosis") && val("q_ptosis") !== "none" ? ", ptosis " + val("q_ptosis") : ""}`);
+  }
+  if (val("va_od") || val("va_os")) p.push(`VA OD ${val("va_od")||"?"}, OS ${val("va_os")||"?"}${val("apd")&&val("apd")!=="none"&&val("apd")!=="na"?", RAPD "+val("apd"):""}`);
   if (ogActive()) p.push("no IOP (?open globe)");
-  else if (val("iop_od") || val("iop_os")) p.push(`IOP ${val("iop_od")||"?"}/${val("iop_os")||"?"}`);
+  else if (val("iop_od") || val("iop_os")) p.push(`IOP OD ${val("iop_od")||"?"}, OS ${val("iop_os")||"?"}`);
   const fl = c.flags.filter(f => S.fl[f.id]).map(f => f.short).concat(derived().filter(x => x.short && x.lvl).map(x => x.short));
   if (fl.length) p.push(fl.join(", "));
   if (val("pt_cb")) p.push(`CB ${val("pt_cb")}`);
@@ -540,7 +549,7 @@ function renderOut(){
   document.getElementById("urgText").textContent = t;
   const fl = c.flags.filter(f => S.fl[f.id]);
   const items = fl.map(f => ({lvl:f.lvl,label:f.short,act:f.act})).concat(ds);
-  document.getElementById("alerts").innerHTML = items.map(a => `<li class="a-${a.lvl||"info"}"><b>${esc(a.lvl ? a.label : a.label)}</b>${esc(a.act)}</li>`).join("");
+  document.getElementById("alerts").innerHTML = items.map(a => `<li class="a-${a.lvl||"info"}"><b>${esc(a.label)}</b>${esc(a.act)}</li>`).join("");
 
   const req = Array.from(reqSet());
   const miss = req.filter(r => !isDone(r));
@@ -558,7 +567,7 @@ function renderOut(){
   const cnt = document.getElementById("count");
   if (S.out === "pager"){ cnt.textContent = `${txt.length} / 240 characters`; cnt.classList.toggle("over", txt.length > 240); }
   else { cnt.textContent = `${txt.split("\n").length} lines`; cnt.classList.remove("over"); }
-  document.querySelectorAll("[data-out]").forEach(b => b.setAttribute("aria-selected", b.dataset.out === S.out));
+  document.querySelectorAll("[data-out]").forEach(b => b.setAttribute("aria-pressed", b.dataset.out === S.out));
 
   const warn = document.getElementById("iopWarn"); if (warn) warn.hidden = !ogActive();
   const pe = document.getElementById("penEye"); if (pe) pe.textContent = val("eye") ? "(" + val("eye") + ")" : "";
@@ -572,9 +581,10 @@ function renderOut(){
 /* ---------- events ---------- */
 function setTab(t){
   ["workup","tools","guide"].forEach(x => { document.getElementById("tab-"+x).hidden = x !== t; });
-  document.querySelectorAll("[data-tab]").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === t));
+  document.querySelectorAll("[data-tab]").forEach(b => { const on = b.dataset.tab === t; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; });
   document.getElementById("mbar").hidden = t !== "workup";
-  try { history.replaceState(null, "", t === "workup" ? "#workup" : "#" + t); } catch(e){}
+  /* The first tab is the bare address, so a shared link stays clean */
+  try { history.replaceState(null, "", t === "workup" ? location.pathname + location.search : "#" + t); } catch(e){}
   if (t === "tools") renderTools();
   if (t !== "tools") oknStop();
 }
@@ -596,6 +606,7 @@ document.addEventListener("click", e => {
     const k = hx.dataset.hx, s = S.hx[k];
     S.hx[k] = s === 1 ? -1 : s === -1 ? 0 : 1;
     hx.dataset.s = S.hx[k] === 1 ? "pos" : S.hx[k] === -1 ? "neg" : "";
+    hx.querySelector(".vh").textContent = hxSR(S.hx[k]);
     renderOut(); return;
   }
   const dn = e.target.closest("[data-dn]");
@@ -611,12 +622,13 @@ document.addEventListener("click", e => {
     return;
   }
   const ot = e.target.closest("[data-out]"); if (ot){ S.out = ot.dataset.out; renderOut(); return; }
-  if (e.target.closest("#clearBtn")){ clearAll(); renderForm(); renderOut(); return; }
+  if (e.target.closest("#clearBtn")){ clearAll(true); renderForm(); renderOut(); const u = document.getElementById("undoBtn"); if (u) u.focus(); return; }
+  if (e.target.closest("#undoBtn")){ if (S.undo){ Object.assign(S, JSON.parse(S.undo)); S.undo = null; renderForm(); renderOut(); } return; }
   if (e.target.closest("#exampleBtn")){ loadExample(); renderForm(); renderOut(); return; }
   if (e.target.closest("#mGo")){ document.getElementById("out").scrollIntoView({behavior: smooth() ? "smooth" : "auto", block:"start"}); return; }
   if (e.target.closest("#copyBtn")){
     const btn = document.getElementById("copyBtn"), txt = document.getElementById("msg").textContent;
-    const done = m => { btn.textContent = m; setTimeout(() => btn.textContent = "Copy page", 1600); };
+    const done = m => { btn.textContent = m; document.getElementById("copyStatus").textContent = m; setTimeout(() => { btn.textContent = "Copy page"; document.getElementById("copyStatus").textContent = ""; }, 1600); };
     const fallback = () => {
       const r = document.createRange(); r.selectNodeContents(document.getElementById("msg"));
       const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
@@ -626,6 +638,15 @@ document.addEventListener("click", e => {
     return;
   }
 });
+/* Arrow keys move between the three section tabs, as a tab list should */
+document.querySelector(".tabs").addEventListener("keydown", e => {
+  const tabs = Array.from(document.querySelectorAll("[data-tab]")), i = tabs.indexOf(e.target);
+  if (i < 0) return;
+  const n = e.key === "ArrowRight" ? (i+1) % tabs.length : e.key === "ArrowLeft" ? (i-1+tabs.length) % tabs.length : e.key === "Home" ? 0 : e.key === "End" ? tabs.length-1 : -1;
+  if (n < 0) return;
+  e.preventDefault(); setTab(tabs[n].dataset.tab); tabs[n].focus();
+});
+window.addEventListener("hashchange", () => { const h = (location.hash || "").replace("#",""); if (["workup","tools","guide"].includes(h)) setTab(h); });
 document.addEventListener("change", e => {
   const f = e.target.dataset && e.target.dataset.fl;
   if (f){
