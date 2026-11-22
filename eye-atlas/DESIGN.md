@@ -31,24 +31,26 @@ Light values (dark values are in tokens.css). Contrast is computed against `--bg
 
 | Token | Value | Role | Contrast |
 |---|---|---|---|
-| `--bg` | #f1f3f6 | Page ground | |
+| `--bg` | #f8f6f1 | Page ground | |
 | `--surface` | #ffffff | Panels, sheet, list | |
-| `--surface-2` | #f6f8fa | Selected row, quiet fill | |
-| `--stage` | #e7ebef | Ground behind the figure | |
-| `--ink` | #17202b | Headings, body | 14.8 / 16.4 |
-| `--ink-2` | #2e3a47 | Secondary body | 10.4 / 11.6 |
-| `--muted` | #5d6977 | Meta text, placeholders. The lightest text color allowed. | 5.0 / 5.6 |
-| `--faint` | #8a96a3 | Non-text only: ticks, leader lines, inactive dots | n/a |
-| `--line`, `--line-2` | #dce2e8, #c8d0d8 | Hairlines; control borders | |
-| `--accent` | #294d8c | Buttons and links only | 7.5 / 8.3 |
-| `--accent-soft` | #e2e9f5 | Selected tab or chip ground (accent text on it: 6.8) | |
-| `--emergent` | #b02a21 | Triage word and dot | 5.9 / 6.6 |
-| `--urgent` | #8a5608 | Triage word and dot | 5.5 / 6.2 |
-| `--routine` | #2f6646 | Triage word and dot | 6.1 / 6.8 |
+| `--surface-2` | #f4f1ea | Selected row, quiet fill | |
+| `--stage` | #ece9e1 | Ground behind the figure | |
+| `--ink` | #16161d | Headings, body | 16.7 / 18.0 |
+| `--ink-2` | #3a3a45 | Secondary body | 10.4 / 11.2 |
+| `--muted` | #55556a | Meta text, placeholders. The lightest text color allowed. | 6.7 / 7.3 |
+| `--faint` | #8e8a7e | Non-text only: ticks, leader lines, inactive dots | n/a |
+| `--line`, `--line-2` | #e3e0d8, #cfcbc1 | Hairlines; control borders | |
+| `--accent` | #7d5f26 | Buttons and links only (gold) | 5.5 / 5.9 |
+| `--accent-soft` | #f1eadb | Selected tab or chip ground (accent text on it: 5.0) | |
+| `--emergent` | #a3392a | Triage word and dot | 6.1 / 6.6 |
+| `--urgent` | #8a5a00 | Triage word and dot | 5.5 / 5.9 |
+| `--routine` | #276a46 | Triage word and dot | 6.0 / 6.5 |
 | `--c-<stop>` | nine hues | A 3px tick beside the structure name in the rail. Never text, never a fill. | |
 | `--pl-<stop>` | nine muted hues | The same nine, desaturated, for tints inside a figure plate | |
 
-Dark mode: all text tokens are 5.3:1 or better on `--bg`, `--surface` and `--surface-2` (computed).
+Dark mode: all text tokens are 7.1:1 or better on `--bg`, `--surface`, `--surface-2` and `--stage` (computed).
+
+**Palette shared with seanleels.com and Second Look** (Nov 2026): warm paper and near-black neutrals, gold accent, and the same green/amber/red status hues. Fonts stay this tool's own (Spectral, Public Sans, JetBrains Mono). Per-structure ticks and the figure plates keep their colors.
 
 Rules:
 - One accent. One primary (filled) button per view.

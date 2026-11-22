@@ -29,19 +29,20 @@ Pages use token names (`tokens.css`), never raw hex values. Values match Before 
 
 | Token | Light | Dark | Role |
 | --- | --- | --- | --- |
-| `--bg` | #f2f4f8 | #0a0f1e | Page, large view |
-| `--surface` | #ffffff | #111831 | Fields, buttons, the limit note, row hover |
-| `--sunk` | #e8ecf3 | #0c1327 | Reserved |
-| `--ink` | #0f1730 | #e6eaf5 | Text, selected state |
-| `--muted` | #56607a | #9aa4bf | English line, reading aids, hints, footer |
-| `--line` | #d4dae6 | #25304f | Hairlines |
-| `--line-strong` | #7f889d | #6d7690 | Control outlines |
-| `--accent`, `--accent-soft` | #1e3db8, #e2e7fa | #90a4ff, #1a2452 | **Primary:** the one primary button, links, a starred star |
-| `--on-accent` | #ffffff | #0a0f1e | Text on accent |
-| `--warn`, `--warn-soft` | #8f5100, #fbf0dc | #f2b44c, #33250b | Work-in-progress badge, draft note |
-| `--ok`, `--ok-soft` | #1f6e47, #e1f2e8 | #62d39c, #0f2d20 | Reviewed note |
+| `--bg` | #f8f6f1 | #0a0a0f | Page, large view |
+| `--surface` | #ffffff | #13131a | Fields, buttons, the limit note, row hover |
+| `--sunk` | #efece4 | #0e0e14 | Reserved |
+| `--ink` | #16161d | #f1efe9 | Text, selected state |
+| `--muted` | #55556a | #a6a6bc | English line, reading aids, hints, footer |
+| `--line` | #e3e0d8 | #24242e | Hairlines |
+| `--line-strong` | #8a8577 | #6e6c7a | Control outlines (3.6:1 on `--surface`) |
+| `--accent`, `--accent-soft` | #7d5f26, #f1eadb | #c8a96e, #29231a | **Primary (gold):** the one primary button, links, a starred star |
+| `--on-accent` | #ffffff | #0a0a0f | Text on accent |
+| `--warn`, `--warn-soft` | #8a5a00, #f6eedb | #e0b25c, #2d2411 | Work-in-progress badge, draft note |
+| `--ok`, `--ok-soft` | #276a46, #e5f0e8 | #8acfaa, #13271d | Reviewed note |
 
-- **Selected is ink, not blue.** Language, script, "Starred only" and a tapped reply tile invert to ink. Blue stays for the single primary button per view.
+- **Selected is ink, not gold.** Language, script, "Starred only" and a tapped reply tile invert to ink. Gold stays for the single primary button per view.
+- **Palette shared with seanleels.com and Second Look** (Nov 2026): warm paper and near-black neutrals, gold accent, and the same green/amber/red status hues. Fonts stay this tool's own.
 - **Status is never color alone.** The note always says "draft", "checked" or "reviewed" in words.
 - **Text contrast:** at least 4.5:1 in both themes, checked with axe.
 

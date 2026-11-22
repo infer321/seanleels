@@ -22,22 +22,23 @@ Pages use token names (`tokens.css`), never raw hex values.
 
 | Token | Light | Dark | Role |
 | --- | --- | --- | --- |
-| `--bg` | #f2f4f8 | #0a0f1e | Page |
-| `--surface` | #ffffff | #111831 | Cards, fields, the consult page panel |
-| `--sunk` | #e8ecf3 | #0c1327 | Message box, tracks, denied history |
-| `--ink` | #0f1730 | #e6eaf5 | Text |
-| `--muted` | #56607a | #9aa4bf | Labels, hints, footer |
-| `--line` | #d4dae6 | #25304f | Hairlines |
-| `--line-strong` | #7f889d | #6d7690 | Field outlines |
-| `--accent`, `--accent-soft` | #1e3db8, #e2e7fa | #90a4ff, #1a2452 | **Primary:** buttons, links, selected state |
-| `--on-accent` | #ffffff | #0a0f1e | Text on accent |
-| `--em`, `--em-soft` | #b42318, #fcebe8 | #ff8173, #3a1517 | Emergent |
-| `--ur`, `--ur-soft` | #8f5100, #fbf0dc | #f2b44c, #33250b | Urgent |
-| `--ro`, `--ro-soft` | #1f6e47, #e1f2e8 | #62d39c, #0f2d20 | Routine, complete |
+| `--bg` | #f8f6f1 | #0a0a0f | Page |
+| `--surface` | #ffffff | #13131a | Cards, fields, the consult page panel |
+| `--sunk` | #efece4 | #0e0e14 | Message box, tracks, denied history |
+| `--ink` | #16161d | #f1efe9 | Text |
+| `--muted` | #55556a | #a6a6bc | Labels, hints, footer |
+| `--line` | #e3e0d8 | #24242e | Hairlines |
+| `--line-strong` | #8a8577 | #6e6c7a | Field outlines (3.6:1 on `--surface`) |
+| `--accent`, `--accent-soft` | #7d5f26, #f1eadb | #c8a96e, #29231a | **Primary (gold):** buttons, links, selected state |
+| `--on-accent` | #ffffff | #0a0a0f | Text on accent |
+| `--em`, `--em-soft` | #a3392a, #f8e9e5 | #f08a7a, #34191a | Emergent |
+| `--ur`, `--ur-soft` | #8a5a00, #f6eedb | #e0b25c, #2d2411 | Urgent |
+| `--ro`, `--ro-soft` | #276a46, #e5f0e8 | #8acfaa, #13271d | Routine, complete |
 | `--paper`, `--paper-ink` | #ffffff, #000000 | same | Near card, pupil gauge and OKN strip |
 | `--paper-line`, `--paper-muted`, `--paper-key` | #d9d9d9, #555555, #b00020 | same | Chart rows, labels and the answer key |
 | `--red-disc` | #e00000 | same | Red desaturation target |
 
+- **Palette shared with seanleels.com and Second Look** (Nov 2026): warm paper and near-black neutrals, gold accent, and the same green/amber/red status hues. Fonts stay this tool's own.
 - **Triage is never color alone.** The word (Emergent, Urgent, Routine) always appears.
 - **Chart surfaces stay white in dark mode,** because they stand in for a printed card.
 - **Eye drop cap swatches are raw colors by design.** They are illustrations of the real cap colors, so they sit outside the token rule, as inline SVG previews do.

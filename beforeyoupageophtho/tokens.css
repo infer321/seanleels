@@ -3,22 +3,22 @@
   color-scheme: light dark;
 
   /* Color · light */
-  --bg: #f2f4f8;
+  --bg: #f8f6f1;
   --surface: #ffffff;
-  --sunk: #e8ecf3;
-  --ink: #0f1730;
-  --muted: #56607a;
-  --line: #d4dae6;
-  --line-strong: #7f889d;
-  --accent: #1e3db8;
-  --accent-soft: #e2e7fa;
+  --sunk: #efece4;
+  --ink: #16161d;
+  --muted: #55556a;
+  --line: #e3e0d8;
+  --line-strong: #8a8577;
+  --accent: #7d5f26;
+  --accent-soft: #f1eadb;
   --on-accent: #ffffff;
-  --em: #b42318;
-  --em-soft: #fcebe8;
-  --ur: #8f5100;
-  --ur-soft: #fbf0dc;
-  --ro: #1f6e47;
-  --ro-soft: #e1f2e8;
+  --em: #a3392a;
+  --em-soft: #f8e9e5;
+  --ur: #8a5a00;
+  --ur-soft: #f6eedb;
+  --ro: #276a46;
+  --ro-soft: #e5f0e8;
 
   /* The chart surfaces stay white in both themes, because a printed card is white */
   --paper: #ffffff;
@@ -50,29 +50,29 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0a0f1e;
-    --surface: #111831;
-    --sunk: #0c1327;
-    --ink: #e6eaf5;
-    --muted: #9aa4bf;
-    --line: #25304f;
-    --line-strong: #6d7690;
-    --accent: #90a4ff;
-    --accent-soft: #1a2452;
-    --on-accent: #0a0f1e;
-    --em: #ff8173;
-    --em-soft: #3a1517;
-    --ur: #f2b44c;
-    --ur-soft: #33250b;
-    --ro: #62d39c;
-    --ro-soft: #0f2d20;
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --sunk: #0e0e14;
+    --ink: #f1efe9;
+    --muted: #a6a6bc;
+    --line: #24242e;
+    --line-strong: #6e6c7a;
+    --accent: #c8a96e;
+    --accent-soft: #29231a;
+    --on-accent: #0a0a0f;
+    --em: #f08a7a;
+    --em-soft: #34191a;
+    --ur: #e0b25c;
+    --ur-soft: #2d2411;
+    --ro: #8acfaa;
+    --ro-soft: #13271d;
   }
 }
 
 @media print {
   :root {
     --bg: #ffffff; --surface: #ffffff; --sunk: #f2f2f2; --ink: #111111; --muted: #444444;
-    --line: #cccccc; --line-strong: #7f889d; --accent: #1e3db8; --accent-soft: #eeeeee; --on-accent: #ffffff;
-    --em: #b42318; --em-soft: #ffffff; --ur: #8f5100; --ur-soft: #ffffff; --ro: #1f6e47; --ro-soft: #ffffff;
+    --line: #cccccc; --line-strong: #8a8577; --accent: #7d5f26; --accent-soft: #eeeeee; --on-accent: #ffffff;
+    --em: #a3392a; --em-soft: #ffffff; --ur: #8a5a00; --ur-soft: #ffffff; --ro: #276a46; --ro-soft: #ffffff;
   }
 }

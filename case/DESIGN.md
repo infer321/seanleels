@@ -20,21 +20,23 @@ Pages use token names (`tokens.css`), never raw hex values.
 
 | Token | Light | Dark | Role |
 | --- | --- | --- | --- |
-| `--bg` | #f3f5fa | #0a0d15 | Page |
-| `--surface` | #ffffff | #121726 | Case card, result card, guess field |
-| `--border` | #dce1eb | #242b40 | Hairlines |
-| `--border-strong` | #7f889d | #6d7690 | Controls: field, secondary button, empty attempt box, Beta badge (3:1 on `--bg`) |
-| `--chip` | #e7ebf6 | #1a2136 | Locked clue bars, skipped attempts, chart tracks, highlighted suggestion |
-| `--accent` | #2340c8 | #8ea1ff | **Primary:** buttons and links |
-| `--accent-hover` | #1a2f96 | #b4c1ff | Hover |
-| `--on-accent` | #ffffff | #0a0d15 | Text on accent |
-| `--heading`, `--text` | #121621 | #e6e9f2 | Titles and clue text |
-| `--muted` | #545c6e | #a4abbd | Labels, meta, footer |
-| `--wrong` | #b92c25 | #ff7d72 | Wrong guess, unsolved verdict |
-| `--right` | #16703e | #5fdc9e | Correct guess, solved verdict, today's bar in the record |
-| `--on-status` | #ffffff | #0a0d15 | Symbol on a wrong or right attempt |
-| `--bar` | #6f7890 | #8e96aa | Bars in the record chart |
+| `--bg` | #f8f6f1 | #0a0a0f | Page |
+| `--surface` | #ffffff | #13131a | Case card, result card, guess field |
+| `--border` | #e3e0d8 | #24242e | Hairlines |
+| `--border-strong` | #8a8577 | #6e6c7a | Controls: field, secondary button, empty attempt box, Beta badge (3:1 or more on `--bg` and `--surface`) |
+| `--chip` | #efece4 | #1c1c25 | Locked clue bars, skipped attempts, chart tracks, highlighted suggestion |
+| `--accent` | #7d5f26 | #c8a96e | **Primary (gold):** buttons and links |
+| `--accent-hover` | #5f4719 | #e8c98e | Hover |
+| `--on-accent` | #ffffff | #0a0a0f | Text on accent |
+| `--heading` | #16161d | #f1efe9 | Titles |
+| `--text` | #2a2a33 | #e0e0ec | Clue text |
+| `--muted` | #55556a | #a6a6bc | Labels, meta, footer |
+| `--wrong` | #a3392a | #f08a7a | Wrong guess, unsolved verdict |
+| `--right` | #276a46 | #8acfaa | Correct guess, solved verdict, today's bar in the record |
+| `--on-status` | #ffffff | #0a0a0f | Symbol on a wrong or right attempt |
+| `--bar` | #7c776a | #8a8898 | Bars in the record chart |
 
+- **Palette shared with seanleels.com and Second Look** (Nov 2026): warm paper and near-black neutrals, gold accent, and the same green/amber/red status hues. Fonts stay this tool's own.
 - **Red and green never work alone.** About 1 in 12 men can't separate them, which matters more than usual on an eye site. Attempts carry a symbol (× wrong, – skipped, ✓ correct), and verdicts are words.
 - All text ≥ 4.5:1 in both themes, computed.
 
