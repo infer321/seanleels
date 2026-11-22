@@ -804,9 +804,9 @@
         if (!g || typeof g.caseId !== "string" || !(g.revealed >= 1 && g.revealed <= 6) || !Array.isArray(g.steps)) delete h[k];
       });
       return h; }
-    catch (e) { return {}; }
+    catch { return {}; }
   }
-  function saveHistory(h) { try { localStorage.setItem(STORE_KEY, JSON.stringify(h)); } catch (e) { /* storage unavailable; keep in memory */ } }
+  function saveHistory(h) { try { localStorage.setItem(STORE_KEY, JSON.stringify(h)); } catch { /* storage unavailable; keep in memory */ } }
 
   // ---------- State ----------
   var today = new Date();
@@ -1069,7 +1069,7 @@
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
       else fallback();
-    } catch (e) { fallback(); }
+    } catch { fallback(); }
   });
   setInterval(function () {
     if (dateKey(new Date()) !== TODAY) {
