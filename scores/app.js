@@ -38,7 +38,7 @@
   function open(name, focus) {
     state.score = name; state.cat = findCat(name) || state.cat;
     renderCats(); renderList(); renderCalc(SCORES[name], name);
-    try { history.replaceState(null, '', '#' + slug(name)); } catch (e) {}
+    try { history.replaceState(null, '', '#' + slug(name)); } catch { /* the URL update is optional */ }
     if (focus) $('calc-h').focus();
   }
 
