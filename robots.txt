@@ -1,4 +1,4 @@
 User-agent: *
-Disallow: /dashboard/
+Allow: /
 
 Sitemap: https://seanleels.com/sitemap.xml
