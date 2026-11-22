@@ -71,7 +71,7 @@ One 4px-based scale. Every padding, margin and gap uses a token.
 - **Buttons.** Primary: accent fill. Secondary: `--border-strong` outline. Quiet: text link in accent. All are at least 44px tall. Hover darkens or lightens the accent. Focus shows a 2px accent outline offset 3px. Disabled is 50% opacity with no pointer. Use one primary button per view.
 - **Links.** In running text: accent and underlined. Standalone: accent, underline on hover. Add ↗ only to links that leave the site.
 - **Cards.** Only for things you can open or use (tools, apps). Everything else (education, leadership, certificates, publications) is a hairline-ruled list, not a card.
-- **Badges.** Status only: Published (green), Submitted (blue), In preparation (accent outline), Poster (accent fill).
+- **Badges.** Status only: Published (green), Submitted (blue), In preparation (accent outline), Poster (accent fill), On the App Store (green). Project status uses the neutral `badge-tag` (`--border-strong` outline, `--muted` text): **Work in progress** and **Beta**. It sits after the project name, like the Rounds badge. Neutral, so gold stays for the card's one button; contrast is 7.3:1 (light) and 7.8:1 (dark) on `--surface`. A live project gets no badge. Project cards carry no line above the name: the section heading already says "Ophthalmology", and the description says what the tool is.
 - **Navigation.** Name on the left, five links on the right. On phones, a menu button opens a full-width list.
 - **Footer.** One line: name, update date, school and class year.
 
@@ -92,6 +92,6 @@ The site used to repeat one frame for every section: small gold label, big serif
 ## Imagery and icons
 
 - **Headshot:** one portrait, 2:3, top-aligned crop; round 88px version on phones.
-- **Tool previews:** real screenshots of Eye Atlas and Before You Page Ophtho, in place of the drawn SVG mockups (pending).
+- **Tool previews:** real screenshots of each tool, not drawn mockups. WebP in `images/previews/`, cropped 16:9 from the top of the page (the masthead and first screen, which is how the tool looks when opened), at 1280px wide plus a 640px copy via `srcset`. Captured in the tool's own theme (they are dark-first tools), with example or fictional content only: no patient data, no real appraisal grades the reader can't open. `alt` names the tool and what's on screen; `width`/`height` set, `loading="lazy"`. Cropped by `object-fit: cover; object-position: top`. Hidden in print, as before.
 - **Photography (optional):** Sean's own photographs may appear between major sections, full-bleed or 2:3, no filters. A natural fit given his photography background.
 - **Icons:** none beyond the menu button and the App Store mark. Text labels are preferred over icons, and emoji are never used.
