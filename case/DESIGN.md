@@ -91,5 +91,5 @@ None. The chart is the picture. Emoji never appear on the page. The one exceptio
 
 - Works with JavaScript off only as far as explaining what it is: the page shows the masthead, a short note and the footer.
 - Progress lives in `localStorage` under `ophtho-cotd-v1`. Nothing leaves the browser, and no patient data exists here. The vignettes are fictional.
-- Daily numbering starts at #1 on 2 Nov 2026. Cases come from a fixed shuffle of the bank and repeat when the bank runs out, so adding cases to `game.js` changes the order of future days.
+- Daily numbering starts at #1 on 2 Nov 2026. Cases follow the append-only `SCHEDULE` in `game.js` and repeat when the bank runs out. The status line shows the day number and the case's place in the bank ("Daily · #20 · Case 20 of 59"), so a repeat reads as a new lap, not a bug. Add new case ids to the end of `SCHEDULE`; never reorder it.
 - Served at `seanleels.com/case/` on GitHub Pages. If it later moves to `case.seanleels.com`, add the hostname redirect from `reads/index.html` and update the canonical tag.
