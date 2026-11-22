@@ -1045,8 +1045,8 @@ const CATS = [...new Set(CARDS.map(c => c.cat))].sort();
    STORAGE ADAPTER (swap for Capacitor/Tauri later)
    ========================================================= */
 const Storage = {
-  get(k, d){ try { const v = localStorage.getItem('eyeatlas:' + k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
-  set(k, v){ try { localStorage.setItem('eyeatlas:' + k, JSON.stringify(v)); } catch(e){} }
+  get(k, d){ try { const v = localStorage.getItem('eyeatlas:' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v){ try { localStorage.setItem('eyeatlas:' + k, JSON.stringify(v)); } catch { /* storage unavailable (e.g. private browsing); carry on without saving */ } }
 };
 
 /* =========================================================
@@ -1490,7 +1490,7 @@ function buildEye(){
 function layoutLabels(){
   $$('#eye .lbl').forEach(g => {
     const t = g.querySelector('text'); let len = 0;
-    try { len = t.getComputedTextLength(); } catch(e){}
+    try { len = t.getComputedTextLength(); } catch { /* text not laid out yet; keep the default length */ }
     if (!len) len = t.textContent.length * 6.9;
     const tx = +g.dataset.tx, ty = +g.dataset.ty, px = +g.dataset.px, py = +g.dataset.py;
     const ex = g.dataset.a === 'start' ? tx + len + 6 : tx - len - 6;
@@ -1917,7 +1917,7 @@ function updateCaption(){
   $('#vFront').setAttribute('aria-pressed', String(!xsOn)); $('#vXs').setAttribute('aria-pressed', String(xsOn));
   eye.classList.toggle('xs', xsOn);
   if (was !== xsOn) layoutLabels();
-  if (isPhone() && typeof setSnap === 'function') requestAnimationFrame(() => { try { setSnap(snap, false); } catch(e){} });
+  if (isPhone() && typeof setSnap === 'function') requestAnimationFrame(() => { try { setSnap(snap, false); } catch { /* sheet not ready yet; it snaps on the next layout */ } });
 }
 function renderFig(){
   $$('#eye .patho').forEach(g => g.remove());
@@ -2280,7 +2280,7 @@ pscroll.addEventListener('click', e => {
   else if (a === 'copy'){
     const url = location.href.split('#')[0] + '#' + t.dataset.id;
     const done = () => { t.textContent = 'Link copied'; announce('Link copied'); setTimeout(() => { t.textContent = 'Copy link'; }, 1600); };
-    try { navigator.clipboard.writeText(url).then(done, () => { t.textContent = 'Copy failed'; }); } catch(err){ t.textContent = 'Copy failed'; }
+    try { navigator.clipboard.writeText(url).then(done, () => { t.textContent = 'Copy failed'; }); } catch { t.textContent = 'Copy failed'; }
   }
 });
 pscroll.addEventListener('change', e => {
@@ -2539,7 +2539,7 @@ function goCard(id, opts = {}){
   if (i !== state.stop) navTo(i, {sub:c.sub, card:id, focus:opts.focus});
   else openCard(id, opts);
 }
-function setHash(h){ try { if (location.hash.slice(1) !== h) history.replaceState(null, '', '#' + h); } catch(e){} }
+function setHash(h){ try { if (location.hash.slice(1) !== h) history.replaceState(null, '', '#' + h); } catch { /* the URL update is optional */ } }
 function route(h){
   if (!h) return false;
   if (CARD[h]){ goCard(h, {focus:false}); return true; }

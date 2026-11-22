@@ -152,13 +152,3 @@ function showLvlUp(rank, quote, accentVar) {
 }
 function closeLvlUp() { document.getElementById('lvlup').classList.remove('show'); }
 
-/* Global summary for homepage */
-function getAllXP() {
-  const keys = { study: 'sls_study', research: 'sls_research', gym: 'sls_gym', piano: 'sls_piano' };
-  const result = {};
-  Object.entries(keys).forEach(([k, key]) => {
-    const raw = localStorage.getItem(key);
-    result[k] = raw ? (JSON.parse(raw).xp || 0) : 0;
-  });
-  return result;
-}

@@ -395,7 +395,7 @@ function anisoRead(){
 }
 
 function derived(){
-  const out = [], c = cur();
+  const out = [];
   const io = [num("iop_od"), num("iop_os")].filter(x => x !== null);
   const mx = io.length ? Math.max.apply(null, io) : null;
   if (!ogActive() && mx !== null){
@@ -584,7 +584,7 @@ function setTab(t){
   document.querySelectorAll("[data-tab]").forEach(b => { const on = b.dataset.tab === t; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; });
   document.getElementById("mbar").hidden = t !== "workup";
   /* The first tab is the bare address, so a shared link stays clean */
-  try { history.replaceState(null, "", t === "workup" ? location.pathname + location.search : "#" + t); } catch(e){}
+  try { history.replaceState(null, "", t === "workup" ? location.pathname + location.search : "#" + t); } catch { /* the URL update is optional */ }
   if (t === "tools") renderTools();
   if (t !== "tools") oknStop();
 }
@@ -634,7 +634,7 @@ document.addEventListener("click", e => {
       const s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
       done("Selected. Copy it now");
     };
-    try { navigator.clipboard.writeText(txt).then(() => done("Copied"), fallback); } catch(err){ fallback(); }
+    try { navigator.clipboard.writeText(txt).then(() => done("Copied"), fallback); } catch { fallback(); }
     return;
   }
 });
@@ -665,14 +665,14 @@ document.addEventListener("input", e => {
 /* ---------- bedside tools ---------- */
 const LS = "bypo-pxmm";
 let pxmm = null, calibrated = false, dist = 355.6, showKey = false;
-try { const s = localStorage.getItem(LS); if (s){ pxmm = parseFloat(s); calibrated = true; } } catch(e){}
+try { const s = localStorage.getItem(LS); if (s){ pxmm = parseFloat(s); calibrated = true; } } catch { /* storage unavailable (e.g. private browsing); carry on without saving */ }
 if (!pxmm || isNaN(pxmm)) pxmm = window.matchMedia("(pointer: coarse)").matches ? 6.0 : 4.0;
 const ROWS = [[800,1],[400,2],[200,3],[100,4],[70,5],[50,5],[40,5],[30,5],[25,5],[20,5]];
 const ROT = [0,90,180,270], ARR = {0:"→",90:"↓",180:"←",270:"↑"};
 let orient = ROWS.map(r => Array.from({length:r[1]}, () => ROT[Math.floor(Math.random()*4)]));
 const shuffleRow = i => { const prev = orient[i]; orient[i] = prev.map((p,j) => { let r; do { r = ROT[Math.floor(Math.random()*4)]; } while (prev.length > 1 && r === prev[j] && Math.random() < .7); return r; }); };
 
-function saveCal(){ try { localStorage.setItem(LS, String(pxmm)); } catch(e){} calibrated = true; }
+function saveCal(){ try { localStorage.setItem(LS, String(pxmm)); } catch { /* storage unavailable (e.g. private browsing); carry on without saving */ } calibrated = true; }
 function renderCal(){
   document.getElementById("calRule").style.width = (53.98 * pxmm) + "px";
   document.getElementById("cal").value = pxmm;
@@ -737,7 +737,7 @@ document.getElementById("oknBtn").addEventListener("click", e => {
 });
 document.getElementById("oknDir").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; okn.dir = +b.dataset.dir; document.querySelectorAll("#oknDir button").forEach(x => x.setAttribute("aria-pressed", x === b)); });
 document.getElementById("oknSpd").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; okn.spd = +b.dataset.spd; document.querySelectorAll("#oknSpd button").forEach(x => x.setAttribute("aria-pressed", x === b)); });
-document.getElementById("oknFs").addEventListener("click", () => { try { const p = oknEl.requestFullscreen && oknEl.requestFullscreen(); if (p && p.catch) p.catch(() => {}); } catch(e){} });
+document.getElementById("oknFs").addEventListener("click", () => { try { const p = oknEl.requestFullscreen && oknEl.requestFullscreen(); if (p && p.catch) p.catch(() => {}); } catch { /* fullscreen not supported here */ } });
 window.addEventListener("resize", () => { if (!document.getElementById("tab-tools").hidden) renderTools(); });
 
 /* ---------- boot ---------- */

@@ -11,6 +11,7 @@
 <body>
 <nav><a href="./" class="nav-logo">Sean Lee</a><div class="nav-links"></div></nav>
 
+<main>
 <div class="page-hero">
   <div class="hero-eyebrow">Clinical Research · USC Keck</div>
   <h1>Research <em>Tracker</em></h1>
@@ -37,7 +38,7 @@
     <div class="log-card">
       <div class="log-head">Log Session</div>
       <div class="log-field">
-        <label>Type</label>
+        <label for="sess-type">Type</label>
         <select id="sess-type">
           <option value="data">Data collection / analysis</option>
           <option value="writing">Writing / manuscript</option>
@@ -47,13 +48,13 @@
           <option value="irb">IRB / admin</option>
         </select>
       </div>
-      <div class="log-field"><label>Duration (minutes)</label><input type="number" id="sess-dur" min="15" placeholder="60"></div>
+      <div class="log-field"><label for="sess-dur">Duration (minutes)</label><input type="number" id="sess-dur" min="15" placeholder="60"></div>
       <button class="log-btn" onclick="logSession()">Log Session</button>
     </div>
     <div class="log-card">
       <div class="log-head">Log Milestone</div>
       <div class="log-field">
-        <label>Milestone</label>
+        <label for="ms-type">Milestone</label>
         <select id="ms-type">
           <option value="draft">Draft section completed</option>
           <option value="submit">Paper submitted</option>
@@ -65,7 +66,7 @@
           <option value="presentation">Presented at conference</option>
         </select>
       </div>
-      <div class="log-field"><label>Project</label><input type="text" id="ms-proj" placeholder="e.g. EndoFLIP, Cirrhosis"></div>
+      <div class="log-field"><label for="ms-proj">Project</label><input type="text" id="ms-proj" placeholder="e.g. EndoFLIP, Cirrhosis"></div>
       <button class="log-btn" onclick="logMilestone()">Log Milestone</button>
     </div>
   </div>
@@ -83,7 +84,7 @@
     </div>
   </div>
 </div>
-
+</main>
 <footer><span>seanleels.com/dashboard/research</span><span>USC Keck · Class of 2028</span></footer>
 <div class="toast-wrap" id="toasts"></div>
 <div class="lvlup-overlay" id="lvlup"><div class="lvlup-card"><div class="lvlup-ey">Level Up</div><div class="lvlup-rank" id="lu-rank"></div><div class="lvlup-quote" id="lu-quote"></div><button class="lvlup-btn" onclick="closeLvlUp()">Continue</button></div></div>

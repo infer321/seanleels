@@ -11,6 +11,7 @@
 <body>
 <nav><a href="./" class="nav-logo">Sean Lee</a><div class="nav-links"></div></nav>
 
+<main>
 <div class="page-hero">
   <div class="hero-eyebrow">Step 2 CK · M4 · 2026</div>
   <h1>Study <em>Tracker</em></h1>
@@ -35,14 +36,14 @@
   <div class="log-grid cols-2">
     <div class="log-card">
       <div class="log-head">UWorld Block</div>
-      <div class="log-field"><label>Questions completed</label><input type="number" id="uw-q" min="1" max="120" placeholder="40"></div>
-      <div class="log-field"><label>Score (%)</label><input type="number" id="uw-s" min="0" max="100" placeholder="65"></div>
+      <div class="log-field"><label for="uw-q">Questions completed</label><input type="number" id="uw-q" min="1" max="120" placeholder="40"></div>
+      <div class="log-field"><label for="uw-s">Score (%)</label><input type="number" id="uw-s" min="0" max="100" placeholder="65"></div>
       <button class="log-btn" onclick="logUW()">Log Block</button>
     </div>
     <div class="log-card">
       <div class="log-head">Anki Session</div>
-      <div class="log-field"><label>Cards reviewed</label><input type="number" id="ak-r" min="1" placeholder="150"></div>
-      <div class="log-field"><label>New cards</label><input type="number" id="ak-n" min="0" placeholder="20"></div>
+      <div class="log-field"><label for="ak-r">Cards reviewed</label><input type="number" id="ak-r" min="1" placeholder="150"></div>
+      <div class="log-field"><label for="ak-n">New cards</label><input type="number" id="ak-n" min="0" placeholder="20"></div>
       <button class="log-btn" onclick="logAnki()">Log Session</button>
     </div>
   </div>
@@ -60,7 +61,7 @@
     </div>
   </div>
 </div>
-
+</main>
 <footer><span>seanleels.com/dashboard/study</span><span>Step 2 CK · Class of 2028</span></footer>
 <div class="toast-wrap" id="toasts"></div>
 <div class="lvlup-overlay" id="lvlup"><div class="lvlup-card"><div class="lvlup-ey">Level Up</div><div class="lvlup-rank" id="lu-rank"></div><div class="lvlup-quote" id="lu-quote"></div><button class="lvlup-btn" onclick="closeLvlUp()">Continue</button></div></div>

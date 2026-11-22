@@ -20,6 +20,7 @@
 <body>
 <nav><a href="./" class="nav-logo">Sean Lee</a><div class="nav-links"></div></nav>
 
+<main>
 <div class="page-hero">
   <div class="hero-eyebrow">Training · Los Angeles</div>
   <h1>Gym <em>Tracker</em></h1>
@@ -46,7 +47,7 @@
     <div class="log-card">
       <div class="log-head">Log Workout</div>
       <div class="log-field">
-        <label>Type</label>
+        <label for="w-type">Type</label>
         <select id="w-type">
           <option value="strength">Strength / lifting</option>
           <option value="push">Push day</option>
@@ -57,14 +58,14 @@
           <option value="full">Full body</option>
         </select>
       </div>
-      <div class="log-field"><label>Duration (min)</label><input type="number" id="w-dur" min="20" placeholder="60"></div>
+      <div class="log-field"><label for="w-dur">Duration (min)</label><input type="number" id="w-dur" min="20" placeholder="60"></div>
       <button class="log-btn" onclick="logWorkout()">Log Workout</button>
     </div>
 
     <div class="log-card">
       <div class="log-head">Log Cardio</div>
       <div class="log-field">
-        <label>Type</label>
+        <label for="c-type">Type</label>
         <select id="c-type">
           <option value="run">Outdoor run</option>
           <option value="treadmill">Treadmill</option>
@@ -72,15 +73,15 @@
           <option value="hiit">HIIT</option>
         </select>
       </div>
-      <div class="log-field"><label>Distance (miles)</label><input type="number" id="c-dist" min="0.1" step="0.1" placeholder="3.0"></div>
-      <div class="log-field"><label>Duration (min)</label><input type="number" id="c-dur" min="5" placeholder="30"></div>
+      <div class="log-field"><label for="c-dist">Distance (miles)</label><input type="number" id="c-dist" min="0.1" step="0.1" placeholder="3.0"></div>
+      <div class="log-field"><label for="c-dur">Duration (min)</label><input type="number" id="c-dur" min="5" placeholder="30"></div>
       <button class="log-btn" onclick="logCardio()">Log Cardio</button>
     </div>
 
     <div class="log-card">
       <div class="log-head">Log PR</div>
       <div class="log-field">
-        <label>Lift</label>
+        <label for="pr-lift">Lift</label>
         <select id="pr-lift">
           <option value="Bench Press">Bench Press</option>
           <option value="Squat">Squat</option>
@@ -91,7 +92,7 @@
           <option value="Other">Other</option>
         </select>
       </div>
-      <div class="log-field"><label>Weight (lbs) or reps</label><input type="number" id="pr-weight" min="1" placeholder="225"></div>
+      <div class="log-field"><label for="pr-weight">Weight (lbs) or reps</label><input type="number" id="pr-weight" min="1" placeholder="225"></div>
       <button class="log-btn" onclick="logPR()">Log PR 🏆</button>
     </div>
   </div>
@@ -114,7 +115,7 @@
     </div>
   </div>
 </div>
-
+</main>
 <footer><span>seanleels.com/dashboard/gym</span><span>Sean Lee · Class of 2028</span></footer>
 <div class="toast-wrap" id="toasts"></div>
 <div class="lvlup-overlay" id="lvlup"><div class="lvlup-card"><div class="lvlup-ey">Level Up</div><div class="lvlup-rank" id="lu-rank"></div><div class="lvlup-quote" id="lu-quote"></div><button class="lvlup-btn" onclick="closeLvlUp()">Continue</button></div></div>

@@ -7,12 +7,12 @@
 const root = document.documentElement, main = document.getElementById("main");
 const NAMES = {es:"Spanish", cmn:"Mandarin", yue:"Cantonese"};
 const $ = id => document.getElementById(id);
-const get = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
-const put = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+const get = k => { try { return localStorage.getItem(k); } catch { return null; } };
+const put = (k, v) => { try { localStorage.setItem(k, v); } catch { /* storage unavailable (e.g. private browsing); carry on without saving */ } };
 
 let lang = NAMES[get("lh-lang")] ? get("lh-lang") : "es";
 let script = get("lh-script") === "hant" ? "hant" : "hans";
-let stars; try { stars = new Set(JSON.parse(get("lh-stars") || "[]")); } catch(e){ stars = new Set(); }
+let stars; try { stars = new Set(JSON.parse(get("lh-stars") || "[]")); } catch { stars = new Set(); }
 let starOnly = false, cur = -1;
 
 const rows = Array.from(document.querySelectorAll(".ph"));
