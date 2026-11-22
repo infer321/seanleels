@@ -3,21 +3,21 @@
   color-scheme: light dark;
 
   /* Color · light (chart paper) */
-  --bg: #f3f5fa;
+  --bg: #f8f6f1;
   --surface: #ffffff;
-  --border: #dce1eb;
-  --border-strong: #7f889d;
-  --chip: #e7ebf6;
-  --accent: #2340c8;
-  --accent-hover: #1a2f96;
+  --border: #e3e0d8;
+  --border-strong: #8a8577;
+  --chip: #efece4;
+  --accent: #7d5f26;
+  --accent-hover: #5f4719;
   --on-accent: #ffffff;
-  --heading: #121621;
-  --text: #121621;
-  --muted: #545c6e;
-  --wrong: #b92c25;
-  --right: #16703e;
+  --heading: #16161d;
+  --text: #2a2a33;
+  --muted: #55556a;
+  --wrong: #a3392a;
+  --right: #276a46;
   --on-status: #ffffff;
-  --bar: #6f7890;
+  --bar: #7c776a;
 
   /* Type */
   --display: 'Archivo', 'Arial Black', system-ui, sans-serif;
@@ -48,27 +48,27 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Color · dark (dimmed exam room) */
-    --bg: #0a0d15;
-    --surface: #121726;
-    --border: #242b40;
-    --border-strong: #6d7690;
-    --chip: #1a2136;
-    --accent: #8ea1ff;
-    --accent-hover: #b4c1ff;
-    --on-accent: #0a0d15;
-    --heading: #e6e9f2;
-    --text: #e6e9f2;
-    --muted: #a4abbd;
-    --wrong: #ff7d72;
-    --right: #5fdc9e;
-    --on-status: #0a0d15;
-    --bar: #8e96aa;
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --border: #24242e;
+    --border-strong: #6e6c7a;
+    --chip: #1c1c25;
+    --accent: #c8a96e;
+    --accent-hover: #e8c98e;
+    --on-accent: #0a0a0f;
+    --heading: #f1efe9;
+    --text: #e0e0ec;
+    --muted: #a6a6bc;
+    --wrong: #f08a7a;
+    --right: #8acfaa;
+    --on-status: #0a0a0f;
+    --bar: #8a8898;
   }
 }
 
 @media print {
   :root {
     --bg: #ffffff; --surface: #ffffff; --heading: #111111; --text: #222222; --muted: #444444;
-    --border: #cccccc; --accent: #2340c8; --chip: #eeeeee;
+    --border: #cccccc; --accent: #7d5f26; --chip: #eeeeee;
   }
 }

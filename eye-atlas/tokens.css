@@ -2,26 +2,26 @@
    Contrast figures in DESIGN.md were computed (WCAG 2.x), not eyeballed. */
 :root{
   /* Surfaces and text */
-  --bg:#f1f3f6;            /* page ground */
+  --bg:#f8f6f1;            /* page ground */
   --surface:#ffffff;       /* panels, sheet, cards you can open */
-  --surface-2:#f6f8fa;     /* selected row, quiet fill */
-  --stage:#e7ebef;         /* figure area ground */
-  --ink:#17202b;           /* headings, body */
-  --ink-2:#2e3a47;         /* secondary body */
-  --muted:#5d6977;         /* meta text, placeholders (lowest text color) */
-  --faint:#8a96a3;         /* NON-TEXT ONLY: ticks, inactive dots, leader lines */
-  --line:#dce2e8;          /* hairlines */
-  --line-2:#c8d0d8;        /* input and control borders */
+  --surface-2:#f4f1ea;     /* selected row, quiet fill */
+  --stage:#ece9e1;         /* figure area ground */
+  --ink:#16161d;           /* headings, body */
+  --ink-2:#3a3a45;         /* secondary body */
+  --muted:#55556a;         /* meta text, placeholders (lowest text color) */
+  --faint:#8e8a7e;         /* NON-TEXT ONLY: ticks, inactive dots, leader lines */
+  --line:#e3e0d8;          /* hairlines */
+  --line-2:#cfcbc1;        /* input and control borders */
 
   /* Accent: buttons and links only */
-  --accent:#294d8c;
+  --accent:#7d5f26;
   --accent-ink:#ffffff;
-  --accent-soft:#e2e9f5;   /* selected tab or chip ground */
+  --accent-soft:#f1eadb;   /* selected tab or chip ground */
 
   /* Triage (always paired with a word, never color alone) */
-  --emergent:#b02a21;  --emergent-soft:#f9e9e7;
-  --urgent:#8a5608;    --urgent-soft:#f6ecd9;
-  --routine:#2f6646;   --routine-soft:#e4f0e8;
+  --emergent:#a3392a;  --emergent-soft:#f8e9e5;
+  --urgent:#8a5a00;    --urgent-soft:#f6eedb;
+  --routine:#276a46;   --routine-soft:#e5f0e8;
 
   /* Per-structure ticks (non-text, 3:1 against --surface not required; decorative locator only) */
   --c-adnexa:#c4687a; --c-cornea:#2a92bd; --c-ac:#5672cc; --c-iris:#a26e2c; --c-lens:#b8921a;
@@ -72,13 +72,13 @@
 }
 
 @media (prefers-color-scheme: dark){ :root{
-  --bg:#0d1116; --surface:#141a21; --surface-2:#19212a; --stage:#0a0e12;
-  --ink:#e3e8ee; --ink-2:#c3ccd6; --muted:#97a3b0; --faint:#6b7785;
-  --line:#242e39; --line-2:#334050;
-  --accent:#8db0ee; --accent-ink:#0d1116; --accent-soft:#1c2a40;
-  --emergent:#f06a5d; --emergent-soft:#3a1b18;
-  --urgent:#e3a54b;   --urgent-soft:#33260f;
-  --routine:#6cc08d;  --routine-soft:#15301f;
+  --bg:#0a0a0f; --surface:#13131a; --surface-2:#1a1a22; --stage:#08080c;
+  --ink:#f1efe9; --ink-2:#c9c9d6; --muted:#a6a6bc; --faint:#66667a;
+  --line:#24242e; --line-2:#34343f;
+  --accent:#c8a96e; --accent-ink:#0a0a0f; --accent-soft:#29231a;
+  --emergent:#f08a7a; --emergent-soft:#34191a;
+  --urgent:#e0b25c;   --urgent-soft:#2d2411;
+  --routine:#8acfaa;  --routine-soft:#13271d;
   --c-adnexa:#e48c9b; --c-cornea:#52b8e2; --c-ac:#8199f0; --c-iris:#d29b53; --c-lens:#e2c048;
   --c-vitreous:#aa92e6; --c-retina:#f27b56; --c-choroid:#dc5a77; --c-optic:#5db68f;
   /* Figures keep their plate colors in dark mode; the plate sits on a light --fig-paper card. */
@@ -86,9 +86,9 @@
 }}
 
 @media print{ :root{
-  --bg:#ffffff; --surface:#ffffff; --surface-2:#f6f8fa; --stage:#ffffff;
-  --ink:#17202b; --ink-2:#2e3a47; --muted:#5d6977; --line:#dce2e8; --line-2:#c8d0d8;
-  --accent:#294d8c; --accent-ink:#ffffff; --accent-soft:#e2e9f5;
+  --bg:#ffffff; --surface:#ffffff; --surface-2:#f4f1ea; --stage:#ffffff;
+  --ink:#16161d; --ink-2:#3a3a45; --muted:#55556a; --line:#e3e0d8; --line-2:#cfcbc1;
+  --accent:#7d5f26; --accent-ink:#ffffff; --accent-soft:#f1eadb;
 }}
 
 @media (prefers-reduced-motion: reduce){ :root{ --fade:1ms; } }
